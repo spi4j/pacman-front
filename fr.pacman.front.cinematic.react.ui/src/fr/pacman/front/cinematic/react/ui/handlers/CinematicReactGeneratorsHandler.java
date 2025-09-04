@@ -10,10 +10,9 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import fr.pacman.front.cinematic.react.ui.generators.CinematicReactUIGenerators;
 
-
 /**
- * Lanceur pour la demande de génération de la couche service à partir d'un
- * fichier de modélisation de type '.react'.
+ * Lanceur pour la demande de génération de la couche de cinématique à partir
+ * d'un fichier de modélisation de type '.cinematic'.
  * 
  * @author MINARM
  */

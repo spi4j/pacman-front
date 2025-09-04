@@ -1,7 +1,7 @@
 [module class(	'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
 
-[import fr::pacman::core::aql::string/]
-[import fr::pacman::core::convention::ApplyNorme/]
+[import fr::pacman::front::core::aql::string/]
+[import fr::pacman::front::core::convention::ApplyNorme/]
 
 [comment penser à supprimer le normalize qui normallement est déjà effectué./]
 

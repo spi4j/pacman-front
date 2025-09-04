@@ -1,6 +1,6 @@
 [module variable(	'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
 
-[import fr::pacman::core::convention::ApplyNorme/]
+[import fr::pacman::front::core::convention::ApplyNorme/]
 
 [comment applique le nom final pour une variable par défaut./]
 [query public apply_variableDefault(value : String) : String = value.norme_variableDefault()/]

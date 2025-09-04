@@ -18,7 +18,7 @@ import fr.pacman.front.core.generator.PacmanGenerator;
 import fr.pacman.front.core.property.project.ProjectProperties;
 
 /**
- * Générateur pour la couche de service. Génération de l'ensemble des services.
+ * Générateur pour la couche de cinématique. Génération de l'ensemble des pages.
  * <p>
  * Se reporter à la classe {@link PacmanGenerator} pour l'explication des
  * différentes méthodes.
@@ -34,9 +34,7 @@ public class GenServer extends PacmanGenerator {
 
 	@Override
 	public String getModuleQualifiedName() {
-		if (ProjectProperties.isSpring())
-			return "fr::pacman::soa::aql::genServerSpring";
-		return "fr::pacman::sao::aql::genServerSpi4j";
+		return "fr::pacman::front::cinematic::react::aql::genServerSpring";
 	}
 
 	@Override
@@ -63,7 +61,7 @@ public class GenServer extends PacmanGenerator {
 		templates.put("genServer", SelectionType_Enum.FILE);
 		return templates;
 	}
-	
+
 	@Override
 	public boolean doPostTreatments() {
 		return true;

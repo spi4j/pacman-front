@@ -13,7 +13,7 @@ public class Activator extends PacmanUIActivator {
 	/**
 	 * Plugin's id.
 	 */
-	public static final String c_pluginId = "fr.pacman.front.react.ui";
+	public static final String c_pluginId = "fr.pacman.front.cinematic.react.ui";
 
 	/**
 	 * The shared instance.

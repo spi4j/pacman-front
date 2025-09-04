@@ -39,7 +39,7 @@ public class GenStart extends PacmanGeneratorStart {
 
 	@Override
 	public String getModuleQualifiedName() {
-		return "fr::pacman::start::aql::genStart";
+		return "fr::pacman::front::start::aql::genStart";
 	}
 
 	@Override

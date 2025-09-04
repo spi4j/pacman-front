@@ -11,7 +11,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import fr.pacman.front.cinematic.react.ui.generators.CinematicValidationUIGenerators;
 
 /**
- * Lanceur pour la demande de validation d'un modèle soa.
+ * Lanceur pour la demande de validation d'un modèle cinématique.
  * 
  * @author MINARM
  */

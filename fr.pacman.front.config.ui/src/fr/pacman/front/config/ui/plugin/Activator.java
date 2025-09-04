@@ -1,6 +1,5 @@
 package fr.pacman.front.config.ui.plugin;
 
-import org.eclipse.emf.common.EMFPlugin.EclipsePlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
 import fr.pacman.front.core.ui.plugin.activator.PacmanUIActivator;

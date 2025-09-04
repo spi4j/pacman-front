@@ -1,6 +1,6 @@
 [module parameter(	'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
 
-[import fr::pacman::core::convention::ApplyNorme/]
+[import fr::pacman::front::core::convention::ApplyNorme/]
 
 [comment applique le nom final pour un paramètre en entrée./]
 [query public apply_parameterMethodClassicIn(value : String) : String = value.norme_parameterMethodClassicIn()/]

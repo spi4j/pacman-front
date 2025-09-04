@@ -1,6 +1,6 @@
 [module method(	'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
 
-[import fr::pacman::core::convention::ApplyNorme/]
+[import fr::pacman::front::core::convention::ApplyNorme/]
 
 [comment applique le nom final pour une méthode par défaut./]
 [query public apply_methodDefault(value : String) : String = value.norme_methodDefault()/]

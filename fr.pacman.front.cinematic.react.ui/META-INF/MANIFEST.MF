@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
-Automatic-Module-Name: fr.pacman.front.react.ui
+Automatic-Module-Name: fr.pacman.front.cinematic.react.ui
 Bundle-ManifestVersion: 2
 Bundle-Name: PacMan Front - Cinematic- UI
-Bundle-SymbolicName: fr.pacman.front.react.ui;singleton:=true
+Bundle-SymbolicName: fr.pacman.front.cinematic.react.ui;singleton:=true
 Bundle-Version: 5.0.0.qualifier
 Bundle-Activator: fr.pacman.front.cinematic.react.ui.plugin.Activator$Implementation
 Bundle-Vendor: Cali

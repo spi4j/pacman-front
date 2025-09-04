@@ -1,6 +1,6 @@
 [module package(	'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
 
-[import fr::pacman::core::convention::ApplyNorme/]
+[import fr::pacman::front::core::convention::ApplyNorme/]
 
 [comment ./]
 [query public apply_packageApi(value : String) : String = value.norme_packageApi()/]

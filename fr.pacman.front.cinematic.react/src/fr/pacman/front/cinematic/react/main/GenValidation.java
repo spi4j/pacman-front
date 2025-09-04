@@ -42,7 +42,7 @@ public class GenValidation extends PacmanGenerator {
 
 	@Override
 	public String getModuleQualifiedName() {
-		return "fr::pacman::soa::aql::genValidation";
+		return "fr::pacman::front::cinematic::react::aql::genValidation";
 	}
 
 	@Override

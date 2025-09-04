@@ -11,15 +11,10 @@ public class ValidatorUtil {
 
 	public static ValidatorUtil INSTANCE = new ValidatorUtil();
 
-	private boolean _databaseOK;
 	private boolean _applicationNewOK;
 	private boolean _applicationOK;
 	private boolean _authorOK;
 	private boolean _packageOK;
-	private boolean _sqlTablePrefixOK;
-	private boolean _sqlTableSchemaOK;
-	private boolean _requirementPrefixOK;
-	private boolean _additionnalFieldsOK;
 
 	/**
 	 * Constructeur privé pour éviter l'instanciation de la classe.
@@ -35,15 +30,7 @@ public class ValidatorUtil {
 	 */
 	public boolean isValid() {
 
-		return _applicationOK 
-				&& _databaseOK
-				&& _applicationOK
-				&& _applicationNewOK 
-				&& _sqlTablePrefixOK 
-				&& _requirementPrefixOK 
-				&& _additionnalFieldsOK
-				&& _packageOK
-				&& _authorOK;
+		return _applicationOK && _applicationNewOK && _packageOK && _authorOK;
 	}
 
 	/**
@@ -61,30 +48,15 @@ public class ValidatorUtil {
 
 		if (!_packageOK)
 			return "Le package racine de l'application n'est pas renseigné.";
-		
-		if(! _authorOK)
+
+		if (!_authorOK)
 			return "Le nom de l'auteur ou de l'organisme n'est pas renseigné.";
-
-		if (!_sqlTableSchemaOK)
-			return "Le schéma des tables SQL n'est pas valide ( format : xxx ).";
-
-		if (!_sqlTablePrefixOK)
-			return "Le préfixe des tables SQL n'est pas valide ( format : xxx_ ).";
-
-		if (!_requirementPrefixOK)
-			return "Le préfixe pour les exigences (requirements) n'est pas valide";
-
-		if (!_databaseOK)
-			return "Il est impossible de générer pour deux versions différentes d'Oracle.";
-
-		if (!_additionnalFieldsOK)
-			return "La rubrique champs automatiques n'est pas correctement renseignée.";
 
 		return null;
 	}
 
 	/**
-	 * Typologie du message à retourner (pour l'instant toujours ERR.).
+	 * Typologie du message à retourner (pour l'instant toujours INFO.).
 	 * 
 	 * @return
 	 */
@@ -104,28 +76,8 @@ public class ValidatorUtil {
 	public void setPackageOK(boolean p_packageOK) {
 		_packageOK = p_packageOK;
 	}
-	
+
 	public void setAuthorOK(boolean p_authorOK) {
 		_authorOK = p_authorOK;
-	}
-
-	public void setSqlTablePrefixOk(boolean p_sqlTablePrefixOk) {
-		_sqlTablePrefixOK = p_sqlTablePrefixOk;
-	}
-
-	public void setSqlTableSchema(boolean p_sqlTableSchemaOk) {
-		_sqlTableSchemaOK = p_sqlTableSchemaOk;
-	}
-
-	public void setRequirementPrefixOK(boolean p_requirementPrefixOk) {
-		_requirementPrefixOK = p_requirementPrefixOk;
-	}
-
-	public void setAdditionalFieldsOK(boolean p_additionalFieldsOK) {
-		_additionnalFieldsOK = p_additionalFieldsOK;
-	}
-	
-	public void setDatabaseOK(boolean p_databaseOK) {
-		_databaseOK = p_databaseOK;
 	}
 }

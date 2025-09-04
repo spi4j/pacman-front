@@ -49,7 +49,7 @@ public class CinematicValidationUIGenerators extends PacmanUIGenerator {
 	@Override
 	protected boolean doPostTreatments() {
 		PacmanUIGeneratorHelper
-				.displayPopUpInfo("Le fichier de modélisation pour la couche de service est valide.");
+				.displayPopUpInfo("Le fichier de modélisation pour la couche de cinématique est valide.");
 		return false;
 	}
 

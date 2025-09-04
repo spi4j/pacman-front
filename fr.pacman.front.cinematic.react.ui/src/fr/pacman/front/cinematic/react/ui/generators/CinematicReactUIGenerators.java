@@ -13,7 +13,7 @@ import fr.pacman.front.cinematic.react.main.GenValidation;
 import fr.pacman.front.core.ui.generator.PacmanUIGenerator;
 
 /**
- * UI Generator for Service based on Soa model file.
+ * UI Generator for Service based on Cinematic model file.
  * <p>
  * Se reporter à la classe {@link PacmanUIGenerator} pour l'explication des
  * différentes méthodes.
@@ -51,7 +51,6 @@ public class CinematicReactUIGenerators extends PacmanUIGenerator {
 
 	@Override
 	protected List<String> getIncompatibleOptions() {
-		// return Arrays.asList(ProjectProperties.getIsLibraryRs());
 		return null;
 	}
 

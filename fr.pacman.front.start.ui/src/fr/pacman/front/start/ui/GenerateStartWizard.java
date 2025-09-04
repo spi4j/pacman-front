@@ -39,8 +39,6 @@ import fr.pacman.front.core.property.project.ProjectProperties;
 import fr.pacman.front.start.main.GenStart;
 import fr.pacman.front.start.ui.activator.Activator;
 import fr.pacman.front.start.ui.exception.PacmanInitModelException;
-import fr.pacman.front.start.ui.util.SiriusUtil;
-import fr.pacman.front.start.ui.util.SwaggerUtils;
 import fr.pacman.front.start.ui.util.WizardUtil;
 import fr.pacman.front.start.ui.util.WizardUtil.IParametrizedExternalWizard;
 
@@ -62,14 +60,9 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 	 */
 	private static final String c_version = "5.0.0";
 
-	/***
-	 * Le répertoire cible pour la copie des fichiers swagger-ui.
-	 */
-	private static final String c_swaggerUiFolder = "/src/main/resources/static/swagger-ui/";
-
 	@Override
 	public void init(IWorkbench p_workbench, IStructuredSelection p_selection) {
-		setWindowTitle("Pacman : générateur de code JAVA [version " + c_version + "]");
+		setWindowTitle("Pacman : générateur de code React [version " + c_version + "]");
 	}
 
 	/**
@@ -82,7 +75,7 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 
 		final Map<String, String> startProperties = initProperties();
 
-		Job job = new Job("Creation du projet Cali") {
+		Job job = new Job("Creation du projet Cali pour le Frontend") {
 
 			@Override
 			public IStatus run(IProgressMonitor p_monitor) {
@@ -99,23 +92,20 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 					subMonitor.setTaskName("Mise à jour du projet vers la norme Cali");
 					upgradeProjectWithCali(subMonitor, project, startProperties);
 
-					subMonitor.setTaskName("Copie des fichiers swagger dans l'application cible");
-					addSwaggerUiToProject(subMonitor, project);
+					// subMonitor.setTaskName("Ajout de la nature Maven au projet");
+					// addMavenNatureToProject(subMonitor, project);
 
-					subMonitor.setTaskName("Ajout de la nature Maven au projet");
-					addMavenNatureToProject(subMonitor, project);
+					// subMonitor.setTaskName("Configuration des sous projets");
+					// configureSubProjectsWithMaven(project);
 
-					subMonitor.setTaskName("Configuration des sous projets");
-					configureSubProjectsWithMaven(project);
+					// subMonitor.setTaskName("Rafraîchissement des sous projets");
+					// WizardUtil.refreshProject(subMonitor, project);
 
-					subMonitor.setTaskName("Rafraîchissement des sous projets");
-					WizardUtil.refreshProject(subMonitor, project);
+					// subMonitor.setTaskName("Ajout de la nature EMF au projet de modélisation");
+					// addEMFNatureToProjectModel(subMonitor, project, 0);
 
-					subMonitor.setTaskName("Ajout de la nature EMF au projet de modélisation");
-					addEMFNatureToProjectModel(subMonitor, project, 0);
-
-					subMonitor.setTaskName("Finalisation des sous projets");
-					finalizeGeneration(subMonitor, project);
+					// subMonitor.setTaskName("Finalisation des sous projets");
+					// finalizeGeneration(subMonitor, project);
 
 				} catch (Exception p_e) {
 					return WizardUtil.sendErrorStatus(p_e, Activator.c_pluginId);
@@ -162,24 +152,7 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 		properties.put(ProjectProperties.c_project_name, _pageOne.getProjectName());
 		properties.put(ProjectProperties.c_project_package, _pageOne.getPackageName());
 		properties.put(ProjectProperties.c_project_author, _pageOne.getAuthorName());
-		properties.put(ProjectProperties.c_project_java_version, _pageOne.getJavaVersion());
 		properties.put(ProjectProperties.c_project_framework, _pageOne.getTypeFramework());
-		properties.put(ProjectProperties.c_project_type, _pageOne.getTypeProject());
-
-		if ("server".equals(_pageOne.getTypeProject())) {
-			properties.put(ProjectProperties.c_requirement_categoryBaseLevel, _pageOne.getRequirementLevel());
-			properties.put(ProjectProperties.c_requirement_prefix, _pageOne.getRequirementPrefix());
-			properties.put(ProjectProperties.c_requirement_versionningInitial, _pageOne.getRequirementInitVersion());
-			properties.put(ProjectProperties.c_sql_tablePrefix, _pageOne.getSqlTablePrefix());
-			properties.put(ProjectProperties.c_sql_tableSchema, _pageOne.getSqlTableSchema());
-			properties.put(ProjectProperties.c_project_crud, _pageOne.getProjectCrud());
-			properties.put(ProjectProperties.c_project_fetchingStrategy, _pageOne.getSpi4jfetchingStrategy());
-			properties.put(ProjectProperties.c_project_security, _pageOne.getSpi4jSecurity());
-			properties.put(ProjectProperties.c_project_databases, _pageOne.getDatabases());
-			properties.put(ProjectProperties.c_project_type, _pageOne.getTypeProject());
-			properties.putAll(_pageOne.getsqlAutoFields());
-		}
-		
 		return properties;
 	}
 
@@ -263,30 +236,6 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 
 				throw new CoreException(WizardUtil.sendErrorStatus(e, Activator.c_pluginId));
 			}
-		}
-	}
-
-	/**
-	 * Copie des fichier swagger-ui dans le projet serveur pour embarquer
-	 * l'itnterface d'intérogation swagger dans le cadre d'un projet spj4i. Si
-	 * Spring Boot alors on est full Spring et on utilise les librairies dédiées.
-	 * 
-	 * @param p_monitor l'objet de monitoring pour contrôler les fichiers créés sous
-	 *                  l'IDE.
-	 * @param p_project le nouveau projet en cours de création. * @param
-	 *                  p_properties l'ensemble des propriétés définies par le
-	 *                  formulaire de création.
-	 * @throws CoreException une exception levée lors de l'excécution du traitement.
-	 * @throws IOException
-	 */
-	private void addSwaggerUiToProject(final SubMonitor p_monitor, final IProject p_project)
-			throws CoreException, IOException {
-
-		if (!ProjectProperties.isSpring()) {
-			File target = new File((p_project).getLocation().toString() + File.separator
-					+ ProjectProperties.get_projectServerName(null) + c_swaggerUiFolder);
-			SwaggerUtils swaggerUtils = new SwaggerUtils(Activator.getDefault().getLog());
-			swaggerUtils.copyFiles(target.getAbsolutePath());
 		}
 	}
 
@@ -392,7 +341,8 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 			addEMFNatureToProjectModel(p_monitor, p_project, p_cpt + 1);
 		}
 
-		SiriusUtil.addModelingResources(p_monitor, project, _pageOne.getProjectName(), _pageOne.getModelCodes());
+		// SiriusUtil.addModelingResources(p_monitor, project,
+		// _pageOne.getProjectName(), _pageOne.getModelCodes());
 	}
 
 	/**
