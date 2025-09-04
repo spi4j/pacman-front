@@ -1,0 +1,7 @@
+[module validation(	'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
+
+[comment écriture du rapport de validation pour un fichier de modélisation (soa)./]
+[comment pour les dtos on est pas relié directement à la base de données, doit on être plus souple sur les références ?/]
+[template public validation (m : soa::System)]
+ 
+[/template]

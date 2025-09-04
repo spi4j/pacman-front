@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="fr.pacman.front.react.ui.feature"
+      label="PacMan - Soa"
+      version="5.0.0.qualifier"
+      provider-name="Cali"
+      plugin="fr.pacman.front.branding">
+         
+   <includes
+      id="fr.pacman.front.core.ui.feature"
+      version="0.0.0"/>
+      
+   <plugin
+         id="fr.pacman.front.common"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="fr.pacman.front.react"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="fr.pacman.front.react.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="fr.pacman.front.react.spi4j"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+    <plugin
+         id="fr.pacman.front.react.spring"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+</feature>

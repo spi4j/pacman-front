@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: fr.pacman.front.core
+Bundle-ManifestVersion: 2
+Bundle-Name: Pacman Front - Core
+Bundle-SymbolicName: fr.pacman.front.core
+Bundle-Version: 5.0.0.qualifier
+Bundle-Activator: fr.pacman.front.core.plugin.Activator
+Bundle-Vendor: Cali
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore,
+ org.eclipse.core.resources,
+ org.eclipse.sirius,
+ org.obeonetwork.dsl.environment,
+ org.eclipse.acceleo.query.ide,
+ org.eclipse.acceleo.query,
+ org.eclipse.acceleo.aql,
+ org.antlr.runtime,
+ org.apache.commons.io
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-ActivationPolicy: lazy
+Export-Package: fr.pacman.front.core.aql,
+ fr.pacman.front.core.aql.name,
+ fr.pacman.front.core.aql.output,
+ fr.pacman.front.core.aql.path,
+ fr.pacman.front.core.aql.query,
+ fr.pacman.front.core.aql.rule,
+ fr.pacman.front.core.aql.validation,
+ fr.pacman.front.core.generator,
+ fr.pacman.front.core.property,
+ fr.pacman.front.core.property.project,
+ fr.pacman.front.core.service, 
+ fr.pacman.front.core.validation
+

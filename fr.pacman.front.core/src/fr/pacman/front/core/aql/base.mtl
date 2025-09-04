@@ -1,0 +1,52 @@
+[module base(	'http://www.obeonetwork.org/dsl/environment/3.0.0', 
+				'http://www.obeonetwork.org/dsl/entity/3.0.0') /]
+
+[import fr::pacman::front::core::property::project::ProjectProperties/]
+
+[comment /]
+
+[comment le type d'encodage par défaut pour les fichiers./]
+[query public defaultFileEncoding(any : ecore::EObject) : String = 'UTF-8'/]
+
+[comment le type d'encodage par défaut pour les réponses des services rest./]
+[query public defaultRsEncoding(any : ecore::EObject) : String = ';charset=utf8'/]
+
+[comment le code de retour par défaut pour les services rest./]
+[query public defaultRsStatusCode(any : ecore::EObject) : String = '200'/]
+
+[comment le code 'not found' par défaut pour les services rest./]
+[query public defaultRsNotFoundStatusCode1(any : ecore::EObject) : String = '404'/]
+
+[comment le code 'not found' par défaut pour les services rest./]
+[query public defaultRsNotFoundStatusCode2(any : ecore::EObject) : String = '204'/]
+
+[comment le type de média par défaut pour le retour de l'ensemble des services rest./]
+[query public defaultRsMediaType (any : ecore::EObject) : String = 'application/json'/]
+
+[comment l'extension pour tous les fichiers de type '.xml'./]
+[query public extensionXml(any : ecore::EObject) : String = '.xml'/]  
+
+[comment retourne le nom de l'application cible (ici passe-plat mais base de tout le système)./]
+[query public nameProject(any : ecore::EObject) : String = any.get_projectName()/]
+
+[comment retourne le nom du sous-projet de type 'modélisation' pour l'application cible./] 
+[query public nameProjectModel(any : ecore::EObject) : String = any.get_projectName() + '-' + any.get_suffixModel()/]
+
+[comment retourne le nom du sous-projet de type 'server' pour l'application cible./] 
+[query public nameProjectServer(any : ecore::EObject) : String = any.get_projectName() + '-' + any.get_suffixServer()/]
+ 
+[comment retourne le nom pour le répertoire de stockage des fichiers de propriétés pacman./]
+[query public namePropertiesDirectory(any : ecore::EObject) : String = 'pacman-properties'/]
+
+[comment retourne le nom de  l'auteur (évite de charger le gestionnaire de propriétés si possible)./]
+[query public nameAuthor(any : ecore::EObject) : String = any.get_authorName()/]
+
+[comment retourne une ligne de séparation pour un commentaire./]
+[query public cLine(e : ecore::EObject) : String = '/******************************************************************/'/]
+
+[comment retourne le message à afficher si une description est manquante./]
+[query public cNoDescription(e : ecore::EObject) : String = 'DESCRIPTION A IMPLEMENTER'/]
+  
+[comment retourne le message à afficher si la modélisation est manquante par rapport à ce qui est demandé./]
+[query public cNoModelisation(e : ecore::EObject) : String = 'ERREUR DE MODELISATION'/]
+
