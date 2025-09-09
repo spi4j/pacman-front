@@ -1,5 +1,4 @@
-[module base(	'http://www.obeonetwork.org/dsl/environment/3.0.0', 
-				'http://www.obeonetwork.org/dsl/entity/3.0.0') /]
+[module base(	'http://www.obeonetwork.org/dsl/environment/3.0.0') /]
 
 [import fr::pacman::front::core::property::project::ProjectProperties/]
 
@@ -10,18 +9,6 @@
 
 [comment le type d'encodage par défaut pour les réponses des services rest./]
 [query public defaultRsEncoding(any : ecore::EObject) : String = ';charset=utf8'/]
-
-[comment le code de retour par défaut pour les services rest./]
-[query public defaultRsStatusCode(any : ecore::EObject) : String = '200'/]
-
-[comment le code 'not found' par défaut pour les services rest./]
-[query public defaultRsNotFoundStatusCode1(any : ecore::EObject) : String = '404'/]
-
-[comment le code 'not found' par défaut pour les services rest./]
-[query public defaultRsNotFoundStatusCode2(any : ecore::EObject) : String = '204'/]
-
-[comment le type de média par défaut pour le retour de l'ensemble des services rest./]
-[query public defaultRsMediaType (any : ecore::EObject) : String = 'application/json'/]
 
 [comment l'extension pour tous les fichiers de type '.xml'./]
 [query public extensionXml(any : ecore::EObject) : String = '.xml'/]  

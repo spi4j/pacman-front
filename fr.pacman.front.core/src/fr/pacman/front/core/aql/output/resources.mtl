@@ -19,7 +19,7 @@
 [query private normalizePath(path : String) : String = path.replaceAll('/+', '/').trim()/]
 
 [comment écriture d'un fichier de type 'classe Java'./]
-[query public toFileJScript(fName : String, pkName : String) : String = fName.toFile(fName.dirSources() + (fName.namePackageProject() 
+[comment query public toFileJScript(fName : String, pkName : String) : String = fName.toFile(fName.dirSources() + (fName.namePackageProject() 
 	+ if(pkName.exists()) then '.' + pkName else '' endif).toPackage(), fName.extensionJava())/]
 	
 [comment fName le nom du fichier, path le chemin complet (à formatter correctement), fExt l'extension du fichier./]   

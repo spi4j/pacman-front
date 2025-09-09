@@ -17,5 +17,5 @@
 [/template]
 
 [comment ./]
-[query public writeDescription(any :: environment::ObeoDSMObject) : String = if(any.description.exists()) then 
+[comment query public writeDescription(any :: environment::ObeoDSMObject) : String = if(any.description.exists()) then 
    (any.description.escapeComment() + '.').lineCut(130, ' ') else any.cNoDescription() endif/]

@@ -48,24 +48,12 @@
   
 [comment affecte un marqueur pour demander une ligne vide avec retour à la ligne./]
 [query public ensureBlankLine(any : ecore::EObject) : String  = '@CR'/]
- 
-[comment retourne la ligne pour le tableau avec une taille et un séparateur./]
-[query public ensureTabCell(str : String, size : Integer, separator : String) : String = str.do_tabCell(size, separator)/]
-  
-[comment insère une chaine de caractères (c) avant une chaîne (r)./]
-[query public insert(str : String, c : String, r : String) : String = str.replace(r, c + r)/]
-
-[comment découpe (avec un retour à la ligne) une longue chaine de caractères./]
-[query public lineCut(str : String, nbChars : Integer, char : String) : String = str.do_cut(nbChars, str.lineSeparator(), char).sanitize(nbChars)/]
 
 [comment assure que la chaine découpée n'a pas d'éspace à chaque césure et renvoie le traitement pour ajout ligne blanche./]
 [query private sanitize(str : String, nbChars : Integer) : String = str.replaceAll('(?m)^\\s*','').ensureBlankLine(nbChars)/]
 
 [comment si la chaine à été découpée, ajoute une ligne blanche pour une meilleur visibilité./]
 [query private ensureBlankLine(str : String, nbChars : Integer) : String = if(str.size() > nbChars) then str + str.ensureBlankLine() else str endif/]
-
-[comment découpe (avec un retour à la ligne) une longue chaine de caractères./]
-[query public lineCut(str : String, nbCols : Integer) : String = str.lineCut(nbCols, null)/]
 
 [comment retourne la les lignes de commentaires échappées des retours à la ligne./]  
 [query public escapeComment(str : String) : String = str.replaceAll('[\n|\r|\\*]','').replace('\\.$','')/]

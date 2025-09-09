@@ -36,8 +36,8 @@ import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 import org.eclipse.ui.IEditorPart;
-import org.obeonetwork.dsl.entity.EntityFactory;
-import org.obeonetwork.dsl.entity.Root;
+import org.obeonetwork.dsl.cinematic.CinematicFactory;
+import org.obeonetwork.dsl.cinematic.CinematicRoot;
 
 import fr.pacman.front.start.ui.exception.PacmanInitModelException;
 
@@ -182,8 +182,8 @@ public class SiriusUtil {
 			final String p_applicationName, final IProject p_project) throws PacmanInitModelException {
 		EObject v_EObject = null;
 		if ("cinematic".equals(p_code)) {
-			v_EObject = EntityFactory.eINSTANCE.createRoot();
-			((Root) v_EObject).setCreatedOn(new Date());
+			v_EObject = CinematicFactory.eINSTANCE.createCinematicRoot();
+			((CinematicRoot) v_EObject).setCreatedOn(new Date());
 		}
 		if (null == v_EObject)
 			throw new PacmanInitModelException("Aucun objet EObject pour le code : " + p_code);

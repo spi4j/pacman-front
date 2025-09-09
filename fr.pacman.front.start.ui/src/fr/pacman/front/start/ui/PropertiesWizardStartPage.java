@@ -54,7 +54,7 @@ public class PropertiesWizardStartPage extends PropertiesWizardPage<Control> {
 	 */
 	void resize(final boolean p_defaultSize) {
 		if (p_defaultSize)
-			getShell().setSize(getShell().computeSize(720, 300));
+			getShell().setSize(getShell().computeSize(700, 300));
 	}
 
 	/**

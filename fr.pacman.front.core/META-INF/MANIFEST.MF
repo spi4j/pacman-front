@@ -21,7 +21,6 @@ Bundle-ActivationPolicy: lazy
 Export-Package: fr.pacman.front.core.aql,
  fr.pacman.front.core.aql.name,
  fr.pacman.front.core.aql.output,
- fr.pacman.front.core.aql.path,
  fr.pacman.front.core.aql.query,
  fr.pacman.front.core.aql.rule,
  fr.pacman.front.core.aql.validation,
