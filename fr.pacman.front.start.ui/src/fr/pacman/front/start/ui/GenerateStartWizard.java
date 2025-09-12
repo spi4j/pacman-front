@@ -1,13 +1,8 @@
 package fr.pacman.front.start.ui;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -18,99 +13,128 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
+import fr.pacman.front.core.ui.service.PlugInUtils;
 import fr.pacman.front.start.ui.activator.Activator;
 import fr.pacman.front.start.ui.util.WizardUtil;
 
 /**
- * Wizard pour la création d'un projet de type Cali par le biais du
- * "new->project menu".
- * 
- * @author MINARM.
+ * Wizard Eclipse pour la création de projets spécifiques.
+ * <p>
+ * Cette classe étend {@link Wizard} et implémente {@link INewWizard} afin de
+ * fournir une interface guidée pour générer différents types de projets (ex :
+ * projet React serveur, projet modèle, etc.) dans l’espace de travail Eclipse.
+ * </p>
+ * <p>
+ * Le wizard inclut plusieurs pages, dont {@link PropertiesWizardStartPage} pour
+ * la saisie des informations nécessaires à la création des projets.
+ * </p>
+ *
+ * @author MINARM
  */
 public class GenerateStartWizard extends Wizard implements INewWizard {
 
 	/**
-	 * La page de configuration des différentes options de création pour le projet.
+	 * Première page du wizard utilisée pour récupérer les informations nécessaires
+	 * à la création des projets (nom du projet, options de configuration, etc.).
 	 */
 	private PropertiesWizardStartPage _pageOne;
 
 	/**
-	 * La version du générateur.
+	 * Version de l’outil ou du plugin.
 	 */
 	private static final String c_version = "5.0.0";
 
 	/**
-	 * Initialise le wizard avec le workbench et la sélection courante.
+	 * Initialise le wizard avec le workbench et la sélection actuelle.
 	 * <p>
-	 * Dans cette implémentation, la méthode configure simplement le titre de la
-	 * fenêtre du wizard en incluant la version du générateur Front de Pacman.
+	 * Cette méthode est appelée automatiquement par le framework Eclipse lors de
+	 * l'ouverture du wizard.
+	 * <p>
+	 * Dans cette implémentation, seule la fenêtre du wizard est configurée avec un
+	 * titre personnalisé incluant la version de l'outil.
 	 *
-	 * @param p_workbench le workbench Eclipse dans lequel le wizard est ouvert
-	 * @param p_selection la sélection actuelle dans Eclipse (non utilisée ici)
+	 * @param workbench l'instance du workbench Eclipse dans lequel le wizard
+	 *                  s'exécute
+	 * @param selection la sélection courante dans le workbench (non utilisée ici)
 	 */
 	@Override
-	public void init(IWorkbench p_workbench, IStructuredSelection p_selection) {
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle("Pacman : générateur de code Front [version " + c_version + "]");
 	}
 
 	/**
-	 * Exécute les actions de finalisation du wizard.
+	 * Exécute les opérations de finalisation du wizard lorsque l'utilisateur clique
+	 * sur "Finish".
 	 * <p>
-	 * Cette méthode est appelée lorsque l'utilisateur clique sur "Finish". Elle
-	 * crée un job Eclipse pour exécuter les étapes suivantes de manière asynchrone
-	 * :
+	 * Cette méthode lance un <b>Job Eclipse</b> pour créer le projet Frontend
+	 * (React + Vite) de manière asynchrone, afin de ne pas bloquer l'interface
+	 * utilisateur. Le flux du Job comprend :
 	 * <ul>
-	 * <li>Vérification et installation de Node.js et npm via
-	 * {@link NodeInstallerHelper}.</li>
-	 * <li>Initialisation des vues Eclipse nécessaires avec
+	 * <li>Vérification que la vue TM Terminal est installée via
+	 * {@link WizardUtil#checkTerminalInstalled()}. Si elle est absente, une
+	 * tentative d'installation automatique est réalisée via
+	 * {@link GenrateTmTerminalInstaller#installAndOpenTerminal()} et un message
+	 * d'information est affiché.</li>
+	 * <li>Réinitialisation des vues Eclipse via
 	 * {@link WizardUtil#initViews(SubMonitor)}.</li>
-	 * <li>Création du projet React/Vite.</li>
-	 * <li>Installation des dépendances npm dans le projet via
-	 * {@link #configureSubProjectsNpm(IProject, String, SubMonitor)}.</li>
-	 * <li>Rafraîchissement du dossier du projet pour que Eclipse détecte les
-	 * fichiers créés/modifiés.</li>
+	 * <li>Création du projet de modélisation et du projet React/Vite.</li>
+	 * <li>Vérification et installation de Node.js via
+	 * {@link #installNodeJs(SubMonitor, IProject)}.</li>
+	 * <li>Rafraîchissement complet du projet Eclipse via
+	 * {@link WizardUtil#refreshProject(SubMonitor, IProject)}.</li>
 	 * </ul>
-	 * Le job utilise un {@link SubMonitor} pour suivre la progression des
-	 * différentes étapes. En cas d'erreur, le statut d'erreur est renvoyé via
-	 * {@link WizardUtil#sendErrorStatus(Exception, String)}.
-	 * </p>
+	 * <p>
+	 * Les exceptions sont gérées pour afficher des messages clairs et envoyer les
+	 * statuts d'erreur via {@link WizardUtil#sendErrorStatus(Exception, String)}.
+	 * Enfin, les vues sont restaurées dans l'état standard avec
+	 * {@link WizardUtil#restaureAllView()}.
 	 *
-	 * @return {@code true} si le wizard peut se fermer immédiatement après le
-	 *         lancement du job.
+	 * @return toujours <code>true</code> car le wizard lance le Job asynchrone et
+	 *         ne bloque pas l'UI.
 	 */
 	@Override
 	public boolean performFinish() {
 		Job job = new Job("Création du projet Frontend (React + Vite)") {
 			@Override
 			public IStatus run(IProgressMonitor p_monitor) {
-				IProject project = null;
 				SubMonitor subMonitor = SubMonitor.convert(p_monitor, 100);
+				IProject project = null;
 
 				try {
-					// Vérifie/installe Node + npm
-					IStatus status = NodeInstallerHelper.ensureToolsReady();
-					if (!status.isOK()) {
-						return status;
-					}
+					subMonitor.setTaskName("Vérification de l'existance de la vue tm terminale");
+					WizardUtil.checkTerminalInstalled();
+
 					subMonitor.setTaskName("Réinitialisation des vues");
 					WizardUtil.initViews(subMonitor);
-					
+
 					subMonitor.setTaskName("Création du projet de modélisation");
+					project = createProjectModel(subMonitor);
 
 					subMonitor.setTaskName("Création du projet React/Vite");
 					project = createProjectReact(subMonitor);
 
-					subMonitor.setTaskName("Installation des dépendances npm\"");
-					SubMonitor npmMonitor = subMonitor.split(50); // réserve 50 unités pour npm
-					configureSubProjectsNpm(project, NodeInstallerHelper.findNpmExecutable(), npmMonitor);
+					subMonitor.setTaskName("Vérification et installation NodeJs");
+					installNodeJs(subMonitor, project);
 
-					if (project != null && project.exists()) {
-						File projectFolder = project.getLocation().toFile();
-						refreshFolderRecursively(projectFolder);
-						project.refreshLocal(IResource.DEPTH_INFINITE, null);
-					}
+					subMonitor.setTaskName("Affichage des différentes vues");
+					WizardUtil.restaureAllView();
+
+					// subMonitor.setTaskName("Ouverture d'un terminal externe pour seconder tm
+					// terminal");
+					// WizardUtil.openTerminalExternal(project);
+
+				} catch (IllegalStateException e) {
+
+					PlugInUtils.displayInformation("Vue TM Terminal",
+							"La vue TM Terminal n'a pas été installé dans cette version ISD."
+									+ "\nVeuillez effectuer une installation manuelle "
+									+ "par le biais du Marketplace.");
+
+					// GenrateTmTerminalInstaller.installAndOpenTerminal();
+					return Status.CANCEL_STATUS;
 
 				} catch (Exception e) {
+
 					return WizardUtil.sendErrorStatus(e, Activator.c_pluginId);
 				}
 				return Status.OK_STATUS;
@@ -121,119 +145,95 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 	}
 
 	/**
-	 * Met à jour récursivement la date de dernière modification d'un dossier et de
-	 * tous ses fichiers/folders enfants.
+	 * Crée un projet Eclipse pour la couche modèle d’une application.
 	 * <p>
-	 * Cette opération parcourt tous les sous-dossiers et fichiers du dossier
-	 * spécifié et applique `setLastModified` avec le temps courant. Cela permet par
-	 * exemple de forcer Eclipse à détecter des changements dans le système de
-	 * fichiers.
+	 * Cette méthode effectue les étapes suivantes :
+	 * <ol>
+	 * <li>Récupère le nom du projet à partir de la page du wizard et lui ajoute le
+	 * suffixe "-model".</li>
+	 * <li>Crée un projet Eclipse correspondant dans le workspace.</li>
+	 * <li>Délègue la génération de la structure du projet à
+	 * {@link GenerateModelProjectCreator#createProject(IProject, SubMonitor)}.</li>
+	 * <li>Rafraîchit le projet pour que les changements soient visibles dans l’IDE
+	 * via {@link WizardUtil#refreshProject(SubMonitor, IProject)}.</li>
+	 * </ol>
+	 * </p>
 	 *
-	 * @param folder le dossier à rafraîchir ; doit être non null et exister sur le
-	 *               disque
+	 * @param p_monitor le moniteur de progression utilisé pour suivre l’avancement
+	 *                  de la création du projet
+	 * @return l’objet {@link IProject} représentant le projet modèle créé
+	 * @throws Exception si la création du projet échoue ou si une opération sur
+	 *                   l’espace de travail déclenche une erreur
 	 */
-	private void refreshFolderRecursively(File folder) {
-		if (folder.isDirectory()) {
-			for (File f : folder.listFiles()) {
-				refreshFolderRecursively(f);
-			}
-		}
-		folder.setLastModified(System.currentTimeMillis());
-	}
-
-	/**
-	 * Création du projet cible Java.
-	 * 
-	 * @param p_monitor         l'objet de monitoring pour contrôler les fichiers
-	 *                          créés sous l'IDE.
-	 * @param p_startProperties le tableau des propriétés pour le nouveu projet.
-	 * @return le nouveau projet
-	 * @throws Exception
-	 */
-	private IProject createProjectReact(final SubMonitor p_monitor) throws Exception {
-		final String p_appliName = _pageOne.getProjectName();
-		if (null == p_appliName || p_appliName.isEmpty())
-			throw new NullPointerException("Le nom du projet n'est pas renseigné.");
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IProject project = root.getProject(p_appliName);
-		if (!project.exists()) {
-			ReactProjectCreator.createReactProject(project.getName(), p_monitor);
-		}
+	private IProject createProjectModel(final SubMonitor p_monitor) throws Exception {
+		final String projectName = _pageOne.getProjectName() + "-model";
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+		GenerateModelProjectCreator.createProject(project, p_monitor);
+		WizardUtil.refreshProject(p_monitor, project);
 		return project;
 	}
 
 	/**
-	 * Configure les sous-projets d'un projet Eclipse en lançant `npm install` dans
-	 * le répertoire du projet spécifié.
+	 * Crée un projet React côté serveur dans l’espace de travail Eclipse.
 	 * <p>
-	 * Cette méthode utilise un {@link ProcessBuilder} pour exécuter la commande
-	 * npm, et lit simultanément les flux de sortie standard et d'erreur afin de
-	 * mettre à jour le {@link SubMonitor} fourni avec les messages d'installation
-	 * et l'avancement.
-	 * <p>
-	 * La méthode attend la fin du processus npm et de la lecture des flux. Si la
-	 * commande retourne un code de sortie différent de 0, une exception est levée.
+	 * Cette méthode effectue les étapes suivantes :
+	 * <ol>
+	 * <li>Récupère le nom du projet à partir de la page du wizard et lui ajoute le
+	 * suffixe "-server".</li>
+	 * <li>Crée un projet Eclipse correspondant dans le workspace.</li>
+	 * <li>Délègue la génération de la structure du projet à
+	 * {@link GenerateReactProjectCreator#createProject(IProject, SubMonitor)}.</li>
+	 * <li>Rafraîchit le projet pour que les changements soient visibles dans l’IDE
+	 * via {@link WizardUtil#refreshProject(SubMonitor, IProject)}.</li>
+	 * </ol>
 	 * </p>
 	 *
-	 * @param p_project  le projet Eclipse dont les sous-projets doivent être
-	 *                   configurés avec npm
-	 * @param npmExec    le chemin vers l'exécutable npm (ex. "npm" ou chemin
-	 *                   absolu)
-	 * @param subMonitor le {@link SubMonitor} pour suivre l'avancement et afficher
-	 *                   les messages de npm
-	 * @throws Exception si une erreur survient lors de l'exécution du processus ou
-	 *                   de la lecture des flux
+	 * @param p_monitor le moniteur de progression utilisé pour suivre l’avancement
+	 *                  de la création du projet
+	 * @return l’objet {@link IProject} représentant le projet React créé
+	 * @throws Exception si la création du projet échoue ou si une opération sur
+	 *                   l’espace de travail déclenche une erreur
 	 */
-	private void configureSubProjectsNpm(final IProject p_project, String npmExec, SubMonitor subMonitor)
-			throws Exception {
-		File projectFolder = p_project.getLocation().toFile();
-		ProcessBuilder pb = new ProcessBuilder(npmExec, "install");
-		pb.directory(projectFolder);
-		Process process = pb.start();
-
-		// Threads pour stdout et stderr
-		Thread stdoutThread = new Thread(() -> {
-			try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-				String line;
-				while ((line = reader.readLine()) != null) {
-					subMonitor.subTask(line);
-					subMonitor.worked(1);
-				}
-			} catch (Exception ignored) {
-			}
-		});
-
-		Thread stderrThread = new Thread(() -> {
-			try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
-				String line;
-				while ((line = reader.readLine()) != null) {
-					subMonitor.subTask(line);
-					subMonitor.worked(1);
-				}
-			} catch (Exception ignored) {
-			}
-		});
-
-		stdoutThread.start();
-		stderrThread.start();
-
-		int exitCode = process.waitFor();
-		stdoutThread.join();
-		stderrThread.join();
-
-		if (exitCode != 0) {
-			throw new RuntimeException("npm install a échoué avec le code " + exitCode);
-		}
+	private IProject createProjectReact(final SubMonitor p_monitor) throws Exception {
+		final String projectName = _pageOne.getProjectName() + "-server";
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+		GenerateReactProjectCreator.createProject(project, p_monitor);
+		WizardUtil.refreshProject(p_monitor, project);
+		return project;
 	}
 
 	/**
-	 * Ajoute les pages du wizard.
+	 * Vérifie et installe Node.js et les outils nécessaires pour le projet donné.
 	 * <p>
-	 * Dans cette implémentation, seule la page de démarrage
-	 * {@link PropertiesWizardStartPage} est ajoutée au wizard.
+	 * Cette méthode utilise
+	 * {@link GenerateNodeInstallerHelper#ensureToolsReady(java.nio.file.Path, org.eclipse.core.runtime.IProgressMonitor)}
+	 * pour s'assurer que Node.js et les outils associés sont disponibles dans le
+	 * projet.
+	 *
+	 * @param p_monitor le sous-moniteur de progression pour suivre l'avancement de
+	 *                  l'installation
+	 * @param p_project le projet Eclipse pour lequel Node.js doit être installé
+	 * @throws CoreException
+	 * @throws RuntimeException si l'installation ou la vérification des outils
+	 *                          échoue
+	 */
+	private void installNodeJs(final SubMonitor p_monitor, IProject p_project) throws CoreException {
+		IStatus status = GenerateNodeInstallerHelper.ensureToolsReady(p_project.getLocation().toFile().toPath(),
+				p_monitor.split(20));
+		if (!status.isOK())
+			throw new RuntimeException("");
+		WizardUtil.refreshProject(p_monitor, p_project);
+	}
+
+	/**
+	 * Ajoute les pages au wizard.
 	 * <p>
-	 * Cette méthode est appelée automatiquement par le framework Eclipse lors de la
-	 * création du wizard.
+	 * Cette implémentation crée une instance de {@link PropertiesWizardStartPage}
+	 * et l'ajoute au wizard via
+	 * {@link #addPage(org.eclipse.jface.wizard.IWizardPage)}.
+	 * <p>
+	 * Cette méthode est appelée automatiquement par le framework JFace lors de
+	 * l'ouverture du wizard pour initialiser ses pages.
 	 */
 	@Override
 	public void addPages() {

@@ -14,7 +14,6 @@ public class ValidatorUtil {
 	private boolean _applicationNewOK;
 	private boolean _applicationOK;
 	private boolean _authorOK;
-	private boolean _packageOK;
 
 	/**
 	 * Constructeur privé pour éviter l'instanciation de la classe.
@@ -30,7 +29,7 @@ public class ValidatorUtil {
 	 */
 	public boolean isValid() {
 
-		return _applicationOK && _applicationNewOK && _packageOK && _authorOK;
+		return _applicationOK && _applicationNewOK && _authorOK;
 	}
 
 	/**
@@ -45,9 +44,6 @@ public class ValidatorUtil {
 
 		if (!_applicationOK)
 			return "Le nom du projet n'est pas renseigné.";
-
-		if (!_packageOK)
-			return "Le package racine de l'application n'est pas renseigné.";
 
 		if (!_authorOK)
 			return "Le nom de l'auteur ou de l'organisme n'est pas renseigné.";
@@ -71,10 +67,6 @@ public class ValidatorUtil {
 
 	public void setApplicationNewOk(boolean p_applicationNewOK) {
 		_applicationNewOK = p_applicationNewOK;
-	}
-
-	public void setPackageOK(boolean p_packageOK) {
-		_packageOK = p_packageOK;
 	}
 
 	public void setAuthorOK(boolean p_authorOK) {

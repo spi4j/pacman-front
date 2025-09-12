@@ -41,8 +41,6 @@ import org.obeonetwork.dsl.cinematic.CinematicRoot;
 
 import fr.pacman.front.start.ui.exception.PacmanInitModelException;
 
-
-
 /**
  * Classe utilitaire pour tout ce qui concerne la création d'un projet de
  * modélisation, de ses différents fichiers de modélisation, de leur
@@ -70,28 +68,11 @@ public class SiriusUtil {
 	// ISD consolidated view
 	static {
 		_openedRepresentations = new ArrayList<String>();
-		_openedRepresentations.add("Entities Namespaces Hierarchy");
-		_openedRepresentations.add("DTO Namespaces Hierarchy");
-
+		_openedRepresentations.add("Cinematic Namespaces Hierarchy");
 		_models = new HashMap<String, SiriusModelDescriptor>();
-		_models.put("entity",
-				new SiriusModelDescriptor(".entity",
-						Arrays.asList("Entities Namespaces Hierarchy", "EV_Entities_PhysicalNames"),
-						Arrays.asList("org.obeonetwork.dsl.entity.design/Entity Views",
-								"org.obeonetwork.is.design/Entity (ISD consolidated view)",
-								"org.obeonetwork.dsl.environment.properties/Environment Views")));
-
-		_models.put("requirement",
-				new SiriusModelDescriptor(".requirement", Arrays.asList("Requirements Table"),
-						Arrays.asList("org.obeonetwork.dsl.environment.properties/Environment Views",
-								"org.obeonetwork.dsl.requirement.design/Requirements",
-								"org.obeonetwork.graal.design/Requirements (Graal consolidated view)")));
-
-		_models.put("soa",
-				new SiriusModelDescriptor(".react",
-						Arrays.asList("SOA Diagram", "DTO Namespaces Hierarchy", "EV_DTO_PhysicalNames"),
-						Arrays.asList("org.obeonetwork.is.design/SOA (ISD consolidated view)",
-								"org.obeonetwork.dsl.react.design/SOA Views",
+		_models.put("cinematic",
+				new SiriusModelDescriptor(".cinematic", Arrays.asList("UI Structure", "Package Diagram"),
+						Arrays.asList("org.obeonetwork.dsl.cinematic.design/Cinematic Views",
 								"org.obeonetwork.dsl.environment.properties/Environment Views")));
 	}
 

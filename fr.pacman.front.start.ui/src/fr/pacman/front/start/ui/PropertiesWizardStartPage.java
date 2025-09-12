@@ -20,8 +20,23 @@ import fr.pacman.front.start.ui.util.FormUtil;
 import fr.pacman.front.start.ui.util.ValidatorUtil;
 
 /**
+ * Première page d’un wizard Eclipse utilisée pour la saisie des propriétés
+ * nécessaires à la création d’un projet.
+ * <p>
+ * Cette classe étend {@link PropertiesWizardPage} en spécifiant le type de
+ * contrôle générique {@link Control}. Elle fournit l’interface utilisateur
+ * permettant de renseigner le nom du projet, ainsi que d’autres paramètres de
+ * configuration nécessaires au wizard {@link GenerateStartWizard}.
+ * </p>
+ * <p>
+ * Cette page est généralement affichée en premier et ses données sont utilisées
+ * par les méthodes de création de projet pour générer les projets React,
+ * modèle, etc.
+ * </p>
  * 
- * @author @MINARM
+ * @param <Control> le type de contrôle SWT utilisé pour la page
+ * 
+ * @author MINARM
  */
 public class PropertiesWizardStartPage extends PropertiesWizardPage<Control> {
 
@@ -30,7 +45,6 @@ public class PropertiesWizardStartPage extends PropertiesWizardPage<Control> {
 	 * (erreur ou pas ?)
 	 */
 	private String _projectName = "";
-	private String _packageName = "";
 	private String _authorName = "";
 	private String _typeFramework = "";
 
@@ -78,7 +92,6 @@ public class PropertiesWizardStartPage extends PropertiesWizardPage<Control> {
 		registerWidget("grp_project1", group1);
 		registerWidget("grp_project2", group2);
 		registerWidget("txt_project", addTextApplication(group1));
-		registerWidget("txt_package", addTextPackage(group1));
 		registerWidget("txt_author", addTextAuthorName(group1));
 		registerWidget("cb_framework", addComboFramework(group2));
 		registerWidget("ck_displayReadme", addCheckBoxReadme(group3));
@@ -97,7 +110,7 @@ public class PropertiesWizardStartPage extends PropertiesWizardPage<Control> {
 	private void initWithDefault() {
 		// _typeFramework = "react";
 		_displayReadme = true;
-		_typeFramework = "react";
+		_typeFramework = "react-dsfr-spa";
 	}
 
 	/**
@@ -113,40 +126,12 @@ public class PropertiesWizardStartPage extends PropertiesWizardPage<Control> {
 			@Override
 			public void keyReleased(final KeyEvent p_e) {
 				_projectName = txt.getText();
-				completePackageName((Text) getWidget("txt_package"), txt);
-				_packageName = ((Text) getWidget("txt_package")).getText();
 				computeValidity();
 			}
 
 			@Override
 			public void keyPressed(final KeyEvent p_e) {
 				if (!FormUtil.checkKeyForProjectName(p_e.character)) {
-					p_e.doit = false;
-				}
-			}
-		});
-		return txt;
-	}
-
-	/**
-	 * Champ de saisie pour le package racine de l'application (tous les packages
-	 * générés commenceront avec le contenu de cette saisie).
-	 * 
-	 * @param p_parent le composite parent sur lequel accrocher le composant.
-	 */
-	private Text addTextPackage(final Composite p_parent) {
-		Text txt = addText(p_parent, "Package racine     ", "fr.", "Package racine du projet sous lequel"
-				+ " positionner l'ensemble des classes et des autres sous-packages.");
-		txt.addKeyListener(new KeyListener() {
-			@Override
-			public void keyReleased(final KeyEvent p_e) {
-				_packageName = txt.getText();
-				computeValidity();
-			}
-
-			@Override
-			public void keyPressed(final KeyEvent p_e) {
-				if (!FormUtil.checkKeyForPackageName(p_e.character)) {
 					p_e.doit = false;
 				}
 			}
@@ -187,7 +172,7 @@ public class PropertiesWizardStartPage extends PropertiesWizardPage<Control> {
 	private Combo addComboFramework(final Composite p_parent) {
 		Combo cbx = addComboBox(p_parent, "Framework",
 				"Le framework à utiliser pour la génération des classes issues de la modélisation.",
-				new String[] { "React" }, 0);
+				new String[] { "React-Dsfr-Spa"}, 0);
 
 		cbx.addSelectionListener(new SelectionListener() {
 			@Override
@@ -224,22 +209,9 @@ public class PropertiesWizardStartPage extends PropertiesWizardPage<Control> {
 	}
 
 	/**
-	 * Construction automatique d'un nom de package a partir du nom de projet.
-	 * 
-	 * @param p_packageName
-	 * @param p_projectName
-	 */
-	private void completePackageName(final Text p_packageName, final Text p_projectName) {
-		p_packageName.setText(p_packageName.getText().substring(0, p_packageName.getText().indexOf(".") + 1)
-				.concat(p_projectName.getText().toLowerCase().replace("-", "_")));
-	}
-
-	/**
 	 * Vérification globale de la saisie.
 	 */
 	private void computeValidity() {
-
-		ValidatorUtil.INSTANCE.setPackageOK(!_packageName.isEmpty());
 		ValidatorUtil.INSTANCE.setApplicationNewOk(FormUtil.checkForNewProject(_projectName));
 		ValidatorUtil.INSTANCE.setApplicationOK(null != _projectName && !_projectName.isEmpty());
 		ValidatorUtil.INSTANCE.setAuthorOK(null != _authorName && !_authorName.isEmpty());
@@ -255,15 +227,6 @@ public class PropertiesWizardStartPage extends PropertiesWizardPage<Control> {
 	 */
 	public String getProjectName() {
 		return _projectName;
-	}
-
-	/**
-	 * Retourne le libellé du package racine pour le projet.
-	 * 
-	 * @return le libellé du package.
-	 */
-	public String getPackageName() {
-		return _packageName;
 	}
 
 	/**

@@ -86,7 +86,7 @@ public class PacmanUIValidationView extends ViewPart {
 	 * L'identifiant de la vue pour afficher la liste des erreurs rencontrées au
 	 * niveau du diagramme de modélisation.
 	 */
-	public final static String VALIDATION_VIEW_ID = "fr.pacman.front.validation.ui.core.ValidationView";
+	public final static String c_id = "fr.pacman.front.validation.ui.core.ValidationView";
 
 	/**
 	 * Identifiant de la vue pour le model explorer.

@@ -9,16 +9,24 @@ Bundle-Vendor: Cali
 Bundle-Classpath: ., resources/lib/commonmark-0.24.0.jar
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
+ org.eclipse.tm.terminal.view.ui,
  org.eclipse.ui,
  org.eclipse.ui.console,
  org.eclipse.emf.ecore,
  org.eclipse.emf.transaction,
  org.eclipse.sirius.ui,
+ org.eclipse.tm.terminal.view.ui,
+ org.eclipse.tm.terminal.view.core,
+ org.eclipse.equinox.p2.core,
+ org.eclipse.equinox.p2.metadata,
+ org.eclipse.equinox.p2.repository,
+ org.eclipse.equinox.p2.operations,
  org.obeonetwork.dsl.cinematic,
  fr.pacman.front.core,
  fr.pacman.front.core.ui,
- fr.pacman.front.start, 
- fr.pacman.front.config 
+ fr.pacman.front.start,
+ fr.pacman.front.config,
+ org.eclipse.equinox.p2.engine
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.sirius.business.api.dialect,

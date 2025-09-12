@@ -395,8 +395,8 @@ public abstract class PacmanUIGenerator extends PacmanUIProjectAction {
 			if (window != null) {
 				IWorkbenchPage page = window.getActivePage();
 				try {
-					page.showView(PacmanUIValidationView.VALIDATION_VIEW_ID);
-					IViewPart viewPart = page.findView(PacmanUIValidationView.VALIDATION_VIEW_ID);
+					page.showView(PacmanUIValidationView.c_id);
+					IViewPart viewPart = page.findView(PacmanUIValidationView.c_id);
 					if (viewPart instanceof PacmanUIValidationView validationView) {
 						validationView.setRepresentations(_representations);
 						validationView.setLinkingEnabled(page);
@@ -440,7 +440,7 @@ public abstract class PacmanUIGenerator extends PacmanUIProjectAction {
 			IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 			if (window != null) {
 				IWorkbenchPage page = window.getActivePage();
-				IViewPart viewPart = page.findView(PacmanUIValidationView.VALIDATION_VIEW_ID);
+				IViewPart viewPart = page.findView(PacmanUIValidationView.c_id);
 				if (null != viewPart && viewPart instanceof PacmanUIValidationView validationView)
 					validationView.setRows(Collections.emptyList());
 			}

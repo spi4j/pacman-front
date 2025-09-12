@@ -5,38 +5,34 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.wizard.IWizard;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tm.terminal.view.ui.interfaces.ILauncherDelegate;
+import org.eclipse.tm.terminal.view.ui.launcher.LauncherDelegateManager;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
-import org.eclipse.ui.wizards.IWizardDescriptor;
+import org.eclipse.ui.views.IViewDescriptor;
+import org.eclipse.ui.views.IViewRegistry;
 
 import fr.pacman.front.core.ui.validation.PacmanUIValidationView;
-import fr.pacman.front.start.ui.GenerateStartWizardAction;
 import fr.pacman.front.start.ui.activator.Activator;
-import fr.pacman.front.start.ui.exception.WizardNotFoundException;
 import fr.pacman.front.start.ui.views.HtmlViewerView;
 
 /**
@@ -53,13 +49,15 @@ public class WizardUtil {
 	public static final int c_codeKo = 1;
 	public static final int c_codeKoExists = 2;
 
+	private static final String c_view_console = "org.eclipse.ui.console.ConsoleView";
 	private static final String c_view_log = "org.eclipse.pde.runtime.LogView";
 	private static final String c_view_problem = "org.eclipse.ui.views.ProblemView";
 	private static final String c_view_properties = "org.eclipse.ui.views.PropertySheet";
 	private static final String c_view_junit = "org.eclipse.jdt.junit.ResultView";
 	private static final String c_view_html = "fr.pacman.front.start.ui.views.HtmlViewerView";
 	private static final String c_view_progress = "org.eclipse.ui.views.ProgressView";
-	private static final String c_view_validation = PacmanUIValidationView.VALIDATION_VIEW_ID;
+	private static final String c_view_tm_terminal = "org.eclipse.tm.terminal.view.ui.TerminalsView";
+	private static final String c_view_validation = PacmanUIValidationView.c_id;
 
 	/**
 	 * Constructeur privé.
@@ -69,49 +67,56 @@ public class WizardUtil {
 	}
 
 	/**
-	 * Rechargement complet du workspace.
-	 * 
-	 * @param p_monitor un moniteur de progression qui utilise les données de
-	 *                  travail d'un moniteur parent.
-	 * @throws CoreException une exception suceptible d'être levée pendant
-	 *                       l'exécution de la méthode.
+	 * Vérifie si la vue Eclipse <b>TM Terminal</b> est installée et disponible.
+	 * <p>
+	 * La vérification se fait en recherchant la vue via son ID
+	 * <code>"org.eclipse.tm.terminal.view.ui.TerminalsView"</code>. L'appel est
+	 * exécuté dans le thread UI via {@link Display#syncExec(Runnable)}.
+	 * </p>
+	 *
+	 * @throws IllegalStateException si la vue TM Terminal n'est pas installée ou
+	 *                               n'a pas pu être trouvée dans l'environnement
+	 *                               Eclipse.
 	 */
-	public static void refreshWorkspace(final SubMonitor p_monitor) throws CoreException {
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		workspace.getRoot().refreshLocal(IResource.DEPTH_INFINITE, p_monitor);
+	public static void checkTerminalInstalled() throws IllegalStateException {
+		final boolean[] installed = { false };
+		Display.getDefault().syncExec(() -> {
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			if (workbench != null) {
+				IViewRegistry viewRegistry = workbench.getViewRegistry();
+				IViewDescriptor viewDescriptor = viewRegistry.find(c_view_tm_terminal);
+				installed[0] = viewDescriptor != null;
+			}
+		});
+		if (!installed[0]) {
+			throw new IllegalStateException("La vue TM Terminal n'est pas installée. "
+					+ "\nVeuillez installer la vue TM Terminal avant de continuer.");
+		}
 	}
 
 	/**
-	 * Demande le rechargement d'un projet dans le workspace.
-	 * 
-	 * Demande la réorganisation automatique des imports, le formattage automatique
-	 * du code et effectue les éventuelles sauvegardes si des éditeurs sont encore
-	 * ouverts. Par ailleurs on rend la main sur le contrôle de la vue des erreurs
-	 * et on demande le chargement de la vue concernat les problèmes et la vue de
-	 * propriété. Ainsi le développeur est prêt pour travailler.
-	 * 
-	 * Pour finir, on force le focus sur le navigateur interne pour le récapitulatif
-	 * de la création de projet.
-	 * 
-	 * On se raccorde sur la classe d'action {@link GenerateStartWizardAction} afin
-	 * d'effectuer la majorité de ces demandes.
-	 * 
-	 * @param p_projectName     le nom du projet en cours de création.
-	 * @param p_monitor         un moniteur de progression qui utilise les données
-	 *                          de travail d'un moniteur parent. Il s'agit d'une
-	 *                          alternative plus sûre et plus facile à utiliser que
-	 *                          le SubProgressMonitor.
-	 * @param p_subProjectNames le nom des différents sous-projets pour le projet
-	 *                          conteneur.
-	 * @throws CoreException une exception suceptible d'être levée pendant
-	 *                       l'exécution de la méthode.
+	 * Restaure le comportement standard de toutes les vues configurées dans
+	 * Eclipse. Lance directement un terminal local
+	 * <p>
+	 * Cette méthode :
+	 * <ul>
+	 * <li>Exécute toutes les actions sur le <b>UI thread</b> via
+	 * {@link Display#syncExec(Runnable)}.</li>
+	 * <li>Stoppe le monitoring de la vue de progression via
+	 * {@link ProgressViewUtils#stopMonitoring(IWorkbenchWindow)}.</li>
+	 * <li>Affiche les vues principales dans un ordre défini : TM Terminal,
+	 * Validation, Log, Problem, Properties, JUnit, HTML.</li>
+	 * <li>Cache puis réaffiche la dernière vue pour forcer le
+	 * rafraîchissement.</li>
+	 * </ul>
+	 * Si une vue ne peut pas être initialisée, l'exception
+	 * {@link PartInitException} est capturée et ignorée pour ne pas bloquer le
+	 * processus de restauration.
+	 * </p>
+	 *
+	 * @throws CoreException si une erreur critique empêche la restauration des vues
 	 */
-	public static void postTreatment(final SubMonitor p_monitor, final IProject p_project,
-			final List<String> p_subProjectNames) throws CoreException {
-		if (null != p_project && p_project.exists()) {
-			new GenerateStartWizardAction().postTreatment(p_project, p_subProjectNames);
-			saveAllEditors();
-		}
+	public static void restaureAllView() throws CoreException {
 		// Restaure le comportement standard pour les vues.
 		Display.getDefault().syncExec(() -> {
 			IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -121,15 +126,17 @@ public class WizardUtil {
 				if (page != null) {
 					IViewPart view = null;
 					try {
-						// IViewPart view = page.showView("org.eclipse.ui.views.ProgressView");
-						// page.setPartState(page.getReference(view), IWorkbenchPage.STATE_RESTORED);
+						view = page.showView(c_view_tm_terminal);
+						tryToOpenLocalTerminal(view);
+
+						view = page.showView(c_view_console);
 						view = page.showView(c_view_validation);
 						view = page.showView(c_view_log);
 						view = page.showView(c_view_problem);
 						view = page.showView(c_view_properties);
 						view = page.showView(c_view_junit);
 						view = page.showView(c_view_html);
-
+					
 						page.hideView(view); // Sinon de rafraichit pas.
 						view = page.showView(c_view_html);
 
@@ -142,6 +149,64 @@ public class WizardUtil {
 					}
 				}
 			}
+		});
+	}
+
+	@SuppressWarnings("unused")
+	public static void openTerminalExternal(final IProject project) throws IOException {
+		if (project == null)
+			return;
+
+		String projectPath = project.getLocation().toOSString();
+		String os = System.getProperty("os.name").toLowerCase();
+		Process process;
+		if (os.contains("win")) {
+			process = new ProcessBuilder("cmd.exe", "/c", "start").directory(new File(projectPath)).start();
+		} else {
+			String[] terminals = { "/usr/bin/x-terminal-emulator", "/usr/bin/gnome-terminal", "/usr/bin/xterm",
+					"/bin/bash" };
+			boolean launched = false;
+			for (String term : terminals) {
+				File file = new File(term);
+				if (file.exists() && file.canExecute()) {
+					process = new ProcessBuilder(term).directory(new File(projectPath)).start();
+					launched = true;
+					break;
+				}
+			}
+			if (!launched) {
+				System.err.println("Aucun terminal graphique trouvé sur votre système !");
+			}
+		}
+	}
+
+	public static void tryToOpenLocalTerminal(final IViewPart p_view) {
+		Display.getDefault().asyncExec(() -> {
+			if (p_view == null)
+				return;
+
+			ILauncherDelegate delegate = LauncherDelegateManager.getInstance()
+					.getLauncherDelegate("org.eclipse.tm.terminal.connector.local.launcher.local", true);
+
+			if (delegate == null) {
+				System.err.println("Launcher local introuvable !");
+				return;
+			}
+			Map<String, Object> props = new HashMap<>();
+
+			// les clés en dur que TM Terminal attend
+			props.put("org.eclipse.tm.terminal.connector.id", "org.eclipse.tm.terminal.connector.local");
+			props.put("org.eclipse.tm.terminal.view.title", "Terminal Local");
+			props.put("org.eclipse.tm.terminal.connector.forceNew", Boolean.TRUE);
+
+			// préciser le shell à lancer
+			if (System.getProperty("os.name").toLowerCase().contains("win")) {
+				props.put("org.eclipse.tm.terminal.connector.local.launcher.command", "cmd.exe");
+			} else {
+				props.put("org.eclipse.tm.terminal.connector.local.launcher.command", "/bin/bash");
+			}
+
+			delegate.execute(props, null);
 		});
 	}
 
@@ -190,35 +255,51 @@ public class WizardUtil {
 	}
 
 	/**
-	 * Demande le rechargement d'un projet dans le workspace.
-	 * 
-	 * @param p_projectName le nom du projet à recharger.
-	 * @param p_monitor     un moniteur de progression qui utilise les données de
-	 *                      travail d'un moniteur parent.
-	 * @throws CoreException une exception suceptible d'être levée pendant
-	 *                       l'exécution de la méthode.
+	 * Rafraîchit complètement le projet Eclipse donné en synchronisant le système
+	 * de fichiers et les ressources Eclipse.
+	 * <p>
+	 * Cette méthode effectue les opérations suivantes :
+	 * <ul>
+	 * <li>Vérifie que le projet n'est pas null et qu'il existe.</li>
+	 * <li>Parcourt récursivement tous les fichiers et dossiers du projet pour
+	 * mettre à jour leur date de dernière modification via
+	 * {@link File#setLastModified(long)}.</li>
+	 * <li>Appelle
+	 * {@link IProject#refreshLocal(int, org.eclipse.core.runtime.IProgressMonitor)}
+	 * avec {@link IResource#DEPTH_INFINITE} pour forcer Eclipse à resynchroniser
+	 * toutes les ressources du projet.</li>
+	 * </ul>
+	 *
+	 * @param p_monitor le sous-moniteur de progression (utilisé pour suivre
+	 *                  l’avancement)
+	 * @param p_project le projet Eclipse à rafraîchir
+	 * @throws CoreException si une erreur survient lors de l’actualisation des
+	 *                       ressources Eclipse
 	 */
 	public static void refreshProject(final SubMonitor p_monitor, final IProject p_project) throws CoreException {
-		if (null != p_project && p_project.exists())
-			p_project.refreshLocal(IResource.DEPTH_INFINITE, p_monitor.newChild(100));
+		if (null != p_project && p_project.exists()) {
+			File folder = p_project.getLocation().toFile();
+			refreshFolderRecursively(folder);
+			p_project.refreshLocal(IResource.DEPTH_INFINITE, null);
+		}
 	}
 
 	/**
-	 * Sauvegarde automatique de l'ensemble des éditeurs qui sont en état 'dirty'
-	 * (donc à sauvegarder). Pour l'instant pas d'utilité pour une fenêtre de
-	 * confirmation, à voir pus tard si besoin.
+	 * Parcourt récursivement un dossier et ses sous-dossiers pour mettre à jour la
+	 * date de dernière modification de chaque fichier et dossier.
+	 * <p>
+	 * Cette opération est utilisée pour forcer Eclipse à détecter les changements
+	 * lors du rafraîchissement du projet.
+	 *
+	 * @param folder le dossier à parcourir et rafraîchir
 	 */
-	private static void saveAllEditors() {
-		Display.getDefault().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				IWorkbench workbench = PlatformUI.getWorkbench();
-				if (null != workbench) {
-					workbench.saveAllEditors(false);
-					// workbench.restart(Boolean.TRUE);
-				}
+	private static void refreshFolderRecursively(File folder) {
+		if (folder.isDirectory()) {
+			for (File f : folder.listFiles()) {
+				refreshFolderRecursively(f);
 			}
-		});
+		}
+		folder.setLastModified(System.currentTimeMillis());
 	}
 
 	/**
@@ -234,124 +315,6 @@ public class WizardUtil {
 	}
 
 	/**
-	 * Demande le chargement d'un Wizard présent (plugin existant) sur la
-	 * plate-forme. On cherche dans les différentes Registry et si on trouve le
-	 * Wizard, il est alors chargé à partir de son descripteur. On recherche dans
-	 * les différents catégories (new, import, export).
-	 * 
-	 * @param p_id l'identifiant unique du wizard à charger.
-	 * @return le wizard à exécuter.
-	 * @throws CoreException une exception suceptible d'être levée pendant
-	 *                       l'exécution de la méthode.
-	 */
-	private static IWorkbenchWizard loadExternalWizard(final String p_id)
-			throws CoreException, WizardNotFoundException {
-		IWizardDescriptor descriptor = PlatformUI.getWorkbench().getNewWizardRegistry().findWizard(p_id);
-		if (descriptor == null)
-			descriptor = PlatformUI.getWorkbench().getImportWizardRegistry().findWizard(p_id);
-		if (descriptor == null)
-			descriptor = PlatformUI.getWorkbench().getExportWizardRegistry().findWizard(p_id);
-		if (descriptor == null)
-			throw new WizardNotFoundException("Impossible de charger le wizard");
-		return descriptor.createWizard();
-	}
-
-	/**
-	 * Execute un Wizard présent (plugin existant) sur la plate-forme. Ce wizard est
-	 * exécuté dans son propre processus.
-	 * 
-	 * @param p_configurator interface pour le paramétrage éventuel d'un wizard.
-	 * @return le code de retour pour l'exécution du wizard.
-	 */
-	public static int executeExternalWizard(final IParametrizedExternalWizard p_configurator) {
-
-		final int[] result = new int[1];
-		result[0] = c_codeOk;
-		Display.getDefault().syncExec(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					boolean perform = executeExternalWizardInDialogBox(p_configurator);
-					if (!perform)
-						result[0] = c_codeOk;
-				} catch (CoreException e) {
-					result[0] = c_codeKo;
-				} catch (WizardNotFoundException e) {
-					result[0] = c_codeKoExists;
-				}
-			}
-		});
-		return result[0];
-	}
-
-	/**
-	 * Charge un wizard sans l'afficher (en sous-main) et lance sa méthode
-	 * "performFinish". Ainsi le wizard effectue son action sans aucune action
-	 * utilisateur (l'IHM n'est pas affichée mais on pilote le wiezrd de manière
-	 * programmatique).
-	 * <p>
-	 * Ce type de fonctionnement n'est pas optima mais l permet pour l'instant juste
-	 * d'effectuer le travail demandé en attendant de trouver une solution plus
-	 * élégante et pérenne.
-	 * 
-	 * @param p_configurator interface pour le paramétrage éventuel du wizard.
-	 * @return le code de retour pour l'exécution du wizard.
-	 */
-	private static boolean executeExternalWizardInDialogBox(final IParametrizedExternalWizard p_configurator)
-			throws CoreException, WizardNotFoundException {
-		boolean perform = false;
-		try {
-			final IWorkbenchWizard wizard = loadExternalWizard(p_configurator.getWizardId());
-			if (wizard != null) {
-				p_configurator.initExternalWizard(wizard);
-				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-				WizardDialog wd = new WizardDialog(shell, wizard);
-				wd.create();
-				perform = wd.getCurrentPage().getWizard().performFinish();
-				wd = null;
-			}
-		} catch (WizardNotFoundException e) {
-			throw e; // Pour l'instant.
-		} catch (Exception e) {
-			throw new CoreException(sendErrorStatus(e, p_configurator.getWizardId()));
-		}
-		return perform;
-	}
-
-	/**
-	 * Ouvre un wizard disponible (plugin existant) sur la plate-forme et l'affiche
-	 * pour l'utilisateur.
-	 * 
-	 * @param p_id    l'identifiant du wizard.
-	 * @param p_title le titre à afficher pour la fenêtre.
-	 * @throws CoreException une exception suceptible d'être levée pendant
-	 *                       l'exécution de la méthode.
-	 */
-	public static int openExternalWizard(final String p_id, final String p_title) throws CoreException {
-		final int[] result = new int[1];
-		result[0] = c_codeOk;
-		try {
-			final IWorkbenchWizard wizard = loadExternalWizard(p_id);
-			Display.getDefault().syncExec(new Runnable() {
-				@Override
-				public void run() {
-
-					if (wizard != null) {
-						Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-						WizardDialog wd = new WizardDialog(shell, wizard);
-						wd.create();
-						wd.setTitle(p_title);
-						wd.open();
-					}
-				}
-			});
-		} catch (WizardNotFoundException e) {
-			result[0] = c_codeKoExists;
-		}
-		return result[0];
-	}
-
-	/**
 	 * Affiche un message dans une boite de dialogue.
 	 * 
 	 * @param p_title   le titre de la boite de dialogue.
@@ -364,18 +327,6 @@ public class WizardUtil {
 						p_message);
 			}
 		});
-	}
-
-	/**
-	 * Interface pour le parametrage éventuel d'un wizard que l'on désire activer
-	 * sans passer par l' interface utilisateur.
-	 * 
-	 * @author MINARM.
-	 */
-	public interface IParametrizedExternalWizard {
-		public abstract String getWizardId();
-
-		public abstract void initExternalWizard(IWizard p_wizard) throws Exception;
 	}
 
 	/**
