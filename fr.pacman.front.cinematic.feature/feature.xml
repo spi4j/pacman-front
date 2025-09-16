@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="fr.pacman.front.cinematic.feature"
+      label="PacMan - Cinematic API"
+      version="5.0.0.qualifier"
+      provider-name="Cali"
+      plugin="fr.pacman.front.branding">
+
+   <requires>
+      <import plugin="org.obeonetwork.dsl.cinematic"/>
+      <import plugin="org.obeonetwork.dsl.overview"/>
+   </requires>
+
+   <plugin
+         id="fr.pacman.front.cinematic"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

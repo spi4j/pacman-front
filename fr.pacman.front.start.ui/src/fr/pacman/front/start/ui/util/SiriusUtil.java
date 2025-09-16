@@ -68,7 +68,8 @@ public class SiriusUtil {
 	// ISD consolidated view
 	static {
 		_openedRepresentations = new ArrayList<String>();
-		_openedRepresentations.add("Cinematic Namespaces Hierarchy");
+		_openedRepresentations.add("UI Structure");
+		_openedRepresentations.add("Package Diagram");
 		_models = new HashMap<String, SiriusModelDescriptor>();
 		_models.put("cinematic",
 				new SiriusModelDescriptor(".cinematic", Arrays.asList("UI Structure", "Package Diagram"),

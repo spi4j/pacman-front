@@ -13,6 +13,7 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.ui,
  fr.pacman.front.core,
  fr.pacman.front.core.ui,
+ fr.pacman.front.cinematic,
  fr.pacman.front.cinematic.react,
  org.eclipse.acceleo.aql,
  org.eclipse.acceleo.query

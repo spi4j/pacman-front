@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <!-- Déclaration du toolkit fourni -->
+   <extension point="org.obeonetwork.dsl.cinematic.providedToolkit">
+      <!-- nom logique du toolkit utilisé dans les modèles -->
+      <toolkit uri="pathmap://cinematic/toolkits/pacman-react-spa-dsfr"/>
+   </extension>
+
+   <!-- Mapping EMF URI pour résoudre le toolkit vers le fichier réel -->
+   <extension point="org.eclipse.emf.ecore.uri_mapping">
+      <mapping
+            source="pathmap://cinematic/toolkits/pacman-react-spa-dsfr"
+            target="platform:/plugin/fr.pacman.front.cinematic/toolkits/pacman-react-spa-dsfr.cinematic_toolkits"/>
+   </extension>
+</plugin>

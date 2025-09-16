@@ -1,6 +1,6 @@
 [module genServer( 'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
 
-[comment 	écriture des classes et fichiers cinematique pour le framework react./]
+[comment 	écriture des classes et fichiers cinematique./]
 			
 [template public genServer(m : soa::System)]
  
