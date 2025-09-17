@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.tm.terminal.view.core.interfaces.constants.ITerminalsConnectorConstants;
 import org.eclipse.tm.terminal.view.ui.interfaces.ILauncherDelegate;
 import org.eclipse.tm.terminal.view.ui.launcher.LauncherDelegateManager;
 import org.eclipse.ui.IViewPart;
@@ -116,7 +117,7 @@ public class WizardUtil {
 	 *
 	 * @throws CoreException si une erreur critique empêche la restauration des vues
 	 */
-	public static void restaureAllView() throws CoreException {
+	public static void restaureAllView(final IProject p_project) throws CoreException {
 		// Restaure le comportement standard pour les vues.
 		Display.getDefault().syncExec(() -> {
 			IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -127,7 +128,7 @@ public class WizardUtil {
 					IViewPart view = null;
 					try {
 						view = page.showView(c_view_tm_terminal);
-						tryToOpenLocalTerminal(view);
+						tryToOpenLocalTerminal(view, p_project);
 
 						view = page.showView(c_view_console);
 						view = page.showView(c_view_validation);
@@ -136,7 +137,7 @@ public class WizardUtil {
 						view = page.showView(c_view_properties);
 						view = page.showView(c_view_junit);
 						view = page.showView(c_view_html);
-					
+
 						page.hideView(view); // Sinon de rafraichit pas.
 						view = page.showView(c_view_html);
 
@@ -152,35 +153,26 @@ public class WizardUtil {
 		});
 	}
 
-	@SuppressWarnings("unused")
-	public static void openTerminalExternal(final IProject project) throws IOException {
-		if (project == null)
-			return;
-
-		String projectPath = project.getLocation().toOSString();
-		String os = System.getProperty("os.name").toLowerCase();
-		Process process;
-		if (os.contains("win")) {
-			process = new ProcessBuilder("cmd.exe", "/c", "start").directory(new File(projectPath)).start();
-		} else {
-			String[] terminals = { "/usr/bin/x-terminal-emulator", "/usr/bin/gnome-terminal", "/usr/bin/xterm",
-					"/bin/bash" };
-			boolean launched = false;
-			for (String term : terminals) {
-				File file = new File(term);
-				if (file.exists() && file.canExecute()) {
-					process = new ProcessBuilder(term).directory(new File(projectPath)).start();
-					launched = true;
-					break;
-				}
-			}
-			if (!launched) {
-				System.err.println("Aucun terminal graphique trouvé sur votre système !");
-			}
-		}
-	}
-
-	public static void tryToOpenLocalTerminal(final IViewPart p_view) {
+	/**
+	 * Ouvre un terminal local dans Eclipse dans le contexte d'un projet donné.
+	 * <p>
+	 * Cette méthode utilise l'API TM Terminal pour lancer automatiquement une
+	 * session de terminal (cmd.exe sur Windows, /bin/bash sur Linux/macOS) dans la
+	 * racine du projet passé en paramètre. L'exécution est asynchrone sur le thread
+	 * UI d'Eclipse.
+	 * </p>
+	 *
+	 * <p>
+	 * Note : cette méthode doit être appelée sur le thread UI via
+	 * {@link Display#asyncExec(Runnable)}.
+	 * </p>
+	 *
+	 * @param p_view    La vue Eclipse à partir de laquelle ouvrir le terminal. Si
+	 *                  nul, la méthode retourne sans action.
+	 * @param p_project Le projet Eclipse dont la racine sera utilisée comme
+	 *                  répertoire de travail du terminal.
+	 */
+	public static void tryToOpenLocalTerminal(final IViewPart p_view, IProject p_project) {
 		Display.getDefault().asyncExec(() -> {
 			if (p_view == null)
 				return;
@@ -192,20 +184,22 @@ public class WizardUtil {
 				System.err.println("Launcher local introuvable !");
 				return;
 			}
+
 			Map<String, Object> props = new HashMap<>();
+			props.put(ITerminalsConnectorConstants.PROP_DELEGATE_ID,
+					"org.eclipse.tm.terminal.connector.local.launcher.local");
+			props.put(ITerminalsConnectorConstants.PROP_TITLE, "Terminal Local");
+			props.put(ITerminalsConnectorConstants.PROP_FORCE_NEW, Boolean.TRUE);
 
-			// les clés en dur que TM Terminal attend
-			props.put("org.eclipse.tm.terminal.connector.id", "org.eclipse.tm.terminal.connector.local");
-			props.put("org.eclipse.tm.terminal.view.title", "Terminal Local");
-			props.put("org.eclipse.tm.terminal.connector.forceNew", Boolean.TRUE);
-
-			// préciser le shell à lancer
 			if (System.getProperty("os.name").toLowerCase().contains("win")) {
-				props.put("org.eclipse.tm.terminal.connector.local.launcher.command", "cmd.exe");
+				props.put(ITerminalsConnectorConstants.PROP_PROCESS_PATH, "cmd.exe");
+				props.put(ITerminalsConnectorConstants.PROP_PROCESS_ARGS, "/k");
 			} else {
-				props.put("org.eclipse.tm.terminal.connector.local.launcher.command", "/bin/bash");
+				props.put(ITerminalsConnectorConstants.PROP_PROCESS_PATH, "/bin/bash");
+				props.put(ITerminalsConnectorConstants.PROP_PROCESS_ARGS, "-l");
 			}
-
+			String workingDir = p_project.getLocation().toOSString();
+			props.put(ITerminalsConnectorConstants.PROP_PROCESS_WORKING_DIR, workingDir);
 			delegate.execute(props, null);
 		});
 	}

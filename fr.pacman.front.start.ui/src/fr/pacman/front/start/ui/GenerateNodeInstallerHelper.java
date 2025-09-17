@@ -1,212 +1,250 @@
 package fr.pacman.front.start.ui;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 
-import fr.pacman.front.core.ui.service.PlugInUtils;
-
+/**
+ * Helper pour vérifier l'installation de Node.js et npm, et installer les
+ * dépendances nécessaires pour un projet React dans Eclipse.
+ * <p>
+ * Cette classe permet :
+ * <ul>
+ * <li>De vérifier que Node.js et npm sont disponibles sur la machine.</li>
+ * <li>D'installer les dépendances npm essentielles pour un projet React (ex :
+ * react-router-dom et ses types).</li>
+ * <li>D'exclure le dossier <code>node_modules</code> de l'indexation Eclipse
+ * pour améliorer les performances.</li>
+ * </ul>
+ * </p>
+ * <p>
+ * Cette classe est utilisée par le wizard de création de projet React/Vite afin
+ * de préparer l'environnement Node/npm nécessaire au projet.
+ * 
+ * @author MINARM
+ */
 public class GenerateNodeInstallerHelper {
 
-    private static final String NODE_DOWNLOAD_URL = "https://nodejs.org/dist/v20.17.0/node-v20.17.0-x64.msi";
+	/**
+	 * Chemin vers l'exécutable Node.js
+	 */
+	private final String nodeExec;
 
-    private final String nodeExec;
-    private final String npmExec;
+	/**
+	 * Chemin vers l'exécutable npm
+	 */
+	private final String npmExec;
 
-    private GenerateNodeInstallerHelper(String nodeExec, String npmExec) {
-        this.nodeExec = nodeExec;
-        this.npmExec = npmExec;
-    }
+	/**
+	 * Constructeur privé. Utilisé en interne pour créer une instance avec les
+	 * chemins Node/npm détectés.
+	 * 
+	 * @param nodeExec chemin vers Node.js
+	 * @param npmExec  chemin vers npm
+	 */
+	private GenerateNodeInstallerHelper(String nodeExec, String npmExec) {
+		this.nodeExec = nodeExec;
+		this.npmExec = npmExec;
+	}
 
-    /**
-     * Vérifie Node/npm et installe React Router automatiquement.
-     */
-    public static IStatus ensureToolsReady(Path projectDir, SubMonitor monitor) {
-        String nodeExec = findNodeExecutable();
-        String npmExec = findNpmExecutable();
+	/**
+	 * Vérifie que Node.js et npm sont installés, puis installe les dépendances npm
+	 * du projet.
+	 * 
+	 * @param project    le projet Eclipse concerné
+	 * @param projectDir le répertoire du projet sur le système de fichiers
+	 * @param monitor    sous-moniteur Eclipse pour suivre la progression
+	 * @return {@link IStatus#OK_STATUS} si tout s'est bien passé, ou un
+	 *         {@link IStatus} d'erreur sinon
+	 */
+	public static IStatus ensureToolsReady(IProject project, Path projectDir, SubMonitor monitor) {
+		String nodeExec = findNodeExecutable();
+		String npmExec = findNpmExecutable();
 
-        GenerateNodeInstallerHelper helper = new GenerateNodeInstallerHelper(nodeExec, npmExec);
+		GenerateNodeInstallerHelper helper = new GenerateNodeInstallerHelper(nodeExec, npmExec);
+		IStatus status = helper.ensureNodeAndNpmInstalled();
+		if (!status.isOK())
+			return status;
 
-        // Vérifie Node et npm
-        IStatus status = helper.ensureNodeAndNpmInstalled();
-        if (!status.isOK()) {
-            return status;
-        }
+		status = installDependencies(project, projectDir, monitor);
+		if (!status.isOK())
+			return status;
 
-        // Installe React Router
-        status = installReactRouter(projectDir, monitor);
-        if (!status.isOK()) {
-            return status;
-        }
+		return Status.OK_STATUS;
+	}
 
-        return Status.OK_STATUS;
-    }
+	/**
+	 * Vérifie que Node.js et npm sont installés sur la machine.
+	 * 
+	 * @return {@link Status#OK_STATUS} si Node.js et npm sont trouvés, sinon
+	 *         {@link IStatus} d'erreur
+	 */
+	private IStatus ensureNodeAndNpmInstalled() {
+		if (!checkCommand(nodeExec, "--version")) {
+			return new Status(IStatus.ERROR, "mon.plugin", "Node.js non trouvé. Installation manuelle requise.");
+		}
+		if (!checkCommand(npmExec, "--version")) {
+			return new Status(IStatus.ERROR, "mon.plugin", "npm non trouvé. Installation manuelle requise.");
+		}
+		return Status.OK_STATUS;
+	}
 
-    // ---------- Détection Node/npm ----------
+	/**
+	 * Vérifie qu'une commande peut être exécutée correctement.
+	 * 
+	 * @param exec le binaire à exécuter (node ou npm)
+	 * @param arg  l'argument à passer (ex : "--version")
+	 * @return true si la commande retourne 0, false sinon
+	 */
+	private boolean checkCommand(String exec, String arg) {
+		try {
+			Process process = new ProcessBuilder(exec, arg).start();
+			return process.waitFor() == 0;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
-    public static String findNpmExecutable() {
-        try {
-            String os = System.getProperty("os.name").toLowerCase();
-            Process process = os.contains("win")
-                    ? new ProcessBuilder("where", "npm.cmd").start()
-                    : new ProcessBuilder("which", "npm").start();
+	/**
+	 * Installe les dépendances npm essentielles pour un projet React.
+	 * 
+	 * @param project    le projet Eclipse concerné
+	 * @param projectDir le chemin du projet
+	 * @param monitor    sous-moniteur Eclipse pour suivre la progression
+	 * @return {@link IStatus#OK_STATUS} si l'installation réussit, sinon un
+	 *         {@link IStatus} d'erreur
+	 */
+	private static IStatus installDependencies(IProject project, Path projectDir, SubMonitor monitor) {
+		try {
+			monitor.setTaskName("Installation des dépendances npm... (peux prendre plusieurs minutes "
+					+ " en fonction du cache et de la connexion Internet.)");
 
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                String path = reader.readLine();
-                if (path != null && !path.isBlank()) {
-                    return path.trim();
-                }
-            }
-        } catch (Exception ignored) {}
-        return System.getProperty("os.name").toLowerCase().contains("win") ? "npm.cmd" : "npm";
-    }
+			runProcess(projectDir, npmExec(), "install", "react-router-dom", "--save-dev", "@types/react-router-dom");
+			excludeNodeModules(project);
 
-    private static String findNodeExecutable() {
-        try {
-            String os = System.getProperty("os.name").toLowerCase();
-            Process process = os.contains("win")
-                    ? new ProcessBuilder("where", "node.exe").start()
-                    : new ProcessBuilder("which", "node").start();
+			return Status.OK_STATUS;
+		} catch (Exception e) {
+			return new Status(IStatus.ERROR, "mon.plugin", "Échec de l'installation des dépendances npm", e);
+		}
+	}
 
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                String path = reader.readLine();
-                if (path != null && !path.isBlank()) {
-                    return path.trim();
-                }
-            }
-        } catch (Exception ignored) {}
-        return System.getProperty("os.name").toLowerCase().contains("win") ? "node.exe" : "node";
-    }
+	/**
+	 * Exécute un processus système dans le répertoire spécifié et enregistre sa
+	 * sortie dans un fichier de log.
+	 * <p>
+	 * Cette méthode :
+	 * <ul>
+	 * <li>Lance le processus avec les arguments fournis.</li>
+	 * <li>Lit les flux de sortie standard et d'erreur du processus.</li>
+	 * <li>Concatène toutes les lignes de sortie dans un {@link StringBuilder}.</li>
+	 * <li>Appelle la méthode {@link #writeLog(Path, String)} pour enregistrer la
+	 * sortie dans un fichier au niveau du projet.</li>
+	 * <li>Attend la fin du processus et lance une exception si le code de sortie
+	 * est non nul.</li>
+	 * </ul>
+	 * </p>
+	 *
+	 * @param projectDir le chemin du projet Eclipse où le processus est exécuté et
+	 *                   où le log sera écrit
+	 * @param command    les arguments du processus à exécuter (par exemple "npm",
+	 *                   "install")
+	 * @throws IOException          si une erreur d'entrée/sortie survient lors du
+	 *                              lancement du processus ou de la lecture de ses
+	 *                              flux
+	 * @throws InterruptedException si le thread est interrompu pendant l'attente de
+	 *                              la fin du processus
+	 * @throws RuntimeException     si le processus retourne un code de sortie
+	 *                              différent de 0
+	 */
+	private static void runProcess(Path projectDir, String... command) throws IOException, InterruptedException {
+		ProcessBuilder pb = new ProcessBuilder(command);
+		pb.directory(projectDir.toFile());
+		Process process = pb.start();
+		StringBuilder logBuilder = new StringBuilder();
+		try (BufferedReader outReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+				BufferedReader errReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+			String line;
+			while ((line = outReader.readLine()) != null) {
+				logBuilder.append(line).append(System.lineSeparator());
+			}
+			while ((line = errReader.readLine()) != null) {
+				logBuilder.append(line).append(System.lineSeparator());
+			}
+		}
+		int exit = process.waitFor();
+		writeLog(projectDir, logBuilder.toString());
+		if (exit != 0) {
+			throw new RuntimeException("Le processus est en erreur avec le code de retour :  " + exit);
+		}
+	}
 
-    // ---------- Vérification ----------
+	/**
+	 * Écrit un message dans un fichier .log situé à la racine du projet. Si le
+	 * fichier n'existe pas, il est créé.
+	 * 
+	 * @param projectDir le répertoire racine du projet
+	 * @param logMessage le message à écrire
+	 */
+	public static void writeLog(Path projectDir, String logMessage) {
+		try {
+			Path logFile = projectDir.resolve("npm-install.log");
+			Files.writeString(logFile, logMessage + System.lineSeparator(), StandardOpenOption.CREATE,
+					StandardOpenOption.APPEND);
+		} catch (IOException e) {
+			e.printStackTrace(); // tu peux aussi logger dans Eclipse
+		}
+	}
 
-    private IStatus ensureNodeAndNpmInstalled() {
-        IStatus status = checkToolInstalled(nodeExec, "Node.js",
-                "Installez Node.js depuis https://nodejs.org/en/download/");
-        if (!status.isOK()) {
-            status = installNodeJs();
-            if (!status.isOK()) return status;
+	/**
+	 * Exclut le dossier <code>node_modules</code> de l'indexation Eclipse.
+	 * 
+	 * @param project le projet Eclipse
+	 * @throws Exception si une erreur survient lors de la modification de la nature
+	 *                   du dossier
+	 */
+	@SuppressWarnings("deprecation")
+	private static void excludeNodeModules(IProject project) throws Exception {
+		IFolder folder = project.getFolder("node_modules");
+		if (folder.exists()) {
+			folder.setDerived(true); // marque comme derived pour Eclipse (exclu de l'indexation)
+		}
+	}
 
-            // Vérifier après installation
-            status = checkToolInstalled(nodeExec, "Node.js",
-                    "Node.js semble toujours absent, installation manuelle requise.");
-            if (!status.isOK()) return status;
-        }
+	/**
+	 * Retourne le binaire npm en fonction du système d'exploitation.
+	 * 
+	 * @return "npm.cmd" sous Windows, "npm" sinon
+	 */
+	private static String findNpmExecutable() {
+		String os = System.getProperty("os.name").toLowerCase();
+		return os.contains("win") ? "npm.cmd" : "npm";
+	}
 
-        status = checkToolInstalled(npmExec, "npm",
-                "Installez Node.js (npm est fourni avec) depuis https://nodejs.org/en/download/");
-        return status;
-    }
+	/**
+	 * Retourne le binaire Node.js en fonction du système d'exploitation.
+	 * 
+	 * @return "node.exe" sous Windows, "node" sinon
+	 */
+	private static String findNodeExecutable() {
+		String os = System.getProperty("os.name").toLowerCase();
+		return os.contains("win") ? "node.exe" : "node";
+	}
 
-    private IStatus checkToolInstalled(String exec, String toolName, String installMessage) {
-        if (!checkCommand(exec, "--version")) {
-            PlugInUtils.displayInformation(toolName + " non installé", installMessage);
-            return Status.CANCEL_STATUS;
-        }
-        return Status.OK_STATUS;
-    }
-
-    private boolean checkCommand(String exec, String arg) {
-        try {
-            ProcessBuilder pb = new ProcessBuilder(exec, arg);
-            Process process = pb.start();
-            int exitCode = process.waitFor();
-            return exitCode == 0;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    // ---------- Installation Node.js (Windows uniquement) ----------
-
-    private IStatus installNodeJs() {
-        String os = System.getProperty("os.name").toLowerCase();
-        if (!os.contains("win")) {
-            PlugInUtils.displayInformation("Installation manuelle requise",
-                    "L'installation automatique n'est supportée que sous Windows. Téléchargez Node.js depuis https://nodejs.org/en/download/");
-            return Status.CANCEL_STATUS;
-        }
-
-        try {
-            URL url = new URL(NODE_DOWNLOAD_URL);
-            Path tempFile = Files.createTempFile("node-installer", ".msi");
-            try (InputStream in = url.openStream()) {
-                Files.copy(in, tempFile, StandardCopyOption.REPLACE_EXISTING);
-            }
-
-            ProcessBuilder pb = new ProcessBuilder("msiexec", "/i", tempFile.toString(), "/qn");
-            pb.inheritIO();
-            Process process = pb.start();
-            int exitCode = process.waitFor();
-
-            if (exitCode == 0) {
-                PlugInUtils.displayInformation("Installation réussie", "Node.js a été installé avec succès.");
-                return Status.OK_STATUS;
-            } else {
-                return new Status(IStatus.ERROR, "mon.plugin",
-                        "Échec de l'installation de Node.js (code " + exitCode + ")");
-            }
-        } catch (Exception e) {
-            return new Status(IStatus.ERROR, "mon.plugin", "Erreur lors de l'installation de Node.js", e);
-        }
-    }
-
-    // ---------- Installation React Router ----------
-
-    public static IStatus installReactRouter(Path projectDir, SubMonitor monitor) {
-        try {
-            monitor.setTaskName("Installation de react-router-dom...");
-            runProcess(projectDir, monitor, findNpmExecutable(), "install", "react-router-dom");
-
-            monitor.setTaskName("Installation des types @types/react-router-dom...");
-            runProcess(projectDir, monitor, findNpmExecutable(), "install", "--save-dev", "@types/react-router-dom");
-
-            return Status.OK_STATUS;
-
-        } catch (Exception e) {
-            return new Status(IStatus.ERROR, "mon.plugin", "Échec de l'installation de React Router", e);
-        }
-    }
-
-    // ---------- Méthode utilitaire pour exécuter un processus ----------
-
-    private static void runProcess(Path projectDir, SubMonitor monitor, String... command) throws Exception {
-        ProcessBuilder pb = new ProcessBuilder(command);
-        pb.directory(projectDir.toFile());
-        Process process = pb.start();
-
-        Thread tOut = createThread(process.getInputStream(), monitor);
-        Thread tErr = createThread(process.getErrorStream(), monitor);
-
-        tOut.start();
-        tErr.start();
-
-        int exit = process.waitFor();
-        tOut.join();
-        tErr.join();
-
-        if (exit != 0) {
-            throw new RuntimeException("Process failed with code " + exit);
-        }
-    }
-
-    private static Thread createThread(InputStream stream, SubMonitor monitor) {
-        return new Thread(() -> {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    monitor.subTask(line);
-                    monitor.worked(1);
-                }
-            } catch (Exception ignored) {}
-        });
-    }
+	/**
+	 * Alias pour récupérer le binaire npm.
+	 * 
+	 * @return chemin vers l'exécutable npm
+	 */
+	private static String npmExec() {
+		return findNpmExecutable();
+	}
 }

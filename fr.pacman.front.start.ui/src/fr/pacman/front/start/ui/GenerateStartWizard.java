@@ -107,21 +107,17 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 					subMonitor.setTaskName("Réinitialisation des vues");
 					WizardUtil.initViews(subMonitor);
 
-					subMonitor.setTaskName("Création du projet de modélisation");
-					project = createProjectModel(subMonitor);
-
 					subMonitor.setTaskName("Création du projet React/Vite");
 					project = createProjectReact(subMonitor);
 
 					subMonitor.setTaskName("Vérification et installation NodeJs");
 					installNodeJs(subMonitor, project);
-
+					
 					subMonitor.setTaskName("Affichage des différentes vues");
-					WizardUtil.restaureAllView();
-
-					// subMonitor.setTaskName("Ouverture d'un terminal externe pour seconder tm
-					// terminal");
-					// WizardUtil.openTerminalExternal(project);
+					WizardUtil.restaureAllView(project);
+					
+					subMonitor.setTaskName("Création du projet de modélisation");
+					project = createProjectModel(subMonitor);
 
 				} catch (IllegalStateException e) {
 
@@ -218,7 +214,7 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 	 *                          échoue
 	 */
 	private void installNodeJs(final SubMonitor p_monitor, IProject p_project) throws CoreException {
-		IStatus status = GenerateNodeInstallerHelper.ensureToolsReady(p_project.getLocation().toFile().toPath(),
+		IStatus status = GenerateNodeInstallerHelper.ensureToolsReady(p_project, p_project.getLocation().toFile().toPath(),
 				p_monitor.split(20));
 		if (!status.isOK())
 			throw new RuntimeException("");
