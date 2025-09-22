@@ -18,7 +18,8 @@ import fr.pacman.front.core.generator.PacmanGenerator;
 import fr.pacman.front.core.property.project.ProjectProperties;
 
 /**
- * Générateur pour la couche de cinématique. Génération de l'ensemble des pages.
+ * Générateur pour la couche de cinématique react. Génération de l'ensemble des
+ * pages.
  * <p>
  * Se reporter à la classe {@link PacmanGenerator} pour l'explication des
  * différentes méthodes.
@@ -34,7 +35,7 @@ public class GenServer extends PacmanGenerator {
 
 	@Override
 	public String getModuleQualifiedName() {
-		return "fr::pacman::front::cinematic::react::aql::genServerSpring";
+		return "fr::pacman::front::cinematic::react::aql::genServer";
 	}
 
 	@Override

@@ -1,2 +1,23 @@
-[module genServer(	'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
+[module genServer(	'http://www.obeonetwork.org/dsl/environment/3.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0',
+					'http://www.obeonetwork.org/dsl/cinematic/3.0.0')/]
 
+[import fr::pacman::front::core::aql::base/]
+[import fr::pacman::front::core::aql::name::name/]
+[import fr::pacman::front::core::aql::name::directories/]
+[import fr::pacman::front::core::aql::output::resources/]
+[import fr::pacman::front::cinematic::react::aql::block::page/]
+
+[comment écriture du fichier d'implémentation pour une page react (view)./]
+[template public filePageJsxImpl(v : view::ViewContainer)]
+  [file (v.namePageJsx().toFileTypeScriptJsx(v.nameDirectoryPages()), overwrite, v.defaultFileEncoding())]
+    [v.pageJsxImpl()/]
+  [/file]
+[/template]
+
+[comment écriture du fichier central pour le pilotage des pages en react (views)./]
+[template public filePageAppTsxImpl(r : cinematic::CinematicRoot)]
+  [file (r.namePageAppTsx().toFileTypeScriptJsx(r.nameDirectorySources()), overwrite, r.defaultFileEncoding())]
+    [r.pageAppTsxImpl()/]
+  [/file]
+[/template]

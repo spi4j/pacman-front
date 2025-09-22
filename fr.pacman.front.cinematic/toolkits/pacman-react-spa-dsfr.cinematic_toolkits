@@ -435,4 +435,11 @@
     <possibleEvents xmi:id="_WenmMJMWEfCWNsj-B1W6Gw" technicalid="_WKtLsJMWEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_Y87bsJMWEfCWNsj-B1W6Gw" technicalid="_YnySIJMWEfCWNsj-B1W6Gw" name="onMouseLeave"/>
   </widgets>
+  <widgets xmi:id="_39BaoJd_EfCJ2dZMtpi9sQ" technicalid="_3u6GIJd_EfCJ2dZMtpi9sQ" name="MainPanel" icon="/fr.pacman.front.cinematic/icons/Panel.png" isContainer="true" documentation="Documentation&#x9;Elément de navigation.">
+    <possibleEvents xmi:id="_KVAekJeAEfCJ2dZMtpi9sQ" technicalid="_JvevoJeAEfCJ2dZMtpi9sQ" name="onLoad"/>
+    <possibleEvents xmi:id="_K3VvkJeAEfCJ2dZMtpi9sQ" technicalid="_KkGqgJeAEfCJ2dZMtpi9sQ" name="onFocus"/>
+    <possibleEvents xmi:id="_LSk6EJeAEfCJ2dZMtpi9sQ" technicalid="_LCLtoJeAEfCJ2dZMtpi9sQ" name="onBlur"/>
+    <possibleEvents xmi:id="_L0_qoJeAEfCJ2dZMtpi9sQ" technicalid="_LjdOsJeAEfCJ2dZMtpi9sQ" name="onMouseEnter"/>
+    <possibleEvents xmi:id="_Mk0lEJeAEfCJ2dZMtpi9sQ" technicalid="_MLT44JeAEfCJ2dZMtpi9sQ" name="onMouseLeave"/>
+  </widgets>
 </cinematic-toolkits:Toolkit>

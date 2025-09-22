@@ -23,8 +23,8 @@ import fr.pacman.front.core.property.project.ProjectProperties;
  * Générateur pour la couche de configuration.
  * 
  * Ce générateur est aussi susceptible d'être lancé directement par le plugin
- * fr.pacman.front.start, dans ce cas, il n'existe aucune ressource prééxistante pour
- * la modélisation. C'est pourquoi ce générateur hérite de la classe
+ * fr.pacman.front.start, dans ce cas, il n'existe aucune ressource prééxistante
+ * pour la modélisation. C'est pourquoi ce générateur hérite de la classe
  * {@link PacmanGeneratorStart} et non uniquement, comme la plupart des autres
  * générateurs, de la classe {@link PacmanGenerator}.
  * 
@@ -42,14 +42,7 @@ public class GenModel extends PacmanGeneratorStart {
 
 	@Override
 	public String getModuleQualifiedName() {
-
-		if (ProjectProperties.isServerType())
-			return "fr::pacman::config::aql::genModel";
-
-		if (ProjectProperties.isClientType())
-			return "fr::pacman::config::aql::client::genModel";
-
-		throw new RuntimeException("Impossible de récupérer le type de projet pour la génération.");
+		return "";
 	}
 
 	@Override

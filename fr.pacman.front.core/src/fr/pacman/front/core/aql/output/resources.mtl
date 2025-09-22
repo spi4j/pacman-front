@@ -2,25 +2,21 @@
 
 [import fr::pacman::front::core::aql::base/]
 [import fr::pacman::front::core::aql::string/]
-[import fr::pacman::front::core::aql::name::packages/]
+[import fr::pacman::front::core::aql::name::directories/]
 [import fr::pacman::front::core::service::StringUtils/]
 
 [comment ajoute un slash à la fin de la chaine./]
 [query private ensureTrailingSlash(path : String) : String = if path = null then '/' else if path.endsWith('/') then path else path + '/' endif endif/]
   
 [comment normalisation d'un chemin de ressource à partir d'une chaine de caractères./]  
-[query private toPath(pkg : String) : String = if(pkg <> null and pkg.trim()->size() > 0) then  pkg.replaceAll('\\.', '/').normalizePath()
+[query private toPath(pkg : String) : String = if(pkg <> null and pkg.trim()->size() > 0) then  pkg.replaceAll('\\\\', '/').normalizePath()
   .ensureTrailingSlash() else '' endif/]
-
-[comment normalisation d'un package à partir d'une chaine de caractères./]
-[query public toPackage(pkg : String) : String = pkg.replaceAll('[\\.\\s\\t]+','\\.').toLower()/]
 
 [comment normalisation d'un chemin de ressource à partir d'une chaine de caractères./]  
 [query private normalizePath(path : String) : String = path.replaceAll('/+', '/').trim()/]
 
-[comment écriture d'un fichier de type 'classe Java'./]
-[comment query public toFileJScript(fName : String, pkName : String) : String = fName.toFile(fName.dirSources() + (fName.namePackageProject() 
-	+ if(pkName.exists()) then '.' + pkName else '' endif).toPackage(), fName.extensionJava())/]
+[comment écriture d'un fichier de type 'ts + jsx'./]
+[query public toFileTypeScriptJsx(fName : String, dName : String) : String = fName.toFile(dName, fName.extensionTypeScriptJsx())/]
 	
 [comment fName le nom du fichier, path le chemin complet (à formatter correctement), fExt l'extension du fichier./]   
 [query public toFile(fName : String, path : String, fExt : String) : String = path.toPath().toLower() + fName + fExt/]

@@ -23,8 +23,8 @@ import fr.pacman.front.core.property.project.ProjectProperties;
  * Générateur pour la couche de configuration.
  * 
  * Ce générateur est aussi susceptible d'être lancé directement par le plugin
- * fr.pacman.front.start, dans ce cas, il n'existe aucune ressource prééxistante pour
- * la modélisation. C'est pourquoi ce générateur hérite de la classe
+ * fr.pacman.front.start, dans ce cas, il n'existe aucune ressource prééxistante
+ * pour la modélisation. C'est pourquoi ce générateur hérite de la classe
  * {@link PacmanGeneratorStart} et non uniquement, comme la plupart des autres
  * générateurs, de la classe {@link PacmanGenerator}.
  * 
@@ -42,20 +42,7 @@ public class GenRoot extends PacmanGeneratorStart {
 
 	@Override
 	public String getModuleQualifiedName() {
-		
-		if (ProjectProperties.isServerType()) {
-			if (ProjectProperties.isSpring())
-				return "fr::pacman::config::aql::genRootSpring";
-			return "fr::pacman::config::aql::genRootSpi4j";
-		}
-		
-		if (ProjectProperties.isClientType()) {
-			if (ProjectProperties.isSpring())
-				return "fr::pacman::config::aql::client::genRootSpring";
-			return "fr::pacman::config::aql::client::genRootSpi4j";
-		}
-		
-		throw new RuntimeException("Impossible de récupérer le type de projet pour la génération.");
+		return "";
 	}
 
 	@Override

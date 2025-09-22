@@ -37,7 +37,6 @@ public class GenerateModelProjectCreator {
 		description.setNatureIds(newNatures);
 		p_project.setDescription(description, null);
 		SiriusUtil.addModelingResources(monitor, p_project, p_project.getName(), models);
-		p_project.refreshLocal(IProject.DEPTH_INFINITE, p_monitor);
 		monitor.done();
 	}
 }

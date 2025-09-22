@@ -1,1 +1,13 @@
-[module name(	'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
+[module name(	'http://www.obeonetwork.org/dsl/environment/3.0.0', 
+				'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0')/]
+				
+[import fr::pacman::front::core::convention::rule::PageNamingRule/]
+
+[comment retourne le nom d'une page typescript + jsx./]
+[query public namePageJsx(v : view::ViewContainer): String = v.name.applyNorme_pageDefault()/]
+  
+[comment retourne le nom de la page App.tsx./]
+[query public namePageAppTsx(any : ecore::EObject): String = 'app'.applyNorme_pageDefault()/]
+  
+[comment retourne le nom de l'url pour la page typescript + jsx./]
+[query public nameUrlPageJsx(v : view::ViewContainer): String = v.label.toLower()/]

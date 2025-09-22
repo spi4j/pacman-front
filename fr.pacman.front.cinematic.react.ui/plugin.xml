@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-    <extension 
-          point="org.eclipse.core.expressions.propertyTesters">
-        <propertyTester
-            id = "fr.pacman.front.tester.server"
-            namespace="fr.pacman.front.react"
-            properties="canShowMenu"
-            type="org.eclipse.core.resources.IResource"
-            class="fr.pacman.front.react.ui.testers.PacmanUIServerPropertyTester"/>
-   </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="fr.pacman.front.react.ui.handlers.reactGeneratorsHandler"
+            class="fr.pacman.front.cinematic.react.ui.handlers.CinematicReactGeneratorsHandler"
             commandId="fr.pacman.front.react.ui.commands.reactGeneratorCommand">
       </handler>
       <handler
-            class="fr.pacman.front.react.ui.handlers.reactValidationGeneratorsHandler"
+            class="fr.pacman.front.cinematic.react.ui.handlers.CinematicReactValidationGeneratorsHandler"
             commandId="fr.pacman.front.react.validation.ui.commands.ValidationGeneratorCommand">
       </handler>
    </extension>
@@ -34,7 +25,7 @@
                   icon="icons/generate.png"
                   commandId="fr.pacman.front.react.ui.commands.reactGeneratorCommand"
                   id="fr.pacman.front.react.ui.commands.reactGeneratorCommand" 
-                  label="Génération du fournisseur pour les services">
+                  label="Génération de la cinématique">
                <visibleWhen
                      checkEnabled="false">
                   <with
@@ -48,11 +39,8 @@
                            </instanceof>
                            <test
                                  property="org.eclipse.core.resources.extension"
-                                 value="soa">
+                                 value="cinematic">
                            </test>
-                           <test 
-                                 forcePluginActivation="true"
-                                 property="fr.pacman.front.react.canShowMenu"/>
                         </and>
                      </iterate>
                   </with>
@@ -62,7 +50,7 @@
                   icon="icons/validate.png"
                   commandId="fr.pacman.front.react.validation.ui.commands.ValidationGeneratorCommand"
                   id="fr.pacman.front.react.validation.ui.commands.ValidationGeneratorCommand" 
-                  label="Validation du fournisseur pour les services">
+                  label="Validation de la cinématique">
                <visibleWhen
                      checkEnabled="false">
                   <with
@@ -76,11 +64,8 @@
                            </instanceof>
                            <test
                                  property="org.eclipse.core.resources.extension"
-                                 value="soa">
+                                 value="cinematic">
                            </test>
-                           <test 
-                                 forcePluginActivation="true"
-                                 property="fr.pacman.front.react.canShowMenu"/>
                         </and>
                      </iterate>
                   </with>
@@ -98,12 +83,12 @@
       <command
             categoryId="fr.pacman.front.react.ui.commands.generatorsCategory"
             id="fr.pacman.front.react.ui.commands.reactGeneratorCommand"
-            name="Génération du fichier de service">
+            name="Génération du fichier de cinématique">
       </command>
       <command
             categoryId="fr.pacman.front.react.ui.commands.generatorsCategory"
             id="fr.pacman.front.react.validation.ui.commands.ValidationGeneratorCommand"
-            name="Validation du fichier de service">
+            name="Validation du fichier de cinématique">
       </command>
    </extension>
 </plugin>

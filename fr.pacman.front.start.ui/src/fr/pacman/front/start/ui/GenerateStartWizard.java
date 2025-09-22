@@ -1,5 +1,9 @@
 package fr.pacman.front.start.ui;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -13,6 +17,8 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
+import fr.pacman.front.core.property.PropertiesHandler;
+import fr.pacman.front.core.property.project.ProjectProperties;
 import fr.pacman.front.core.ui.service.PlugInUtils;
 import fr.pacman.front.start.ui.activator.Activator;
 import fr.pacman.front.start.ui.util.WizardUtil;
@@ -63,6 +69,19 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 	}
 
 	/**
+	 * 
+	 * Retourne les informations du formulaire (pour l'instant unique page du
+	 * Wizard). Cette méthode ne devrait lancer aucune exception.
+	 * 
+	 * @return properties
+	 */
+	private Map<String, String> initProperties() {
+		Map<String, String> properties = new HashMap<String, String>();
+		properties.put(ProjectProperties.c_project_name, _pageOne.getProjectName());
+		return properties;
+	}
+
+	/**
 	 * Exécute les opérations de finalisation du wizard lorsque l'utilisateur clique
 	 * sur "Finish".
 	 * <p>
@@ -94,7 +113,10 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		Job job = new Job("Création du projet Frontend (React + Vite)") {
+
+		final Map<String, String> startProperties = initProperties();
+
+		Job job = new Job("Création du projet Cali Frontend") {
 			@Override
 			public IStatus run(IProgressMonitor p_monitor) {
 				SubMonitor subMonitor = SubMonitor.convert(p_monitor, 100);
@@ -112,12 +134,12 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 
 					subMonitor.setTaskName("Vérification et installation NodeJs");
 					installNodeJs(subMonitor, project);
-					
+
 					subMonitor.setTaskName("Affichage des différentes vues");
 					WizardUtil.restaureAllView(project);
-					
+
 					subMonitor.setTaskName("Création du projet de modélisation");
-					project = createProjectModel(subMonitor);
+					project = createProjectModel(subMonitor, startProperties);
 
 				} catch (IllegalStateException e) {
 
@@ -155,16 +177,23 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 	 * </ol>
 	 * </p>
 	 *
-	 * @param p_monitor le moniteur de progression utilisé pour suivre l’avancement
-	 *                  de la création du projet
+	 * @param p_monitor    le moniteur de progression utilisé pour suivre
+	 *                     l’avancement de la création du projet
+	 * @param p_properties l'ensemble des propriétés définies par le formulaire de
+	 *                     création.
 	 * @return l’objet {@link IProject} représentant le projet modèle créé
 	 * @throws Exception si la création du projet échoue ou si une opération sur
 	 *                   l’espace de travail déclenche une erreur
 	 */
-	private IProject createProjectModel(final SubMonitor p_monitor) throws Exception {
-		final String projectName = _pageOne.getProjectName() + "-model";
+	private IProject createProjectModel(final SubMonitor p_monitor, final Map<String, String> p_properties)
+			throws Exception {
+		final String projectName = _pageOne.getProjectName() + "-" + ProjectProperties.get_suffixModel(null);
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 		GenerateModelProjectCreator.createProject(project, p_monitor);
+		File file = new File((project).getLocation().toString());
+		new File(project.getLocation().toFile(), "pacman-properties").mkdir();
+		PropertiesHandler.init(file.getAbsolutePath(), p_properties);
+		PropertiesHandler.exit();
 		WizardUtil.refreshProject(p_monitor, project);
 		return project;
 	}
@@ -191,7 +220,7 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 	 *                   l’espace de travail déclenche une erreur
 	 */
 	private IProject createProjectReact(final SubMonitor p_monitor) throws Exception {
-		final String projectName = _pageOne.getProjectName() + "-server";
+		final String projectName = _pageOne.getProjectName() + "-" + ProjectProperties.get_suffixServer(null);
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 		GenerateReactProjectCreator.createProject(project, p_monitor);
 		WizardUtil.refreshProject(p_monitor, project);
@@ -214,8 +243,8 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 	 *                          échoue
 	 */
 	private void installNodeJs(final SubMonitor p_monitor, IProject p_project) throws CoreException {
-		IStatus status = GenerateNodeInstallerHelper.ensureToolsReady(p_project, p_project.getLocation().toFile().toPath(),
-				p_monitor.split(20));
+		IStatus status = GenerateNodeInstallerHelper.ensureToolsReady(p_project,
+				p_project.getLocation().toFile().toPath(), p_monitor.split(20));
 		if (!status.isOK())
 			throw new RuntimeException("");
 		WizardUtil.refreshProject(p_monitor, p_project);

@@ -1,0 +1,109 @@
+[module widgets(	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0')/]
+
+[query public isPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Panel')/]
+  
+[query public isMainPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('MainPanel')/]
+
+[query public isFooterPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Footer')/]
+
+[query public isHeaderPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Header')/]
+
+[query public isErrorPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Error')/]
+
+[query public isFormPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Form')/]
+  
+[query public isModalPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Modal')/]
+
+[query public isButton(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Button')/]
+  
+[query public isAccordion(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Accordion')/]
+  
+[query public isAlert(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Alert')/] 
+  
+[query public isBadge(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Badge')/]
+
+[query public isNotice(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Notice')/]  
+
+[query public isLogo(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Logo')/]
+
+[query public isSearch(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Search')/]
+
+[query public isConnect(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Connect')/]
+
+[query public isRadio(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Radio')/]
+  
+[query public isCard(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Card')/]
+
+[query public isCheckBox(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('CheckBox')/]
+  
+[query public isInput(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Input')/]
+
+[query public isQuote(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Quote')/]
+  
+[query public isContent(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Content')/]
+   
+[query public isRange(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Range')/]
+
+[query public isUser(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('User')/]
+
+[query public isBreadCrumb(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('BreadCrumb')/]
+
+[query public isConsent(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Consent')/]
+
+[query public isStepper(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Stepper')/]
+
+[query public isTootip(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Tooltip')/]
+
+[query public isToogle(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Toogle')/]
+
+[query public isFollow(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Follow')/]
+
+[query public isLink(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Link')/]
+
+[query public isSkipLink(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('SkipLink')/]
+
+[query public isSelect(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Select')/]
+  
+[query public isCombo(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('ComboBox')/]
+  
+[query public isDropDown(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('DropDown')/]
+  
+[query public isSideMenu(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('SideMenu')/]
+  
+[query public isCallOut(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('CallOut')/]
+  
+[query public isHighLight(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('HighLight')/]
+  
+[query public isPassword(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Password')/]
+  
+[query public isNavigation(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Navigation')/]
+  
+[query public isTabNav(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('TabNav')/]
+  
+[query public isTab(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Tab')/]
+  
+[query public isPagination(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Pagination')/]
+  
+[query public isShare(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Share')/]
+  
+[query public isTranslate(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Translate')/]
+  
+[query public isDisplay(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Display')/]
+  
+[query public isSummary(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Summary')/]
+  
+[query public isTable(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Table')/]
+  
+[query public isTag(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Tag')/]
+  
+[query public isTranscription(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Transcription')/]
+
+[query public isTile(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Tile')/]
+  
+[query public isUpload(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Upload')/]
+  
+[query public isSegmented(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Segmented')/]
+
+[query private isType(viewElement : view::AbstractViewElement, type : String) : Boolean = not (viewElement.widget = null) 
+  and viewElement.widget.name.equalsIgnoreCase(type)/]

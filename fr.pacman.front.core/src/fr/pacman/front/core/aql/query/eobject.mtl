@@ -1,1 +1,24 @@
-[module eobject(	'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
+[module eobject(	'http://www.obeonetwork.org/dsl/environment/3.0.0', 
+                    'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/flow/1.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/toolkits/1.0.0')/]
+
+[import fr::pacman::front::core::aql::name::name/]
+
+[comment vérifie si le container est bien de type panel./]
+[query public isViewPanel(cv : view::ViewContainer) : Boolean = true/]
+
+[comment retourne ./]
+[query public viewPanels(r : cinematic::CinematicRoot) : OrderedSet(view::ViewContainer) = r.eAllContents(flow::ViewState)
+	->collect(o1 | o1.viewContainers)->select(o2 | o2.isViewPanel())->asSet()/]
+	
+[comment retourne l'ensemble des widgets (sans conteneur pour l'instant) pour une page jsx./]
+[query public viewElements(vc : view::ViewContainer) : OrderedSet(view::AbstractViewElement) = vc.ownedElements
+     ->select(e | not e.oclIsKindOf(view::ViewContainer))->union( vc.ownedElements
+     ->select(e | e.oclIsKindOf(view::ViewContainer))->collect(e | e.oclAsType(view::ViewContainer).viewElements()))
+     ->asOrderedSet()/]
+	
+[comment retourne l'url pour la page react (à ce niveau si main n'est pas null il a obligatoirement un panel associé)./]
+[query public urlPageJsx(v : view::ViewContainer, main : flow::ViewState) : String = if (main = null) then v.nameUrlPageJsx() 
+  else if (main.viewContainers->first().technicalid.equalsIgnoreCase(v.technicalid) ) then '/' else '/' + v.nameUrlPageJsx() endif/]

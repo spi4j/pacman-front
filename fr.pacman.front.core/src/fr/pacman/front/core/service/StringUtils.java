@@ -273,4 +273,29 @@ public final class StringUtils {
 			return "";
 		}
 	}
+	
+	   /**
+	    * 
+	    * @param p_str
+	    * @return
+	    */
+	   public static String createFixedUserCodeId (final String p_str)
+	   {
+	      try
+	      {
+	         MessageDigest v_messageDigest = MessageDigest.getInstance("MD5");
+	         v_messageDigest.update(p_str.getBytes());
+	         byte[] messageDigestMD5 = v_messageDigest.digest();
+	         StringBuffer v_stringBuffer = new StringBuffer();
+	         for (byte v_bytes : messageDigestMD5)
+	         {
+	            v_stringBuffer.append(String.format("%02x", v_bytes & 0xff));
+	         }
+	         return v_stringBuffer.toString();
+	      }
+	      catch (NoSuchAlgorithmException exception)
+	      {
+	         return "";
+	      }
+	   }
 }

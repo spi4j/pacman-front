@@ -1,0 +1,71 @@
+[module page( 	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
+				'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0', 
+				'http://www.obeonetwork.org/dsl/cinematic/flow/1.0.0', 
+				'http://www.obeonetwork.org/dsl/cinematic/toolkits/1.0.0')/]
+				
+[import fr::pacman::front::core::aql::name::name /]
+[import fr::pacman::front::core::aql::name::directories /]
+[import fr::pacman::front::core::aql::query::eobject/]
+[import fr::pacman::front::cinematic::react::aql::block::widgets/]
+[import fr::pacman::front::core::service::CinematicUtils/]
+				
+[comment écriture d'une page typescript + code jsx (panel)./]				
+[template public pageJsxImpl (vc : view::ViewContainer)]
+  
+  [for (ve | vc.viewElements())]
+    import { [ve.widget.name/] } from "@codegouvfr/react-dsfr/[ve.widget.name/]";
+  [/for]
+  
+  export default function [vc.namePageJsx()/] () {
+    return (
+      <>
+  	  [vc.collectWidgets()/]
+      </>
+    );
+  }
+[/template]
+
+
+[comment temporaire./]
+[template public collectWidgets(vc : view::ViewContainer)]
+[for (e  | vc.ownedElements)]
+  [if (e.oclIsKindOf(view::ViewContainer))]
+    [e.oclAsType(view::ViewContainer).collectWidgets()/]
+  [else]
+    [e.writeWidget()/]
+  [/if]
+[/for]
+[/template]
+
+
+[template public pageAppTsxImpl (r : cinematic::CinematicRoot)]
+  import { useState } from 'react'
+  import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+  import { Button } from "@codegouvfr/react-dsfr/Button";
+  import { Header, Footer } from "@codegouvfr/react-dsfr";
+  
+  [for (v : view::ViewContainer  | r.viewPanels())]
+    import [v.namePageJsx()/] from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]";
+  [/for]
+
+  import reactLogo from './assets/react.svg'
+  import viteLogo from '/vite.svg'
+  import './App.css'
+
+  function App() {
+    return (
+      <Router>
+        <Routes>  
+          [let main = r.get_rootState()]
+            [for (v : view::ViewContainer  | r.viewPanels())]
+              <Route path="[v.urlPageJsx(main)/]" element={<[v.namePageJsx()/] />} />
+            [/for]
+          [/let]
+        </Routes>
+      </Router>
+    );
+  }
+  export default App
+[/template]
+
+

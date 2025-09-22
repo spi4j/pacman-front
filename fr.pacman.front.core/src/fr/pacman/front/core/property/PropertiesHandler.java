@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import fr.pacman.front.core.convention.rule.AttributeNamingRule;
-import fr.pacman.front.core.convention.rule.ClassNamingRule;
+import fr.pacman.front.core.convention.rule.PageNamingRule;
 import fr.pacman.front.core.convention.rule.CommonNamingRule;
 import fr.pacman.front.core.convention.rule.MethodNamingRule;
 import fr.pacman.front.core.convention.rule.PackageNamingRule;
@@ -171,7 +171,7 @@ public class PropertiesHandler {
 	protected static PropertiesCategory[] createReferential() {
 		return new PropertiesCategory[] {
 
-				new ProjectProperties(), new AttributeNamingRule(), new MethodNamingRule(), new ClassNamingRule(),
+				new ProjectProperties(), new AttributeNamingRule(), new MethodNamingRule(), new PageNamingRule(),
 				new VariableNamingRule(), new ParameterNamingRule(), new PackageNamingRule(), new CommonNamingRule() };
 	}
 

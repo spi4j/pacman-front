@@ -16,3 +16,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.sirius.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
+Export-Package: fr.pacman.front.cinematic.aql, 
+ fr.pacman.front.cinematic.aql.block

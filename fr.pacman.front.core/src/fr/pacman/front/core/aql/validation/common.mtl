@@ -3,7 +3,7 @@
 					'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
 
 [import fr::pacman::front::core::aql::name::eobjects/]
-[import fr::pacman::front::core::aql::name::packages/]
+[import fr::pacman::front::core::aql::name::directories/]
 
 [comment écriture du nom de l'objet pour le rapport./]
 [query public nameObject (o : ecore::EObject) : String = o.toString().replace('\\[TRANSIENT\\]','') + ' : ' 

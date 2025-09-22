@@ -1,7 +1,7 @@
 package fr.pacman.front.core.convention;
 
 import fr.pacman.front.core.convention.rule.AttributeNamingRule;
-import fr.pacman.front.core.convention.rule.ClassNamingRule;
+import fr.pacman.front.core.convention.rule.PageNamingRule;
 import fr.pacman.front.core.convention.rule.MethodNamingRule;
 import fr.pacman.front.core.convention.rule.PackageNamingRule;
 import fr.pacman.front.core.convention.rule.ParameterNamingRule;
@@ -181,81 +181,14 @@ public final class ApplyNorme {
 	}
 
 	/**
-	 * Applique la convention de nommage d'un classAbstract.
+	 * Applique la convention de nommage d'une pageDefault.
 	 * 
 	 * @param p_value la valeur du modèle à normer.
 	 * 
 	 * @return la valeur normée.
 	 */
-	public static String norme_classAbstract(final String p_value) {
-		return ClassNamingRule.applyNorme_classAbstract(p_value);
-	}
-
-	/**
-	 * Applique la convention de nommage d'un classDefault.
-	 * 
-	 * @param p_value la valeur du modèle à normer.
-	 * 
-	 * @return la valeur normée.
-	 */
-	public static String norme_classDefault(final String p_value) {
-		return ClassNamingRule.applyNorme_classDefault(p_value);
-	}
-	
-	/**
-	 * Applique la convention de nommage d'un classAnnotation (i.e. annotation
-	 * Java).
-	 * 
-	 * @param p_value la valeur du modèle à normer.
-	 * 
-	 * @return la valeur normée.
-	 */
-	public static String norme_classAnnotation(final String p_value) {
-		return ClassNamingRule.applyNorme_classAnnotation(p_value);
-	}
-
-	/**
-	 * Applique la convention de nommage d'un classEnum.
-	 * 
-	 * @param p_value la valeur du modèle à normer.
-	 * 
-	 * @return la valeur normée.
-	 */
-	public static String norme_classEnum(final String p_value) {
-		return ClassNamingRule.applyNorme_classEnum(p_value);
-	}
-
-	/**
-	 * Applique la convention de nommage d'un classImplem.
-	 * 
-	 * @param p_value la valeur du modèle à normer.
-	 * 
-	 * @return la valeur normée.
-	 */
-	public static String norme_classImplem(final String p_value) {
-		return ClassNamingRule.applyNorme_classImplem(p_value);
-	}
-
-	/**
-	 * Applique la convention de nommage d'un classInterface.
-	 * 
-	 * @param p_value la valeur du modèle à normer.
-	 * 
-	 * @return la valeur normée.
-	 */
-	public static String norme_classInterface(final String p_value) {
-		return ClassNamingRule.applyNorme_classInterface(p_value);
-	}
-
-	/**
-	 * Applique la convention de nommage d'un classTest.
-	 * 
-	 * @param p_value la valeur du modèle à normer.
-	 * 
-	 * @return la valeur normée.
-	 */
-	public static String norme_classTest(final String p_value) {
-		return ClassNamingRule.applyNorme_classTest(p_value);
+	public static String norme_pageDefault(final String p_value) {
+		return PageNamingRule.applyNorme_pageDefault(p_value);
 	}
 
 	/**

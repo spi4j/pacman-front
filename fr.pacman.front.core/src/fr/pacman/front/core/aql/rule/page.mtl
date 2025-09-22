@@ -1,0 +1,9 @@
+[module page(	'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
+
+[import fr::pacman::front::core::aql::string/]
+[import fr::pacman::front::core::convention::ApplyNorme/]
+
+[comment penser à supprimer le normalize qui normallement est déjà effectué./]
+
+[comment applique le nom final pour une page javascript par défaut./]
+[query public apply_pageDefault(value : String) : String = value.normalize().norme_pageDefault()/]
