@@ -1,10 +1,19 @@
 package fr.pacman.front.core.service;
 
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.obeonetwork.dsl.cinematic.CinematicRoot;
 import org.obeonetwork.dsl.cinematic.flow.Flow;
 import org.obeonetwork.dsl.cinematic.flow.FlowState;
 import org.obeonetwork.dsl.cinematic.flow.ViewState;
+import org.obeonetwork.dsl.cinematic.view.AbstractViewElement;
 import org.obeonetwork.dsl.cinematic.view.Layout;
+import org.obeonetwork.dsl.cinematic.view.LayoutDirection;
 import org.obeonetwork.dsl.cinematic.view.ViewContainer;
 
 public class CinematicUtils {
@@ -15,9 +24,8 @@ public class CinematicUtils {
 	private static ViewState _error;
 	private static ViewState _referential;
 
-	private static Layout _formLayout;
-	private static String _virtualDiv;
-	private static String _oldPageName;
+	private static Boolean _formLayout;
+	private static Layout _virtualLayout;
 
 	/**
 	 * Conserve le temps de la génération les controleurs pour l'en-tete, le
@@ -30,7 +38,6 @@ public class CinematicUtils {
 
 		_header = null;
 		_footer = null;
-		_oldPageName = "";
 
 		for (Flow v_flow : p_root.getFlows()) {
 			for (FlowState v_viewState : v_flow.getStates()) {
@@ -140,39 +147,64 @@ public class CinematicUtils {
 		return _error.getViewContainers().get(0);
 	}
 
-	public static String set_currentFormLayout(final Layout p_currentFormLayout) {
-		_formLayout = p_currentFormLayout;
-		return null;
-	}
-
-	public static Layout get_currentFormLayout() {
+	public static Boolean insideFormLayout(EObject p_object) {
 		return _formLayout;
 	}
 
-	public static Layout get_currentFormLayoutJavaService(Object p_object) {
-		return get_currentFormLayout();
+	public static void openFormLayout(EObject p_object) {
+		CinematicUtils._formLayout = true;
+	}
+
+	public static void closeFormLayout(EObject p_object) {
+		CinematicUtils._formLayout = false;
+	}
+
+	public static int calcNbColsForVirtualLayout(EObject p_object) {
+		int nbCols = 0;
+		if (null == _virtualLayout)
+			return 12;
+		TreeIterator<EObject> it = _virtualLayout.eAllContents();
+		while (it.hasNext()) {
+			EObject obj = it.next();
+			if (obj instanceof Layout)
+				if (((Layout) obj).getViewElement() != null)
+					nbCols++;
+//			if (obj instanceof AbstractViewElement) {
+//				nbCols++;
+//			}
+		}
+		return nbCols > 0 ? 12 / nbCols : 12;
+	}
+
+	public static Boolean isInsideVirtualHorizontalLayout(EObject p_object) {
+		if (null == _virtualLayout)
+			return false;
+		return _virtualLayout.getDirection() == LayoutDirection.HORIZONTAL;
+	}
+
+	public static void openVirtualLayout(Layout _virtualLayout) {
+		CinematicUtils._virtualLayout = _virtualLayout;
+	}
+
+	public static void closeVirtualLayout(EObject p_object) {
+		CinematicUtils._virtualLayout = null;
 	}
 
 	/**
-	 * Simple "compteur" pour l'identifiant unique des divs 'virtuels'. On se
-	 * contente à chaque div que l'on trouve, de rajouter dans le nom "_div". La
-	 * chane s'allonge ainsi de div en div et on effectue un hash de la chaine.
-	 * Ainsi tant que la structure de la pacge n'est pas modifiée, l'identifiant des
-	 * divs virtuels de devrait pas changer. A chaque changement de page, on
-	 * reinitialise la chaine.
-	 * 
-	 * @param pageName : Le nom de la page en cours de generation.
-	 * @return un id unique pour le div.
+	 * Retourne l'ensemble des AbstractViewElement pour un ViewContainer, en
+	 * éliminant les doublons par nom.
 	 */
-	public static String get_divId(String pageName) {
+	public static Set<AbstractViewElement> viewElementForImports(ViewContainer vc) {
+		Map<String, AbstractViewElement> map = new LinkedHashMap<>();
+		collectElements(vc, map);
+		return new LinkedHashSet<>(map.values());
+	}
 
-		if (!pageName.equals(_oldPageName)) {
-			_oldPageName = pageName;
-			_virtualDiv = "virtualDiv";
+	private static void collectElements(ViewContainer vc, Map<String, AbstractViewElement> map) {
+		for (AbstractViewElement e : vc.getOwnedElements()) {
+			map.putIfAbsent(e.getWidget().getName(), e);
+			if (e instanceof ViewContainer)
+				collectElements((ViewContainer) e, map);
 		}
-		_virtualDiv += "_div";
-		System.out.println(_virtualDiv);
-		System.out.println(StringUtils.createFixedUserCodeId(_virtualDiv));
-		return StringUtils.createFixedUserCodeId(_virtualDiv);
 	}
 }

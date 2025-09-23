@@ -104,6 +104,8 @@
 [query public isUpload(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Upload')/]
   
 [query public isSegmented(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Segmented')/]
+  
+[query public isVirtual(layout : view::Layout) : Boolean = layout.viewElement = null/]
 
 [query private isType(viewElement : view::AbstractViewElement, type : String) : Boolean = not (viewElement.widget = null) 
   and viewElement.widget.name.equalsIgnoreCase(type)/]

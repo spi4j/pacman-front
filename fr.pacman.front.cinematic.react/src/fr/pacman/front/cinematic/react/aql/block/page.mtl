@@ -7,35 +7,106 @@
 [import fr::pacman::front::core::aql::name::directories /]
 [import fr::pacman::front::core::aql::query::eobject/]
 [import fr::pacman::front::cinematic::react::aql::block::widgets/]
+[import fr::pacman::front::core::aql::query::widgets/]
 [import fr::pacman::front::core::service::CinematicUtils/]
 				
 [comment écriture d'une page typescript + code jsx (panel)./]				
-[template public pageJsxImpl (vc : view::ViewContainer)]
+[template public pageJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
   
-  [for (ve | vc.viewElements())]
+  [for (ve | vc.viewElementForImports())]
     import { [ve.widget.name/] } from "@codegouvfr/react-dsfr/[ve.widget.name/]";
   [/for]
   
   export default function [vc.namePageJsx()/] () {
     return (
       <>
-  	  [vc.collectWidgets()/]
+  	  [vc.layout.writeLayouts()/]
       </>
     );
   }
 [/template]
 
-
-[comment temporaire./]
-[template public collectWidgets(vc : view::ViewContainer)]
-[for (e  | vc.ownedElements)]
-  [if (e.oclIsKindOf(view::ViewContainer))]
-    [e.oclAsType(view::ViewContainer).collectWidgets()/]
-  [else]
-    [e.writeWidget()/]
-  [/if]
-[/for]
+[comment parcours récursif des layouts avec fermeture des balises pour les conteneurs (point d'entrée)./]
+[template private writeLayouts(l : view::Layout)]
+  [l.openLayout()/]
+  [l.viewElement.writeElement()/]
+  [l.scanSubLayouts()/]
+  [l.closeLayout()/]  	
 [/template]
+
+[comment parcours récursif sur les layouts inclus dans les layouts (sub-layouts)./]
+[template private scanSubLayouts(l : view::Layout)]
+  [for (sl : view::Layout | l.eContents())]
+    [sl.writeLayouts()/]
+  [/for]
+[/template]
+
+[comment écriture du code d'ouverture pour un layout./]
+[template private openLayout(l : view::Layout)]
+  [if (l.viewElement.isFormPanel())]
+    [l.openFormLayout()/]
+  [/if]
+  [if (l.isVirtual())]
+    [l.openVirtualLayout()/]
+  [/if]
+[/template]
+
+[comment écriture du code de fermeture pour un layout (si besoin)./]
+[template private closeLayout(l : view::Layout)]
+  [if (l.viewElement.isFormPanel())]
+    [l.viewElement.closeFormLayout()/]
+  [/if]
+  [if (l.isVirtual())]
+    [l.closeVirtualLayout()/]
+  [/if]
+  [if (l.viewElement.widget.isContainer)]
+    [l.viewElement.writeCloseViewElement()/]
+  [/if]
+[/template]
+
+[comment ./]
+[template private writeElement(ve : view::AbstractViewElement)]
+  [if (null <> ve)]
+    [if (ve.insideFormLayout() and not ve.isFormPanel())]
+      [if (ve.isInsideVirtualHorizontalLayout())]
+        <div className="fr-col-[ve.calcNbColsForVirtualLayout()/]">
+      [else]
+         <div className="fr-col-12">
+      [/if]
+      <div className="fr-fieldset__element">         
+        [ve.writeViewElement()/]
+      </div>
+      </div> {/* writeElement */}
+    [else]
+      [ve.writeViewElement()/]
+    [/if]
+  [/if]
+[/template]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 [template public pageAppTsxImpl (r : cinematic::CinematicRoot)]
@@ -67,5 +138,6 @@
   }
   export default App
 [/template]
+
 
 

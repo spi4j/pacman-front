@@ -18,7 +18,7 @@
  [for (vs : flow::ViewState | r.eAllContents(flow::ViewState))]
   [for (vc : view::ViewContainer | vs.viewContainers)]
     [if (vc.isViewPanel())]
-      [vc.filePageJsxImpl()/]
+      [vc.filePageJsxImpl(vs)/]
       [comment viewContainer.genController(viewState)/]
       [comment viewContainer.genView(viewState)/]
     [/if]

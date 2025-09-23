@@ -4,7 +4,7 @@
 [import fr::pacman::front::core::aql::query::widgets/]
 
 [comment écriture d'un widget pour react dsfr./]
-[template public writeWidget(ve : view::AbstractViewElement)]
+[template public writeViewElement(ve : view::AbstractViewElement)]
    [if (ve.isAccordion())]
      [ve.writeAccordion()/]
    [elseif (ve.isAlert())]
@@ -102,6 +102,17 @@
    [else]
      
    [/if]
+[/template]
+
+[comment écriture d'un widget pour react dsfr./]
+[template public writeCloseViewElement(ve : view::AbstractViewElement)]
+  [if (ve.isAccordion())]
+  [elseif (ve.isTable())]
+  [elseif (ve.isFormPanel())]
+    [ve.writeCloseForm()/]
+  [elseif (ve.isUser())]
+  [else]
+  [/if]
 [/template]
 
 [template private writeAccordion (ve : view::AbstractViewElement)]
@@ -272,7 +283,25 @@
 [/template]
 
 [template private writeForm (ve : view::AbstractViewElement)]
+  <form action="" method="post">
+    <fieldset className="fr-fieldset" aria-labelledby="text-legend text-messages">
+        <legend className="fr-fieldset__legend" id="text-legend">
+            Légende pour l’ensemble des éléments
+            <span className="fr-hint-text">Texte de description additionnel</span>
+        </legend>
+        <div className="fr-messages-group" id="text-messages" aria-live="polite">
+        </div>
+        <div style={{ width: "100%" }}>
+        <div className="fr-grid-row fr-grid-row--gutters">
+
 [/template]
+
+[template private writeCloseForm (ve : view::AbstractViewElement)]
+  </div></div>
+  </fieldset>
+  </form>
+[/template]
+
 
 [template private writeHighLight (ve : view::AbstractViewElement)]
   <div className="fr-highlight">
@@ -931,6 +960,15 @@
 [/template]
 
 [template private writeUpload (ve : view::AbstractViewElement)]
+  <div className="fr-upload-group">
+    <label className="fr-label" for="file-upload">
+        Ajouter un fichier
+        <span className="fr-hint-text">Indication : taille maximale : 500 Mo. Formats supportés 
+        : jpg, png, pdf. Plusieurs fichiers possibles. Lorem ipsum dolor sit amet, consectetur adipiscing.</span>
+    </label>
+    <input className="fr-upload" aria-describedby="file-upload-messages" type="file" id="file-upload" name="file-upload">
+    <div className="fr-messages-group" id="file-upload-messages" aria-live="polite"></div>
+  </div>
 [/template]
 
 [template private writeUser (ve : view::AbstractViewElement)]

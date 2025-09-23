@@ -9,9 +9,9 @@
 [import fr::pacman::front::cinematic::react::aql::block::page/]
 
 [comment écriture du fichier d'implémentation pour une page react (view)./]
-[template public filePageJsxImpl(v : view::ViewContainer)]
-  [file (v.namePageJsx().toFileTypeScriptJsx(v.nameDirectoryPages()), overwrite, v.defaultFileEncoding())]
-    [v.pageJsxImpl()/]
+[template public filePageJsxImpl(vc : view::ViewContainer, vs : flow::ViewState)]
+  [file (vc.namePageJsx().toFileTypeScriptJsx(vc.nameDirectoryPages()), overwrite, vc.defaultFileEncoding())]
+    [vc.pageJsxImpl(vs)/]
   [/file]
 [/template]
 
