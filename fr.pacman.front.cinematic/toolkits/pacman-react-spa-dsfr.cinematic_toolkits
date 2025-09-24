@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cinematic-toolkits:Toolkit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cinematic-toolkits="http://www.obeonetwork.org/dsl/cinematic/toolkits/1.0.0" xmi:id="_jIrpcK8aEeGs4sAdxwacjg" technicalid="_mO1soGBFEe2pbbWWOVDFxA" name="REACT/SPA + DSFR 1.9">
-  <widgets xmi:id="_j8lMYJHzEfCF6-2aQyGFWw" technicalid="_jnshgJHzEfCF6-2aQyGFWw" name="Button" icon="/fr.pacman.front.cinematic/icons/Button.png" documentation="Effectuer une action.">
+  <widgets xmi:id="_j8lMYJHzEfCF6-2aQyGFWw" technicalid="_jnshgJHzEfCF6-2aQyGFWw" name="Button" icon="/fr.pacman.front.cinematic/icons/Button.png" implementation="Button" documentation="Effectuer une action.">
     <possibleEvents xmi:id="_M3heAJLzEfCa3-VOW44b4A" technicalid="_L_K5sJLzEfCa3-VOW44b4A" name="onClick"/>
     <possibleEvents xmi:id="_QiD2EJLzEfCa3-VOW44b4A" technicalid="_QLTi8JLzEfCa3-VOW44b4A" name="onFocus"/>
     <possibleEvents xmi:id="_VLzoYJLzEfCa3-VOW44b4A" technicalid="_UjnnAJLzEfCa3-VOW44b4A" name="onBlur"/>
-    <possibleEvents xmi:id="_ZnoeAJL0EfCa3-VOW44b4A" technicalid="_ZNCzwJL0EfCa3-VOW44b4A" name="onKeyDown"/>
-    <possibleEvents xmi:id="_bJ3s0JL0EfCa3-VOW44b4A" technicalid="_a0LJoJL0EfCa3-VOW44b4A" name="onKeyUp"/>
+    <possibleEvents xmi:id="_kn6ZQJkCEfCCxMPawgpazA" technicalid="_jpFZgJkCEfCCxMPawgpazA" name="onMouseEnter"/>
+    <possibleEvents xmi:id="_mmT_oJkCEfCCxMPawgpazA" technicalid="_mXT6UJkCEfCCxMPawgpazA" name="onMouseLeave"/>
   </widgets>
-  <widgets xmi:id="_I0S7AJH0EfCF6-2aQyGFWw" technicalid="_IOpQQ5H0EfCF6-2aQyGFWw" name="Accordion" icon="/fr.pacman.front.cinematic/icons/Accordion.png" documentation="Afficher ou masquer une section de contenu présentée dans une page.">
+  <widgets xmi:id="_I0S7AJH0EfCF6-2aQyGFWw" technicalid="_IOpQQ5H0EfCF6-2aQyGFWw" name="Accordion" icon="/fr.pacman.front.cinematic/icons/Accordion.png" implementation="Accordion" isContainer="true" documentation="Afficher ou masquer une section de contenu présentée dans une page.">
     <possibleEvents xmi:id="_Xcn0cJLzEfCa3-VOW44b4A" technicalid="_XDMn0JLzEfCa3-VOW44b4A" name="onFocus"/>
     <possibleEvents xmi:id="_FVyVcJL0EfCa3-VOW44b4A" technicalid="_ETLB4JL0EfCa3-VOW44b4A" name="onBlur"/>
     <possibleEvents xmi:id="_1IHXgJL0EfCa3-VOW44b4A" technicalid="_0wjzIJL0EfCa3-VOW44b4A" name="onToggle"/>
     <possibleEvents xmi:id="_2qcs8JL0EfCa3-VOW44b4A" technicalid="_2clQEJL0EfCa3-VOW44b4A" name="onKeyDown"/>
   </widgets>
-  <widgets xmi:id="_kO0y8JHzEfCF6-2aQyGFWw" technicalid="_kDLjoJHzEfCF6-2aQyGFWw" name="Alert" icon="/fr.pacman.front.cinematic/icons/Alert.png" documentation="Relayer une information à l’usager.">
+  <widgets xmi:id="_kO0y8JHzEfCF6-2aQyGFWw" technicalid="_kDLjoJHzEfCF6-2aQyGFWw" name="Alert" icon="/fr.pacman.front.cinematic/icons/Alert.png" implementation="Alert" documentation="Relayer une information à l’usager.">
     <possibleEvents xmi:id="_kzMiEJL1EfCa3-VOW44b4A" technicalid="_kkzgwJL1EfCa3-VOW44b4A" name="onClose"/>
     <possibleEvents xmi:id="_l93lcJL1EfCa3-VOW44b4A" technicalid="_lsQ4EJL1EfCa3-VOW44b4A" name="onClick"/>
     <possibleEvents xmi:id="_nAVvEJL1EfCa3-VOW44b4A" technicalid="_myVIQJL1EfCa3-VOW44b4A" name="onFocus"/>
     <possibleEvents xmi:id="_oE6KcJL1EfCa3-VOW44b4A" technicalid="_ny3YMJL1EfCa3-VOW44b4A" name="onBlur"/>
   </widgets>
-  <widgets xmi:id="_kh0ncJHzEfCF6-2aQyGFWw" technicalid="_kU9QIJHzEfCF6-2aQyGFWw" name="Badge" icon="/fr.pacman.front.cinematic/icons/Badge.png" documentation="Valoriser une information liée à un élément précis du site.">
+  <widgets xmi:id="_kh0ncJHzEfCF6-2aQyGFWw" technicalid="_kU9QIJHzEfCF6-2aQyGFWw" name="Badge" icon="/fr.pacman.front.cinematic/icons/Badge.png" implementation="Badge" documentation="Valoriser une information liée à un élément précis du site.">
     <possibleEvents xmi:id="_6Gr4YJL2EfCa3-VOW44b4A" technicalid="_50QroJL2EfCa3-VOW44b4A" name="onClick"/>
     <possibleEvents xmi:id="_7Kb0YJL2EfCa3-VOW44b4A" technicalid="_6-axoJL2EfCa3-VOW44b4A" name="onFocus"/>
     <possibleEvents xmi:id="_9Q3VYJL2EfCa3-VOW44b4A" technicalid="_9B8voJL2EfCa3-VOW44b4A" name="onBlur"/>
@@ -28,7 +28,7 @@
     <possibleEvents xmi:id="_CShRYJL3EfCa3-VOW44b4A" technicalid="_CE5sIJL3EfCa3-VOW44b4A" name="onMouseEnter"/>
     <possibleEvents xmi:id="_DfXfAJL3EfCa3-VOW44b4A" technicalid="_DLPpIJL3EfCa3-VOW44b4A" name="onMouseLeave"/>
   </widgets>
-  <widgets xmi:id="_k0pc0JHzEfCF6-2aQyGFWw" technicalid="_knz6sJHzEfCF6-2aQyGFWw" name="Notice" icon="/fr.pacman.front.cinematic/icons/Notice.png" documentation="Attirer l’attention des usagers sur une information importante et temporaire.">
+  <widgets xmi:id="_k0pc0JHzEfCF6-2aQyGFWw" technicalid="_knz6sJHzEfCF6-2aQyGFWw" name="Notice" icon="/fr.pacman.front.cinematic/icons/Notice.png" implementation="Notice" documentation="Attirer l’attention des usagers sur une information importante et temporaire.">
     <possibleEvents xmi:id="_30dzkJL1EfCa3-VOW44b4A" technicalid="_3nknEJL1EfCa3-VOW44b4A" name="onFocus"/>
     <possibleEvents xmi:id="_4i_GcJL1EfCa3-VOW44b4A" technicalid="_4VyX8JL1EfCa3-VOW44b4A" name="onBlur"/>
     <possibleEvents xmi:id="_50PS8JL1EfCa3-VOW44b4A" technicalid="_5oYBMJL1EfCa3-VOW44b4A" name="onClick"/>
@@ -63,7 +63,7 @@
     <possibleEvents xmi:id="_pxnucJL2EfCa3-VOW44b4A" technicalid="_pjS-kJL2EfCa3-VOW44b4A" name="onChange"/>
     <possibleEvents xmi:id="_q5QE4JL2EfCa3-VOW44b4A" technicalid="_qqU4EJL2EfCa3-VOW44b4A" name="onSubmit"/>
   </widgets>
-  <widgets xmi:id="_mXd6cJHzEfCF6-2aQyGFWw" technicalid="_mJP4QJHzEfCF6-2aQyGFWw" name="Radio" icon="/fr.pacman.front.cinematic/icons/Radio.png" documentation="Réaliser un choix unique parmi plusieurs options.">
+  <widgets xmi:id="_mXd6cJHzEfCF6-2aQyGFWw" technicalid="_mJP4QJHzEfCF6-2aQyGFWw" name="Radio" icon="/fr.pacman.front.cinematic/icons/Radio.png" implementation="" documentation="Réaliser un choix unique parmi plusieurs options.">
     <possibleEvents xmi:id="_n9uZ0JL0EfCa3-VOW44b4A" technicalid="_nvaRAJL0EfCa3-VOW44b4A" name="onBlur"/>
     <possibleEvents xmi:id="_pNFv8JL0EfCa3-VOW44b4A" technicalid="_o7RAIJL0EfCa3-VOW44b4A" name="onFocus"/>
     <possibleEvents xmi:id="_qpZ88JL0EfCa3-VOW44b4A" technicalid="_qYRwsJL0EfCa3-VOW44b4A" name="onChange"/>
@@ -80,13 +80,13 @@
     <possibleEvents xmi:id="_0SnA8JL2EfCa3-VOW44b4A" technicalid="_zxXVEJL2EfCa3-VOW44b4A" name="onMouseEnter"/>
     <possibleEvents xmi:id="_15EBYJL2EfCa3-VOW44b4A" technicalid="_1gqIcJL2EfCa3-VOW44b4A" name="onMouseLeave"/>
   </widgets>
-  <widgets xmi:id="_nB3iUJHzEfCF6-2aQyGFWw" technicalid="_mz6l4JHzEfCF6-2aQyGFWw" name="CheckBox" icon="/fr.pacman.front.cinematic/icons/Checkbox.png" documentation="Sélectionner une ou plusieurs options dans une liste.">
+  <widgets xmi:id="_nB3iUJHzEfCF6-2aQyGFWw" technicalid="_mz6l4JHzEfCF6-2aQyGFWw" name="CheckBox" icon="/fr.pacman.front.cinematic/icons/Checkbox.png" implementation="Checkbox" documentation="Sélectionner une ou plusieurs options dans une liste.">
     <possibleEvents xmi:id="_k8HqAJL0EfCa3-VOW44b4A" technicalid="_kuLUoJL0EfCa3-VOW44b4A" name="onChange"/>
     <possibleEvents xmi:id="_mAjigJL0EfCa3-VOW44b4A" technicalid="_lzJYoJL0EfCa3-VOW44b4A" name="onFocus"/>
     <possibleEvents xmi:id="_nGXUAJL0EfCa3-VOW44b4A" technicalid="_m4ugoJL0EfCa3-VOW44b4A" name="onBlur"/>
     <possibleEvents xmi:id="_Vs5xAJL4EfCa3-VOW44b4A" technicalid="_SrYgwJL4EfCa3-VOW44b4A" name="onClick"/>
   </widgets>
-  <widgets xmi:id="_nUfjYJHzEfCF6-2aQyGFWw" technicalid="_nH0ZUJHzEfCF6-2aQyGFWw" name="Input" icon="/fr.pacman.front.cinematic/icons/Input.png" documentation="Entrer du contenu et/ou des données.">
+  <widgets xmi:id="_nUfjYJHzEfCF6-2aQyGFWw" technicalid="_nH0ZUJHzEfCF6-2aQyGFWw" name="Input" icon="/fr.pacman.front.cinematic/icons/Input.png" implementation="Input" documentation="Entrer du contenu et/ou des données.">
     <possibleEvents xmi:id="_dGZq8JL0EfCa3-VOW44b4A" technicalid="_czO3UJL0EfCa3-VOW44b4A" name="onChange"/>
     <possibleEvents xmi:id="_eVOOgJL0EfCa3-VOW44b4A" technicalid="_eGl8oJL0EfCa3-VOW44b4A" name="onFocus"/>
     <possibleEvents xmi:id="_fkLU8JL0EfCa3-VOW44b4A" technicalid="_fRXGoJL0EfCa3-VOW44b4A" name="onBlur"/>
@@ -161,7 +161,7 @@
     <possibleEvents xmi:id="_h27d4JL4EfCa3-VOW44b4A" technicalid="_hmAF8JL4EfCa3-VOW44b4A" name="onMouseEnter"/>
     <possibleEvents xmi:id="_jBPU4JL4EfCa3-VOW44b4A" technicalid="_iy_dgJL4EfCa3-VOW44b4A" name="onMouseLeave"/>
   </widgets>
-  <widgets xmi:id="_rT6mUJHzEfCF6-2aQyGFWw" technicalid="_rHyO0JHzEfCF6-2aQyGFWw" name="Form" icon="/fr.pacman.front.cinematic/icons/Form.png" isContainer="true" documentation="Formulaire.">
+  <widgets xmi:id="_rT6mUJHzEfCF6-2aQyGFWw" technicalid="_rHyO0JHzEfCF6-2aQyGFWw" name="Form" icon="/fr.pacman.front.cinematic/icons/Form.png" implementation="useForm" isContainer="true" documentation="Formulaire.">
     <possibleEvents xmi:id="_gyPgAJLzEfCa3-VOW44b4A" technicalid="_gIjCwJLzEfCa3-VOW44b4A" name="onLoad"/>
     <possibleEvents xmi:id="_GJs_gJMREfCWNsj-B1W6Gw" technicalid="_6cjb4JMQEfCWNsj-B1W6Gw" name="onSubmit"/>
     <possibleEvents xmi:id="_H6SzYJMREfCWNsj-B1W6Gw" technicalid="_Hsm8sJMREfCWNsj-B1W6Gw" name="onReset"/>
@@ -312,7 +312,7 @@
     <possibleEvents xmi:id="_5Nb2AJMTEfCWNsj-B1W6Gw" technicalid="_44HGQJMTEfCWNsj-B1W6Gw" name="onMouseLeave"/>
   </widgets>
   <widgets xmi:id="_qPitUJH1EfCF6-2aQyGFWw" technicalid="_qD1MkJH1EfCF6-2aQyGFWw" name="TabNav" icon="/fr.pacman.front.cinematic/icons/Tabnav.png" documentation="Ce composant est en version bêta. "/>
-  <widgets xmi:id="_qrj68JH1EfCF6-2aQyGFWw" technicalid="_qVUlMJH1EfCF6-2aQyGFWw" name="Tab" icon="/fr.pacman.front.cinematic/icons/Tab.png" documentation="Structurer plusieurs sections de contenu liées, en affichant une seule section à la fois dans un espace limité.">
+  <widgets xmi:id="_qrj68JH1EfCF6-2aQyGFWw" technicalid="_qVUlMJH1EfCF6-2aQyGFWw" name="Tab" icon="/fr.pacman.front.cinematic/icons/Tab.png" isContainer="true" documentation="Structurer plusieurs sections de contenu liées, en affichant une seule section à la fois dans un espace limité.">
     <possibleEvents xmi:id="_eks_gJL1EfCa3-VOW44b4A" technicalid="_eOGdYJL1EfCa3-VOW44b4A" name="onChange"/>
     <possibleEvents xmi:id="_fxwogJL1EfCa3-VOW44b4A" technicalid="_fbCKkJL1EfCa3-VOW44b4A" name="onFocus"/>
     <possibleEvents xmi:id="_g2usgJL1EfCa3-VOW44b4A" technicalid="_gjmVIJL1EfCa3-VOW44b4A" name="onBlur"/>
@@ -376,7 +376,7 @@
     <possibleEvents xmi:id="_HD3k4JMVEfCWNsj-B1W6Gw" technicalid="_Gr04UJMVEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_IMmHgJMVEfCWNsj-B1W6Gw" technicalid="_H4opsJMVEfCWNsj-B1W6Gw" name="onMouseLeave"/>
   </widgets>
-  <widgets xmi:id="_ssyy4JH1EfCF6-2aQyGFWw" technicalid="_sgdAAJH1EfCF6-2aQyGFWw" name="Table" icon="/fr.pacman.front.cinematic/icons/Table.png" documentation="Liste structurée de données textuelles et/ou numériques.">
+  <widgets xmi:id="_ssyy4JH1EfCF6-2aQyGFWw" technicalid="_sgdAAJH1EfCF6-2aQyGFWw" name="Table" icon="/fr.pacman.front.cinematic/icons/Table.png" isContainer="true" documentation="Liste structurée de données textuelles et/ou numériques.">
     <possibleEvents xmi:id="_tfm4kJL1EfCa3-VOW44b4A" technicalid="_tKouIJL1EfCa3-VOW44b4A" name="onRowClick"/>
     <possibleEvents xmi:id="_OttrIZMVEfCWNsj-B1W6Gw" technicalid="_OttrIJMVEfCWNsj-B1W6Gw" name="onSelectChange"/>
     <possibleEvents xmi:id="_N_hvdJMVEfCWNsj-B1W6Gw" technicalid="_N_hvcpMVEfCWNsj-B1W6Gw" name="onMouseLeave"/>
@@ -441,5 +441,22 @@
     <possibleEvents xmi:id="_LSk6EJeAEfCJ2dZMtpi9sQ" technicalid="_LCLtoJeAEfCJ2dZMtpi9sQ" name="onBlur"/>
     <possibleEvents xmi:id="_L0_qoJeAEfCJ2dZMtpi9sQ" technicalid="_LjdOsJeAEfCJ2dZMtpi9sQ" name="onMouseEnter"/>
     <possibleEvents xmi:id="_Mk0lEJeAEfCJ2dZMtpi9sQ" technicalid="_MLT44JeAEfCJ2dZMtpi9sQ" name="onMouseLeave"/>
+  </widgets>
+  <widgets xmi:id="_PCz5EJkCEfCCxMPawgpazA" technicalid="_OuLF0JkCEfCCxMPawgpazA" name="ButtonSubmit" icon="/fr.pacman.front.cinematic/icons/Button.png" implementation="Button" documentation="Documentation&#x9;Effectuer une action dans un formulaire.">
+    <possibleEvents xmi:id="_clL48JkCEfCCxMPawgpazA" technicalid="_bqxfIJkCEfCCxMPawgpazA" name="onSubmit"/>
+    <possibleEvents xmi:id="_ggYjMJkCEfCCxMPawgpazA" technicalid="_gHSGsJkCEfCCxMPawgpazA" name="onFocus"/>
+    <possibleEvents xmi:id="_hyLiQJkCEfCCxMPawgpazA" technicalid="_hdMJsJkCEfCCxMPawgpazA" name="onBlur"/>
+    <possibleEvents xmi:id="_pyV2wJkCEfCCxMPawgpazA" technicalid="_pGnZMJkCEfCCxMPawgpazA" name="onMouseEnter"/>
+    <possibleEvents xmi:id="_rOpcsJkCEfCCxMPawgpazA" technicalid="_qy4GsJkCEfCCxMPawgpazA" name="onMouseLeave"/>
+  </widgets>
+  <widgets xmi:id="_5wnZ4JkZEfCOvPC0MEWKeA" technicalid="_5EsIAJkZEfCOvPC0MEWKeA" name="RadioPanel" icon="/fr.pacman.front.cinematic/icons/Panel.png" implementation="RadioButtons " isContainer="true" documentation="Elément de navigation."/>
+  <widgets xmi:id="_EWxgQJkaEfCOvPC0MEWKeA" technicalid="_EHHToJkaEfCOvPC0MEWKeA" name="CheckBoxPanel" icon="/fr.pacman.front.cinematic/icons/Panel.png" implementation="Checkbox" isContainer="true" documentation="Elément de navigation."/>
+  <widgets xmi:id="_FfwsUJlAEfCOvPC0MEWKeA" technicalid="_E-3lwJlAEfCOvPC0MEWKeA" name="InputNumber" icon="/fr.pacman.front.cinematic/icons/Input.png" implementation="Input" documentation="Entrer du contenu et/ou des données numériques.">
+    <possibleEvents xmi:id="_7Lr_AJlAEfCOvPC0MEWKeA" technicalid="_64jnoJlAEfCOvPC0MEWKeA" name="onChange"/>
+    <possibleEvents xmi:id="_7n0hYJlAEfCOvPC0MEWKeA" technicalid="_7W7lsJlAEfCOvPC0MEWKeA" name="onFocus"/>
+    <possibleEvents xmi:id="_8DXN4JlAEfCOvPC0MEWKeA" technicalid="_7xc-gJlAEfCOvPC0MEWKeA" name="onBlur"/>
+    <possibleEvents xmi:id="_8h0rgJlAEfCOvPC0MEWKeA" technicalid="_8O8y0JlAEfCOvPC0MEWKeA" name="onKeyDown"/>
+    <possibleEvents xmi:id="_CbcxUJlBEfCOvPC0MEWKeA" technicalid="_CL9j0JlBEfCOvPC0MEWKeA" name="onKeyUp"/>
+    <possibleEvents xmi:id="_C1x84JlBEfCOvPC0MEWKeA" technicalid="_CkeKcJlBEfCOvPC0MEWKeA" name="onKeyPress"/>
   </widgets>
 </cinematic-toolkits:Toolkit>

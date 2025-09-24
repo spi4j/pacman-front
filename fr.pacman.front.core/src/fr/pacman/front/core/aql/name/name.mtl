@@ -10,4 +10,4 @@
 [query public namePageAppTsx(any : ecore::EObject): String = 'app'.applyNorme_pageDefault()/]
   
 [comment retourne le nom de l'url pour la page typescript + jsx./]
-[query public nameUrlPageJsx(v : view::ViewContainer): String = v.label.toLower()/]
+[query public nameUrlPageJsx(v : view::ViewContainer): String = v.label.replaceAll('\\s+','').toLower()/]

@@ -15,6 +15,12 @@
 	
 [comment retourne l'url pour la page react (à ce niveau si main n'est pas null, il a obligatoirement un panel associé)./]
 [query public urlPageJsx(v : view::ViewContainer, main : flow::ViewState) : String = if (main = null) then v.nameUrlPageJsx() 
-  else if (main.viewContainers->first().technicalid.equalsIgnoreCase(v.technicalid) ) then '/' else '/' + v.nameUrlPageJsx() endif/]
+  else if (main.viewContainers->first().technicalid.equalsIgnoreCase(v.technicalid) ) then '/' else '/' + v.nameUrlPageJsx() endif endif/]
+
+[comment vérifie si le layout est de type horizontal./]
+[query public isHorizontalLayout(l : view::Layout) : Boolean = l.direction = view::LayoutDirection::HORIZONTAL/]
+  
+[comment vérifie si la page en cours utilise des formulaires./]
+[query public useForms(vc : view::ViewContainer) : Boolean = true/]
 
 

@@ -2,11 +2,16 @@
 					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0')/]
 
 [import fr::pacman::front::core::aql::query::widgets/]
+[import fr::pacman::front::core::service::AnnotationUtils/]
 
 [comment écriture d'un widget pour react dsfr./]
 [template public writeViewElement(ve : view::AbstractViewElement)]
    [if (ve.isAccordion())]
      [ve.writeAccordion()/]
+   [elseif (ve.isRadioPanel())]
+     [ve.writeRadioPanel()/]
+   [elseif (ve.isCheckBoxPanel())]
+     [ve.writeCheckBoxPanel()/]
    [elseif (ve.isAlert())]
      [ve.writeAlert()/]
    [elseif (ve.isBadge())]
@@ -15,6 +20,8 @@
      [ve.writeBreadCrumb()/]
    [elseif (ve.isButton())]
      [ve.writeButton()/]
+   [elseif (ve.isButtonSubmit())]
+     [ve.writeButtonSubmit()/]
    [elseif (ve.isCallOut())]
      [ve.writeCallOut()/]
    [elseif (ve.isCard())]
@@ -43,6 +50,8 @@
      [ve.writeHighLight()/]
    [elseif (ve.isInput())]
      [ve.writeInput()/]
+   [elseif (ve.isInputNumber())]
+     [ve.writeInputNumber()/]
    [elseif (ve.isLink())]
      [ve.writeLink()/]
    [elseif (ve.isLogo())]
@@ -110,113 +119,87 @@
   [elseif (ve.isTable())]
   [elseif (ve.isFormPanel())]
     [ve.writeCloseForm()/]
+  [elseif (ve.isRadioPanel())]
+    [ve.writeCloseRadioPanel()/]
+  [elseif (ve.isCheckBoxPanel())]
+    [ve.writeCloseCheckBoxPanel()/]
   [elseif (ve.isUser())]
   [else]
   [/if]
 [/template]
 
 [template private writeAccordion (ve : view::AbstractViewElement)]
-  <section className="fr-accordion">
-    <h3 className="fr-accordion__title">
-        <button type="button" className="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-1">Libellé accordéon</button>
-    </h3>
-    <div id="accordion-1" className="fr-collapse">
-        {/* données de l'accordéon */}
-    </div>
-  </section>
 [/template]
 
-[template private writeAlert (ve : view::AbstractViewElement)]
-  <div className="fr-alert">
-    <h3 className="fr-alert__title">Titre de l'alerte</h3>
-    <p>Description de l'alerte</p>
-    <button title="Masquer le message" onclick="const alert = this.parentNode; alert.parentNode.removeChild(alert)" 
-    type="button" className="fr-btn--close fr-btn">Masquer le message</button>
-  </div>
+[template private writeRadioPanel (ve : view::AbstractViewElement)]
+  <RadioButtons 
+    hintText="[ve.description/]"
+    legend="Label" 
+    options={['['/]
 [/template]
 
-[template private writeBadge (ve : view::AbstractViewElement)]
-  <ul className="fr-badges-group">
-    <li>
-        <p className="fr-badge">Badge 1</p>
-    </li>
-    <li>
-        <p className="fr-badge">Badge 2</p>
-    </li>
-  </ul>
+[template private writeCloseRadioPanel (ve : view::AbstractViewElement)]
+  [']'/]}
+  />
 [/template]
 
-[template private writeBreadCrumb (ve : view::AbstractViewElement)]
-  <nav role="navigation" className="fr-breadcrumb" aria-label="vous êtes ici :">
-    <button className="fr-breadcrumb__button" aria-expanded="false" aria-controls="breadcrumb-1">
-        Voir le fil d’Ariane
-    </button>
-    <div className="fr-collapse" id="breadcrumb-1">
-        <ol className="fr-breadcrumb__list">
-            <li>
-                <a className="fr-breadcrumb__link" href="#/">Accueil</a>
-            </li>
-            <li>
-                <a className="fr-breadcrumb__link" href="#/segment-1/">Segment 1</a>
-            </li>
-            <li>
-                <a className="fr-breadcrumb__link" href="#/segment-1/segment-2/">Segment 2</a>
-            </li>
-            <li>
-                <a className="fr-breadcrumb__link" aria-current="page">Page Actuelle</a>
-            </li>
-        </ol>
-    </div>
-  </nav>
+[template private writeRadio (ve : view::AbstractViewElement)]
+  {
+     hintText: '[ve.description/]',
+     label: '[ve.label/]',
+     nativeInputProps: {
+       checked: value === "one",
+       onChange: ()=> setValue("one")
+      }
+    },
+[/template]
+ 
+[template private writeCheckBoxPanel (ve : view::AbstractViewElement)]
+  <Checkbox
+    hintText="[ve.description/]"
+    legend="[ve.label/]"
+    options={['['/]
 [/template]
 
-[template private writeButton (ve : view::AbstractViewElement)]
-  <button className="fr-btn" type="button">
-      Libellé bouton
-  </button>
-[/template]
-
-[template private writeCallOut (ve : view::AbstractViewElement)]
-  <div className="fr-callout">
-    <h3 className="fr-callout__title">Titre de la mise en avant</h3>
-    <p className="fr-callout__text">Contenu de la mise en avant.</p>
-    <button type="button" className="fr-btn">Libellé bouton</button>
-  </div>
-[/template]
-
-[template private writeCard (ve : view::AbstractViewElement)]
-  <div className="fr-grid-row">
-    <div className="fr-col fr-col-md-6">
-        <div className="fr-card fr-enlarge-link">
-            <div className="fr-card__body">
-                <div className="fr-card__content">
-                    <h3 className="fr-card__title">
-                        <a href="#">Titre de la carte</a>
-                    </h3>
-                    <p className="fr-card__desc">Description de la carte</p>
-                </div>
-            </div>
-            <div className="fr-card__header">
-                <div className="fr-card__img">
-                    <img className="fr-responsive-img" src="/img/placeholder.16x9.png" 
-                    alt="À MODIFIER - vide ou texte alternatif de l’image"/>
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
+[template private writeCloseCheckBoxPanel (ve : view::AbstractViewElement)]
+  [']'/]}
+    state="default"
+    stateRelatedMessage="State description"
+  />
 [/template]
 
 [template private writeCheckBox (ve : view::AbstractViewElement)]
-  <div className="fr-checkbox-group">
-    <input id="checkbox" type="checkbox" aria-describedby="checkbox-messages"/>
-    <label className="fr-label" htmlFor="checkbox">
-        Libellé checkbox
-        <span className="fr-hint-text">Description optionnelle</span>
-    </label>
-    <div className="fr-messages-group" id="checkbox-messages" aria-live="polite">
-    </div>
-  </div>
+  {
+     hintText: '[ve.description/]',
+     label: '[ve.label/]',
+     nativeInputProps: {
+       name: 'checkboxes-[ve.name/]',
+       value: 'value1'
+     }
+   },
+[/template]
+
+[template private writeAlert (ve : view::AbstractViewElement)]
+[/template]
+
+[template private writeBadge (ve : view::AbstractViewElement)]
+[/template]
+
+[template private writeBreadCrumb (ve : view::AbstractViewElement)]
+[/template]
+
+[template private writeButton (ve : view::AbstractViewElement)]
+  <Button type="submit">[ve.label/]</Button>
+[/template]
+
+[template private writeButtonSubmit (ve : view::AbstractViewElement)]
+  <Button>Envoyer</Button>
+[/template]
+
+[template private writeCallOut (ve : view::AbstractViewElement)]
+[/template]
+
+[template private writeCard (ve : view::AbstractViewElement)]
 [/template]
 
 [template private writeCombo (ve : view::AbstractViewElement)]
@@ -226,51 +209,12 @@
 [/template]
 
 [template private writeConsent (ve : view::AbstractViewElement)]
-  <div className="fr-consent-banner">
-    <h2 className="fr-h6">À propos des cookies sur nomdusite.fr</h2>
-    <div className="fr-consent-banner__content">
-        <p className="fr-text--sm">Bienvenue ! Nous utilisons des cookies pour améliorer votre expérience 
-        et les services disponibles sur ce site. Pour en savoir plus, visitez la page <a href="">Données personnelles et cookies</a>. 
-        Vous pouvez, à tout moment, avoir le contrôle sur les cookies que vous souhaitez activer.</p>
-    </div>
-    <ul className="fr-consent-banner__buttons fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-sm">
-        <li>
-            <button className="fr-btn" title="Autoriser tous les cookies">
-                Tout accepter
-            </button>
-        </li>
-        <li>
-            <button className="fr-btn" title="Refuser tous les cookies">
-                Tout refuser
-            </button>
-        </li>
-        <li>
-            <button className="fr-btn fr-btn--secondary" data-fr-opened="false" aria-controls="consent-modal" title="Personnaliser les cookies">
-                Personnaliser
-            </button>
-        </li>
-    </ul>
-  </div>
 [/template]
 
 [template private writeContent (ve : view::AbstractViewElement)]
-  <figure role="group" className="fr-content-media" aria-label="Description / Source">
-    <div className="fr-content-media__img">
-        <img className="fr-responsive-img" src="example/img/placeholder.16x9.png" 
-        alt="À MODIFIER - vide ou texte alternatif de l’image" />
-    </div>
-    <figcaption className="fr-content-media__caption">
-        Description / Source
-        <a href="#" className="fr-link">Libellé lien</a>
-    </figcaption>
-  </figure>
 [/template]
 
 [template private writeDisplay (ve : view::AbstractViewElement)]
-  <button aria-controls="fr-theme-modal" data-fr-opened="false" title="Paramètres d'affichage" 
-     type="button" className="fr-btn--display fr-btn">
-     Paramètres d'affichage
-  </button>
 [/template]
 
 [template private writeDropDown (ve : view::AbstractViewElement)]
@@ -283,692 +227,137 @@
 [/template]
 
 [template private writeForm (ve : view::AbstractViewElement)]
-  <form action="" method="post">
-    <fieldset className="fr-fieldset" aria-labelledby="text-legend text-messages">
-        <legend className="fr-fieldset__legend" id="text-legend">
-            Légende pour l’ensemble des éléments
-            <span className="fr-hint-text">Texte de description additionnel</span>
-        </legend>
-        <div className="fr-messages-group" id="text-messages" aria-live="polite">
-        </div>
-        <div style={{ width: "100%" }}>
-        <div className="fr-grid-row fr-grid-row--gutters">
-
+   <form onSubmit={handleSubmit(onSubmit)}>
+     <div style={{ width: "100%" }}>
 [/template]
 
 [template private writeCloseForm (ve : view::AbstractViewElement)]
-  </div></div>
-  </fieldset>
+    </div> {/* writeCloseForm */}
   </form>
 [/template]
 
-
 [template private writeHighLight (ve : view::AbstractViewElement)]
-  <div className="fr-highlight">
-    <p>Lorem ... elit ut.</p>
-  </div>
 [/template]
 
 [template private writeInput (ve : view::AbstractViewElement)]
-  <div className="fr-input-group">
-      <label className="fr-label" htmlFor="text-input">
-          Libellé champ de saisie
-          <span className="fr-hint-text">Texte de description additionnel</span>
-      </label>
-      <input className="fr-input" aria-describedby="input-messages" id="text-input" type="text"/>
-      <div className="fr-messages-group" id="input-messages" aria-live="polite">
-      </div>
-  </div>
+  <Input label="[ve.label/]"
+  [if (ve.has_metaTextError())] 
+    state="error"
+    stateRelatedMessage="[ve.get_metaTextError()/]"
+  [/if]
+  [if (ve.has_metaTextInfo())]
+    state="info"
+    stateRelatedMessage="[ve.get_metaTextInfo()/]"
+  [/if]
+  hintText="[ve.description/]"
+  [if (ve.has_metaTextPlaceHolder())]
+    nativeInputProps={{
+      placeholder: '[ve.get_metaTextPlaceHolder()/]'
+    }}
+  [/if]
+  />
+[/template]
+
+[template private writeInputNumber (ve : view::AbstractViewElement)]
+  <Input label="[ve.label/]"
+  [if (ve.has_metaTextError())] 
+    state="error"
+    stateRelatedMessage="[ve.get_metaTextError()/]"
+  [/if]
+  [if (ve.has_metaTextInfo())]
+    state="info"
+    stateRelatedMessage="[ve.get_metaTextInfo()/]"
+  [/if]
+  hintText="[ve.description/]"
+  [if (ve.has_metaTextPlaceHolder())]
+    nativeInputProps={{
+      placeholder: '[ve.get_metaTextPlaceHolder()/]'
+    }}
+  [/if]
+  nativeInputProps={{
+      inputMode: 'numeric',
+      pattern: '['['/]0-9[']'/]*',
+      type: 'number'
+    }}
+  />
 [/template]
 
 [template private writeLink (ve : view::AbstractViewElement)]
-  <a href="#" className="fr-link">
-    Libellé lien
-  </a>
 [/template]
 
 [template private writeLogo (ve : view::AbstractViewElement)]
-  <p className="fr-logo">
-    Intitulé
-    <br/>officiel
-  </p>
 [/template]
 
 [template private writeNavigation (ve : view::AbstractViewElement)]
-  <nav className="fr-nav" role="navigation" aria-label="Menu principal">
-    <ul className="fr-nav__list">
-        <li className="fr-nav__item">
-            <button aria-expanded="false" aria-controls="collapse-menu-01" type="menu" className="fr-nav__btn">Entrée menu</button>
-            <div className="fr-collapse fr-menu" id="collapse-menu-01">
-                <ul className="fr-menu__list">
-                    <li>
-                        <a href="#" className="fr-nav__link">Lien de navigation</a>
-                    </li>
-                    <li>
-                        <a href="#" className="fr-nav__link">Lien de navigation</a>
-                    </li>
-                    <li>
-                        <a href="#" className="fr-nav__link">Lien de navigation</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-        <li className="fr-nav__item">
-            <button aria-expanded="false" aria-controls="collapse-mega-menu" type="mega-menu" className="fr-nav__btn">Entrée mega menu</button>
-            <div className="fr-collapse fr-mega-menu" id="collapse-mega-menu">
-                <div className="fr-container fr-container--fluid fr-container-lg">
-                    <div className="fr-grid-row fr-grid-row-lg--gutters">
-                        <div className="fr-col-12 fr-mb-n3v">
-                            <button aria-controls="collapse-mega-menu" title="Fermer" type="button" className="fr-btn--close fr-btn">Fermer</button>
-                        </div>
-                        <div className="fr-col-12 fr-col-lg-3">
-                            <h5 className="fr-mega-menu__category">
-                                <a href="#" className="fr-nav__link">Nom de catégorie</a>
-                            </h5>
-                            <ul className="fr-mega-menu__list">
-                                <li>
-                                    <a href="#" className="fr-nav__link">Lien de navigation</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="fr-nav__link">Lien de navigation</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="fr-nav__link">Lien de navigation</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="fr-col-12 fr-col-lg-3">
-                            <h5 className="fr-mega-menu__category">
-                                <a href="#" className="fr-nav__link">Nom de catégorie</a>
-                            </h5>
-                            <ul className="fr-mega-menu__list">
-                                <li>
-                                    <a href="#" className="fr-nav__link">Lien de navigation</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="fr-nav__link">Lien de navigation</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="fr-nav__link">Lien de navigation</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="fr-col-12 fr-col-lg-3">
-                            <h5 className="fr-mega-menu__category">
-                                <a href="#" className="fr-nav__link">Nom de catégorie</a>
-                            </h5>
-                            <ul className="fr-mega-menu__list">
-                                <li>
-                                    <a href="#" className="fr-nav__link">Lien de navigation</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="fr-nav__link">Lien de navigation</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="fr-nav__link">Lien de navigation</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="fr-col-12 fr-col-lg-3">
-                            <h5 className="fr-mega-menu__category">
-                                <a href="#" className="fr-nav__link">Nom de catégorie</a>
-                            </h5>
-                            <ul className="fr-mega-menu__list">
-                                <li>
-                                    <a href="#" className="fr-nav__link">Lien de navigation</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="fr-nav__link">Lien de navigation</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="fr-nav__link">Lien de navigation</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <li className="fr-nav__item">
-            <a type="link" href="#" className="fr-nav__link">Lien accès direct</a>
-        </li>
-        <li className="fr-nav__item">
-            <button aria-expanded="false" aria-controls="collapse-menu-01-active" aria-current="true" type="menu" className="fr-nav__btn">Entrée menu</button>
-            <div className="fr-collapse fr-menu" id="collapse-menu-01-active">
-                <ul className="fr-menu__list">
-                    <li>
-                        <a href="#" className="fr-nav__link">Lien de navigation</a>
-                    </li>
-                    <li>
-                        <a href="#" className="fr-nav__link">Lien de navigation</a>
-                    </li>
-                    <li>
-                        <a aria-current="page" href="#" className="fr-nav__link">Lien de navigation actif</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-    </ul>
-  </nav>
 [/template]
 
 [template private writeNotice (ve : view::AbstractViewElement)]
-  <div className="fr-notice fr-notice--info">
-    <div className="fr-container">
-        <div className="fr-notice__body">
-            <p>
-                <span className="fr-notice__title">Titre du bandeau assez long</span>
-                <span className="fr-notice__desc">Texte de description plutot long lorem ipsum sit consectetur adipiscing elit. Sed</span>
-                <a title="Lien de consultation - nouvelle fenêtre" href="#" target="_blank" rel="noopener external" 
-                className="fr-notice__link">Lien de consultation</a>
-            </p>
-            <button title="Masquer le message" onclick="const notice = this.parentNode.parentNode.parentNode; 
-            notice.parentNode.removeChild(notice)" type="button" className="fr-btn--close fr-btn">Masquer le message</button>
-        </div>
-    </div>
-  </div>
 [/template]
 
 [template private writePagination (ve : view::AbstractViewElement)]
-  <nav role="navigation" className="fr-pagination" aria-label="pagination">
-    <ul className="fr-pagination__list">
-        <li>
-            <a className="fr-pagination__link fr-pagination__link--first" title="Première page" aria-disabled="true" role="link">
-                Première page
-            </a>
-        </li>
-        <li>
-            <a className="fr-pagination__link fr-pagination__link--prev fr-pagination__link--lg-label" 
-              title="Page précédente" aria-disabled="true" role="link">
-                Page précédente
-            </a>
-        </li>
-        <li>
-            <a className="fr-pagination__link" aria-current="page" title="Page 1">
-                1
-            </a>
-        </li>
-        <li>
-            <a className="fr-pagination__link" href="#" title="Page 2">
-                2
-            </a>
-        </li>
-        <li>
-            <a className="fr-pagination__link fr-hidden fr-unhidden-lg" href="#" title="Page 3">
-                3
-            </a>
-        </li>
-        <li>
-            <span className="fr-pagination__link fr-hidden fr-unhidden-lg">
-                …
-            </span>
-        </li>
-        <li>
-            <a className="fr-pagination__link fr-hidden fr-unhidden-lg" href="#" title="Page 130">
-                130
-            </a>
-        </li>
-        <li>
-            <a className="fr-pagination__link fr-hidden fr-unhidden-lg" href="#" title="Page 131">
-                131
-            </a>
-        </li>
-        <li>
-            <a className="fr-pagination__link" href="#" title="Page 132">
-                132
-            </a>
-        </li>
-        <li>
-            <a className="fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label" 
-               id="pagination-6519" href="#" title="Page suivante">
-                Page suivante
-            </a>
-        </li>
-        <li>
-            <a className="fr-pagination__link fr-pagination__link--last" href="#" title="Dernière page">
-                Dernière page
-            </a>
-        </li>
-    </ul>
-  </nav>
 [/template]
 
 [template private writePassword (ve : view::AbstractViewElement)]
-  <div className="fr-password">
-    <label className="fr-password__label fr-label" htmlFor="password-input">
-        Mot de passe
-        <span className="fr-hint-text">Texte de description additionnel</span>
-    </label>
-    <div className="fr-input-wrap">
-        <input id="password-input" className="fr-password__input fr-input" autocapitalize="off" autocorrect="off" 
-          aria-describedby="password-input-messages" aria-required="true" name="password" 
-          autocomplete="new-password" type="password"/>
-    </div>
-    <div className="fr-messages-group" id="password-input-messages" aria-live="polite">
-        <p className="fr-message">Votre mot de passe doit contenir :</p>
-        <p className="fr-message fr-message--info" data-fr-valid="validé" data-fr-error="en erreur">12 caractères minimum</p>
-        <p className="fr-message fr-message--info" data-fr-valid="validé" data-fr-error="en erreur">1 caractère spécial minimum</p>
-        <p className="fr-message fr-message--info" data-fr-valid="validé" data-fr-error="en erreur">1 chiffre minimum</p>
-    </div>
-    <div className="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm">
-        <input aria-label="Afficher le mot de passe" id="password-show" type="checkbox"/>
-        <label className="fr-label" htmlFor="password-show">
-            Afficher
-        </label>
-    </div>
-  </div>
 [/template]
 
 [template private writeQuote (ve : view::AbstractViewElement)]
-  <figure className="fr-quote fr-quote--column">
-    <blockquote cite="À MODIFIER - https://lien-vers-la-source.fr">
-        <p>« Lorem ... elit ut. »</p>
-    </blockquote>
-    <figcaption>
-        <p className="fr-quote__author">Auteur</p>
-        <ul className="fr-quote__source">
-            <li>
-                <cite>Ouvrage</cite>
-            </li>
-            <li>Détail 1</li>
-            <li>Détail 2</li>
-            <li>Détail 3</li>
-            <li>
-                <a href="">Détail 4</a>
-            </li>
-        </ul>
-        <div className="fr-quote__image">
-            <img className="fr-responsive-img" src="../../../example/img/placeholder.1x1.png" alt="" />
-            {/* L’alternative de l’image (attribut alt) doit rester vide car l’image 
-            est illustrative et ne doit pas être restituée aux technologies d’assistance */}
-        </div>
-    </figcaption>
-  </figure>
-[/template]
-
-[template private writeRadio (ve : view::AbstractViewElement)]
-  <div className="fr-radio-group">
-    <input id="radio" type="radio" name="radio" aria-describedby="radio-messages"/>
-    <label className="fr-label" htmlFor="radio">
-        Libellé bouton radio
-        <span className="fr-hint-text">Description optionnelle</span>
-    </label>
-  </div>
 [/template]
 
 [template private writeRange (ve : view::AbstractViewElement)]
-  <div className="fr-range-group">
-    <label id="range-label" className="fr-label">
-        Libellé
-        <span className="fr-hint-text">Texte de description additionnel, valeur de 0 à 100.</span>
-    </label>
-    <div className="fr-range">
-        <span className="fr-range__output">50</span>
-        <input name="range" type="range" aria-labelledby="range-label" max="100" value="50" aria-describedby="range-messages"/>
-        <span className="fr-range__min" aria-hidden="true">0</span>
-        <span className="fr-range__max" aria-hidden="true">100</span>
-    </div>
-    <div className="fr-messages-group" id="range-messages" aria-live="polite">
-    </div>
-  </div>
 [/template]
 
 [template private writeSearch (ve : view::AbstractViewElement)]
-  <div className="fr-search-bar" role="search">
-    <label className="fr-label" htmlFor="search-input">
-        Rechercher
-    </label>
-    <input className="fr-input" aria-describedby="search-input-messages" placeholder="Rechercher" 
-     id="search-input" type="search"/>
-    <div className="fr-messages-group" id="search-input-messages" aria-live="polite">
-    </div>
-    <button title="Rechercher" type="button" className="fr-btn">Rechercher</button>
-  </div>
 [/template]
 
 [template private writeSegmented (ve : view::AbstractViewElement)]
-  <fieldset className="fr-segmented">
-    <legend className="fr-segmented__legend">
-        Légende
-        <span className="fr-hint-text">Description additionnelle</span>
-    </legend>
-    <div className="fr-segmented__elements">
-        <div className="fr-segmented__element">
-            <input value="1" type="radio" id="segmented-1" name="segmented"/>
-            <label className="fr-label" htmlFor="segmented-1">
-                Libellé
-            </label>
-        </div>
-        <div className="fr-segmented__element">
-            <input value="2" checked type="radio" id="segmented-2" name="segmented"/>
-            <label className="fr-label" htmlFor="segmented-2">
-                Libellé
-            </label>
-        </div>
-        <div className="fr-segmented__element">
-            <input value="3" type="radio" id="segmented-3" name="segmented"/>
-            <label className="fr-label" htmlFor="segmented-3">
-                Libellé
-            </label>
-        </div>
-    </div>
-  </fieldset>
 [/template]
 
 [template private writeSelect (ve : view::AbstractViewElement)]
-  <div className="fr-select-group">
-    <label className="fr-label" htmlFor="select-hint">
-        Libellé pour liste déroulante
-        <span className="fr-hint-text">Texte de description additionnel</span>
-    </label>
-    <select className="fr-select" aria-describedby="select-hint-messages" id="select-hint" name="select-hint">
-        <option value="" selected disabled hidden>Sélectionner une option</option>
-        <option value="1">Option 1</option>
-        <option value="2">Option 2</option>
-        <option value="3">Option 3</option>
-    </select>
-    <div className="fr-messages-group" id="select-hint-messages" aria-live="polite">
-    </div>
-  </div>
 [/template]
 
 [template private writeShare (ve : view::AbstractViewElement)]
 [/template]
 
 [template private writeSideMenu (ve : view::AbstractViewElement)]
-  <nav className="fr-sidemenu" aria-labelledby="fr-sidemenu-title">
-  <div className="fr-sidemenu__inner">
-    <button className="fr-sidemenu__btn" aria-controls="fr-sidemenu-wrapper" aria-expanded="false">Dans cette rubrique</button>
-    <div className="fr-collapse" id="fr-sidemenu-wrapper">
-      <div className="fr-sidemenu__title" id="fr-sidemenu-title">Titre de rubrique</div>
-      <ul className="fr-sidemenu__list">
-        <li className="fr-sidemenu__item fr-sidemenu__item--active">
-          <a className="fr-sidemenu__link" href="#" target="_self" aria-current="page">Accès direct</a>
-        </li>
-        <li className="fr-sidemenu__item">
-          <a className="fr-sidemenu__link" href="#" target="_self">Accès direct</a>
-        </li>
-        <li className="fr-sidemenu__item">
-          <a className="fr-sidemenu__link" href="#" target="_self">Accès direct</a>
-        </li>
-        <li className="fr-sidemenu__item">
-          <a className="fr-sidemenu__link" href="#" target="_self">Accès direct</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  </nav>
 [/template]
 
 [template private writeSkipLink (ve : view::AbstractViewElement)]
-  <div className="fr-skiplinks">
-    <nav role="navigation" aria-label="Accès rapide" className="fr-container">
-        <ul className="fr-skiplinks__list">
-            <li>
-                <a className="fr-link" href="#content">Contenu</a>
-            </li>
-            <li>
-                <a className="fr-link" href="#header-navigation">Menu</a>
-            </li>
-            <li>
-                <a className="fr-link" href="#header-search">Recherche</a>
-            </li>
-            <li>
-                <a className="fr-link" href="#footer">Pied de page</a>
-            </li>
-        </ul>
-    </nav>
-  </div>
 [/template]
 
 [template private writeStepper (ve : view::AbstractViewElement)]
-  <div className="fr-stepper">
-    <h2 className="fr-stepper__title">
-        Titre de l’étape en cours
-        <span className="fr-stepper__state">Étape 1 sur 3</span>
-    </h2>
-    <div className="fr-stepper__steps" data-fr-current-step="1" data-fr-steps="3"></div>
-    <p className="fr-stepper__details">
-        <span className="fr-text--bold">Étape suivante :</span> Titre de la prochaine étape
-    </p>
-  </div>
 [/template]
 
 [template private writeSummary (ve : view::AbstractViewElement)]
-  <nav className="fr-summary" role="navigation" aria-labelledby="fr-summary-title">
-    <h2 className="fr-summary__title" id="fr-summary-title">Sommaire</h2>
-    <ol>
-        <li>
-            <a className="fr-summary__link" id="summary-link-1" href="#anchor-1">Libellé du lien 1</a>
-            <ol>
-                <li>
-                    <a className="fr-summary__link" id="summary-link-1-1" href="#anchor-1.1">Libellé du lien 1.1</a>
-                </li>
-                <li>
-                    <a className="fr-summary__link" id="summary-link-1-2" href="#anchor-1.2">Libellé du lien 1.2</a>
-                </li>
-                <li>
-                    <a className="fr-summary__link" id="summary-link-1-3" href="#anchor-1.3">Libellé du lien 1.3</a>
-                </li>
-            </ol>
-        </li>
-        <li>
-            <a className="fr-summary__link" id="summary-link-2" href="#anchor-2">Libellé du lien 2</a>
-        </li>
-    </ol>
-  </nav>
 [/template]
 
 [template private writeTab (ve : view::AbstractViewElement)]
-  <div className="fr-tabs">
-    <ul className="fr-tabs__list" role="tablist" aria-label="A modifier | nom du système d'onglet">
-        <li role="presentation">
-            <button type="button" id="tab-1" className="fr-tabs__tab" tabindex="0" role="tab" aria-selected="true" 
-            aria-controls="tab-1-panel">Libellé onglet 1</button>
-        </li>
-        <li role="presentation">
-            <button type="button" id="tab-2" className="fr-tabs__tab" tabindex="-1" role="tab" aria-selected="false" 
-            aria-controls="tab-2-panel">Libellé onglet 2</button>
-        </li>
-        <li role="presentation">
-            <button type="button" id="tab-3" className="fr-tabs__tab" tabindex="-1" role="tab" aria-selected="false" 
-            aria-controls="tab-3-panel">Libellé onglet 3</button>
-        </li>
-    </ul>
-    <div id="tab-1-panel" className="fr-tabs__panel fr-tabs__panel--selected" role="tabpanel" aria-labelledby="tab-1" tabindex="0">
-         Contenu du panneau 1 
-    </div>
-    <div id="tab-2-panel" className="fr-tabs__panel" role="tabpanel" aria-labelledby="tab-2" tabindex="0">
-        Contenu du panneau 2
-    </div>
-    <div id="tab-3-panel" className="fr-tabs__panel" role="tabpanel" aria-labelledby="tab-3" tabindex="0">
-        Contenu du panneau 3
-    </div>
-  </div>
 [/template]
 
 [template private writeTabNav (ve : view::AbstractViewElement)]
 [/template]
 
 [template private writeTable (ve : view::AbstractViewElement)]
-  <div className="fr-table">
-    <div className="fr-table__wrapper">
-        <div className="fr-table__container">
-            <div className="fr-table__content">
-                <table>
-                    <caption>
-                        Titre du tableau (caption)
-                    </caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                th0
-                            </th>
-                            <th scope="col">
-                                th1
-                            </th>
-                            <th scope="col">
-                                th2
-                            </th>
-                            <th scope="col">
-                                th3
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                Lorem ... elit ut.
-                            </td>
-                            <td>
-                                Lorem ... elit ut.
-                            </td>
-                            <td>
-                                Lorem ... elit ut.
-                            </td>
-                            <td>
-                                Lorem ... elit ut.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Lorem ... elit ut.
-                            </td>
-                            <td>
-                                Lorem ... elit ut.
-                            </td>
-                            <td>
-                                Lorem ... elit ut.
-                            </td>
-                            <td>
-                                Lorem ... elit ut.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-  </div>
 [/template]
 
 [template private writeTag (ve : view::AbstractViewElement)]
-  <p className="fr-tag">Libellé tag non cliquable</p>
-  <a href="#" className="fr-tag">Tag cliquable lien</a>
-  <button type="button" className="fr-tag">Libellé tag cliquable bouton</button>
-  <button type="button" className="fr-tag" aria-pressed="false">Libellé tag activable</button>
-  <button className="fr-tag fr-tag--dismiss" type="button" aria-label="Retirer À MODIFIER - le filtre Libellé tag supprimable">
-  Libellé tag supprimable</button>
 [/template]
 
 [template private writeTile (ve : view::AbstractViewElement)]
-  <div className="fr-tile fr-enlarge-link">
-    <div className="fr-tile__body">
-        <div className="fr-tile__content">
-            <h3 className="fr-tile__title">
-                <a href="url - à modifier">Intitulé de la tuile</a>
-            </h3>
-            <p className="fr-tile__desc">Description de la tuile</p>
-            <p className="fr-tile__detail">Détail</p>
-            <div className="fr-tile__start">
-                <p className="fr-badge fr-badge--purple-glycine">Libellé badge</p>
-            </div>
-        </div>
-    </div>
-    <div className="fr-tile__header">
-        <div className="fr-tile__pictogram">
-            <svg aria-hidden="true" className="fr-artwork" viewBox="0 0 80 80" width="80px" height="80px">
-                <use className="fr-artwork-decorative" href="../../../dist/artwork/pictograms/buildings/city-hall.svg#artwork-decorative"></use>
-                <use className="fr-artwork-minor" href="../../../dist/artwork/pictograms/buildings/city-hall.svg#artwork-minor"></use>
-                <use className="fr-artwork-major" href="../../../dist/artwork/pictograms/buildings/city-hall.svg#artwork-major"></use>
-            </svg>
-        </div>
-    </div>
-  </div>
 [/template]
 
 [template private writeToogle (ve : view::AbstractViewElement)]
-  <div className="fr-toggle">
-    <input type="checkbox" className="fr-toggle__input" id="toggle" aria-describedby="toggle-messages toggle-hint"/>
-    <label className="fr-toggle__label" htmlFor="toggle" data-fr-checked-label="Activé" data-fr-unchecked-label="Désactivé">
-    Libellé de l'interrupteur</label>
-    <p className="fr-hint-text" id="toggle-hint">Texte de description additionnel</p>
-    <div className="fr-messages-group" id="toggle-messages" aria-live="polite">
-    </div>
-  </div>
 [/template]
 
 [template private writeTootip (ve : view::AbstractViewElement)]
-  <a className="fr-link" aria-describedby="tooltip-1" href="à modifier">
-    Exemple
-  </a>
-  <span className="fr-tooltip fr-placement" id="tooltip-1" role="tooltip">
-      Lorem ... elit ut.
-  </span>
 [/template]
 
 [template private writeTranscription (ve : view::AbstractViewElement)]
-  <div className="fr-transcription">
-    <button type="button" className="fr-transcription__btn" aria-expanded="false" aria-controls="fr-transcription-collapse">Transcription</button>
-    <div className="fr-collapse" id="fr-transcription-collapse">
-        <div className="fr-transcription__footer">
-            <div className="fr-transcription__actions-group">
-                <button aria-controls="fr-transcription-modal" aria-label="Agrandir la transcription" data-fr-opened="false" type="button" className="fr-btn--fullscreen fr-btn">Agrandir</button>
-            </div>
-        </div>
-        <dialog id="fr-transcription-modal" className="fr-modal" aria-labelledby="fr-transcription-modal-title">
-            <div className="fr-container fr-container--fluid fr-container-md">
-                <div className="fr-grid-row fr-grid-row--center">
-                    <div className="fr-col-12 fr-col-md-10 fr-col-lg-8">
-                        <div className="fr-modal__body">
-                            <div className="fr-modal__header">
-                                <button aria-controls="fr-transcription-modal" title="Fermer" type="button" className="fr-btn--close fr-btn">Fermer</button>
-                            </div>
-                            <div className="fr-modal__content">
-                                <h1 id="fr-transcription-modal-title" className="fr-modal__title">
-                                    Titre de la transcription
-                                </h1>
-                                Contenu de la transcription
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </dialog>
-    </div>
-  </div>
 [/template]
 
 [template private writeTranslate (ve : view::AbstractViewElement)]
-  <div className="fr-translate fr-nav">
-    <div className="fr-nav__item">
-        <button aria-controls="translate-menu" aria-expanded="false" title="Sélectionner une langue" 
-          type="button" className="fr-translate__btn fr-btn fr-btn--tertiary">FR<span className="fr-hidden-lg">&nbsp;- Français</span>
-        </button>
-        <div className="fr-collapse fr-translate__menu fr-menu" id="translate-menu">
-            <ul className="fr-menu__list">
-                <li>
-                    <a className="fr-translate__language fr-nav__link" hreflang="fr" lang="fr" href="/fr/" aria-current="true">FR - Français</a>
-                </li>
-                <li>
-                    <a className="fr-translate__language fr-nav__link" hreflang="en" lang="en" href="/en/">EN - English</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-  </div>
 [/template]
 
 [template private writeUpload (ve : view::AbstractViewElement)]
-  <div className="fr-upload-group">
-    <label className="fr-label" for="file-upload">
-        Ajouter un fichier
-        <span className="fr-hint-text">Indication : taille maximale : 500 Mo. Formats supportés 
-        : jpg, png, pdf. Plusieurs fichiers possibles. Lorem ipsum dolor sit amet, consectetur adipiscing.</span>
-    </label>
-    <input className="fr-upload" aria-describedby="file-upload-messages" type="file" id="file-upload" name="file-upload">
-    <div className="fr-messages-group" id="file-upload-messages" aria-live="polite"></div>
-  </div>
 [/template]
 
 [template private writeUser (ve : view::AbstractViewElement)]

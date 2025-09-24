@@ -5,7 +5,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.obeonetwork.dsl.cinematic.CinematicRoot;
 import org.obeonetwork.dsl.cinematic.flow.Flow;
@@ -24,8 +23,7 @@ public class CinematicUtils {
 	private static ViewState _error;
 	private static ViewState _referential;
 
-	private static Boolean _formLayout;
-	private static Layout _virtualLayout;
+	private static Layout _eligibleHorizontalLayout;
 
 	/**
 	 * Conserve le temps de la génération les controleurs pour l'en-tete, le
@@ -147,52 +145,23 @@ public class CinematicUtils {
 		return _error.getViewContainers().get(0);
 	}
 
-	public static Boolean insideFormLayout(EObject p_object) {
-		return _formLayout;
-	}
-
-	public static void openFormLayout(EObject p_object) {
-		CinematicUtils._formLayout = true;
-	}
-
-	public static void closeFormLayout(EObject p_object) {
-		CinematicUtils._formLayout = false;
-	}
-
-	public static int calcNbColsForVirtualLayout(EObject p_object) {
-		int nbCols = 0;
-		if (null == _virtualLayout)
-			return 12;
-		TreeIterator<EObject> it = _virtualLayout.eAllContents();
-		while (it.hasNext()) {
-			EObject obj = it.next();
-			if (obj instanceof Layout)
-				if (((Layout) obj).getViewElement() != null)
-					nbCols++;
-//			if (obj instanceof AbstractViewElement) {
-//				nbCols++;
-//			}
-		}
-		return nbCols > 0 ? 12 / nbCols : 12;
-	}
-
-	public static Boolean isInsideVirtualHorizontalLayout(EObject p_object) {
-		if (null == _virtualLayout)
+	public static Boolean isInsideHorizontalLayout(EObject p_object) {
+		if (null == _eligibleHorizontalLayout)
 			return false;
-		return _virtualLayout.getDirection() == LayoutDirection.HORIZONTAL;
+		return _eligibleHorizontalLayout.getDirection() == LayoutDirection.HORIZONTAL;
 	}
 
-	public static void openVirtualLayout(Layout _virtualLayout) {
-		CinematicUtils._virtualLayout = _virtualLayout;
+	public static void openEligibleHorizontalLayout(Layout p_eligibleHorizontalLayout) {
+		CinematicUtils._eligibleHorizontalLayout = p_eligibleHorizontalLayout;
 	}
 
-	public static void closeVirtualLayout(EObject p_object) {
-		CinematicUtils._virtualLayout = null;
+	public static void closeEligibleHorizontalLayout(EObject p_object) {
+		CinematicUtils._eligibleHorizontalLayout = null;
 	}
 
 	/**
 	 * Retourne l'ensemble des AbstractViewElement pour un ViewContainer, en
-	 * éliminant les doublons par nom.
+	 * éliminant les doublons par nom d'implémentation.
 	 */
 	public static Set<AbstractViewElement> viewElementForImports(ViewContainer vc) {
 		Map<String, AbstractViewElement> map = new LinkedHashMap<>();
@@ -202,7 +171,8 @@ public class CinematicUtils {
 
 	private static void collectElements(ViewContainer vc, Map<String, AbstractViewElement> map) {
 		for (AbstractViewElement e : vc.getOwnedElements()) {
-			map.putIfAbsent(e.getWidget().getName(), e);
+			if (e.getWidget().getImplementation() != null && !e.getWidget().getImplementation().isEmpty())
+				map.putIfAbsent(e.getWidget().getImplementation(), e);
 			if (e instanceof ViewContainer)
 				collectElements((ViewContainer) e, map);
 		}

@@ -17,6 +17,12 @@
 
 [query public isButton(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Button')/]
   
+[query public isButtonSubmit(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('ButtonSubmit')/]
+  
+[query public isRadioPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('RadioPanel')/]
+    
+[query public isCheckBoxPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('CheckBoxPanel')/]
+  
 [query public isAccordion(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Accordion')/]
   
 [query public isAlert(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Alert')/] 
@@ -38,6 +44,8 @@
 [query public isCheckBox(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('CheckBox')/]
   
 [query public isInput(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Input')/]
+  
+[query public isInputNumber(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('InputNumber')/]
 
 [query public isQuote(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Quote')/]
   
@@ -105,7 +113,11 @@
   
 [query public isSegmented(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Segmented')/]
   
-[query public isVirtual(layout : view::Layout) : Boolean = layout.viewElement = null/]
+[query public isEligibleForHorizontalLayout(layout : view::Layout) : Boolean = layout.viewElement = null/]
+ 
+[query public isContainer(viewElement : view::AbstractViewElement) : Boolean = viewElement.widget.isContainer/]
+  
+[query public isContainer(layout : view::Layout) : Boolean = layout.viewElement <> null and layout.viewElement.widget.isContainer/]
 
 [query private isType(viewElement : view::AbstractViewElement, type : String) : Boolean = not (viewElement.widget = null) 
   and viewElement.widget.name.equalsIgnoreCase(type)/]

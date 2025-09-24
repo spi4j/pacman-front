@@ -13,11 +13,24 @@
 [comment écriture d'une page typescript + code jsx (panel)./]				
 [template public pageJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
   
-  [for (ve | vc.viewElementForImports())]
-    import { [ve.widget.name/] } from "@codegouvfr/react-dsfr/[ve.widget.name/]";
+  [if (vc.useForms())]
+    import { useState } from "react";
+    import { useForm } from "react-hook-form";
+  [/if]
+  [for (ve | vc.viewElementForImports()->reject(o | o.isFormPanel()))]
+    import { [ve.widget.implementation.trim()/] } from "@codegouvfr/react-dsfr/[ve.widget.implementation.trim()/]";
   [/for]
   
   export default function [vc.namePageJsx()/] () {
+  
+  	[if (vc.useForms())]
+        const { register, handleSubmit, formState: { errors } } = useForm();
+        const ['['/]value, setValue[']'/] = useState("");
+        const onSubmit = (data) => {
+        console.log(data);
+      };
+  	[/if]
+  
     return (
       <>
   	  [vc.layout.writeLayouts()/]
@@ -43,71 +56,44 @@
 
 [comment écriture du code d'ouverture pour un layout./]
 [template private openLayout(l : view::Layout)]
-  [if (l.viewElement.isFormPanel())]
-    [l.openFormLayout()/]
-  [/if]
-  [if (l.isVirtual())]
-    [l.openVirtualLayout()/]
+  [if (l.isEligibleForHorizontalLayout())]
+    [l.openEligibleHorizontalLayout()/]
+    [if (l.isHorizontalLayout())]
+      {/* open horizontal Layout */}
+      <div className="fr-grid-row fr-grid-row--gutters">
+    [/if]
   [/if]
 [/template]
 
 [comment écriture du code de fermeture pour un layout (si besoin)./]
 [template private closeLayout(l : view::Layout)]
-  [if (l.viewElement.isFormPanel())]
-    [l.viewElement.closeFormLayout()/]
+  [if (l.isEligibleForHorizontalLayout())]
+    [l.closeEligibleHorizontalLayout()/]
+    [if (l.isHorizontalLayout())]
+      </div> {/* close horizontal Layout */}
+    [/if]
   [/if]
-  [if (l.isVirtual())]
-    [l.closeVirtualLayout()/]
-  [/if]
-  [if (l.viewElement.widget.isContainer)]
+  [if (l.isContainer())]
     [l.viewElement.writeCloseViewElement()/]
   [/if]
 [/template]
 
 [comment ./]
 [template private writeElement(ve : view::AbstractViewElement)]
-  [if (null <> ve)]
-    [if (ve.insideFormLayout() and not ve.isFormPanel())]
-      [if (ve.isInsideVirtualHorizontalLayout())]
-        <div className="fr-col-[ve.calcNbColsForVirtualLayout()/]">
+  [if (ve <> null)]
+    [if (not ve.isContainer())]
+      [if (ve.isInsideHorizontalLayout())]
+        <div className="fr-col">
+          [ve.writeViewElement()/]
+        </div>
       [else]
-         <div className="fr-col-12">
-      [/if]
-      <div className="fr-fieldset__element">         
         [ve.writeViewElement()/]
-      </div>
-      </div> {/* writeElement */}
+      [/if]    
     [else]
       [ve.writeViewElement()/]
     [/if]
   [/if]
 [/template]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 [template public pageAppTsxImpl (r : cinematic::CinematicRoot)]
   import { useState } from 'react'
