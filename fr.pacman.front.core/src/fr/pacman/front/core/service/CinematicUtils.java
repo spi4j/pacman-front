@@ -20,10 +20,7 @@ public class CinematicUtils {
 	private static ViewState _header;
 	private static ViewState _footer;
 	private static ViewState _root;
-	private static ViewState _error;
 	private static ViewState _referential;
-
-	private static Layout _eligibleHorizontalLayout;
 
 	/**
 	 * Conserve le temps de la génération les controleurs pour l'en-tete, le
@@ -50,14 +47,8 @@ public class CinematicUtils {
 						if ("ReferentialPanel".equalsIgnoreCase(v_viewContainer.getWidget().getName())) {
 							_referential = (ViewState) v_viewState;
 						}
-						if ("MainPanel".equalsIgnoreCase(v_viewContainer.getWidget().getName())) {
-							_root = (ViewState) v_viewState;
-						}
-						if ("ErrorPanel".equalsIgnoreCase(v_viewContainer.getWidget().getName())) {
-							_error = (ViewState) v_viewState;
-						}
 					}
-					if (_footer != null && _header != null && _referential != null && _root != null && _error != null)
+					if (_footer != null && _header != null && _referential != null && _root != null)
 						break;
 				}
 			}
@@ -77,10 +68,6 @@ public class CinematicUtils {
 		return _referential;
 	}
 
-	public static ViewState get_errorState(Object p_object) {
-		return _error;
-	}
-
 	public static ViewState get_rootState(Object p_object) {
 		return _root;
 	}
@@ -95,10 +82,6 @@ public class CinematicUtils {
 
 	public static boolean hasFooterContainer(Object p_object) {
 		return _footer != null;
-	}
-
-	public static boolean hasErrorContainer(Object p_object) {
-		return _error != null;
 	}
 
 	public static ViewContainer get_referentialContainer(Object p_object) {
@@ -134,34 +117,83 @@ public class CinematicUtils {
 		return _footer.getViewContainers().get(0);
 	}
 
-	public static ViewContainer get_errorContainer(Object p_object) {
-
-		if (null == _error)
-			return null;
-
-		if (null == _error.getViewContainers() || _error.getViewContainers().isEmpty())
-			return null;
-
-		return _error.getViewContainers().get(0);
-	}
-
-	public static Boolean isInsideHorizontalLayout(EObject p_object) {
-		if (null == _eligibleHorizontalLayout)
-			return false;
-		return _eligibleHorizontalLayout.getDirection() == LayoutDirection.HORIZONTAL;
-	}
-
-	public static void openEligibleHorizontalLayout(Layout p_eligibleHorizontalLayout) {
-		CinematicUtils._eligibleHorizontalLayout = p_eligibleHorizontalLayout;
-	}
-
-	public static void closeEligibleHorizontalLayout(EObject p_object) {
-		CinematicUtils._eligibleHorizontalLayout = null;
+	/**
+	 * Vérifie si un layout est le premier élément d'un conteneur horizontal.
+	 *
+	 * @param p_layout le layout à tester
+	 * @return {@code true} si le layout est le premier de son conteneur horizontal,
+	 *         {@code false} sinon
+	 */
+	public static boolean isFirstLayoutOfHorizontalContainer(Layout p_layout) {
+		return checkLayoutOfHorizontalContainer(p_layout, true);
 	}
 
 	/**
-	 * Retourne l'ensemble des AbstractViewElement pour un ViewContainer, en
-	 * éliminant les doublons par nom d'implémentation.
+	 * Vérifie si un layout est le dernier élément d'un conteneur horizontal.
+	 *
+	 * @param p_layout le layout à tester
+	 * @return {@code true} si le layout est le dernier de son conteneur horizontal,
+	 *         {@code false} sinon
+	 */
+	public static boolean isLastLayoutOfHorizontalContainer(Layout p_layout) {
+		return checkLayoutOfHorizontalContainer(p_layout, false);
+	}
+
+	/**
+	 * Vérifie si un layout correspond au premier ou au dernier élément d'un
+	 * conteneur horizontal.
+	 * <p>
+	 * La position attendue dépend de la valeur du paramètre {@code p_first}.
+	 * </p>
+	 *
+	 * @param p_layout le layout à tester
+	 * @param p_first  si {@code true}, vérifie si le layout est le premier élément,
+	 *                 sinon vérifie s'il est le dernier
+	 * @return {@code true} si le layout correspond à la position attendue (premier
+	 *         ou dernier dans le conteneur horizontal), {@code false} sinon
+	 */
+	public static boolean checkLayoutOfHorizontalContainer(Layout p_layout, boolean p_first) {
+		if (p_layout == null) {
+			return false;
+		}
+		EObject container = p_layout.eContainer();
+		if (p_layout.eContainer() instanceof Layout) {
+			int length = (p_first) ? 0 : ((Layout) container).getOwnedLayouts().size() - 1;
+			if (((Layout) container).getOwnedLayouts().get(length).getViewElement() == p_layout.getViewElement())
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Vérifie si un layout appartient à un conteneur dont la direction est
+	 * horizontale.
+	 *
+	 * @param p_layout le layout à tester
+	 * @return {@code true} si le conteneur du layout est de type horizontal,
+	 *         {@code false} sinon
+	 */
+	public static boolean insideHorizontalLayout(Layout p_layout) {
+		EObject container = p_layout.eContainer();
+		if (container instanceof Layout)
+			return ((Layout) container).getDirection() == LayoutDirection.HORIZONTAL;
+		return false;
+	}
+
+	/**
+	 * Récupère l'ensemble des éléments de vue ({@link AbstractViewElement}) d'un
+	 * conteneur de vues donné, en filtrant et dédupliquant les éléments en fonction
+	 * de l'implémentation de leur widget.
+	 * <p>
+	 * Cette méthode parcourt récursivement la hiérarchie des conteneurs de vues à
+	 * partir du conteneur fourni en paramètre, collecte tous les éléments de vue
+	 * dont le widget possède une implémentation non nulle et non vide, puis
+	 * retourne un ensemble garantissant l'unicité et l'ordre d'insertion.
+	 * </p>
+	 *
+	 * @param vc le conteneur de vues racine à analyser
+	 * @return un ensemble d'éléments de vue uniques, collectés à partir du
+	 *         conteneur et de ses sous-conteneurs
 	 */
 	public static Set<AbstractViewElement> viewElementForImports(ViewContainer vc) {
 		Map<String, AbstractViewElement> map = new LinkedHashMap<>();
@@ -169,6 +201,18 @@ public class CinematicUtils {
 		return new LinkedHashSet<>(map.values());
 	}
 
+	/**
+	 * Parcourt récursivement un conteneur de vues et ajoute dans la map les
+	 * éléments de vue possédant une implémentation de widget valide.
+	 * <p>
+	 * L'unicité est assurée par la clé de la map, qui correspond à la chaîne
+	 * d'implémentation du widget associé à l'élément.
+	 * </p>
+	 *
+	 * @param vc  le conteneur de vues à parcourir
+	 * @param map la map accumulant les éléments, indexés par l'implémentation du
+	 *            widget
+	 */
 	private static void collectElements(ViewContainer vc, Map<String, AbstractViewElement> map) {
 		for (AbstractViewElement e : vc.getOwnedElements()) {
 			if (e.getWidget().getImplementation() != null && !e.getWidget().getImplementation().isEmpty())

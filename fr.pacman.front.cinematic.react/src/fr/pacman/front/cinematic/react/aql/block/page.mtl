@@ -33,68 +33,60 @@
   
     return (
       <>
+      [comment vc.scanHorizontalLayouts()/]
   	  [vc.layout.writeLayouts()/]
       </>
     );
   }
 [/template]
 
-[comment parcours récursif des layouts avec fermeture des balises pour les conteneurs (point d'entrée)./]
+[comment point d'entrée./]
 [template private writeLayouts(l : view::Layout)]
-  [l.openLayout()/]
-  [l.viewElement.writeElement()/]
-  [l.scanSubLayouts()/]
-  [l.closeLayout()/]  	
+  [let insideHl = l.insideHorizontalLayout()]
+    [if (insideHl)][l.writeOpenHorizontalBloc()/][/if]
+    [l.viewElement.writeElement()/]
+    [l.scanAllSubLayouts()/]
+    [l.closeLayout(insideHl)/]
+  [/let]
 [/template]
 
 [comment parcours récursif sur les layouts inclus dans les layouts (sub-layouts)./]
-[template private scanSubLayouts(l : view::Layout)]
+[template private scanAllSubLayouts(l : view::Layout)]
   [for (sl : view::Layout | l.eContents())]
     [sl.writeLayouts()/]
   [/for]
 [/template]
 
-[comment écriture du code d'ouverture pour un layout./]
-[template private openLayout(l : view::Layout)]
-  [if (l.isEligibleForHorizontalLayout())]
-    [l.openEligibleHorizontalLayout()/]
-    [if (l.isHorizontalLayout())]
-      {/* open horizontal Layout */}
-      <div className="fr-grid-row fr-grid-row--gutters">
-    [/if]
-  [/if]
+[comment écriture du code de fermeture pour un layout./]
+[template private closeLayout(l : view::Layout, insideHl :: Boolean)]
+  [if (l.isContainer())][l.viewElement.writeCloseViewElement()/][/if]
+  [if (insideHl)][l.writeCloseHorizontalBloc()/][/if]
 [/template]
 
-[comment écriture du code de fermeture pour un layout (si besoin)./]
-[template private closeLayout(l : view::Layout)]
-  [if (l.isEligibleForHorizontalLayout())]
-    [l.closeEligibleHorizontalLayout()/]
-    [if (l.isHorizontalLayout())]
-      </div> {/* close horizontal Layout */}
-    [/if]
-  [/if]
-  [if (l.isContainer())]
-    [l.viewElement.writeCloseViewElement()/]
-  [/if]
-[/template]
-
-[comment ./]
+[comment écriture d'un élement, qu'il s'agisse d'un conteneur ou d'un élément standard./]
 [template private writeElement(ve : view::AbstractViewElement)]
-  [if (ve <> null)]
-    [if (not ve.isContainer())]
-      [if (ve.isInsideHorizontalLayout())]
-        <div className="fr-col">
-          [ve.writeViewElement()/]
-        </div>
-      [else]
-        [ve.writeViewElement()/]
-      [/if]    
-    [else]
-      [ve.writeViewElement()/]
-    [/if]
-  [/if]
+  [if (ve <> null)][ve.writeViewElement()/][/if]
 [/template]
+  
+[comment écriture pour l'ouverture d'un bloc horizontal./]
+[template private writeOpenHorizontalBloc (l : view::Layout)]
+  [if (l.isFirstLayoutOfHorizontalContainer())]
+    <div className="fr-grid-row fr-grid-row--gutters">
+  [/if]
+  <div className="fr-col">
+  [/template]
+  
+[comment écriture pour la fermeture d'un bloc horizontal./]
+[template private writeCloseHorizontalBloc (l : view::Layout)]
+  </div>[l.writeForDebug('element')/]
+  [if (l.isLastLayoutOfHorizontalContainer())]</div>[l.writeForDebug('bloc')/][/if]
+[/template] 
 
+[template private writeForDebug (l : view::Layout, s : String)]
+  {/* [if (l.viewElement <> null)][l.viewElement.name/][else]'virtual'[/if] -> [s/]*/}
+[/template]
+  
+[comment ./]
 [template public pageAppTsxImpl (r : cinematic::CinematicRoot)]
   import { useState } from 'react'
   import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -124,6 +116,4 @@
   }
   export default App
 [/template]
-
-
 

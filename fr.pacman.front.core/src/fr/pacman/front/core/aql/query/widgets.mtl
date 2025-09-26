@@ -113,11 +113,17 @@
   
 [query public isSegmented(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Segmented')/]
   
-[query public isEligibleForHorizontalLayout(layout : view::Layout) : Boolean = layout.viewElement = null/]
+[query public isVirtualLayout(layout : view::Layout) : Boolean = layout.viewElement = null/]
  
 [query public isContainer(viewElement : view::AbstractViewElement) : Boolean = viewElement.widget.isContainer/]
   
-[query public isContainer(layout : view::Layout) : Boolean = layout.viewElement <> null and layout.viewElement.widget.isContainer/]
+[query public isContainer(layout : view::Layout) : Boolean = layout.viewElement == null or layout.viewElement.widget.isContainer /]
 
 [query private isType(viewElement : view::AbstractViewElement, type : String) : Boolean = not (viewElement.widget = null) 
   and viewElement.widget.name.equalsIgnoreCase(type)/]
+  
+[query public isEligibleForReactLayout(layout : view::Layout) : Boolean = layout.isVirtualLayout() 
+  or layout.viewElement.isContainer()/]
+  
+[query public isEligibleForHorizontalElement(viewElement : view::AbstractViewElement) : Boolean = not viewElement.isContainer() 
+  or viewElement.isMainPanel()/]
