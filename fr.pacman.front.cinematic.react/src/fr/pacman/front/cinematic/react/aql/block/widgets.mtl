@@ -5,7 +5,7 @@
 [import fr::pacman::front::core::service::AnnotationUtils/]
 
 [comment écriture d'un widget pour react dsfr./]
-[template public writeViewElement(ve : view::AbstractViewElement)]
+[template public writeOpenViewElement(ve : view::AbstractViewElement, insideHL :: Boolean)]
    [if (ve.isAccordion())]
      [ve.writeAccordion()/]
    [elseif (ve.isRadioPanel())]
@@ -26,8 +26,6 @@
      [ve.writeCallOut()/]
    [elseif (ve.isCard())]
      [ve.writeCard()/]
-   [elseif (ve.isCheckBox())]
-     [ve.writeCheckBox()/]
    [elseif (ve.isCombo())]
      [ve.writeCombo()/]
    [elseif (ve.isConnect())]
@@ -66,8 +64,6 @@
      [ve.writePassword()/]
    [elseif (ve.isQuote())]
      [ve.writeQuote()/]
-   [elseif (ve.isRadio())]
-     [ve.writeRadio()/]
    [elseif (ve.isRange())]
      [ve.writeRange()/]
    [elseif (ve.isSearch())]
@@ -108,22 +104,25 @@
      [ve.writeUpload()/]
    [elseif (ve.isUser())]
      [ve.writeUser()/]
-   [else]
-     
+   [elseif (ve.isCheckBox())]
+     [ve.writeCheckBox()/]
+   [elseif (ve.isRadio())]
+     [ve.writeRadio()/]
+   [else]  
    [/if]
 [/template]
 
-[comment écriture d'un widget pour react dsfr./]
-[template public writeCloseViewElement(ve : view::AbstractViewElement)]
+[comment écriture d'un widget pour react dsfr (positionnables en CSS/JS)./]
+[template public writeCloseViewElement(ve : view::AbstractViewElement, insideHL :: Boolean)]
   [if (ve.isAccordion())]
   [elseif (ve.isTable())]
   [elseif (ve.isFormPanel())]
     [ve.writeCloseForm()/]
-  [elseif (ve.isRadioPanel())]
-    [ve.writeCloseRadioPanel()/]
-  [elseif (ve.isCheckBoxPanel())]
-    [ve.writeCloseCheckBoxPanel()/]
   [elseif (ve.isUser())]
+  [elseif (ve.isRadioPanel())]
+    [ve.writeCloseRadioPanel(insideHL)/]
+  [elseif (ve.isCheckBoxPanel())]
+    [ve.writeCloseCheckBoxPanel(insideHL)/]
   [else]
   [/if]
 [/template]
@@ -138,8 +137,11 @@
     options={['['/]
 [/template]
 
-[template private writeCloseRadioPanel (ve : view::AbstractViewElement)]
+[template private writeCloseRadioPanel (ve : view::AbstractViewElement, insideHL :: Boolean)]
   [']'/]}
+  [if (insideHL)]
+    orientation="horizontal"
+  [/if]
   />
 [/template]
 
@@ -161,10 +163,13 @@
     options={['['/]
 [/template]
 
-[template private writeCloseCheckBoxPanel (ve : view::AbstractViewElement)]
+[template private writeCloseCheckBoxPanel (ve : view::AbstractViewElement, insideHL :: Boolean)]
   [']'/]}
-    state="default"
-    stateRelatedMessage="State description"
+  [if (insideHL)]
+    orientation="horizontal"
+  [/if]
+  state="default"
+  stateRelatedMessage="State description"
   />
 [/template]
 

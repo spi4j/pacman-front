@@ -121,9 +121,3 @@
 
 [query private isType(viewElement : view::AbstractViewElement, type : String) : Boolean = not (viewElement.widget = null) 
   and viewElement.widget.name.equalsIgnoreCase(type)/]
-  
-[query public isEligibleForReactLayout(layout : view::Layout) : Boolean = layout.isVirtualLayout() 
-  or layout.viewElement.isContainer()/]
-  
-[query public isEligibleForHorizontalElement(viewElement : view::AbstractViewElement) : Boolean = not viewElement.isContainer() 
-  or viewElement.isMainPanel()/]

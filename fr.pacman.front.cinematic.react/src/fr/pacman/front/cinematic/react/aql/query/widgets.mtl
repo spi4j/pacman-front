@@ -1,0 +1,8 @@
+[module widgets(	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0')/]
+
+[import fr::pacman::front::core::aql::query::widgets/]
+
+[comment vérifie si il est possible d'appliquer du positionnement css sur l'élément./]
+[query public isEligibleForCSSPositioning(l: view::Layout) : Boolean =  l.viewElement = null 
+  or (l.viewElement <> null and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox()))/]

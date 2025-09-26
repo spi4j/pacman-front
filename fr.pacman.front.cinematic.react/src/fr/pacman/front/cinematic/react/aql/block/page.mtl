@@ -7,6 +7,7 @@
 [import fr::pacman::front::core::aql::name::directories /]
 [import fr::pacman::front::core::aql::query::eobject/]
 [import fr::pacman::front::cinematic::react::aql::block::widgets/]
+[import fr::pacman::front::cinematic::react::aql::query::widgets/]
 [import fr::pacman::front::core::aql::query::widgets/]
 [import fr::pacman::front::core::service::CinematicUtils/]
 				
@@ -33,20 +34,22 @@
   
     return (
       <>
-      [comment vc.scanHorizontalLayouts()/]
   	  [vc.layout.writeLayouts()/]
       </>
     );
   }
 [/template]
 
-[comment point d'entrée./]
+[comment point d'entrée. Attention, certain composants se positionnent par css ,d'autres par js 
+		 et enfin d'autres ont besoin à la fois du css et du js./]
 [template private writeLayouts(l : view::Layout)]
   [let insideHl = l.insideHorizontalLayout()]
-    [if (insideHl)][l.writeOpenHorizontalBloc()/][/if]
-    [l.viewElement.writeElement()/]
-    [l.scanAllSubLayouts()/]
-    [l.closeLayout(insideHl)/]
+    [let allowCSSPos = l.isEligibleForCSSPositioning()]
+      [l.openLayout(insideHl, allowCSSPos)/]
+      [l.viewElement.writeElement(insideHl)/]
+      [l.scanAllSubLayouts()/]
+      [l.closeLayout(insideHl, allowCSSPos)/]
+    [/let]
   [/let]
 [/template]
 
@@ -57,15 +60,20 @@
   [/for]
 [/template]
 
+[comment écriture du code d'ouverture pour un layout./]
+[template private openLayout(l : view::Layout, insideHl :: Boolean, allowCssPos :: Boolean)]
+  [if (insideHl and allowCssPos)][l.writeOpenHorizontalBloc()/][/if]
+[/template]
+
 [comment écriture du code de fermeture pour un layout./]
-[template private closeLayout(l : view::Layout, insideHl :: Boolean)]
-  [if (l.isContainer())][l.viewElement.writeCloseViewElement()/][/if]
-  [if (insideHl)][l.writeCloseHorizontalBloc()/][/if]
+[template private closeLayout(l : view::Layout, insideHl :: Boolean, allowCssPos :: Boolean)]
+  [if (l.isContainer())][l.viewElement.writeCloseViewElement(insideHl)/][/if]
+  [if (insideHl and allowCssPos)][l.writeCloseHorizontalBloc()/][/if]
 [/template]
 
 [comment écriture d'un élement, qu'il s'agisse d'un conteneur ou d'un élément standard./]
-[template private writeElement(ve : view::AbstractViewElement)]
-  [if (ve <> null)][ve.writeViewElement()/][/if]
+[template private writeElement(ve : view::AbstractViewElement, insideHl :: Boolean)]
+  [if (ve <> null)][ve.writeOpenViewElement(insideHl)/][/if]
 [/template]
   
 [comment écriture pour l'ouverture d'un bloc horizontal./]
@@ -74,18 +82,13 @@
     <div className="fr-grid-row fr-grid-row--gutters">
   [/if]
   <div className="fr-col">
-  [/template]
+[/template]
   
 [comment écriture pour la fermeture d'un bloc horizontal./]
 [template private writeCloseHorizontalBloc (l : view::Layout)]
-  </div>[l.writeForDebug('element')/]
-  [if (l.isLastLayoutOfHorizontalContainer())]</div>[l.writeForDebug('bloc')/][/if]
+  </div>[if (l.isLastLayoutOfHorizontalContainer())]</div>[/if]
 [/template] 
 
-[template private writeForDebug (l : view::Layout, s : String)]
-  {/* [if (l.viewElement <> null)][l.viewElement.name/][else]'virtual'[/if] -> [s/]*/}
-[/template]
-  
 [comment ./]
 [template public pageAppTsxImpl (r : cinematic::CinematicRoot)]
   import { useState } from 'react'
