@@ -47,6 +47,9 @@ public class CinematicUtils {
 						if ("ReferentialPanel".equalsIgnoreCase(v_viewContainer.getWidget().getName())) {
 							_referential = (ViewState) v_viewState;
 						}
+						if ("MainPanel".equalsIgnoreCase(v_viewContainer.getWidget().getName())) {
+							_root = (ViewState) v_viewState;
+						}
 					}
 					if (_footer != null && _header != null && _referential != null && _root != null)
 						break;
@@ -174,6 +177,9 @@ public class CinematicUtils {
 	 *         {@code false} sinon
 	 */
 	public static boolean insideHorizontalLayout(Layout p_layout) {
+		if (null == p_layout)
+			return false;
+
 		EObject container = p_layout.eContainer();
 		if (container instanceof Layout)
 			return ((Layout) container).getDirection() == LayoutDirection.HORIZONTAL;

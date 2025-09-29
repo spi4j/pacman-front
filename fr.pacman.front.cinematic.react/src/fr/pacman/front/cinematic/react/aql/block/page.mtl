@@ -1,7 +1,8 @@
 [module page( 	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
 				'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0', 
 				'http://www.obeonetwork.org/dsl/cinematic/flow/1.0.0', 
-				'http://www.obeonetwork.org/dsl/cinematic/toolkits/1.0.0')/]
+				'http://www.obeonetwork.org/dsl/cinematic/toolkits/1.0.0',
+				'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
 				
 [import fr::pacman::front::core::aql::name::name /]
 [import fr::pacman::front::core::aql::name::directories /]
@@ -25,11 +26,40 @@
   export default function [vc.namePageJsx()/] () {
   
   	[if (vc.useForms())]
-        const { register, handleSubmit, formState: { errors } } = useForm();
-        const ['['/]value, setValue[']'/] = useState("");
-        const onSubmit = (data) => {
-        console.log(data);
+      // Définition du type des valeurs du formulaire.
+      
+      type FormValues = {
+        [for (e : view::ViewElement | vc.eAllContents(view::ViewElement))]
+         [if (e.isEligibleForFormValues())][e.name/] : [e.type.name.toLower()/];[/if]
+        [/for]
       };
+      
+      // Initialise useForm avec le type FormValues pour bénéficier de la validation typée.
+      // Récupère register pour lier les champs, handleSubmit pour gérer la soumission,
+      // et errors pour afficher les messages d'erreur liés à chaque champ.
+      
+      const { 
+        register, 
+        handleSubmit, 
+        formState: { errors, dirtyFields }, 
+      } = useForm<FormValues>();
+      
+      //'onSubmit' est la fonction appelée lors de la soumission du formulaire,
+      // affichant les données saisies dans la console pour vérification.
+      
+      const ['['/]value, setValue[']'/] = useState("");
+      const onSubmit = (data: FormValues) => {
+        console.log("Formulaire soumis :", data);
+      };
+      
+      // Permet de sécuriser la génération automatique.
+      
+      function safeRegister(
+        registerFn: typeof register | undefined,
+        fieldName: keyof FormValues,
+        rules?: Parameters<typeof register>['['/]1[']'/]) {
+        return registerFn ? { ...registerFn(fieldName, rules) } : {};
+       }
   	[/if]
   
     return (
@@ -55,9 +85,7 @@
 
 [comment parcours récursif sur les layouts inclus dans les layouts (sub-layouts)./]
 [template private scanAllSubLayouts(l : view::Layout)]
-  [for (sl : view::Layout | l.eContents())]
-    [sl.writeLayouts()/]
-  [/for]
+  [if (l <> null)][for (sl : view::Layout | l.eContents())][sl.writeLayouts()/][/for][/if]
 [/template]
 
 [comment écriture du code d'ouverture pour un layout./]

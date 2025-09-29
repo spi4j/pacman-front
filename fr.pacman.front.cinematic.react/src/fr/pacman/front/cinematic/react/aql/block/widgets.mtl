@@ -194,11 +194,11 @@
 [/template]
 
 [template private writeButton (ve : view::AbstractViewElement)]
-  <Button type="submit">[ve.label/]</Button>
+  <Button>[ve.label/]</Button>
 [/template]
 
 [template private writeButtonSubmit (ve : view::AbstractViewElement)]
-  <Button>Envoyer</Button>
+  <Button type="submit">Envoyer</Button>
 [/template]
 
 [template private writeCallOut (ve : view::AbstractViewElement)]
@@ -245,22 +245,36 @@
 [/template]
 
 [template private writeInput (ve : view::AbstractViewElement)]
-  <Input label="[ve.label/]"
-  [if (ve.has_metaTextError())] 
-    state="error"
-    stateRelatedMessage="[ve.get_metaTextError()/]"
-  [/if]
-  [if (ve.has_metaTextInfo())]
-    state="info"
-    stateRelatedMessage="[ve.get_metaTextInfo()/]"
-  [/if]
-  hintText="[ve.description/]"
-  [if (ve.has_metaTextPlaceHolder())]
+[let v = ve.oclAsType(view::ViewElement)]
+  <Input 
+    label="[ve.label/]"
+    [if (ve.has_metaButtonAddOn())] addon={<Button>[ve.get_metaButtonAddOn()/]</Button>} [/if]
+    [if (ve.has_metaButtonAction())] addon={<Button iconId="fr-icon-delete-line" priority="secondary" title="Supprimer le champ"/>} [/if]
+    [if (ve.has_metaIcon())]iconId="[ve.get_metaIcon()/]"[/if]
+    hintText="[ve.description/]"
     nativeInputProps={{
-      placeholder: '[ve.get_metaTextPlaceHolder()/]'
+      ...safeRegister(register, "[ve.name/]", { 
+      [if (v.required)]required: "[ve.get_metaTextError()/]", [/if]
+      [if (v.has_metaRegexPattern())]validate: (value) => /[ve.get_metaRegexPattern()/]/.test(value) || "[ve.get_metaTextError()/]",[/if]
+      }),
+      placeholder: "[ve.get_metaTextPlaceHolder()/]",
+      maxLength: [ve.get_metaMaxlength()/]
     }}
-  [/if]
+    state={
+      errors.[ve.name/]
+      ? "error"
+      : dirtyFields.[ve.name/]
+      ? "success"
+      : "info"
+    }
+    stateRelatedMessage={
+      errors.[ve.name/]?.message ||
+      (dirtyFields.[ve.name/] 
+      	? "[ve.get_metaTextSuccess()/]" 
+      	: "[ve.get_metaTextInfo()/]")
+    }
   />
+[/let]
 [/template]
 
 [template private writeInputNumber (ve : view::AbstractViewElement)]

@@ -6,3 +6,7 @@
 [comment vérifie si il est possible d'appliquer du positionnement css sur l'élément./]
 [query public isEligibleForCSSPositioning(l: view::Layout) : Boolean =  l.viewElement = null 
   or (l.viewElement <> null and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox()))/]
+  
+[comment vérifie si le composant est éligible pour être dans la liste des 'formValues' de react-hook-form./]
+[query public isEligibleForFormValues(e : view::ViewElement) : Boolean = e.widget.metadataDefinitions ->
+  exists(md |'FormValues'.equalsIgnoreCase(md.title) and 'true'.equalsIgnoreCase(md.body))/]

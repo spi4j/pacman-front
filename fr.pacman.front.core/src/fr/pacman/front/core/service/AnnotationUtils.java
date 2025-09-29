@@ -218,6 +218,14 @@ public final class AnnotationUtils {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_INFO);
 	}
 	
+	public static boolean has_metaTextSuccess(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.INPUT_SUCCESS);
+	}
+
+	public static String get_metaTextSuccess(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.INPUT_SUCCESS);
+	}
+	
 	public static boolean has_metaTextPlaceHolder(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_PLACEHOLDER);
 	}
@@ -240,5 +248,37 @@ public final class AnnotationUtils {
 
 	public static String get_metaRegexPattern(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_REGEX);
+	}
+	
+	public static boolean has_metaIcon(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_ICON);
+	}
+
+	public static String get_metaIcon(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_ICON);
+	}
+	
+	public static boolean has_metaButtonAddOn(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_BUTTON_ADDON);
+	}
+
+	public static String get_metaButtonAddOn(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_BUTTON_ADDON);
+	}
+	
+	public static boolean has_metaButtonAction(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_BUTTON_ACTION);
+	}
+
+	public static String get_metaButtonAction(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_BUTTON_ACTION);
+	}
+	
+	public static boolean has_metaMaxlength(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_MAXLENGTH);
+	}
+
+	public static String get_metaMaxlength(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_MAXLENGTH);
 	}
 }
