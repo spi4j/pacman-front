@@ -10,3 +10,7 @@
 [comment vérifie si le composant est éligible pour être dans la liste des 'formValues' de react-hook-form./]
 [query public isEligibleForFormValues(e : view::ViewElement) : Boolean = e.widget.metadataDefinitions ->
   exists(md |'FormValues'.equalsIgnoreCase(md.title) and 'true'.equalsIgnoreCase(md.body))/]
+  
+[comment retourne l'uri react attachée au composant./]
+[query public reactUriForElement(e : view::AbstractViewElement) : String = let md = e.widget.metadataDefinitions
+   ->select(o | 'ReactUri'.equalsIgnoreCase(o.title))->first() in if md = null then '' else md.body endif/]

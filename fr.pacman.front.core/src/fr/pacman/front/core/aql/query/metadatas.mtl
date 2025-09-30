@@ -1,0 +1,12 @@
+[module metadatas(	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0')/]
+
+[import fr::pacman::front::core::service::AnnotationUtils/]
+
+[query public hasMetaHint(e : view::AbstractViewElement) : Boolean = e.has_metaHint() and e.get_metaHint().trim().size() > 0/]
+[query public hasMetaMsgGroup(e : view::AbstractViewElement) : Boolean = e.has_metaMsgGroup() and e.get_metaMsgGroup().trim().size() > 0/]
+[query public hasMetaTextArea(e : view::AbstractViewElement) : Boolean = e.has_metaTextarea() and 'true'.equalsIgnoreCase(e.get_metaTextArea())/]
+[query public hasMetaButtonAddon(e : view::AbstractViewElement) : Boolean = e.has_metaButtonAddOn() and e.get_metaButtonAddOn().trim().size() > 0/]
+[query public hasMetaButtonAction(e : view::AbstractViewElement) : Boolean = e.has_metaButtonAction() and e.get_metaButtonAction().trim().size() > 0/]
+[query public hasMetaIcon(e : view::AbstractViewElement) : Boolean = e.has_metaIcon() and e.get_metaIcon().trim().size() > 0/]
+[query public hasPattern(e : view::AbstractViewElement) : Boolean = e.has_metaRegexPattern() and e.get_metaRegexPattern().trim().size() > 0/]

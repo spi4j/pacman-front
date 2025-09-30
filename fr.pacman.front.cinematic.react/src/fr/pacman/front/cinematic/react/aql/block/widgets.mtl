@@ -1,7 +1,9 @@
 [module widgets(	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
 					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0')/]
 
+[import fr::pacman::front::core::aql::name::name/]
 [import fr::pacman::front::core::aql::query::widgets/]
+[import fr::pacman::front::core::aql::query::metadatas/]
 [import fr::pacman::front::core::service::AnnotationUtils/]
 
 [comment écriture d'un widget pour react dsfr./]
@@ -48,8 +50,6 @@
      [ve.writeHighLight()/]
    [elseif (ve.isInput())]
      [ve.writeInput()/]
-   [elseif (ve.isInputNumber())]
-     [ve.writeInputNumber()/]
    [elseif (ve.isLink())]
      [ve.writeLink()/]
    [elseif (ve.isLogo())]
@@ -157,7 +157,7 @@
 [/template]
  
 [template private writeCheckBoxPanel (ve : view::AbstractViewElement)]
-  <Checkbox
+  <p/><Checkbox
     hintText="[ve.description/]"
     legend="[ve.label/]"
     options={['['/]
@@ -165,9 +165,8 @@
 
 [template private writeCloseCheckBoxPanel (ve : view::AbstractViewElement, insideHL :: Boolean)]
   [']'/]}
-  [if (insideHL)]
-    orientation="horizontal"
-  [/if]
+  >>>[insideHL/]
+  [if (insideHL)]orientation="horizontal"[/if]
   state="default"
   stateRelatedMessage="State description"
   />
@@ -178,7 +177,7 @@
      hintText: '[ve.description/]',
      label: '[ve.label/]',
      nativeInputProps: {
-       name: 'checkboxes-[ve.name/]',
+       name: '[ve.nameElementId()/]',
        value: 'value1'
      }
    },
@@ -198,7 +197,7 @@
 [/template]
 
 [template private writeButtonSubmit (ve : view::AbstractViewElement)]
-  <Button type="submit">Envoyer</Button>
+  <p/><Button type="submit">Envoyer</Button>
 [/template]
 
 [template private writeCallOut (ve : view::AbstractViewElement)]
@@ -242,63 +241,67 @@
 [/template]
 
 [template private writeHighLight (ve : view::AbstractViewElement)]
+  <Highlight>
+    [ve.description/]
+  </Highlight>
+[/template]
+
+[template private writePassword (ve : view::AbstractViewElement)]
+  [let v = ve.oclAsType(view::ViewElement)]
+    <PasswordInput 
+      label="[ve.label/]" 
+      hintText="[ve.description/]"
+        messages={['['/]
+          {
+            message: fieldMessage(
+              "[ve.nameElementId()/]",
+              "[ve.get_metaTextInfo()/]",
+              "[ve.get_metaTextSuccess()/]"
+            ),
+            severity:
+              fieldState("myPassordInput") === "error"
+              ? "error"
+              : "info",
+            },
+        [']'/]}
+      [ve.writeNativeInputProps(false)/]
+    />
+  [/let]
 [/template]
 
 [template private writeInput (ve : view::AbstractViewElement)]
 [let v = ve.oclAsType(view::ViewElement)]
   <Input 
     label="[ve.label/]"
-    [if (ve.has_metaButtonAddOn())] addon={<Button>[ve.get_metaButtonAddOn()/]</Button>} [/if]
-    [if (ve.has_metaButtonAction())] addon={<Button iconId="fr-icon-delete-line" priority="secondary" title="Supprimer le champ"/>} [/if]
-    [if (ve.has_metaIcon())]iconId="[ve.get_metaIcon()/]"[/if]
+    [if (ve.hasMetaButtonAddon())] addon={<Button>[ve.get_metaButtonAddOn()/]</Button>}[/if]
+    [if (ve.hasMetaButtonAction())] addon={<Button iconId="fr-icon-delete-line" priority="secondary" title="Supprimer le champ"/>}[/if]
+    [if (ve.hasMetaIcon())]iconId="[ve.get_metaIcon()/]"[/if]
+    [if (ve.hasMetaTextArea())]textArea[/if]
     hintText="[ve.description/]"
-    nativeInputProps={{
-      ...safeRegister(register, "[ve.name/]", { 
-      [if (v.required)]required: "[ve.get_metaTextError()/]", [/if]
-      [if (v.has_metaRegexPattern())]validate: (value) => /[ve.get_metaRegexPattern()/]/.test(value) || "[ve.get_metaTextError()/]",[/if]
-      }),
-      placeholder: "[ve.get_metaTextPlaceHolder()/]",
-      maxLength: [ve.get_metaMaxlength()/]
-    }}
-    state={
-      errors.[ve.name/]
-      ? "error"
-      : dirtyFields.[ve.name/]
-      ? "success"
-      : "info"
-    }
-    stateRelatedMessage={
-      errors.[ve.name/]?.message ||
-      (dirtyFields.[ve.name/] 
-      	? "[ve.get_metaTextSuccess()/]" 
-      	: "[ve.get_metaTextInfo()/]")
-    }
+    [ve.writeNativeInputProps(true)/]
   />
 [/let]
 [/template]
 
-[template private writeInputNumber (ve : view::AbstractViewElement)]
-  <Input label="[ve.label/]"
-  [if (ve.has_metaTextError())] 
-    state="error"
-    stateRelatedMessage="[ve.get_metaTextError()/]"
-  [/if]
-  [if (ve.has_metaTextInfo())]
-    state="info"
-    stateRelatedMessage="[ve.get_metaTextInfo()/]"
-  [/if]
-  hintText="[ve.description/]"
-  [if (ve.has_metaTextPlaceHolder())]
+[template private writeNativeInputProps(ve : view::AbstractViewElement, srm :: Boolean)]
+  [let v = ve.oclAsType(view::ViewElement)]
     nativeInputProps={{
-      placeholder: '[ve.get_metaTextPlaceHolder()/]'
+    ...getRegisterProps("[ve.nameElementId()/]", { 
+    [if (v.required)]required: "[ve.get_metaTextError()/]", [/if]
+    [if (v.hasPattern())]validate: (value) => /[ve.get_metaRegexPattern()/]/.test(value) || "[ve.get_metaTextError()/]",[/if]
+    }),
+    placeholder: "[ve.get_metaTextPlaceHolder()/]",
+    maxLength: [ve.get_metaMaxlength()/]
     }}
-  [/if]
-  nativeInputProps={{
-      inputMode: 'numeric',
-      pattern: '['['/]0-9[']'/]*',
-      type: 'number'
-    }}
-  />
+    state={fieldState("[ve.nameElementId()/]")}
+    [if (srm)]
+      stateRelatedMessage={fieldMessage(
+          "[ve.nameElementId()/]",
+          "[v.get_metaTextInfo()/]",
+          "[v.get_metaTextSuccess()/]"
+       )}
+     [/if]
+  [/let]
 [/template]
 
 [template private writeLink (ve : view::AbstractViewElement)]
@@ -314,9 +317,6 @@
 [/template]
 
 [template private writePagination (ve : view::AbstractViewElement)]
-[/template]
-
-[template private writePassword (ve : view::AbstractViewElement)]
 [/template]
 
 [template private writeQuote (ve : view::AbstractViewElement)]
@@ -368,6 +368,10 @@
 [/template]
 
 [template private writeTootip (ve : view::AbstractViewElement)]
+  <Tooltip
+    kind="hover"
+    title="[ve.description/]"
+  />
 [/template]
 
 [template private writeTranscription (ve : view::AbstractViewElement)]

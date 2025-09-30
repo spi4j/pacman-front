@@ -16,11 +16,10 @@
 [template public pageJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
   
   [if (vc.useForms())]
-    import { useState } from "react";
     import { useForm } from "react-hook-form";
   [/if]
   [for (ve | vc.viewElementForImports()->reject(o | o.isFormPanel()))]
-    import { [ve.widget.implementation.trim()/] } from "@codegouvfr/react-dsfr/[ve.widget.implementation.trim()/]";
+    import { [ve.widget.implementation.trim()/] } from "[ve.reactUriForElement()/]/[ve.widget.implementation.trim()/]";
   [/for]
   
   export default function [vc.namePageJsx()/] () {
@@ -47,19 +46,40 @@
       //'onSubmit' est la fonction appelée lors de la soumission du formulaire,
       // affichant les données saisies dans la console pour vérification.
       
-      const ['['/]value, setValue[']'/] = useState("");
       const onSubmit = (data: FormValues) => {
         console.log("Formulaire soumis :", data);
       };
       
       // Permet de sécuriser la génération automatique.
       
-      function safeRegister(
-        registerFn: typeof register | undefined,
+      function getRegisterProps(
         fieldName: keyof FormValues,
         rules?: Parameters<typeof register>['['/]1[']'/]) {
-        return registerFn ? { ...registerFn(fieldName, rules) } : {};
+        return { ...register(fieldName, rules) };
        }
+      
+      // Centralisation de la gestion des états.
+      
+      function fieldState(fieldName: keyof FormValues) {
+         return errors['['/]fieldName[']'/]
+           ? "error"
+           : dirtyFields['['/]fieldName[']'/]
+           ? "success"
+           : "info";
+      }
+       
+      // Centralisation pour l'affichage des messages.
+      
+      function fieldMessage(
+         fieldName: keyof FormValues,
+         defaultMessage: string,
+         successMessage: string
+       ) {
+          return (
+           errors['['/]fieldName[']'/]?.message ||
+           (dirtyFields['['/]fieldName[']'/] ? successMessage : defaultMessage)
+         );
+      }
   	[/if]
   
     return (

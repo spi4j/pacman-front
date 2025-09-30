@@ -281,4 +281,28 @@ public final class AnnotationUtils {
 	public static String get_metaMaxlength(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_MAXLENGTH);
 	}
+	
+	public static boolean has_metaTextarea(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_TEXTAREA);
+	}
+
+	public static String get_metaTextArea(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_TEXTAREA);
+	}
+	
+	public static boolean has_metaMsgGroup(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_MSG_GROUP);
+	}
+
+	public static String get_metaMsgGroup(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_MSG_GROUP);
+	}
+	
+	public static boolean has_metaHint(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_HINT);
+	}
+
+	public static String get_metaHint(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_HINT);
+	}
 }

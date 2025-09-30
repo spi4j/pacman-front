@@ -11,3 +11,6 @@
   
 [comment retourne le nom de l'url pour la page typescript + jsx./]
 [query public nameUrlPageJsx(v : view::ViewContainer): String = v.label.replaceAll('\\s+','').toLower()/]
+  
+[comment retourne le om unique (id) pour un élément de page jsx./]
+[query public nameElementId(ve : view::AbstractViewElement) : String = ve.name/]
