@@ -142,17 +142,24 @@
   [if (insideHL)]
     orientation="horizontal"
   [/if]
+  state={fieldState("[ve.nameElementId()/]")}
+  stateRelatedMessage={fieldMessage(
+      "[ve.nameElementId()/]",
+      "[ve.get_metaTextInfo()/]",
+      "[ve.get_metaTextSuccess()/]"
+    )}
   />
 [/template]
 
 [template private writeRadio (ve : view::AbstractViewElement)]
   {
+     [if (ve.hasMetaIcon())]illustration: <img alt="illustration" src="https://placehold.it/100x100"/>,[/if]
      hintText: '[ve.description/]',
      label: '[ve.label/]',
      nativeInputProps: {
-       checked: value === "one",
-       onChange: ()=> setValue("one")
-      }
+       ...register("[ve.eContainer().nameElementId()/]", { required: "[ve.eContainer().get_metaTextError()/]" }),
+       value: "[ve.get_metaValue()/]",
+     },
     },
 [/template]
  
@@ -165,22 +172,38 @@
 
 [template private writeCloseCheckBoxPanel (ve : view::AbstractViewElement, insideHL :: Boolean)]
   [']'/]}
-  >>>[insideHL/]
   [if (insideHL)]orientation="horizontal"[/if]
-  state="default"
-  stateRelatedMessage="State description"
+        state={errors.[ve.nameElementId()/] ? "error" : dirtyFields.[ve.nameElementId()/] ? "success" : "info"}
+          stateRelatedMessage={
+            errors.[ve.nameElementId()/]?.message ||
+            (dirtyFields.[ve.nameElementId()/] ? "[ve.get_metaTextSuccess()/]" : "[ve.get_metaTextInfo()/]")
+          }
   />
 [/template]
 
 [template private writeCheckBox (ve : view::AbstractViewElement)]
-  {
-     hintText: '[ve.description/]',
-     label: '[ve.label/]',
-     nativeInputProps: {
-       name: '[ve.nameElementId()/]',
-       value: 'value1'
-     }
-   },
+  [let v = ve.oclAsType(view::ViewElement)]
+    {
+       hintText: '[ve.description/]',
+       label: '[ve.label/]',
+       hintText: "[ve.description/]",
+       [if (v.required and ve.eContainer().hasMetaNbRequired())]
+         nativeInputProps: {
+           ...register("[ve.eContainer().nameElementId()/]", {
+           validate: (value, allValues) =>
+          (allValues.[ve.eContainer().nameElementId()/]?.length ?? 0) >= [ve.eContainer().get_metaRequired()/] ||
+          "[ve.eContainer().get_metaTextError()/]",
+           }),
+           value: "[ve.get_metaValue()/]",
+         },
+       [else]
+         nativeInputProps: {
+           ...register("[ve.eContainer().nameElementId()/]"),
+           value: "[ve.get_metaValue()/]",
+         }
+        [/if]
+     },
+   [/let]
 [/template]
 
 [template private writeAlert (ve : view::AbstractViewElement)]
@@ -197,7 +220,7 @@
 [/template]
 
 [template private writeButtonSubmit (ve : view::AbstractViewElement)]
-  <p/><Button type="submit">Envoyer</Button>
+  <p/><Button type="submit">[ve.label/]</Button>
 [/template]
 
 [template private writeCallOut (ve : view::AbstractViewElement)]
@@ -323,6 +346,29 @@
 [/template]
 
 [template private writeRange (ve : view::AbstractViewElement)]
+  [let v = ve.oclAsType(view::ViewElement)]
+    <Range
+      [if (ve.hasMetaDouble())]double[/if]
+      [if (ve.hasMetaSteps())]step={[ve.get_metaSteps()/]}[/if]
+      [if (ve.hasMetaPrefix())]prefix="[ve.get_metaPrefix()/]"[/if]
+      [if (ve.hasMetaSuffix())]suffix="[ve.get_metaSteps()/]"[/if]
+      hintText="[ve.description/]"
+      label="[ve.label/]"
+      max={[v.get_metaMax()/]}
+      min={[v.get_metaMin()/]}
+      [if (not ve.hasMetaDouble())]
+        nativeInputProps={{
+            defaultValue: "",
+            ...register("[ve.nameElementId()/]"),
+          }}
+      [else]
+        nativeInputProps={['['/]
+           { defaultValue: "", ...register("[ve.nameElementId()/]Min") },
+           { defaultValue: "", ...register("[ve.nameElementId()/]Max") }
+        [']'/]}
+      [/if]
+    />
+  [/let]
 [/template]
 
 [template private writeSearch (ve : view::AbstractViewElement)]
@@ -332,7 +378,30 @@
 [/template]
 
 [template private writeSelect (ve : view::AbstractViewElement)]
+  [let v = ve.oclAsType(view::ViewElement)]
+     <Select
+        label="[ve.label/]"
+        hint="[ve.description/]" 
+        nativeSelectProps={{
+          defaultValue: "",
+          ...register("[ve.nameElementId()/]"[if (v.required)], { required: "[ve.get_metaTextError()/]" }[/if]),
+        }}
+        state={errors.[ve.nameElementId()/] ? "error" : dirtyFields.[ve.nameElementId()/] ? "success" : "info"}
+           stateRelatedMessage={
+           errors.[ve.nameElementId()/]?.message ||
+           (dirtyFields.[ve.nameElementId()/] ? "[ve.get_metaTextSuccess()/]" : "[ve.get_metaTextInfo()/]")
+        }
+     >
+     <option value="">Selectionnez une option</option>
+     [for (option | ve.get_metaValues().tokenize(','))]
+       [if (option <> null and option.trim().size() > 0  and option.index(':') > 0)]
+         <option value="[option.tokenize(':')->at(1)/]">[option.tokenize(':')->at(2)/]</option>
+       [/if]
+     [/for]
+    </Select>
+  [/let]
 [/template]
+
 
 [template private writeShare (ve : view::AbstractViewElement)]
 [/template]
@@ -365,6 +434,19 @@
 [/template]
 
 [template private writeToogle (ve : view::AbstractViewElement)]
+  [let v = ve.oclAsType(view::ViewElement)]
+    <ToggleSwitch
+      label="[ve.label/]" 
+      helperText="[ve.description/]"
+      inputTitle="[ve.label/]" 
+      labelPosition="right"
+      defaultChecked={false}
+      nativeInputProps={{
+         ...register("[ve.nameElementId()/]"),
+         valueAsBoolean: true
+      }}
+    />
+  [/let]
 [/template]
 
 [template private writeTootip (ve : view::AbstractViewElement)]

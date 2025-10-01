@@ -1,16 +1,30 @@
 [module widgets(	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
-					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0')/]
+					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0',
+					'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
 
 [import fr::pacman::front::core::aql::query::widgets/]
+[import fr::pacman::front::core::service::CinematicUtils/]
 
 [comment vérifie si il est possible d'appliquer du positionnement css sur l'élément./]
 [query public isEligibleForCSSPositioning(l: view::Layout) : Boolean =  l.viewElement = null 
   or (l.viewElement <> null and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox()))/]
   
 [comment vérifie si le composant est éligible pour être dans la liste des 'formValues' de react-hook-form./]
-[query public isEligibleForFormValues(e : view::ViewElement) : Boolean = e.widget.metadataDefinitions ->
+[query public isEligibleForFormValues(e : view::AbstractViewElement) : Boolean = e.widget.metadataDefinitions ->
   exists(md |'FormValues'.equalsIgnoreCase(md.title) and 'true'.equalsIgnoreCase(md.body))/]
   
 [comment retourne l'uri react attachée au composant./]
 [query public reactUriForElement(e : view::AbstractViewElement) : String = let md = e.widget.metadataDefinitions
    ->select(o | 'ReactUri'.equalsIgnoreCase(o.title))->first() in if md = null then '' else md.body endif/]
+   
+[comment vérifie si le layout est à l'intérieur d'un layout horizontal ou si le layout courant est lui même horizontal./]
+[query public isHorizontalLayoutForJs(l : view::Layout, insideHL : Boolean) : Boolean = if insideHL then insideHL 
+  else l.isHorizontalLayout() endif /]
+
+[comment retourne le type pour l'élément si l'élément est un conteneur on prend le type du premier élément contenu. Pas 
+de vérification sur le contenu, ne devrait pas avoir de null car vérifié auparavant par la validation. On détourne la 
+propriété help qui n'est pas visible, si help = true alors c'est un tableau sinon juste le type./]
+[query public typeForElement(e : view::AbstractViewElement) : String = if (e.oclIsKindOf(view::ViewElement)) then 
+  e.oclAsType(view::ViewElement).type.name.toLower() else e.oclAsType(view::AbstractViewElement)
+  .eAllContents(view::ViewElement)->first().typeForElement() endif + if (e.widget.metadataDefinitions ->
+  exists(md |'FormValues'.equalsIgnoreCase(md.title) and 'true'.equalsIgnoreCase(md.help))) then '[]' else '' endif/]

@@ -1,8 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<metadatadef:MetaDataDefinitions xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metadatadef="http://www.obeonetwork.org/dsl/environment/metadatadef/1.0" technicalid="_7PpD8MA4Ee65VJAo09i39w">
-  <metaDataDefinitions technicalid="_kQC5kJkHEfCCxMPawgpazA" title="TXT_PASSWD_DESCRIPTION" body="Placer ici la description pour le mot de passe. Ex [Votre mot de passe doit contenir : - 12 caractères - 1 chiffre]" condition=""/>
-  <metaDataDefinitions technicalid="_Gv8pMJk9EfCOvPC0MEWKeA" title="TXT_PLACEHOLDER" body="Placer ici la description pour le &quot;placeholder&quot; dans le champ de saisie."/>
-  <metaDataDefinitions technicalid="_HYB84Jk9EfCOvPC0MEWKeA" title="TXT_INFO" body="Placer ici les informations supplémentaires pour le champ de saisie."/>
-  <metaDataDefinitions technicalid="_rHdYUJk-EfCOvPC0MEWKeA" title="TXT_ERROR" body="Placer ici le texte spécifique pour le message d'erreur de saisie."/>
-  <metaDataDefinitions technicalid="_5CcQAJk_EfCOvPC0MEWKeA" title="RGX_PATTERN" body="Placer ici la regex pour le contrôle de la saisie du champ."/>
-</metadatadef:MetaDataDefinitions>
+<metadatadef:MetaDataDefinitions xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metadatadef="http://www.obeonetwork.org/dsl/environment/metadatadef/1.0" technicalid="_7PpD8MA4Ee65VJAo09i39w"/>

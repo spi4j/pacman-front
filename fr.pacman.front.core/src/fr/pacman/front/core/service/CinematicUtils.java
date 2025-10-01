@@ -169,6 +169,19 @@ public class CinematicUtils {
 	}
 
 	/**
+	 * Vérifie si la direction d'un layout est horizontale.
+	 *
+	 * @param p_layout le layout à tester
+	 * @return {@code true} si le conteneur du layout est de type horizontal,
+	 *         {@code false} sinon
+	 */
+	public static boolean isHorizontalLayout(Layout p_layout) {
+		if (null == p_layout)
+			return false;
+		return p_layout.getDirection() == LayoutDirection.HORIZONTAL;
+	}
+
+	/**
 	 * Vérifie si un layout appartient à un conteneur dont la direction est
 	 * horizontale.
 	 *

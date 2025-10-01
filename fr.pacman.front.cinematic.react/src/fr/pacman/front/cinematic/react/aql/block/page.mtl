@@ -18,7 +18,7 @@
   [if (vc.useForms())]
     import { useForm } from "react-hook-form";
   [/if]
-  [for (ve | vc.viewElementForImports()->reject(o | o.isFormPanel()))]
+  [for (ve | vc.viewElementForImports())]
     import { [ve.widget.implementation.trim()/] } from "[ve.reactUriForElement()/]/[ve.widget.implementation.trim()/]";
   [/for]
   
@@ -28,8 +28,8 @@
       // Définition du type des valeurs du formulaire.
       
       type FormValues = {
-        [for (e : view::ViewElement | vc.eAllContents(view::ViewElement))]
-         [if (e.isEligibleForFormValues())][e.name/] : [e.type.name.toLower()/];[/if]
+        [for (e | vc.eAllContents(view::AbstractViewElement))]
+         [if (e.isEligibleForFormValues())][e.name/] : [e.typeForElement()/];[/if]
         [/for]
       };
       
@@ -115,7 +115,7 @@
 
 [comment écriture du code de fermeture pour un layout./]
 [template private closeLayout(l : view::Layout, insideHl :: Boolean, allowCssPos :: Boolean)]
-  [if (l.isContainer())][l.viewElement.writeCloseViewElement(insideHl)/][/if]
+  [if (l.isContainer())][l.viewElement.writeCloseViewElement(l.isHorizontalLayoutForJs(insideHl))/][/if]
   [if (insideHl and allowCssPos)][l.writeCloseHorizontalBloc()/][/if]
 [/template]
 
