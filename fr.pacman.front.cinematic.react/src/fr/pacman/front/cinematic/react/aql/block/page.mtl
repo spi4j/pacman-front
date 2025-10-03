@@ -11,81 +11,44 @@
 [import fr::pacman::front::cinematic::react::aql::query::widgets/]
 [import fr::pacman::front::core::aql::query::widgets/]
 [import fr::pacman::front::core::service::CinematicUtils/]
-				
-[comment écriture d'une page typescript + code jsx (panel)./]				
+[import fr::pacman::front::core::service::AnnotationUtils/]
+
+[comment aiguillage pour l'écriture d'une page typescript + code jsx (panel)./]				
 [template public pageJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
+  [if (vc.isHeaderPanel() or vc.isFooterPanel())][vc.pageJsxHFImpl(vs)/][else][vc.pageJsxSDImpl(vs)/][/if]
+[/template]
+
+[comment écriture d'une page typescript + code jsx (header-footer panel)./]	
+[template public pageJsxHFImpl(vc : view::ViewContainer, vs : flow::ViewState)]
+  [if (vc.isHeaderPanel())]
+    import { Header } from "@codegouvfr/react-dsfr/Header";
+  [else]
+    import { Footer } from "@codegouvfr/react-dsfr/Footer";
+  [/if]
+  [vc.writeAdditionalWidgetImports()/]
   
+  export default function [vc.namePageJsx()/] () {
+    return (
+      [vc.writeElement(false)/]
+    );
+  }
+[/template]
+
+[comment écriture d'une page typescript + code jsx (standard panel)./]				
+[template public pageJsxSDImpl (vc : view::ViewContainer, vs : flow::ViewState )]
   [if (vc.useForms())]
     import { useForm } from "react-hook-form";
   [/if]
-  [for (ve | vc.viewElementForImports())]
-    import { [ve.widget.implementation.trim()/] } from "[ve.reactUriForElement()/]/[ve.widget.implementation.trim()/]";
-  [/for]
+  [vc.writeAdditionalWidgetImports()/]
   
   export default function [vc.namePageJsx()/] () {
-  
-  	[if (vc.useForms())]
-      // Définition du type des valeurs du formulaire.
-      
-      type FormValues = {
-        [for (e | vc.eAllContents(view::AbstractViewElement))]
-         [if (e.isEligibleForFormValues())][e.name/] : [e.typeForElement()/];[/if]
-        [/for]
-      };
-      
-      // Initialise useForm avec le type FormValues pour bénéficier de la validation typée.
-      // Récupère register pour lier les champs, handleSubmit pour gérer la soumission,
-      // et errors pour afficher les messages d'erreur liés à chaque champ.
-      
-      const { 
-        register, 
-        handleSubmit, 
-        formState: { errors, dirtyFields }, 
-      } = useForm<FormValues>();
-      
-      //'onSubmit' est la fonction appelée lors de la soumission du formulaire,
-      // affichant les données saisies dans la console pour vérification.
-      
-      const onSubmit = (data: FormValues) => {
-        console.log("Formulaire soumis :", data);
-      };
-      
-      // Permet de sécuriser la génération automatique.
-      
-      function getRegisterProps(
-        fieldName: keyof FormValues,
-        rules?: Parameters<typeof register>['['/]1[']'/]) {
-        return { ...register(fieldName, rules) };
-       }
-      
-      // Centralisation de la gestion des états.
-      
-      function fieldState(fieldName: keyof FormValues) {
-         return errors['['/]fieldName[']'/]
-           ? "error"
-           : dirtyFields['['/]fieldName[']'/]
-           ? "success"
-           : "info";
-      }
-       
-      // Centralisation pour l'affichage des messages.
-      
-      function fieldMessage(
-         fieldName: keyof FormValues,
-         defaultMessage: string,
-         successMessage: string
-       ) {
-          return (
-           errors['['/]fieldName[']'/]?.message ||
-           (dirtyFields['['/]fieldName[']'/] ? successMessage : defaultMessage)
-         );
-      }
-  	[/if]
-  
+   
+    [if (vc.useForms())]
+      [vc.writeHookForms()/]
+    [/if]
+    
     return (
-      <>
-  	  [vc.layout.writeLayouts()/]
-      </>
+      [vc.layout.writeLayouts()/]
     );
   }
 [/template]
@@ -95,10 +58,12 @@
 [template private writeLayouts(l : view::Layout)]
   [let insideHl = l.insideHorizontalLayout()]
     [let allowCSSPos = l.isEligibleForCSSPositioning()]
-      [l.openLayout(insideHl, allowCSSPos)/]
-      [l.viewElement.writeElement(insideHl)/]
-      [l.scanAllSubLayouts()/]
-      [l.closeLayout(insideHl, allowCSSPos)/]
+      [let allowFDSPos = l.isEligibleForFDSPositioning() ]
+        [l.openLayout(insideHl, allowCSSPos, allowFDSPos)/]
+        [l.viewElement.writeElement(insideHl)/]
+        [l.scanAllSubLayouts()/]
+        [l.closeLayout(insideHl, allowCSSPos,allowFDSPos)/]
+      [/let]
     [/let]
   [/let]
 [/template]
@@ -109,13 +74,15 @@
 [/template]
 
 [comment écriture du code d'ouverture pour un layout./]
-[template private openLayout(l : view::Layout, insideHl :: Boolean, allowCssPos :: Boolean)]
+[template private openLayout(l : view::Layout, insideHl :: Boolean, allowCssPos :: Boolean,  allowFdsPos :: Boolean)]
   [if (insideHl and allowCssPos)][l.writeOpenHorizontalBloc()/][/if]
+  [if (allowFdsPos)][l.writeOpenFormFieldSet()/][/if]
 [/template]
 
 [comment écriture du code de fermeture pour un layout./]
-[template private closeLayout(l : view::Layout, insideHl :: Boolean, allowCssPos :: Boolean)]
+[template private closeLayout(l : view::Layout, insideHl :: Boolean, allowCssPos :: Boolean, allowFdsPos :: Boolean)]
   [if (l.isContainer())][l.viewElement.writeCloseViewElement(l.isHorizontalLayoutForJs(insideHl))/][/if]
+  [if (allowFdsPos)][l.writeCloseFormFieldSet()/][/if]
   [if (insideHl and allowCssPos)][l.writeCloseHorizontalBloc()/][/if]
 [/template]
 
@@ -137,34 +104,143 @@
   </div>[if (l.isLastLayoutOfHorizontalContainer())]</div>[/if]
 [/template] 
 
-[comment ./]
-[template public pageAppTsxImpl (r : cinematic::CinematicRoot)]
-  import { useState } from 'react'
-  import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-  import { Button } from "@codegouvfr/react-dsfr/Button";
-  import { Header, Footer } from "@codegouvfr/react-dsfr";
-  
-  [for (v : view::ViewContainer  | r.viewPanels())]
-    import [v.namePageJsx()/] from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]";
-  [/for]
-
-  import reactLogo from './assets/react.svg'
-  import viteLogo from '/vite.svg'
-  import './App.css'
-
-  function App() {
-    return (
-      <Router>
-        <Routes>  
-          [let main = r.get_rootState()]
-            [for (v : view::ViewContainer  | r.viewPanels())]
-              <Route path="[v.urlPageJsx(main)/]" element={<[v.namePageJsx()/] />} />
-            [/for]
-          [/let]
-        </Routes>
-      </Router>
-    );
-  }
-  export default App
+[comment écriture de l'ouverture pour un fieldset./]
+[template private writeOpenFormFieldSet (l : view::Layout)]
+  <div className="fr-fieldset__element">
 [/template]
 
+[comment écriture de la fermeture pour un fieldset./]
+[template private writeCloseFormFieldSet (l : view::Layout)]
+    </div> {/* Close form fieldset */}
+[/template]
+
+[comment ./]
+[template public pageAppTsxImpl (r : cinematic::CinematicRoot)]
+  [let useHF = r.useHFViews()]
+    import { useState } from 'react'
+    import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+    [if (useHF)]
+      import { useLocation } from "react-router-dom";
+    [/if]
+    [for (v : view::ViewContainer  | r.viewPanels())]
+      [if (v.isHeaderPanel())]import HEADER from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]";[else]
+      [if (v.isFooterPanel())]import FOOTER from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]"
+      [else]import [v.namePageJsx()/] from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]";[/if][/if]
+    [/for]
+    import reactLogo from './assets/react.svg'
+    import viteLogo from '/vite.svg'
+    import './App.css'
+    
+    [if (useHF)]
+      [r.writeLayouts()/]
+    [/if]
+    
+    function App() {
+      return (
+        <>
+          <Router>
+            [if (useHF)]<Layout>[/if]
+            <Routes>  
+              [let main = r.get_rootState()]
+                [for (v : view::ViewContainer  | r.viewPanels())]
+                  [if (not v.isHeaderPanel() and not v.isFooterPanel())]
+                    <Route path="[v.urlPageJsx(main)/]" element={ <[v.namePageJsx()/] /> } />
+                  [/if]
+                [/for]
+              [/let]
+            </Routes>
+            [if (useHF)]</Layout>[/if]
+          </Router>
+        </>
+      );
+    }
+    export default App
+  [/let]
+[/template]
+
+[comment écriture de l'encapsulation avec en-tête et pied de page./]
+[template private writeLayouts(r : cinematic::CinematicRoot)]
+  function Layout({ children }: { children: React.ReactNode }) {
+     const location = useLocation();
+     const noLayoutRoutes = ['['/]"/fdfs"[']'/]; 
+     const hideLayout = noLayoutRoutes.includes(location.pathname);
+     return (
+     <>
+     {!hideLayout && <HEADER/>}
+        <div className="fr-container"> {children} </div>
+     {!hideLayout && <FOOTER/>}
+     </>
+    );
+  }
+[/template]
+
+[comment écriture de toute la gestion de formulaire./]
+[template private writeHookForms(vc : view::ViewContainer)]
+  // Définition du type des valeurs du formulaire.
+  
+  type FormValues = {
+    [for (e | vc.eAllContents(view::AbstractViewElement))]
+     [if (e.isEligibleForFormValues())][e.name/] : [e.typeForElement()/];[/if]
+    [/for]
+  };
+  
+  // Initialise useForm avec le type FormValues pour bénéficier de la validation typée.
+  // Récupère register pour lier les champs, handleSubmit pour gérer la soumission,
+  // et errors pour afficher les messages d'erreur liés à chaque champ.
+  
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors, dirtyFields }, 
+  } = useForm<FormValues>();
+  
+  //'onSubmit' est la fonction appelée lors de la soumission du formulaire,
+  // affichant les données saisies dans la console pour vérification.
+  
+  const onSubmit = (data: FormValues) => {
+    console.log("Formulaire soumis :", data);
+  };
+  
+  // Permet de sécuriser la génération automatique.
+  
+  function getRegisterProps(
+    fieldName: keyof FormValues,
+    rules?: Parameters<typeof register>['['/]1[']'/]) {
+    return { ...register(fieldName, rules) };
+   }
+  
+  // Centralisation de la gestion des états.
+  
+  function fieldState(fieldName: keyof FormValues) {
+     return errors['['/]fieldName[']'/]
+       ? "error"
+       : dirtyFields['['/]fieldName[']'/]
+       ? "success"
+       : "info";
+  }
+   
+  // Centralisation pour l'affichage des messages.
+  
+  function fieldMessage(
+     fieldName: keyof FormValues,
+     defaultMessage: string,
+     successMessage: string
+   ) {
+      return (
+       errors['['/]fieldName[']'/]?.message ||
+       (dirtyFields['['/]fieldName[']'/] ? successMessage : defaultMessage)
+     );
+  }
+[/template]
+
+[comment écriture des imports pour la page (panel / header / footer / etc..)./]
+[template private writeAdditionalWidgetImports(vc : view::ViewContainer)]
+  [for (ve | vc.viewElementForImports())]
+    import { [ve.widget.implementation.trim()/] } from "[ve.reactUriForElement()/]/[ve.widget.implementation.trim()/]";
+  [/for]
+  [if (not vc.eAllContents()->select(o | o.isLogo())->isEmpty())]
+   [let l = vc.eAllContents()->select(o | o.isLogo())->first()]
+     import opLogo from '[l.get_metaImg()/]';
+   [/let]
+  [/if]
+[/template]

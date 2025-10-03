@@ -1,5 +1,6 @@
 [module widgets(	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
-					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0')/]
+					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0',
+					'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
 
 [import fr::pacman::front::core::aql::name::name/]
 [import fr::pacman::front::core::aql::query::widgets/]
@@ -108,6 +109,10 @@
      [ve.writeCheckBox()/]
    [elseif (ve.isRadio())]
      [ve.writeRadio()/]
+   [elseif (ve.isHeaderPanel())]
+     [ve.writeHeader()/]
+   [elseif (ve.isFooterPanel())]
+     [ve.writeFooter()/]
    [else]  
    [/if]
 [/template]
@@ -116,6 +121,7 @@
 [template public writeCloseViewElement(ve : view::AbstractViewElement, insideHL :: Boolean)]
   [if (ve.isAccordion())]
   [elseif (ve.isTable())]
+    [ve.writeCloseTable()/]
   [elseif (ve.isFormPanel())]
     [ve.writeCloseForm()/]
   [elseif (ve.isUser())]
@@ -255,11 +261,17 @@
 
 [template private writeForm (ve : view::AbstractViewElement)]
    <form onSubmit={handleSubmit(onSubmit)}>
+     <fieldset className="fr-fieldset" aria-labelledby="text-legend text-messages">
+       <legend className="fr-fieldset__legend" id="text-legend">
+          [ve.label/]
+          <span className="fr-hint-text">[ve.description/]</span>
+       </legend>
      <div style={{ width: "100%" }}>
 [/template]
 
 [template private writeCloseForm (ve : view::AbstractViewElement)]
-    </div> {/* writeCloseForm */}
+      </div> {/* writeCloseForm */}
+    </fieldset>
   </form>
 [/template]
 
@@ -331,6 +343,9 @@
 [/template]
 
 [template private writeLogo (ve : view::AbstractViewElement)]
+  <p class="fr-logo">
+    [ve.label/]
+  </p>
 [/template]
 
 [template private writeNavigation (ve : view::AbstractViewElement)]
@@ -372,6 +387,10 @@
 [/template]
 
 [template private writeSearch (ve : view::AbstractViewElement)]
+  <SearchBar
+    defaultValue="France"
+    onButtonClick={function noRefCheck(){}}
+  />
 [/template]
 
 [template private writeSegmented (ve : view::AbstractViewElement)]
@@ -425,6 +444,20 @@
 [/template]
 
 [template private writeTable (ve : view::AbstractViewElement)]
+  <Table
+    caption="Résumé du tableau (accessibilité)"
+    data={['['/]
+[/template]
+
+[template private writeCloseTable (ve : view::AbstractViewElement)]
+    [']'/]}
+  headers={['['/]
+  'Titre',
+  'Titre',
+  'Titre',
+  'Titre',
+  'Titre'
+  [']'/]}/>
 [/template]
 
 [template private writeTag (ve : view::AbstractViewElement)]
@@ -463,7 +496,117 @@
 [/template]
 
 [template private writeUpload (ve : view::AbstractViewElement)]
+  [let v = ve.oclAsType(view::ViewElement)]
+    <Upload
+      multiple 
+      hint="[ve.description/]"
+      state="default"
+      stateRelatedMessage="Text de validation / d'explication de l'erreur"
+    />
+  [/let]
 [/template]
 
 [template private writeUser (ve : view::AbstractViewElement)]
+[/template]
+
+[template private writeHeader(vc : view::AbstractViewElement)]
+  <Header
+    allowEmptySearch
+    clearSearchInputOnSearch
+    brandTop={<>INTITULE<br />OFFICIEL</>}
+    homeLinkProps={{
+    href: '/',
+    title: 'Accueil - Nom de l’entité'
+  }}
+  id="fr-header-simple-header"
+  serviceTagline="[vc.description/]"
+  serviceTitle="[vc.label/]"
+  [if (not vc.eAllContents()->select(o | o.isLogo())->isEmpty())]
+    [vc.writeOperatorLogo()/]
+  [/if]
+  [if (not vc.eAllContents(view::AbstractViewElement)
+    ->select(o | o.isSearch())->isEmpty())]
+    onSearchButtonClick={function noRefCheck(){}}
+  [/if]
+  [if (not vc.eAllContents(view::AbstractViewElement)
+    ->select(o | o.isNavigation())->isEmpty())]
+    [let nav = vc.eAllContents(view::AbstractViewElement)
+      ->select(o | o.isNavigation())->first()]
+      navigation={['['/]
+         [for (menu | nav.eAllContents(view::AbstractViewElement)
+           ->select(o1 | o1.isNavigationMenu()))]
+           {
+             menuLinks: ['['/]
+             [for (el | menu.eAllContents(view::AbstractViewElement)
+               ->select(o2 | o2.isNavigationElement()))]
+               {
+                 linkProps: {
+                   href: '#'
+                 },
+                 text: '[el.label/]'
+               },
+             [/for]
+             ],
+             text: '[menu.label/]'
+           },
+         [/for]
+      [']'/]}
+    [/let]
+  [/if]
+  quickAccessItems={['['/]
+      {
+         iconId: 'fr-icon-add-circle-line',
+         linkProps: {
+            href: '#'
+         },
+         text: 'Créer un espace'
+      },
+      {
+         iconId: 'fr-icon-lock-line',
+         linkProps: {
+            href: '#'
+         },
+         text: 'Se connecter'
+      },
+      {
+         iconId: 'fr-icon-account-line',
+         linkProps: {
+            href: '#'
+         },
+         text: 'S’enregistrer'
+       }
+     [']'/]}
+  />
+[/template]
+
+[template private writeOperatorLogo(vc : view::AbstractViewElement)]
+  operatorLogo={{
+    [let l = vc.eAllContents()->select(o | o.isLogo())->first()]
+      alt: '[l.oclAsType(view::ViewElement).description/]',
+      imgUrl: opLogo,
+      [if (l.has_metaLink())]
+        linkProps: {
+          href: '#',
+          title: ''
+        },
+      [/if]
+      orientation: [if (l.hasMetaOrientation())][l.get_metaOrientation()/][else]'horizontal'[/if]
+    [/let]
+  }}
+[/template]
+
+[template private writeFooter(vc : view::AbstractViewElement)]   
+  <Footer
+    accessibility="fully compliant"
+    contentDescription="[vc.description/]"
+    [if (not vc.eAllContents()->select(o | o.isLogo())->isEmpty())]
+      [vc.writeOperatorLogo()/]
+    [/if]
+    termsLinkProps={{
+      href: '#'
+    }}
+    websiteMapLinkProps={{
+      href: '#'
+    }}
+  />
 [/template]

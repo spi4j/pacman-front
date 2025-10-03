@@ -385,4 +385,28 @@ public final class AnnotationUtils {
 	public static String get_metaSuffix(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_SUFFIX);
 	}
+	
+	public static boolean has_metaImg(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_IMG);
+	}
+
+	public static String get_metaImg(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_IMG);
+	}
+	
+	public static boolean has_metaLink(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_LINK);
+	}
+
+	public static String get_metaLink(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_LINK);
+	}
+	
+	public static boolean has_metaOrientation(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_ORIENTATION);
+	}
+
+	public static String get_metaOrientation(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_ORIENTATION);
+	}
 }

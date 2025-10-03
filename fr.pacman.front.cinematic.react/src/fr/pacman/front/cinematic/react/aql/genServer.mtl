@@ -3,7 +3,7 @@
 					'http://www.obeonetwork.org/dsl/cinematic/flow/1.0.0', 
 					'http://www.obeonetwork.org/dsl/cinematic/toolkits/1.0.0')/]
 
-[import fr::pacman::front::core::aql::query::eobject/]
+[import fr::pacman::front::cinematic::react::aql::query::widgets/]
 [import fr::pacman::front::cinematic::react::aql::file::genServer/]
 [import fr::pacman::front::core::service::CinematicUtils/]
 
@@ -17,14 +17,9 @@
  [comment écriture des différentes pages jsx (écrans)./]
  [for (vs : flow::ViewState | r.eAllContents(flow::ViewState))]
   [for (vc : view::ViewContainer | vs.viewContainers)]
-    [if (vc.isViewPanel())]
-      [vc.filePageJsxImpl(vs)/]
-      [comment viewContainer.genController(viewState)/]
-      [comment viewContainer.genView(viewState)/]
-    [/if]
+    [if (vc.isViewPanel())][vc.filePageJsxImpl(vs)/][/if]
   [/for]
  [/for]
- 
- [comment écriture du fichier central de pilotages des différentes pages jsx./]
+ [comment écriture du fichier central de pilotage des différentes pages jsx./]
  [r.filePageAppTsxImpl()/]
 [/template]

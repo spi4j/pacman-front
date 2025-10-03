@@ -33,6 +33,8 @@
 
 [query public isLogo(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Logo')/]
 
+[query public isLogoOfficial(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('LogoOfficial')/]
+
 [query public isSearch(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Search')/]
 
 [query public isConnect(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Connect')/]
@@ -86,6 +88,12 @@
 [query public isPassword(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Password')/]
   
 [query public isNavigation(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Navigation')/]
+  
+[query public isNavigationMenu(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('NavigationMenu')/]
+  
+[query public isNavigationQuick(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('NavigationDirectAccess')/]
+  
+[query public isNavigationElement(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('NavigationElement')/]
   
 [query public isTabNav(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('TabNav')/]
   

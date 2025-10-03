@@ -4,23 +4,7 @@
 					'http://www.obeonetwork.org/dsl/cinematic/flow/1.0.0', 
 					'http://www.obeonetwork.org/dsl/cinematic/toolkits/1.0.0')/]
 
-[import fr::pacman::front::core::aql::name::name/]
-
-[comment vérifie si le container est bien de type panel./]
-[query public isViewPanel(cv : view::ViewContainer) : Boolean = true/]
-
-[comment retourne ./]
-[query public viewPanels(r : cinematic::CinematicRoot) : OrderedSet(view::ViewContainer) = r.eAllContents(flow::ViewState)
-	->collect(o1 | o1.viewContainers)->select(o2 | o2.isViewPanel())->asSet()/]
-	
-[comment retourne l'url pour la page react (à ce niveau si main n'est pas null, il a obligatoirement un panel associé)./]
-[query public urlPageJsx(v : view::ViewContainer, main : flow::ViewState) : String = if (main = null) then v.nameUrlPageJsx() 
-  else if (main.viewContainers->first().technicalid.equalsIgnoreCase(v.technicalid) ) then '/' else '/' + v.nameUrlPageJsx() endif endif/]
-
 [comment vérifie si le layout est de type horizontal./]
 [query public isHorizontalLayout(l : view::Layout) : Boolean = l.direction = view::LayoutDirection::HORIZONTAL/]
-  
-[comment vérifie si la page en cours utilise des formulaires./]
-[query public useForms(vc : view::ViewContainer) : Boolean = true/]
 
 

@@ -2,20 +2,42 @@
 					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0',
 					'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
 
+[import fr::pacman::front::core::aql::name::name/]
 [import fr::pacman::front::core::aql::query::widgets/]
 [import fr::pacman::front::core::service::CinematicUtils/]
 
+[comment retourne l'ensemble des panels./]
+[query public viewPanels(r : cinematic::CinematicRoot) : OrderedSet(view::ViewContainer) = r.eAllContents(flow::ViewState)
+  ->collect(o1 | o1.viewContainers)->select(o2 | o2.isViewPanel())->asSet()/]
+  
+[comment vérifie si le container est bien de type panel./]
+[query public isViewPanel(vc : view::ViewContainer) : Boolean = vc.isPanel() or vc.isMainPanel() 
+  or vc.isModalPanel() or vc.isHeaderPanel() or vc.isFooterPanel()/]
+
+[comment vérifie si la page en cours utilise un (ou des) formulaire(s)./]
+[query public useForms(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
+  ->select(o | o.isFormPanel())->isEmpty()/]
+  
+[comment vérifie si l'application utilise un en-tete et/ou un pied de page./]
+[query public useHFViews(r :cinematic::CinematicRoot) : Boolean = r.eAllContents(view::AbstractViewElement)
+  ->select(o | o.isHeaderPanel() or o.isFooterPanel())->size() = 2/]
+  
 [comment vérifie si il est possible d'appliquer du positionnement css sur l'élément./]
 [query public isEligibleForCSSPositioning(l: view::Layout) : Boolean =  l.viewElement = null 
   or (l.viewElement <> null and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox()))/]
+
+[comment vérifie si le layout accepte les balises de positionnement de formulaire./]
+[query public isEligibleForFDSPositioning(l: view::Layout) : Boolean =  l.viewElement <> null 
+  and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox() and not l.viewElement.isFormPanel() 
+  and not l.viewElement.isMainPanel() and not l.viewElement.isPanel() and not l.viewElement.isTable())/]
   
-[comment vérifie si le composant est éligible pour être dans la liste des 'formValues' de react-hook-form./]
-[query public isEligibleForFormValues(e : view::AbstractViewElement) : Boolean = e.widget.metadataDefinitions ->
-  exists(md |'FormValues'.equalsIgnoreCase(md.title) and 'true'.equalsIgnoreCase(md.body))/]
+[query  public isEligibleForFormValues(ve : view::AbstractViewElement) : Boolean = not ve.isFormPanel() 
+ and not ve.isRadio() and not ve.isCheckBox() and not ve.isButton() and not ve.isButtonSubmit() 
+ and not ve.isDisplay() and not ve.isTable()/]
   
 [comment retourne l'uri react attachée au composant./]
-[query public reactUriForElement(e : view::AbstractViewElement) : String = let md = e.widget.metadataDefinitions
-   ->select(o | 'ReactUri'.equalsIgnoreCase(o.title))->first() in if md = null then '' else md.body endif/]
+[query public reactUriForElement(ve : view::AbstractViewElement) : String = if (ve.isPassword()) then 
+  '@codegouvfr/react-dsfr/blocks' else '@codegouvfr/react-dsfr' endif/]
    
 [comment vérifie si le layout est à l'intérieur d'un layout horizontal ou si le layout courant est lui même horizontal./]
 [query public isHorizontalLayoutForJs(l : view::Layout, insideHL : Boolean) : Boolean = if insideHL then insideHL 
@@ -25,6 +47,23 @@
 de vérification sur le contenu, ne devrait pas avoir de null car vérifié auparavant par la validation. On détourne la 
 propriété help qui n'est pas visible, si help = true alors c'est un tableau sinon juste le type./]
 [query public typeForElement(e : view::AbstractViewElement) : String = if (e.oclIsKindOf(view::ViewElement)) then 
-  e.oclAsType(view::ViewElement).type.name.toLower() else e.oclAsType(view::AbstractViewElement)
+  e.oclAsType(view::ViewElement).type.name.typeJSForElement() else e.oclAsType(view::AbstractViewElement)
   .eAllContents(view::ViewElement)->first().typeForElement() endif + if (e.widget.metadataDefinitions ->
   exists(md |'FormValues'.equalsIgnoreCase(md.title) and 'true'.equalsIgnoreCase(md.help))) then '[]' else '' endif/]
+  
+[comment retourne le transtypage des types pour javascript./]
+[query private typeJSForElement(t : String) : String = if ('String'.equalsIgnoreCase(t)) then 'string' 
+ else if ('Integer'.equalsIgnoreCase(t)) then 'number' 
+ else if ('Float'.equalsIgnoreCase(t)) then 'number' 
+ else if ('Double'.equalsIgnoreCase(t)) then 'number' 
+ else if ('Long'.equalsIgnoreCase(t)) then 'string'
+ else if ('Binary'.equalsIgnoreCase(t)) then 'File' 
+ else if ('Boolean'.equalsIgnoreCase(t)) then 'boolean' 
+ else if ('Date'.equalsIgnoreCase(t)) then 'string (ISO format "YYYY-MM-DD")' 
+ else if ('Time'.equalsIgnoreCase(t)) then 'string (format "HH:mm:ss")' 
+ else if ('Timestamp'.equalsIgnoreCase(t)) then 'string (ISO format "YYYY-MM-DDTHH:mm:ss.sssZ")' 
+ else 'UNKNOWN TYPE !!' endif endif endif endif endif endif endif endif endif endif/]
+ 
+[comment retourne l'url pour la page react (à ce niveau si main n'est pas null, il a obligatoirement un panel associé)./]
+[query public urlPageJsx(v : view::ViewContainer, main : flow::ViewState) : String = if (main = null) then v.nameUrlPageJsx() 
+  else if (main.viewContainers->first().technicalid.equalsIgnoreCase(v.technicalid) ) then '/' else '/' + v.nameUrlPageJsx() endif endif/]
