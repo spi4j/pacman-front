@@ -6,6 +6,7 @@
 [import fr::pacman::front::core::aql::name::name/]
 [import fr::pacman::front::core::aql::query::widgets/]
 [import fr::pacman::front::core::aql::query::metadatas/]
+[import fr::pacman::front::core::aql::name::directories /]
 [import fr::pacman::front::core::service::AnnotationUtils/]
 [import fr::pacman::front::cinematic::react::aql::query::widgets/]
 
@@ -141,7 +142,7 @@
 [template private writeRadioPanel (ve : view::AbstractViewElement)]
   <RadioButtons 
     hintText="[ve.description/]"
-    legend="Label" 
+    legend="[ve.label/]" 
     options={['['/]
 [/template]
 
@@ -161,7 +162,7 @@
 
 [template private writeRadio (ve : view::AbstractViewElement)]
   {
-     [if (ve.hasMetaIcon())]illustration: <img alt="illustration" src="https://placehold.it/100x100"/>,[/if]
+     [if (ve.hasMetaIcon())]illustration: <img alt="illustration" src={[ve.nameElementId()/]Ico}/>,[/if]
      hintText: '[ve.description.toJSString()/]',
      label: '[ve.label.toJSString()/]',
      nativeInputProps: {
@@ -172,7 +173,7 @@
 [/template]
  
 [template private writeCheckBoxPanel (ve : view::AbstractViewElement)]
-  <p/><Checkbox
+  <Checkbox
     hintText="[ve.description/]"
     legend="[ve.label/]"
     options={['['/]
@@ -194,7 +195,6 @@
     {
        hintText: '[ve.description.toJSString()/]',
        label: '[ve.label.toJSString()/]',
-       hintText: "[ve.description/]",
        [if (v.required and ve.eContainer().hasMetaNbRequired())]
          nativeInputProps: {
            ...register("[ve.eContainer().nameElementId()/]", {
@@ -220,10 +220,10 @@
       severity={globalMessage.severity}
       title={
         globalMessage.severity === "error"
-          ? "Erreur"
+          ? "[ve.get_metaTextError()/]"
           : globalMessage.severity === "success"
-          ? "Succès"
-          : "Information"
+          ? "[ve.get_metaTextSuccess()/]"
+          : "[ve.get_metaTextInfo()/]"
       }
       description={globalMessage.text}
       closable
@@ -277,8 +277,8 @@
 
 [template private writeForm (ve : view::AbstractViewElement)]
    <form onSubmit={handleSubmit(onSubmit)}>
-     <fieldset className="fr-fieldset" aria-labelledby="text-legend text-messages">
-       <legend className="fr-fieldset__legend" id="text-legend">
+     <fieldset className="fr-fieldset" aria-labelledby="text-legend-[ve.nameElementId()/]">
+       <legend className="fr-fieldset__legend" id="text-legend-[ve.nameElementId()/]">
           [ve.label/]
           <span className="fr-hint-text">[ve.description/]</span>
        </legend>
@@ -299,10 +299,21 @@
 
 [template private writePassword (ve : view::AbstractViewElement)]
   [let v = ve.oclAsType(view::ViewElement)]
+    <Input 
+      label="[ve.label/]" 
+      hintText="[ve.description/]"
+      [ve.writeNativeInputProps('password', true)/]
+    />
+  [/let]
+[/template]
+
+[comment cette solution est buggée pour l'instant dans react-dsfr./]
+[template private writePasswordBug (ve : view::AbstractViewElement)]
+  [let v = ve.oclAsType(view::ViewElement)]
     <PasswordInput 
       label="[ve.label/]" 
       hintText="[ve.description/]"
-        messages={['['/]
+      messages={['['/]
           {
             message: fieldMessage(
               "[ve.nameElementId()/]",
@@ -310,12 +321,10 @@
               "[ve.get_metaTextSuccess()/]"
             ),
             severity:
-              fieldState("myPassordInput") === "error"
-              ? "error"
-              : "info",
-            },
+              fieldState("[ve.nameElementId()/]"),
+          },
         [']'/]}
-      [ve.writeNativeInputProps(false)/]
+      [ve.writeNativeInputProps('password', false)/]
     />
   [/let]
 [/template]
@@ -329,18 +338,19 @@
     [if (ve.hasMetaIcon())]iconId="[ve.get_metaIcon()/]"[/if]
     [if (ve.hasMetaTextArea())]textArea[/if]
     hintText="[ve.description/]"
-    [ve.writeNativeInputProps(true)/]
+    [ve.writeNativeInputProps('text', true)/]
   />
 [/let]
 [/template]
 
-[template private writeNativeInputProps(ve : view::AbstractViewElement, srm :: Boolean)]
+[template private writeNativeInputProps(ve : view::AbstractViewElement, type :: String, srm :: Boolean)]
   [let v = ve.oclAsType(view::ViewElement)]
     nativeInputProps={{
     ...getRegisterProps("[ve.nameElementId()/]", { 
     [if (v.required)]required: "[ve.get_metaTextError()/]", [/if]
     [if (v.hasPattern())]validate: (value) => /[ve.get_metaRegexPattern()/]/.test(value) || "[ve.get_metaTextError()/]",[/if]
     }),
+    type:"[type/]",
     placeholder: "[ve.get_metaTextPlaceHolder()/]",
     maxLength: [ve.get_metaMaxlength()/]
     }}

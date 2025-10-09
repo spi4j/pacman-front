@@ -16,9 +16,13 @@
 [query public isViewPanel(vc : view::ViewContainer) : Boolean = vc.isPanel() or vc.isMainPanel() 
   or vc.isModalPanel() or vc.isHeaderPanel() or vc.isFooterPanel()/]
 
-[comment vérifie si la page en cours utilise un (ou des) formulaire(s)./]
-[query public useForms(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
+[comment vérifie si la page en cours utilise un formulaire (pour l'instant un seul authorisé par page)./]
+[query public useForm(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.isFormPanel())->isEmpty()/]
+
+[comment retourne le formulaire pour la page (si existe)./]
+[query public form(vc : view::ViewContainer) : view::AbstractViewElement = vc.eContents()
+  ->select(e | e.oclIsKindOf(view::AbstractViewElement))->select(e | e.isFormPanel())->first()/]
   
 [comment vérifie si l'application utilise un en-tete et/ou un pied de page./]
 [query public useHFViews(r :cinematic::CinematicRoot) : Boolean = r.eAllContents(view::AbstractViewElement)
@@ -32,7 +36,8 @@
 [comment vérifie si le layout accepte les balises de positionnement de formulaire./]
 [query public isEligibleForFDSPositioning(l: view::Layout) : Boolean =  l.viewElement <> null 
   and l.isInsideFormLayout() and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox() 
-  and not l.viewElement.isFormPanel() and not l.viewElement.isMainPanel() and not l.viewElement.isPanel())/]
+  and not l.viewElement.isFormPanel() and not l.viewElement.isMainPanel() and not l.viewElement.isPanel()) 
+  and not l.viewElement.isBlocPanel()/]
   
 [comment vérifie si l'élément doit figurer dans les données à faire gérer par hook-form./]
 [query  public isEligibleForFormValues(ve : view::AbstractViewElement) : Boolean = not ve.isFormPanel() 
@@ -52,8 +57,7 @@ de vérification sur le contenu, ne devrait pas avoir de null car vérifié aupa
 propriété help qui n'est pas visible, si help = true alors c'est un tableau sinon juste le type./]
 [query public typeForElement(e : view::AbstractViewElement) : String = if (e.oclIsKindOf(view::ViewElement)) then 
   e.oclAsType(view::ViewElement).type.name.typeJSForElement() else e.oclAsType(view::AbstractViewElement)
-  .eAllContents(view::ViewElement)->first().typeForElement() endif + if (e.widget.metadataDefinitions ->
-  exists(md |'FormValues'.equalsIgnoreCase(md.title) and 'true'.equalsIgnoreCase(md.help))) then '[]' else '' endif/]
+  .eAllContents(view::ViewElement)->first().typeForElement() endif + if (e.isCheckBoxPanel()) then '[]' else '' endif/]
   
 [comment retourne le transtypage des types pour javascript./]
 [query private typeJSForElement(t : String) : String = if ('String'.equalsIgnoreCase(t)) then 'string' 

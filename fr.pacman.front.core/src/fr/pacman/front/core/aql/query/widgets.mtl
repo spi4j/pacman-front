@@ -13,6 +13,8 @@
 
 [query public isFormPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Form')/]
   
+[query public isBlocPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Bloc')/]
+  
 [query public isModalPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Modal')/]
 
 [query public isButton(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Button')/]

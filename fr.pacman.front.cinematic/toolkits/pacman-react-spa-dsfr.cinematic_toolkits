@@ -128,6 +128,8 @@
     <possibleEvents xmi:id="_LW75YJMREfCWNsj-B1W6Gw" technicalid="_LJfTQJMREfCWNsj-B1W6Gw" name="onBlur"/>
     <possibleEvents xmi:id="_MZ2u8JMREfCWNsj-B1W6Gw" technicalid="_MK8wQJMREfCWNsj-B1W6Gw" name="onKeyDown"/>
     <possibleEvents xmi:id="_Ng9g8JMREfCWNsj-B1W6Gw" technicalid="_NSg1QJMREfCWNsj-B1W6Gw" name="onKeyUp"/>
+    <metadataDefinitions xmi:id="_WzQfwKT5EfCj4oBHig1aWA" technicalid="_WXOEAaT5EfCj4oBHig1aWA" title="TXT_ERROR"/>
+    <metadataDefinitions xmi:id="_XHsesKT5EfCj4oBHig1aWA" technicalid="_W7P-IqT5EfCj4oBHig1aWA" title="TXT_VALID"/>
   </widgets>
   <widgets xmi:id="_KdZKUJH1EfCF6-2aQyGFWw" technicalid="_KSdFoJH1EfCF6-2aQyGFWw" name="Follow" icon="/fr.pacman.front.cinematic/icons/Follow.png" documentation=" S’inscrire à (aux) lettre(s) d’information proposée(s), ainsi que des liens vers les réseaux sociaux de l’entité.">
     <possibleEvents xmi:id="_CpWBsJMSEfCWNsj-B1W6Gw" technicalid="_AxfIMJMSEfCWNsj-B1W6Gw" name="onClick"/>
@@ -518,4 +520,5 @@
     <possibleEvents xmi:id="_Nt2UIJMWEfCWNsj-B1W6Gw" technicalid="_Nbzh4JMWEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_O6AlQJMWEfCWNsj-B1W6Gw" technicalid="_OlV80JMWEfCWNsj-B1W6Gw" name="onMouseLeave"/>
   </widgets>
+  <widgets xmi:id="_ZJwbEKUPEfCj4oBHig1aWA" technicalid="_YoQ3kKUPEfCj4oBHig1aWA" name="Bloc" icon="/fr.pacman.front.cinematic/icons/Panel.png" isContainer="true"/>
 </cinematic-toolkits:Toolkit>

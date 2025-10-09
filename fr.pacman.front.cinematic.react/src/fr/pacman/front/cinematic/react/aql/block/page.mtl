@@ -12,6 +12,7 @@
 [import fr::pacman::front::core::aql::query::widgets/]
 [import fr::pacman::front::core::service::CinematicUtils/]
 [import fr::pacman::front::core::service::AnnotationUtils/]
+[import fr::pacman::front::core::aql::output::resources/]
 
 [comment aiguillage pour l'écriture d'une page typescript + code jsx (panel)./]				
 [template public pageJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
@@ -31,7 +32,7 @@
 
 [comment écriture d'une page typescript + code jsx (standard panel)./]				
 [template public pageJsxSDImpl (vc : view::ViewContainer, vs : flow::ViewState )]
-  [if (vc.useForms())]
+  [if (vc.useForm())]
     import React from "react";
     import { useForm } from "react-hook-form";
     import { Alert } from "@codegouvfr/react-dsfr/Alert";
@@ -45,13 +46,13 @@
   
   export default function [vc.namePageJsx()/] () {
    
-    [if (vc.useForms())]
-      [vc.writeHookForms()/]
+    [if (vc.useForm())]
+      [vc.writeHandleForm()/]
     [/if]
     
     return (
       <>
-        [if (vc.useForms())]
+        [if (vc.useForm())]
           [vc.writeAlert()/]<p/>
         [/if]
         [body/]
@@ -102,7 +103,7 @@
 [comment écriture pour l'ouverture d'un bloc horizontal./]
 [template private writeOpenHorizontalBloc (l : view::Layout)]
   [if (l.isFirstLayoutOfHorizontalContainer())]
-    <div className="fr-grid-row fr-grid-row--gutters">
+    <div className="fr-grid-row fr-grid-row--gutters fr-grid-row--top">
   [/if]
   <div className="fr-col">
 [/template]
@@ -181,94 +182,98 @@
 [/template]
 
 [comment écriture de toute la gestion de formulaire./]
-[template private writeHookForms(vc : view::ViewContainer)]
-  // --------------------------------------------------
-  // Définition du type pour les valeurs du formulaire.
-  // --------------------------------------------------
-  type FormValues = {
-    [for (e | vc.eAllContents(view::AbstractViewElement))]
-     [if (e.isEligibleForFormValues())][e.name/] : [e.typeForElement()/];[/if]
-    [/for]
-  };
-  
-  // ------------------------------------------------------------------------------------
-  // Initialise useForm avec le type FormValues pour bénéficier de la validation typée.
-  // Récupère register pour lier les champs, handleSubmit pour gérer la soumission,
-  // et errors pour afficher les messages d'erreur liés à chaque champ.
-  // -----------------------------------------------------------------------------------
-  const { 
-    register, 
-    handleSubmit, 
-    formState: { errors, dirtyFields }, 
-  } = useForm<FormValues>();
-  
-  // -----------------------------------
-  // Etat générique pour message global.  // -----------------------------------  
-  const ['['/]globalMessage, setGlobalMessage[']'/] = React.useState<{
-    text: string;
-    severity: "success" | "error" | "info" | "warning";
-  } | null>(null);
-  
-  // ----------------------------------------------
-  // Simulation de vérification serveur (ou métier)
-  // -----------------------------------------------
-  async function validateFormData(data: FormValues): Promise<boolean> {
-    await new Promise((r) => setTimeout(r, 500)); // latence simulée
-    return data.IdentifiantInput === "12345" && data.passwordInput === "azerty";
-  }
-  
-  // -----------------------------------------------------
-  // Fonction appelée lors de la soumission du formulaire.
-  // -----------------------------------------------------
-  const onSubmit = async (data: FormValues) => {
-    console.log("Formulaire soumis :", data);
-    const isValid = await validateFormData(data);
-    if (!isValid) {
-      setGlobalMessage({
-        text: "Le formulaire est en erreur.",
-        severity: "error",
-      });
-      return;
+[template private writeHandleForm(vc : view::ViewContainer)]
+  [let form = vc.form()]
+    // --------------------------------------------------
+    // Définition du type pour les valeurs du formulaire.
+    // --------------------------------------------------
+    type FormValues = {
+      [for (e | vc.eAllContents(view::AbstractViewElement))]
+       [if (e.isEligibleForFormValues())][e.name/] : [e.typeForElement()/];[/if]
+      [/for]
+    };
+    
+    // ------------------------------------------------------------------------------------
+    // Initialise useForm avec le type FormValues pour bénéficier de la validation typée.
+    // Récupère register pour lier les champs, handleSubmit pour gérer la soumission,
+    // et errors pour afficher les messages d'erreur liés à chaque champ.
+    // -----------------------------------------------------------------------------------
+    const { 
+      register, 
+      handleSubmit, 
+      formState: { errors, dirtyFields }, 
+    } = useForm<FormValues>();
+    
+    // -----------------------------------
+    // Etat générique pour message global.    // -----------------------------------  
+    const ['['/]globalMessage, setGlobalMessage[']'/] = React.useState<{
+      text: string;
+      severity: "success" | "error" | "info" | "warning";
+    } | null>(null);
+    
+    // ----------------------------------------------
+    // Traitement métier pour la page.
+    // -----------------------------------------------
+    async function validateFormData(data: FormValues): Promise<boolean> {
+      [protected ('validate form [vc.nameElementId()/]'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+        await new Promise((r) => setTimeout(r, 500)); // latence simulée
+        return data.IdentifiantInput === "12345" && data.passwordInput === "azerty";
+      [/protected]
+    }
+    
+    // -----------------------------------------------------
+    // Fonction appelée lors de la soumission du formulaire.
+    // -----------------------------------------------------
+    const onSubmit = async (data: FormValues) => {
+      console.log("Formulaire soumis :", data);
+      const isValid = await validateFormData(data);
+      if (!isValid) {
+        setGlobalMessage({
+          text: "[form.get_metaTextError()/]",
+          severity: "error",
+        });
+        return;
+       }
+       setGlobalMessage({
+          text: "[form.get_metaTextSuccess()/]",
+          severity: "success",
+       });
+    };
+    
+    // ----------------------------------------------
+    // Permet de sécuriser la génération automatique.
+    // ----------------------------------------------
+    function getRegisterProps(
+      fieldName: keyof FormValues,
+      rules?: Parameters<typeof register>['['/]1[']'/]) {
+      return { ...register(fieldName, rules) };
      }
-     setGlobalMessage({
-        text: "Le formulaire est valide",
-        severity: "success",
-     });
-  };
-  
-  // ----------------------------------------------
-  // Permet de sécuriser la génération automatique.
-  // ----------------------------------------------
-  function getRegisterProps(
-    fieldName: keyof FormValues,
-    rules?: Parameters<typeof register>['['/]1[']'/]) {
-    return { ...register(fieldName, rules) };
-   }
-  
-  // ---------------------------------------
-  // Centralisation de la gestion des états.
-  // ---------------------------------------
-  function fieldState(fieldName: keyof FormValues) {
-     return errors['['/]fieldName[']'/]
-       ? "error"
-       : dirtyFields['['/]fieldName[']'/]
-       ? "success"
-       : "info";
-  }
-  
-  // ----------------------------------------------
-  // Centralisation pour l'affichage des messages.
-  // ----------------------------------------------
-  function fieldMessage(
-     fieldName: keyof FormValues,
-     defaultMessage: string,
-     successMessage: string
-   ) {
-      return (
-       errors['['/]fieldName[']'/]?.message ||
-       (dirtyFields['['/]fieldName[']'/] ? successMessage : defaultMessage)
-     );
-  }
+    
+    // ---------------------------------------
+    // Centralisation de la gestion des états.
+    // ---------------------------------------
+    function fieldState(fieldName: keyof FormValues) {
+       return errors['['/]fieldName[']'/]
+         ? "error"
+         : dirtyFields['['/]fieldName[']'/]
+         ? "success"
+         : "info";
+    }
+    
+    // ----------------------------------------------
+    // Centralisation pour l'affichage des messages.
+    // ----------------------------------------------
+    function fieldMessage(
+       fieldName: keyof FormValues,
+       defaultMessage: string,
+       successMessage: string
+     ) {
+        return (
+         errors['['/]fieldName[']'/]?.message ||
+         (dirtyFields['['/]fieldName[']'/] ? successMessage : defaultMessage)
+       );
+    }
+  [/let]
 [/template]
 
 [comment écriture des imports pour la page (panel / header / footer / etc..)./]
@@ -282,6 +287,14 @@
       [let logo = logos->first()]
         import opLogo from '[logo.nameDirImages()/]/[logo.get_metaImg()/]';
       [/let]
+    [/if]
+  [/let]
+  [let radios = vc.eAllContents(view::AbstractViewElement)
+    ->select(e | e.isRadio() and e.has_metaIcon())]
+    [if (not radios->isEmpty())]
+      [for (r | radios)]
+        import [r.nameElementId()/]Ico from '[r.nameDirImages()/]/[r.get_metaIcon()/]';
+      [/for]
     [/if]
   [/let]
 [/template]
