@@ -1,9 +1,11 @@
 [module widgets(	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
 					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0',
-					'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
+					'http://www.obeonetwork.org/dsl/environment/3.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/flow/1.0.0')/]
 
 [import fr::pacman::front::core::aql::name::name/]
 [import fr::pacman::front::core::aql::query::widgets/]
+[import fr::pacman::front::core::aql::query::events/]
 [import fr::pacman::front::core::service::CinematicUtils/]
 
 [comment retourne l'ensemble des panels./]
@@ -22,20 +24,22 @@
 [query public useHFViews(r :cinematic::CinematicRoot) : Boolean = r.eAllContents(view::AbstractViewElement)
   ->select(o | o.isHeaderPanel() or o.isFooterPanel())->size() = 2/]
   
-[comment vérifie si il est possible d'appliquer du positionnement css sur l'élément./]
+[comment vérifie si e layout accepte du positionnement css sur l'élément./]
 [query public isEligibleForCSSPositioning(l: view::Layout) : Boolean =  l.viewElement = null 
-  or (l.viewElement <> null and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox()))/]
+  or (l.viewElement <> null and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox()) 
+  and not l.viewElement.isText())/]
 
 [comment vérifie si le layout accepte les balises de positionnement de formulaire./]
 [query public isEligibleForFDSPositioning(l: view::Layout) : Boolean =  l.viewElement <> null 
-  and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox() and not l.viewElement.isFormPanel() 
-  and not l.viewElement.isMainPanel() and not l.viewElement.isPanel() and not l.viewElement.isTable())/]
+  and l.isInsideFormLayout() and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox() 
+  and not l.viewElement.isFormPanel() and not l.viewElement.isMainPanel() and not l.viewElement.isPanel())/]
   
+[comment vérifie si l'élément doit figurer dans les données à faire gérer par hook-form./]
 [query  public isEligibleForFormValues(ve : view::AbstractViewElement) : Boolean = not ve.isFormPanel() 
  and not ve.isRadio() and not ve.isCheckBox() and not ve.isButton() and not ve.isButtonSubmit() 
  and not ve.isDisplay() and not ve.isTable()/]
   
-[comment retourne l'uri react attachée au composant./]
+[comment retourne l'uri react attachée au composant pour les imports./]
 [query public reactUriForElement(ve : view::AbstractViewElement) : String = if (ve.isPassword()) then 
   '@codegouvfr/react-dsfr/blocks' else '@codegouvfr/react-dsfr' endif/]
    
@@ -63,7 +67,12 @@ propriété help qui n'est pas visible, si help = true alors c'est un tableau si
  else if ('Time'.equalsIgnoreCase(t)) then 'string (format "HH:mm:ss")' 
  else if ('Timestamp'.equalsIgnoreCase(t)) then 'string (ISO format "YYYY-MM-DDTHH:mm:ss.sssZ")' 
  else 'UNKNOWN TYPE !!' endif endif endif endif endif endif endif endif endif endif/]
- 
-[comment retourne l'url pour la page react (à ce niveau si main n'est pas null, il a obligatoirement un panel associé)./]
-[query public urlPageJsx(v : view::ViewContainer, main : flow::ViewState) : String = if (main = null) then v.nameUrlPageJsx() 
-  else if (main.viewContainers->first().technicalid.equalsIgnoreCase(v.technicalid) ) then '/' else '/' + v.nameUrlPageJsx() endif endif/]
+
+[comment retourne l(es)'url(s) pour la page react (utilisé dans le app.tsx pour le routage par react-router)./]
+[query public urlsForReactRouter(v : view::ViewContainer) : Sequence(String) = if(v.isMainPanel()) then Sequence{'/'}
+  else v.get_urlsForReactRouter()->collect(u | '/' + u) endif/]
+
+[comment retourne l'url pour la page (utilisé pour chaque élément qui est un lien)./]
+[query public urlForPageJsx(ve : view::AbstractViewElement) : String = let onClick = ve.events
+  ->select(e | e.isOnClick())->first() in if onClick <> null then onClick.get_urlForPageJsx() else '#' endif/]
+

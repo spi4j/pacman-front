@@ -2,25 +2,27 @@ package fr.pacman.front.core.service;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.obeonetwork.dsl.cinematic.CinematicRoot;
-import org.obeonetwork.dsl.cinematic.flow.Flow;
-import org.obeonetwork.dsl.cinematic.flow.FlowState;
+import org.obeonetwork.dsl.cinematic.Event;
+import org.obeonetwork.dsl.cinematic.flow.Transition;
 import org.obeonetwork.dsl.cinematic.flow.ViewState;
 import org.obeonetwork.dsl.cinematic.view.AbstractViewElement;
 import org.obeonetwork.dsl.cinematic.view.Layout;
 import org.obeonetwork.dsl.cinematic.view.LayoutDirection;
 import org.obeonetwork.dsl.cinematic.view.ViewContainer;
+import org.obeonetwork.dsl.cinematic.view.ViewEvent;
 
 public class CinematicUtils {
 
-	private static ViewState _header;
-	private static ViewState _footer;
-	private static ViewState _root;
-	private static ViewState _referential;
+	private static List<Transition> _transitions;
 
 	/**
 	 * Conserve le temps de la génération les controleurs pour l'en-tete, le
@@ -30,94 +32,134 @@ public class CinematicUtils {
 	 * @param p_root : le diagramme de cinématique root.
 	 */
 	public static boolean init(final CinematicRoot p_root) {
-
-		_header = null;
-		_footer = null;
-
-		for (Flow v_flow : p_root.getFlows()) {
-			for (FlowState v_viewState : v_flow.getStates()) {
-				if (v_viewState instanceof ViewState) {
-					for (ViewContainer v_viewContainer : ((ViewState) v_viewState).getViewContainers()) {
-						if ("HeaderPanel".equalsIgnoreCase(v_viewContainer.getWidget().getName())) {
-							_header = (ViewState) v_viewState;
-						}
-						if ("FooterPanel".equalsIgnoreCase(v_viewContainer.getWidget().getName())) {
-							_footer = (ViewState) v_viewState;
-						}
-						if ("ReferentialPanel".equalsIgnoreCase(v_viewContainer.getWidget().getName())) {
-							_referential = (ViewState) v_viewState;
-						}
-						if ("MainPanel".equalsIgnoreCase(v_viewContainer.getWidget().getName())) {
-							_root = (ViewState) v_viewState;
-						}
-					}
-					if (_footer != null && _header != null && _referential != null && _root != null)
-						break;
-				}
-			}
-		}
+		_transitions = getAllTransitions(p_root);
 		return false;
 	}
 
-	public static ViewState get_headerState(Object p_object) {
-		return _header;
+	/**
+	 * Retourne la liste des noms de transitions associées à un conteneur de vue
+	 * {@link ViewContainer} dans le contexte de la génération des routes React.
+	 * <p>
+	 * Cette méthode parcourt l'ensemble des transitions définies dans le modèle
+	 * cinématique et sélectionne celles qui :
+	 * <ul>
+	 * <li>ont pour cible un {@link ViewState} contenant le {@code ViewContainer}
+	 * passé en paramètre,</li>
+	 * <li>sont déclenchées par un événement de type {@code onClick},</li>
+	 * <li>et possèdent un nom de transition valide.</li>
+	 * </ul>
+	 * Les transitions correspondantes sont retournées sous forme d'une liste de
+	 * chaînes, correspondant à leurs noms, qui pourront ensuite être utilisées pour
+	 * générer les routes dans le code React (fichier <code>page.jsx</code>).
+	 * </p>
+	 *
+	 * @param p_view le {@link ViewContainer} pour lequel on souhaite récupérer les
+	 *               routes React associées.
+	 *
+	 * @return une liste de noms de transitions correspondant aux routes React
+	 *         accessibles depuis ce conteneur ; une liste vide si aucune transition
+	 *         ne correspond.
+	 *
+	 * @see org.obeonetwork.dsl.cinematic.flow.Transition
+	 * @see org.obeonetwork.dsl.cinematic.flow.ViewState
+	 * @see org.obeonetwork.dsl.cinematic.view.ViewContainer
+	 * @see org.obeonetwork.dsl.cinematic.view.ViewEvent
+	 */
+	public static List<String> get_urlsForReactRouter(final ViewContainer p_view) {
+		return _transitions.stream()
+				.filter(t -> t.getTo() instanceof ViewState vs && !vs.getViewContainers().isEmpty()
+						&& vs.getViewContainers().get(0) == p_view && t.getOn() != null
+						&& t.getOn().stream()
+								.anyMatch(e -> e instanceof ViewEvent ve && ve.getType() != null
+										&& "onClick".equalsIgnoreCase(ve.getType().getName())))
+				.map(Transition::getName).collect(Collectors.toList());
 	}
 
-	public static ViewState get_footerState(Object p_object) {
-		return _footer;
+	/**
+	 * Recherche le nom de la transition associée à un événement donné dans le
+	 * modèle cinématique.
+	 * <p>
+	 * Cette méthode parcourt l'ensemble des transitions disponibles et renvoie le
+	 * nom de la première transition dont la liste d'événements
+	 * {@link Transition#getOn()} contient l'événement spécifié en paramètre.
+	 * </p>
+	 * <p>
+	 * Cette logique est utilisée pour déterminer la route React (ou le lien de
+	 * navigation) correspondant à un événement déclencheur particulier, typiquement
+	 * un {@link ViewEvent} de type {@code onClick}, dans le cadre de la génération
+	 * d'une page React (page.jsx).
+	 * </p>
+	 *
+	 * @param p_event l'événement {@link ViewEvent} pour lequel on souhaite
+	 *                retrouver la transition associée.
+	 *
+	 * @return le nom de la transition correspondant à l'événement spécifié, ou la
+	 *         chaîne {@code "#"} si aucune transition ne correspond.
+	 *
+	 * @see org.obeonetwork.dsl.cinematic.flow.Transition
+	 * @see org.obeonetwork.dsl.cinematic.Event
+	 * @see org.obeonetwork.dsl.cinematic.view.ViewEvent
+	 */
+	public static String get_urlForPageJsx(final ViewEvent p_event) {
+		for (Transition transition : _transitions) {
+			for (Event e : transition.getOn()) {
+				if (e == p_event) {
+					return transition.getName();
+				}
+			}
+		}
+		return "#";
 	}
 
-	public static ViewState get_referentialState(Object p_object) {
-		return _referential;
+	/**
+	 * Récupère toutes les transitions présentes dans un {@link CinematicRoot}.
+	 * <p>
+	 * Cette méthode parcourt l'intégralité du modèle EMF contenu dans
+	 * {@code p_root} (y compris tous les enfants récursivement) et collecte tous
+	 * les éléments de type {@link Transition}.
+	 * </p>
+	 *
+	 * @param p_root la racine cinématique à partir de laquelle récupérer les
+	 *               transitions ; ne doit pas être {@code null}
+	 * @return une {@link List} contenant toutes les instances de {@link Transition}
+	 *         présentes dans le modèle de {@code p_root}. Si aucune transition
+	 *         n’est trouvée, la liste renvoyée sera vide.
+	 */
+	private static List<Transition> getAllTransitions(CinematicRoot p_root) {
+		Iterable<EObject> allContents = () -> EcoreUtil.getAllContents(p_root, true);
+		return StreamSupport.stream(allContents.spliterator(), false).filter(e -> e instanceof Transition)
+				.map(e -> (Transition) e).collect(Collectors.toList());
 	}
 
-	public static ViewState get_rootState(Object p_object) {
-		return _root;
-	}
-
-	public static boolean hasReferentialContainer(Object p_object) {
-		return _referential != null;
-	}
-
-	public static boolean hasHeaderContainer(Object p_object) {
-		return _header != null;
-	}
-
-	public static boolean hasFooterContainer(Object p_object) {
-		return _footer != null;
-	}
-
-	public static ViewContainer get_referentialContainer(Object p_object) {
-
-		if (null == _referential)
-			return null;
-
-		if (null == _referential.getViewContainers() || _referential.getViewContainers().isEmpty())
-			return null;
-
-		return _referential.getViewContainers().get(0);
-	}
-
-	public static ViewContainer get_headerContainer(Object p_object) {
-
-		if (null == _header)
-			return null;
-
-		if (null == _header.getViewContainers() || _header.getViewContainers().isEmpty())
-			return null;
-
-		return _header.getViewContainers().get(0);
-	}
-
-	public static ViewContainer get_footerContainer(Object p_object) {
-
-		if (null == _footer)
-			return null;
-
-		if (null == _footer.getViewContainers() || _footer.getViewContainers().isEmpty())
-			return null;
-
-		return _footer.getViewContainers().get(0);
+	/**
+	 * Vérifie si un layout donné est contenu dans un layout de type "Form".
+	 * <p>
+	 * La méthode parcourt récursivement les conteneurs du layout fourni en
+	 * remontant la hiérarchie EMF (via {@link EObject#eContainer()}) jusqu'à
+	 * trouver un parent dont le widget associé porte le nom "Form".
+	 * </p>
+	 *
+	 * @param p_layout le layout à tester ; peut être {@code null}
+	 * @return {@code true} si le layout est contenu dans un layout de type "Form",
+	 *         {@code false} sinon (y compris si {@code p_layout} ou son ViewElement
+	 *         est {@code null})
+	 */
+	public static boolean isInsideFormLayout(Layout p_layout) {
+		if (p_layout == null || p_layout.getViewElement() == null) {
+			return false;
+		}
+		EObject container = p_layout.eContainer();
+		while (container instanceof Layout) {
+			Layout parentLayout = (Layout) container;
+			if (parentLayout.getViewElement() != null) {
+				if (parentLayout.getViewElement().getWidget() != null
+						&& "Form".equalsIgnoreCase(parentLayout.getViewElement().getWidget().getName())) {
+					return true;
+				}
+			}
+			container = parentLayout.eContainer();
+		}
+		return false;
 	}
 
 	/**
@@ -128,7 +170,7 @@ public class CinematicUtils {
 	 *         {@code false} sinon
 	 */
 	public static boolean isFirstLayoutOfHorizontalContainer(Layout p_layout) {
-		return checkLayoutOfHorizontalContainer(p_layout, true);
+		return isLayoutOfHorizontalContainer(p_layout, true);
 	}
 
 	/**
@@ -139,7 +181,7 @@ public class CinematicUtils {
 	 *         {@code false} sinon
 	 */
 	public static boolean isLastLayoutOfHorizontalContainer(Layout p_layout) {
-		return checkLayoutOfHorizontalContainer(p_layout, false);
+		return isLayoutOfHorizontalContainer(p_layout, false);
 	}
 
 	/**
@@ -155,7 +197,7 @@ public class CinematicUtils {
 	 * @return {@code true} si le layout correspond à la position attendue (premier
 	 *         ou dernier dans le conteneur horizontal), {@code false} sinon
 	 */
-	public static boolean checkLayoutOfHorizontalContainer(Layout p_layout, boolean p_first) {
+	public static boolean isLayoutOfHorizontalContainer(Layout p_layout, boolean p_first) {
 		if (p_layout == null) {
 			return false;
 		}
@@ -189,7 +231,7 @@ public class CinematicUtils {
 	 * @return {@code true} si le conteneur du layout est de type horizontal,
 	 *         {@code false} sinon
 	 */
-	public static boolean insideHorizontalLayout(Layout p_layout) {
+	public static boolean isInsideHorizontalLayout(Layout p_layout) {
 		if (null == p_layout)
 			return false;
 
@@ -214,7 +256,7 @@ public class CinematicUtils {
 	 * @return un ensemble d'éléments de vue uniques, collectés à partir du
 	 *         conteneur et de ses sous-conteneurs
 	 */
-	public static Set<AbstractViewElement> viewElementForImports(ViewContainer vc) {
+	public static Set<AbstractViewElement> get_viewElementForImports(ViewContainer vc) {
 		Map<String, AbstractViewElement> map = new LinkedHashMap<>();
 		collectElements(vc, map);
 		return new LinkedHashSet<>(map.values());

@@ -58,7 +58,17 @@ public enum AnnotationEnum {
 
 	INPUT_WITH_MSG_GROUP("WITH_MSG_GROUP", ModelEnum.DSL_CINEMATIC, true),
 
-	PASSWORD_DESCRIPTION("TXT_DESCRIPTION", ModelEnum.DSL_CINEMATIC, true);
+	PASSWORD_DESCRIPTION("TXT_DESCRIPTION", ModelEnum.DSL_CINEMATIC, true),
+	
+	WITH_URL("WITH_URL", ModelEnum.DSL_CINEMATIC, true),
+		
+	WITH_BRAND_TOP("WITH_BRAND_TOP", ModelEnum.DSL_CINEMATIC, true),
+	
+	WITH_CLOSABLE("WITH_CLOSABLE", ModelEnum.DSL_CINEMATIC, true),
+	
+	WITH_SEVERITY("WITH_SEVERITY", ModelEnum.DSL_CINEMATIC, true),
+	
+	WITH_TOOLTIP("WITH_TOOLTIP", ModelEnum.DSL_CINEMATIC, true);
 
 	/** Le nom de l'annotation */
 	private String _annotationName;

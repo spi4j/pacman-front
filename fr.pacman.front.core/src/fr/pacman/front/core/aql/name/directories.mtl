@@ -8,3 +8,6 @@
 
 [comment retourne le répertoire des sources en react./]
 [query public nameDirectorySources(any : ecore::EObject) : String = 'src'/]
+
+[comment retourne le répoertoire de stockage des images./]
+[query public nameDirImages(any : ecore::EObject) : String = '../assets/imgs'/]

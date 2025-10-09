@@ -56,6 +56,8 @@
 [query public isRange(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Range')/]
 
 [query public isUser(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('User')/]
+  
+[query public isText(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Text')/]
 
 [query public isBreadCrumb(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('BreadCrumb')/]
 
@@ -94,6 +96,10 @@
 [query public isNavigationQuick(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('NavigationDirectAccess')/]
   
 [query public isNavigationElement(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('NavigationElement')/]
+
+[query public isNavigationMegaMenu(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('NavigationMegaMenu')/]
+  
+[query public isNavigationMegaCategory(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('NavigationMegaCategory')/]
   
 [query public isTabNav(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('TabNav')/]
   

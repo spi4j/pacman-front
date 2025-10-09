@@ -22,23 +22,25 @@
 [template public pageJsxHFImpl(vc : view::ViewContainer, vs : flow::ViewState)]
   [if (vc.isHeaderPanel())]
     import { Header } from "@codegouvfr/react-dsfr/Header";
+    import { useLocation } from "react-router-dom";
   [else]
     import { Footer } from "@codegouvfr/react-dsfr/Footer";
   [/if]
-  [vc.writeAdditionalWidgetImports()/]
-  
-  export default function [vc.namePageJsx()/] () {
-    return (
-      [vc.writeElement(false)/]
-    );
-  }
+  [vc.writeElement(false).writePageJsx(vc)/]
 [/template]
 
 [comment écriture d'une page typescript + code jsx (standard panel)./]				
 [template public pageJsxSDImpl (vc : view::ViewContainer, vs : flow::ViewState )]
   [if (vc.useForms())]
+    import React from "react";
     import { useForm } from "react-hook-form";
+    import { Alert } from "@codegouvfr/react-dsfr/Alert";
   [/if]
+  [vc.layout.writeLayouts().writePageJsx(vc)/]
+[/template]
+
+[comment écrite du corps de la page typescript + code jsx (simple factorisation)./]
+[template private writePageJsx(body : String, vc : view::ViewContainer)]
   [vc.writeAdditionalWidgetImports()/]
   
   export default function [vc.namePageJsx()/] () {
@@ -48,15 +50,21 @@
     [/if]
     
     return (
-      [vc.layout.writeLayouts()/]
+      <>
+        [if (vc.useForms())]
+          [vc.writeAlert()/]<p/>
+        [/if]
+        [body/]
+      </>
     );
   }
 [/template]
 
-[comment point d'entrée. Attention, certain composants se positionnent par css ,d'autres par js 
-		 et enfin d'autres ont besoin à la fois du css et du js./]
+[comment point d'entrée pour le parcours de layouts. Attention, certain composants 
+		 se positionnent par css ,d'autres par js et enfin d'autres ont besoin à 
+		 la fois du css et du js./]
 [template private writeLayouts(l : view::Layout)]
-  [let insideHl = l.insideHorizontalLayout()]
+  [let insideHl = l.isInsideHorizontalLayout()]
     [let allowCSSPos = l.isEligibleForCSSPositioning()]
       [let allowFDSPos = l.isEligibleForFDSPositioning() ]
         [l.openLayout(insideHl, allowCSSPos, allowFDSPos)/]
@@ -123,8 +131,8 @@
       import { useLocation } from "react-router-dom";
     [/if]
     [for (v : view::ViewContainer  | r.viewPanels())]
-      [if (v.isHeaderPanel())]import HEADER from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]";[else]
-      [if (v.isFooterPanel())]import FOOTER from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]"
+      [if (v.isHeaderPanel())]import _Header from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]";[else]
+      [if (v.isFooterPanel())]import _Footer from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]"
       [else]import [v.namePageJsx()/] from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]";[/if][/if]
     [/for]
     import reactLogo from './assets/react.svg'
@@ -137,21 +145,19 @@
     
     function App() {
       return (
-        <>
-          <Router>
-            [if (useHF)]<Layout>[/if]
-            <Routes>  
-              [let main = r.get_rootState()]
-                [for (v : view::ViewContainer  | r.viewPanels())]
-                  [if (not v.isHeaderPanel() and not v.isFooterPanel())]
-                    <Route path="[v.urlPageJsx(main)/]" element={ <[v.namePageJsx()/] /> } />
-                  [/if]
+        <Router>
+          [if (useHF)]<Layout>[/if]
+          <Routes>  
+            [for (v : view::ViewContainer  | r.viewPanels())]
+              [if (not v.isHeaderPanel() and not v.isFooterPanel())]
+                [for (url | v.urlsForReactRouter())]
+                  <Route path="[url/]" element={< [v.namePageJsx()/] />}/>
                 [/for]
-              [/let]
-            </Routes>
-            [if (useHF)]</Layout>[/if]
-          </Router>
-        </>
+              [/if]
+            [/for]
+          </Routes>
+          [if (useHF)]</Layout>[/if]
+        </Router>
       );
     }
     export default App
@@ -166,9 +172,9 @@
      const hideLayout = noLayoutRoutes.includes(location.pathname);
      return (
      <>
-     {!hideLayout && <HEADER/>}
-        <div className="fr-container"> {children} </div>
-     {!hideLayout && <FOOTER/>}
+     {!hideLayout && <_Header/>}
+        <div className="fr-container form-page"> {children} </div>
+     {!hideLayout && <_Footer/>}
      </>
     );
   }
@@ -176,41 +182,72 @@
 
 [comment écriture de toute la gestion de formulaire./]
 [template private writeHookForms(vc : view::ViewContainer)]
-  // Définition du type des valeurs du formulaire.
-  
+  // --------------------------------------------------
+  // Définition du type pour les valeurs du formulaire.
+  // --------------------------------------------------
   type FormValues = {
     [for (e | vc.eAllContents(view::AbstractViewElement))]
      [if (e.isEligibleForFormValues())][e.name/] : [e.typeForElement()/];[/if]
     [/for]
   };
   
+  // ------------------------------------------------------------------------------------
   // Initialise useForm avec le type FormValues pour bénéficier de la validation typée.
   // Récupère register pour lier les champs, handleSubmit pour gérer la soumission,
   // et errors pour afficher les messages d'erreur liés à chaque champ.
-  
+  // -----------------------------------------------------------------------------------
   const { 
     register, 
     handleSubmit, 
     formState: { errors, dirtyFields }, 
   } = useForm<FormValues>();
   
-  //'onSubmit' est la fonction appelée lors de la soumission du formulaire,
-  // affichant les données saisies dans la console pour vérification.
+  // -----------------------------------
+  // Etat générique pour message global.  // -----------------------------------  
+  const ['['/]globalMessage, setGlobalMessage[']'/] = React.useState<{
+    text: string;
+    severity: "success" | "error" | "info" | "warning";
+  } | null>(null);
   
-  const onSubmit = (data: FormValues) => {
+  // ----------------------------------------------
+  // Simulation de vérification serveur (ou métier)
+  // -----------------------------------------------
+  async function validateFormData(data: FormValues): Promise<boolean> {
+    await new Promise((r) => setTimeout(r, 500)); // latence simulée
+    return data.IdentifiantInput === "12345" && data.passwordInput === "azerty";
+  }
+  
+  // -----------------------------------------------------
+  // Fonction appelée lors de la soumission du formulaire.
+  // -----------------------------------------------------
+  const onSubmit = async (data: FormValues) => {
     console.log("Formulaire soumis :", data);
+    const isValid = await validateFormData(data);
+    if (!isValid) {
+      setGlobalMessage({
+        text: "Le formulaire est en erreur.",
+        severity: "error",
+      });
+      return;
+     }
+     setGlobalMessage({
+        text: "Le formulaire est valide",
+        severity: "success",
+     });
   };
   
+  // ----------------------------------------------
   // Permet de sécuriser la génération automatique.
-  
+  // ----------------------------------------------
   function getRegisterProps(
     fieldName: keyof FormValues,
     rules?: Parameters<typeof register>['['/]1[']'/]) {
     return { ...register(fieldName, rules) };
    }
   
+  // ---------------------------------------
   // Centralisation de la gestion des états.
-  
+  // ---------------------------------------
   function fieldState(fieldName: keyof FormValues) {
      return errors['['/]fieldName[']'/]
        ? "error"
@@ -218,9 +255,10 @@
        ? "success"
        : "info";
   }
-   
-  // Centralisation pour l'affichage des messages.
   
+  // ----------------------------------------------
+  // Centralisation pour l'affichage des messages.
+  // ----------------------------------------------
   function fieldMessage(
      fieldName: keyof FormValues,
      defaultMessage: string,
@@ -235,12 +273,15 @@
 
 [comment écriture des imports pour la page (panel / header / footer / etc..)./]
 [template private writeAdditionalWidgetImports(vc : view::ViewContainer)]
-  [for (ve | vc.viewElementForImports())]
+  [for (ve | vc.get_viewElementForImports())]
     import { [ve.widget.implementation.trim()/] } from "[ve.reactUriForElement()/]/[ve.widget.implementation.trim()/]";
   [/for]
-  [if (not vc.eAllContents()->select(o | o.isLogo())->isEmpty())]
-   [let l = vc.eAllContents()->select(o | o.isLogo())->first()]
-     import opLogo from '[l.get_metaImg()/]';
-   [/let]
-  [/if]
+  [let logos = vc.eAllContents(view::AbstractViewElement)
+    ->select(e | e.isLogo())]
+    [if (not logos->isEmpty())]
+      [let logo = logos->first()]
+        import opLogo from '[logo.nameDirImages()/]/[logo.get_metaImg()/]';
+      [/let]
+    [/if]
+  [/let]
 [/template]

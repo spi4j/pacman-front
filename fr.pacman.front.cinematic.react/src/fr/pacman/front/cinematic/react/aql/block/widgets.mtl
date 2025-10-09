@@ -2,10 +2,12 @@
 					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0',
 					'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
 
+[import fr::pacman::front::core::aql::string/]
 [import fr::pacman::front::core::aql::name::name/]
 [import fr::pacman::front::core::aql::query::widgets/]
 [import fr::pacman::front::core::aql::query::metadatas/]
 [import fr::pacman::front::core::service::AnnotationUtils/]
+[import fr::pacman::front::cinematic::react::aql::query::widgets/]
 
 [comment écriture d'un widget pour react dsfr./]
 [template public writeOpenViewElement(ve : view::AbstractViewElement, insideHL :: Boolean)]
@@ -160,8 +162,8 @@
 [template private writeRadio (ve : view::AbstractViewElement)]
   {
      [if (ve.hasMetaIcon())]illustration: <img alt="illustration" src="https://placehold.it/100x100"/>,[/if]
-     hintText: '[ve.description/]',
-     label: '[ve.label/]',
+     hintText: '[ve.description.toJSString()/]',
+     label: '[ve.label.toJSString()/]',
      nativeInputProps: {
        ...register("[ve.eContainer().nameElementId()/]", { required: "[ve.eContainer().get_metaTextError()/]" }),
        value: "[ve.get_metaValue()/]",
@@ -190,8 +192,8 @@
 [template private writeCheckBox (ve : view::AbstractViewElement)]
   [let v = ve.oclAsType(view::ViewElement)]
     {
-       hintText: '[ve.description/]',
-       label: '[ve.label/]',
+       hintText: '[ve.description.toJSString()/]',
+       label: '[ve.label.toJSString()/]',
        hintText: "[ve.description/]",
        [if (v.required and ve.eContainer().hasMetaNbRequired())]
          nativeInputProps: {
@@ -212,7 +214,21 @@
    [/let]
 [/template]
 
-[template private writeAlert (ve : view::AbstractViewElement)]
+[template public writeAlert (ve : view::AbstractViewElement)]
+  {globalMessage && (
+    <Alert
+      severity={globalMessage.severity}
+      title={
+        globalMessage.severity === "error"
+          ? "Erreur"
+          : globalMessage.severity === "success"
+          ? "Succès"
+          : "Information"
+      }
+      description={globalMessage.text}
+      closable
+    />
+  )}
 [/template]
 
 [template private writeBadge (ve : view::AbstractViewElement)]
@@ -348,10 +364,127 @@
   </p>
 [/template]
 
+[template private writeNavigationQuick(ve : view::AbstractViewElement)]
+  [if (not ve.eAllContents(view::AbstractViewElement)
+      ->select(o1 | o1.isNavigationQuick())->isEmpty())]
+      [let nav = ve.eAllContents(view::AbstractViewElement)
+          ->select(o2 | o2.isNavigationQuick())->first()]
+         quickAccessItems={['['/]
+         [for (directAccess | nav.eAllContents(view::AbstractViewElement)
+           ->select(o3 | o3.isNavigationElement()))]
+           {
+             iconId: '[directAccess.get_metaIcon()/]',
+             linkProps: {
+               href: '/[directAccess.urlForPageJsx()/]'
+             },
+           text: '[directAccess.label.toJSString()/]'
+           },
+         [/for]
+         [']'/]}
+      [/let]
+    [/if]
+[/template]
+
 [template private writeNavigation (ve : view::AbstractViewElement)]
+  [if (not ve.eAllContents(view::AbstractViewElement)
+    ->select(o | o.isNavigation())->isEmpty())]
+    [let nav = ve.eAllContents(view::AbstractViewElement)
+      ->select(o1 | o1.isNavigation())->first()]
+      navigation={['['/]
+      [comment accès direct sans menu./]
+      [for (el | nav.eAllContents(view::AbstractViewElement)
+        ->select(o3 | o3.isNavigationElement() and o3.eContainer().isNavigation()))]
+        {  
+           isActive: location.pathname === "/[el.urlForPageJsx()/]",
+           linkProps: {
+             href: '/[el.urlForPageJsx()/]'
+           },
+           text: '[el.label.toJSString()/]'
+         },
+      [/for]
+      
+      [comment barre de navigation avec menus et sous-menus./]
+      [for (menu | nav.eAllContents(view::AbstractViewElement)
+         ->select(o2 | o2.isNavigationMenu()))]
+         {
+           isActive: location.pathname === "/x",
+           menuLinks: ['['/]
+           [for (el | menu.eAllContents(view::AbstractViewElement)
+             ->select(o3 | o3.isNavigationElement()))]
+             {
+               linkProps: {
+                 href: '[el.urlForPageJsx()/]'
+               },
+               text: '[el.label.toJSString()/]'
+             },
+           [/for]
+           ],
+           text: '[menu.label.toJSString()/]'
+         },
+       [/for]
+        //isActive: true,
+       [comment barre de navigation mega./]
+       [for (menuMega | nav.eAllContents(view::AbstractViewElement)
+         ->select(o2 | o2.isNavigationMegaMenu()))]  
+          {
+           megaMenu: {
+             categories: ['['/]
+             [for (category | menuMega.eAllContents(view::AbstractViewElement)
+               ->select(o3 | o3.isNavigationMegaCategory()))]
+                {
+                   categoryMainLink: {
+                   linkProps: {
+                     href: '#'
+                    },
+                    text: '[category.label.toJSString()/]'
+                 },
+                 links: ['['/]
+                 [for (el | category.eAllContents(view::AbstractViewElement)
+                   ->select(o4 | o4.isNavigationElement()))]
+                    {
+                      linkProps: {
+                        href: '[el.urlForPageJsx()/]'
+                      },
+                      text: '[el.label.toJSString()/]'
+                    },
+                 [/for]  
+               [']'/]     },
+             [/for]
+             [']'/],
+           leader: {
+             link: {
+               linkProps: {
+                 href: '#'
+               },
+               text: 'Voir toute la rubrique'
+             },
+             paragraph: '[menuMega.description.toJSString()/]',
+             title: '[menuMega.label.toJSString()/]'
+           }
+         },
+         text: '[menuMega.label.toJSString()/]'
+         },
+       [/for]
+      [']'/]}
+    [/let]
+  [/if]
 [/template]
 
 [template private writeNotice (ve : view::AbstractViewElement)]
+  <Notice
+    description="[ve.description/]"
+    iconDisplayed
+    [if (ve.hasMetaClosable() and 'true'.equalsIgnoreCase(ve.get_metaClosable()))]isClosable[/if]
+    link={{
+      linkProps: {
+        href: '#'
+      },
+      text: 'Plus d\'informations'
+    }}
+    onClose={function noRefCheck(){}}
+    severity="[if (ve.hasMetaSeverity())][ve.get_metaSeverity()/][else]info[/if]"
+    title="[ve.label/]"
+  />
 [/template]
 
 [template private writePagination (ve : view::AbstractViewElement)]
@@ -452,12 +585,13 @@
 [template private writeCloseTable (ve : view::AbstractViewElement)]
     [']'/]}
   headers={['['/]
-  'Titre',
-  'Titre',
-  'Titre',
-  'Titre',
-  'Titre'
+  [for (el | ve.oclAsType(view::ViewContainer).ownedElements)]
+    '[el.name/]',
+  [/for]
   [']'/]}/>
+[/template]
+
+[template private writeTabLine(ve : view::AbstractViewElement)]
 [/template]
 
 [template private writeTag (ve : view::AbstractViewElement)]
@@ -509,79 +643,37 @@
 [template private writeUser (ve : view::AbstractViewElement)]
 [/template]
 
-[template private writeHeader(vc : view::AbstractViewElement)]
+[template private writeHeader(ve : view::AbstractViewElement)]
   <Header
     allowEmptySearch
     clearSearchInputOnSearch
-    brandTop={<>INTITULE<br />OFFICIEL</>}
+    brandTop={<>[if (ve.hasMetaBrandTop())][ve.get_metaBrandTop()/][else]INTITULE<br />OFFICIEL[/if]</>}
     homeLinkProps={{
     href: '/',
-    title: 'Accueil - Nom de l’entité'
+    title: '[if (ve.hasMetaToolTip())][ve.get_metaTooltip()/]else]Accueil - Nom de l’entité[/if]'
   }}
-  id="fr-header-simple-header"
-  serviceTagline="[vc.description/]"
-  serviceTitle="[vc.label/]"
-  [if (not vc.eAllContents()->select(o | o.isLogo())->isEmpty())]
-    [vc.writeOperatorLogo()/]
+  id="[ve.nameElementId()/]"
+  serviceTagline="[ve.description/]"
+  serviceTitle="[ve.label/]"
+  [if (not ve.eAllContents(view::AbstractViewElement)
+    ->select(o |  o.isLogo())->isEmpty())]
+    [ve.writeOperatorLogo()/]
   [/if]
-  [if (not vc.eAllContents(view::AbstractViewElement)
+  [if (not ve.eAllContents(view::AbstractViewElement)
     ->select(o | o.isSearch())->isEmpty())]
     onSearchButtonClick={function noRefCheck(){}}
   [/if]
-  [if (not vc.eAllContents(view::AbstractViewElement)
-    ->select(o | o.isNavigation())->isEmpty())]
-    [let nav = vc.eAllContents(view::AbstractViewElement)
-      ->select(o | o.isNavigation())->first()]
-      navigation={['['/]
-         [for (menu | nav.eAllContents(view::AbstractViewElement)
-           ->select(o1 | o1.isNavigationMenu()))]
-           {
-             menuLinks: ['['/]
-             [for (el | menu.eAllContents(view::AbstractViewElement)
-               ->select(o2 | o2.isNavigationElement()))]
-               {
-                 linkProps: {
-                   href: '#'
-                 },
-                 text: '[el.label/]'
-               },
-             [/for]
-             ],
-             text: '[menu.label/]'
-           },
-         [/for]
-      [']'/]}
-    [/let]
-  [/if]
-  quickAccessItems={['['/]
-      {
-         iconId: 'fr-icon-add-circle-line',
-         linkProps: {
-            href: '#'
-         },
-         text: 'Créer un espace'
-      },
-      {
-         iconId: 'fr-icon-lock-line',
-         linkProps: {
-            href: '#'
-         },
-         text: 'Se connecter'
-      },
-      {
-         iconId: 'fr-icon-account-line',
-         linkProps: {
-            href: '#'
-         },
-         text: 'S’enregistrer'
-       }
-     [']'/]}
+  [comment barre de navigation./]
+  [ve.writeNavigation()/]
+  [comment accès direct avec icone./]
+  [ve.writeNavigationQuick()/]
   />
 [/template]
 
-[template private writeOperatorLogo(vc : view::AbstractViewElement)]
+[template private writeOperatorLogo(ve : view::AbstractViewElement)]
   operatorLogo={{
-    [let l = vc.eAllContents()->select(o | o.isLogo())->first()]
+    [let l = ve.eAllContents(view::AbstractViewElement)
+      ->select(o | o.isLogo())->first()]
       alt: '[l.oclAsType(view::ViewElement).description/]',
       imgUrl: opLogo,
       [if (l.has_metaLink())]
@@ -590,17 +682,18 @@
           title: ''
         },
       [/if]
-      orientation: [if (l.hasMetaOrientation())][l.get_metaOrientation()/][else]'horizontal'[/if]
+      orientation: [if (l.hasMetaOrientation())]'[l.get_metaOrientation()/]'[else]'horizontal'[/if]
     [/let]
   }}
 [/template]
 
-[template private writeFooter(vc : view::AbstractViewElement)]   
+[template private writeFooter(ve : view::AbstractViewElement)]   
   <Footer
     accessibility="fully compliant"
-    contentDescription="[vc.description/]"
-    [if (not vc.eAllContents()->select(o | o.isLogo())->isEmpty())]
-      [vc.writeOperatorLogo()/]
+    contentDescription="[ve.description/]"
+    [if (not ve.eAllContents(view::AbstractViewElement)
+      ->select(o | o.isLogo())->isEmpty())]
+      [ve.writeOperatorLogo()/]
     [/if]
     termsLinkProps={{
       href: '#'

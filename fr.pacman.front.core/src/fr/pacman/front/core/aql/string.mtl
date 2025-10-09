@@ -57,9 +57,6 @@
 
 [comment retourne la les lignes de commentaires échappées des retours à la ligne./]  
 [query public escapeComment(str : String) : String = str.replaceAll('[\n|\r|\\*]','').replace('\\.$','')/]
-  
-[comment retourne la les lignes de commentaires échappées des retours à la ligne./]  
-[query public escapeSqlComment(str : String) : String = str.escapeComment().replaceAll('\'','\'\'')/]
 
 [comment retourne le script SQL débarrasé des lignes vides issues de la génération./]
 [query public escapeFile(str : String) : String = str.escapeFile(true)/]
@@ -73,3 +70,6 @@
 
 [comment vérifie si la chaine que l'on veut écrire doit etre entre guillemets./]
 [query public needsToBeQuoted(type : String) : Boolean = 'String'.equalsIgnoreCase(type) or 'Char'.equalsIgnoreCase(type)/]
+
+[comment retourne la chaine modifiée (si besoin) pour pourvoir être affichée correctement en javascript./]
+[query public toJSString(str : String) : String = str.replaceAll('\'', '\\\\\'')/]

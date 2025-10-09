@@ -409,4 +409,44 @@ public final class AnnotationUtils {
 	public static String get_metaOrientation(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_ORIENTATION);
 	}
+	
+	public static boolean has_metaBrandTop(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_BRAND_TOP);
+	}
+
+	public static String get_metaBrandTop(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_BRAND_TOP);
+	}
+	
+	public static boolean has_metaTooltip(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_TOOLTIP);
+	}
+
+	public static String get_metaTooltip(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_TOOLTIP);
+	}
+	
+	public static boolean has_metaUrl(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_URL);
+	}
+
+	public static String get_metaUrl(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_URL);
+	}
+	
+	public static boolean has_metaClosable(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_CLOSABLE);
+	}
+
+	public static String get_metaClosable(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_CLOSABLE);
+	}
+	
+	public static boolean has_metaSeverity(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_SEVERITY);
+	}
+
+	public static String get_metaSeverity(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_SEVERITY);
+	}
 }

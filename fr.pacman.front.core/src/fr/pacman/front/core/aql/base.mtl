@@ -28,26 +28,6 @@
 [comment retourne le nom du sous-projet de type 'server' pour l'application cible./] 
 [query public nameProjectServer(any : ecore::EObject) : String = any.get_projectName() + '-' + any.get_suffixServer()/]
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
 [comment retourne le nom pour le répertoire de stockage des fichiers de propriétés pacman./]
 [query private namePropertiesDirectory(any : ecore::EObject) : String = 'pacman-properties'/]
 

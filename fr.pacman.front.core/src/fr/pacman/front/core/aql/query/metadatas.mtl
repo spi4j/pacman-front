@@ -3,6 +3,11 @@
 
 [import fr::pacman::front::core::service::AnnotationUtils/]
 
+[query public hasMetaClosable(e : view::AbstractViewElement) : Boolean = e.has_metaClosable() and e.get_metaClosable().trim().size() > 0/]
+[query public hasMetaSeverity(e : view::AbstractViewElement) : Boolean = e.has_metaSeverity() and e.get_metaSeverity().trim().size() > 0/]
+[query public hasMetaUrl(e : view::AbstractViewElement) : Boolean = e.has_metaUrl() and e.get_metaUrl().trim().size() > 0/]
+[query public hasMetaBrandTop(e : view::AbstractViewElement) : Boolean = e.has_metaBrandTop() and e.get_metaBrandTop().trim().size() > 0/]
+[query public hasMetaToolTip(e : view::AbstractViewElement) : Boolean = e.has_metaTooltip() and e.get_metaTooltip().trim().size() > 0/]
 [query public hasMetaLink(e : view::AbstractViewElement) : Boolean = e.has_metaLink() and e.get_metaLink().trim().size() > 0/]
 [query public hasMetaOrientation(e : view::AbstractViewElement) : Boolean = e.has_metaOrientation() and e.get_metaOrientation().trim().size() > 0/]
 [query public hasMetaPrefix(e : view::AbstractViewElement) : Boolean = e.has_metaPrefix() and e.get_metaPrefix().trim().size() > 0/]

@@ -1,0 +1,7 @@
+[module events(	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
+				'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0', 
+				'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
+				
+[query public isOnClick(event : view::ViewEvent) : Boolean =  'onClick'.equalsIgnoreCase(event.type.name)/]
+
+[query public isOnBlur(event : view::ViewEvent) : Boolean =  'onBlur'.equalsIgnoreCase(event.type.name)/]

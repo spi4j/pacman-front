@@ -189,6 +189,8 @@
     <possibleEvents xmi:id="_7qfC4JL1EfCa3-VOW44b4A" technicalid="_7fn2sJL1EfCa3-VOW44b4A" name="onKeyDown"/>
     <possibleEvents xmi:id="_8rDIAJL1EfCa3-VOW44b4A" technicalid="_8gJfkJL1EfCa3-VOW44b4A" name="onKeyUp"/>
     <possibleEvents xmi:id="_BnlTcJL2EfCa3-VOW44b4A" technicalid="_BX54sJL2EfCa3-VOW44b4A" name="onClose"/>
+    <metadataDefinitions xmi:id="_cNoKoKThEfCpf8vYgr0tCg" technicalid="_bvljwaThEfCpf8vYgr0tCg" title="WITH_CLOSABLE" body="false"/>
+    <metadataDefinitions xmi:id="_clzaEKThEfCpf8vYgr0tCg" technicalid="_cVPOgqThEfCpf8vYgr0tCg" title="WITH_SEVERITY" body="info"/>
   </widgets>
   <widgets xmi:id="_nmWIYJHzEfCF6-2aQyGFWw" technicalid="_narq8JHzEfCF6-2aQyGFWw" name="Quote" icon="/fr.pacman.front.cinematic/icons/Quote.png" documentation="Mettre en forme du contenu dans une page.">
     <possibleEvents xmi:id="_JdId8JL3EfCa3-VOW44b4A" technicalid="_IOncYJL3EfCa3-VOW44b4A" name="onClick"/>
@@ -216,6 +218,8 @@
     <possibleEvents xmi:id="_6rnU8JL3EfCa3-VOW44b4A" technicalid="_6TX0EJL3EfCa3-VOW44b4A" name="onKeyUp"/>
     <possibleEvents xmi:id="_8DH6cJL3EfCa3-VOW44b4A" technicalid="_7w_BkJL3EfCa3-VOW44b4A" name="onMouseEnter"/>
     <possibleEvents xmi:id="_9QyAYJL3EfCa3-VOW44b4A" technicalid="_83VloJL3EfCa3-VOW44b4A" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_3C-dAKLfEfCdj_sg-23Kqg" technicalid="_2sfPoqLfEfCdj_sg-23Kqg" title="WITH_BRAND_TOP" body="&lt;>INTITULE&lt;br />OFFICIEL&lt;/>"/>
+    <metadataDefinitions xmi:id="_3ca3wKLfEfCdj_sg-23Kqg" technicalid="_3LCM0qLfEfCdj_sg-23Kqg" title="WITH_TOOLTIP" body="Accueil - Nom de l’entité"/>
   </widgets>
   <widgets xmi:id="_qtVHcJHzEfCF6-2aQyGFWw" technicalid="_qgBrQJHzEfCF6-2aQyGFWw" name="User" icon="/fr.pacman.front.cinematic/icons/User.png" documentation="Ce composant est en version bêta.">
     <possibleEvents xmi:id="_AgmyYJL4EfCa3-VOW44b4A" technicalid="_-Xfw0JL3EfCa3-VOW44b4A" name="onClick"/>
@@ -243,6 +247,7 @@
     <possibleEvents xmi:id="_LSk6EJeAEfCJ2dZMtpi9sQ" technicalid="_LCLtoJeAEfCJ2dZMtpi9sQ" name="onBlur"/>
     <possibleEvents xmi:id="_L0_qoJeAEfCJ2dZMtpi9sQ" technicalid="_LjdOsJeAEfCJ2dZMtpi9sQ" name="onMouseEnter"/>
     <possibleEvents xmi:id="_Mk0lEJeAEfCJ2dZMtpi9sQ" technicalid="_MLT44JeAEfCJ2dZMtpi9sQ" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_le6uMKLQEfCdj_sg-23Kqg" technicalid="_lFzqoaLQEfCdj_sg-23Kqg" title="WITH_URL"/>
   </widgets>
   <widgets xmi:id="_XZfNUJH1EfCF6-2aQyGFWw" technicalid="_XMD1UJH1EfCF6-2aQyGFWw" name="Modal" icon="/fr.pacman.front.cinematic/icons/Modal.png" isContainer="true" documentation="Concentrer l’attention  sur une tâche ou un élément d’information, sans perdre le contexte de la page en cours.">
     <possibleEvents xmi:id="_nXBboJLzEfCa3-VOW44b4A" technicalid="_nAAp0JLzEfCa3-VOW44b4A" name="onLoad"/>
@@ -253,19 +258,25 @@
     <possibleEvents xmi:id="_B2K-gJL1EfCa3-VOW44b4A" technicalid="_BjghMJL1EfCa3-VOW44b4A" name="onFocusTrap"/>
   </widgets>
   <widgets xmi:id="_YKZF0JH1EfCF6-2aQyGFWw" technicalid="_X9WvYJH1EfCF6-2aQyGFWw" name="Navigation" icon="/fr.pacman.front.cinematic/icons/Navigation.png" implementation="MainNavigation" isContainer="true" documentation="Orienter l’usager à travers les rubriques principales et secondaires du site.">
-    <possibleEvents xmi:id="_xFQN8JMTEfCWNsj-B1W6Gw" technicalid="_twiU4JMTEfCWNsj-B1W6Gw" name="onClick"/>
     <possibleEvents xmi:id="_yz0okJMTEfCWNsj-B1W6Gw" technicalid="_yfMcYJMTEfCWNsj-B1W6Gw" name="onFocus"/>
     <possibleEvents xmi:id="_0I8ocJMTEfCWNsj-B1W6Gw" technicalid="_zz17IJMTEfCWNsj-B1W6Gw" name="onBlur"/>
-    <possibleEvents xmi:id="_1W63cJMTEfCWNsj-B1W6Gw" technicalid="_1AD2oJMTEfCWNsj-B1W6Gw" name="onKeyDown"/>
-    <possibleEvents xmi:id="_2kpO0JMTEfCWNsj-B1W6Gw" technicalid="_2OTycJMTEfCWNsj-B1W6Gw" name="onKeyUp"/>
     <possibleEvents xmi:id="_34RZ4JMTEfCWNsj-B1W6Gw" technicalid="_3eTasJMTEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_5Nb2AJMTEfCWNsj-B1W6Gw" technicalid="_44HGQJMTEfCWNsj-B1W6Gw" name="onMouseLeave"/>
   </widgets>
   <widgets xmi:id="_WilX8KBCEfCZt9eKWGl1cg" technicalid="_WUbAIKBCEfCZt9eKWGl1cg" name="NavigationMenu" icon="/fr.pacman.front.cinematic/icons/Navigation.png" isContainer="true" documentation="Orienter l’usager à travers les rubriques principales et secondaires du site.">
     <metadataDefinitions xmi:id="_HiIbEKBDEfCZt9eKWGl1cg" technicalid="_HANZwqBDEfCZt9eKWGl1cg" title="WITH_LINK"/>
   </widgets>
+  <widgets xmi:id="_wy3dYKJ9EfCkw9nEP7Fo_g" technicalid="_wiuIkKJ9EfCkw9nEP7Fo_g" name="NavigationMegaMenu" icon="/fr.pacman.front.cinematic/icons/Navigation.png" isContainer="true" documentation="Documentation&#x9;Orienter l’usager à travers les rubriques principales et secondaires du site."/>
+  <widgets xmi:id="_YYh0cKKIEfCkw9nEP7Fo_g" technicalid="_YI-8kKKIEfCkw9nEP7Fo_g" name="NavigationMegaCategory" icon="/fr.pacman.front.cinematic/icons/Navigation.png" isContainer="true" documentation="Documentation&#x9;Orienter l’usager à travers les rubriques principales et secondaires du site."/>
   <widgets xmi:id="_6hB04KBFEfCZt9eKWGl1cg" technicalid="_6ODOgKBFEfCZt9eKWGl1cg" name="NavigationDirectAccess" icon="/fr.pacman.front.cinematic/icons/Navigation.png" isContainer="true" documentation="Orienter l’usager à travers les rubriques principales et secondaires du site."/>
-  <widgets xmi:id="_9aeHMKBFEfCZt9eKWGl1cg" technicalid="_9MadEKBFEfCZt9eKWGl1cg" name="NavigationElement" icon="/fr.pacman.front.cinematic/icons/Navigation.png" documentation="Orienter l’usager à travers les rubriques principales et secondaires du site."/>
+  <widgets xmi:id="_9aeHMKBFEfCZt9eKWGl1cg" technicalid="_9MadEKBFEfCZt9eKWGl1cg" name="NavigationElement" icon="/fr.pacman.front.cinematic/icons/Navigation.png" documentation="Orienter l’usager à travers les rubriques principales et secondaires du site.">
+    <possibleEvents xmi:id="_2tZPUKNzEfC0pe3Xpl-Fuw" technicalid="_2QiUMKNzEfC0pe3Xpl-Fuw" name="onClick"/>
+    <possibleEvents xmi:id="_7jgpsKNzEfC0pe3Xpl-Fuw" technicalid="_7LH-4KNzEfC0pe3Xpl-Fuw" name="onBlur"/>
+    <possibleEvents xmi:id="_84mNUKNzEfC0pe3Xpl-Fuw" technicalid="_8cZZgKNzEfC0pe3Xpl-Fuw" name="onMouseOver"/>
+    <possibleEvents xmi:id="_-GUksKNzEfC0pe3Xpl-Fuw" technicalid="_90ZHMKNzEfC0pe3Xpl-Fuw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_7wTU8KJ1EfCkw9nEP7Fo_g" technicalid="_63caUqJ1EfCkw9nEP7Fo_g" title="WITH_LINK"/>
+    <metadataDefinitions xmi:id="_8EzlUKJ1EfCkw9nEP7Fo_g" technicalid="_735xwqJ1EfCkw9nEP7Fo_g" title="WITH_ICON"/>
+  </widgets>
   <widgets xmi:id="_q8U60JH1EfCF6-2aQyGFWw" technicalid="_qx7osJH1EfCF6-2aQyGFWw" name="Pagination" icon="/fr.pacman.front.cinematic/icons/Pagination.png" documentation=" Naviguer entre les différentes pages d’une liste d’éléments.">
     <possibleEvents xmi:id="_Gyad8JMUEfCWNsj-B1W6Gw" technicalid="_EgTRYJMUEfCWNsj-B1W6Gw" name="onClick"/>
     <possibleEvents xmi:id="_Hur48JMUEfCWNsj-B1W6Gw" technicalid="_HbB9IJMUEfCWNsj-B1W6Gw" name="onChange"/>
@@ -282,6 +293,7 @@
     <possibleEvents xmi:id="_U8qEMJMWEfCWNsj-B1W6Gw" technicalid="_UobgoJMWEfCWNsj-B1W6Gw" name="onBlur"/>
     <possibleEvents xmi:id="_WenmMJMWEfCWNsj-B1W6Gw" technicalid="_WKtLsJMWEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_Y87bsJMWEfCWNsj-B1W6Gw" technicalid="_YnySIJMWEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_rFsJcKLQEfCdj_sg-23Kqg" technicalid="_qhf3QqLQEfCdj_sg-23Kqg" title="WITH_URL"/>
   </widgets>
   <widgets xmi:id="_XygxUJH1EfCF6-2aQyGFWw" technicalid="_Xke8YJH1EfCF6-2aQyGFWw" name="Password" icon="/fr.pacman.front.cinematic/icons/Password.png" implementation="PasswordInput" documentation="Aider l’usager à créer ou saisir un mot de passe.">
     <possibleEvents xmi:id="_dU_IcJMTEfCWNsj-B1W6Gw" technicalid="_a_B9sJMTEfCWNsj-B1W6Gw" name="onChange"/>
@@ -444,6 +456,7 @@
     <possibleEvents xmi:id="_mG8bYJMVEfCWNsj-B1W6Gw" technicalid="_l0W2kJMVEfCWNsj-B1W6Gw" name="onMouseLeave"/>
     <possibleEvents xmi:id="_ne_MYJMVEfCWNsj-B1W6Gw" technicalid="_nNZtIJMVEfCWNsj-B1W6Gw" name="onRemove"/>
   </widgets>
+  <widgets xmi:id="_GdUYAKLIEfCkw9nEP7Fo_g" technicalid="_GPpIYKLIEfCkw9nEP7Fo_g" name="Text" icon="/fr.pacman.front.cinematic/icons/Input.png" documentation="Ecrire du texte directement sur la page"/>
   <widgets xmi:id="_KE05UJH1EfCF6-2aQyGFWw" technicalid="_J5Uz8JH1EfCF6-2aQyGFWw" name="Toogle" icon="/fr.pacman.front.cinematic/icons/Toogle.png" implementation="ToggleSwitch" documentation="Faire un choix entre deux états opposés (activé / désactivé).">
     <possibleEvents xmi:id="_7N7ZAJMREfCWNsj-B1W6Gw" technicalid="_4AHZMJMREfCWNsj-B1W6Gw" name="onChange"/>
     <possibleEvents xmi:id="_8MCAAJMREfCWNsj-B1W6Gw" technicalid="_7-KjIJMREfCWNsj-B1W6Gw" name="onClick"/>
