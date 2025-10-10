@@ -5,3 +5,5 @@
 [query public isOnClick(event : view::ViewEvent) : Boolean =  'onClick'.equalsIgnoreCase(event.type.name)/]
 
 [query public isOnBlur(event : view::ViewEvent) : Boolean =  'onBlur'.equalsIgnoreCase(event.type.name)/]
+
+[query public isOnSubmit(event : view::ViewEvent) : Boolean =  'onSubmit'.equalsIgnoreCase(event.type.name)/]

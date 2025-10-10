@@ -7,12 +7,18 @@
 [import fr::pacman::front::core::aql::name::name /]
 [import fr::pacman::front::core::aql::name::directories /]
 [import fr::pacman::front::core::aql::query::eobject/]
+[import fr::pacman::front::core::aql::query::events/]
 [import fr::pacman::front::cinematic::react::aql::block::widgets/]
 [import fr::pacman::front::cinematic::react::aql::query::widgets/]
 [import fr::pacman::front::core::aql::query::widgets/]
 [import fr::pacman::front::core::service::CinematicUtils/]
 [import fr::pacman::front::core::service::AnnotationUtils/]
 [import fr::pacman::front::core::aql::output::resources/]
+
+[comment --------------------------------------------------------------------------------]
+[comment Pour l'instant on profite du laxisme de typeScript, dans les boucles  on supprime 
+         pas la dernière virgule. Ex : ["/goSubMenu2","/goList",].includes(...)/]
+[comment --------------------------------------------------------------------------------]
 
 [comment aiguillage pour l'écriture d'une page typescript + code jsx (panel)./]				
 [template public pageJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
@@ -21,6 +27,7 @@
 
 [comment écriture d'une page typescript + code jsx (header-footer panel)./]	
 [template public pageJsxHFImpl(vc : view::ViewContainer, vs : flow::ViewState)]
+  import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
   [if (vc.isHeaderPanel())]
     import { Header } from "@codegouvfr/react-dsfr/Header";
     import { useLocation } from "react-router-dom";
@@ -35,6 +42,7 @@
   [if (vc.useForm())]
     import React from "react";
     import { useForm } from "react-hook-form";
+    import { useNavigate } from "react-router-dom";
     import { Alert } from "@codegouvfr/react-dsfr/Alert";
   [/if]
   [vc.layout.writeLayouts().writePageJsx(vc)/]
@@ -126,19 +134,19 @@
 [comment ./]
 [template public pageAppTsxImpl (r : cinematic::CinematicRoot)]
   [let useHF = r.useHFViews()]
-    import { useState } from 'react'
+    import { useState } from "react";
     import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
     [if (useHF)]
       import { useLocation } from "react-router-dom";
     [/if]
     [for (v : view::ViewContainer  | r.viewPanels())]
       [if (v.isHeaderPanel())]import _Header from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]";[else]
-      [if (v.isFooterPanel())]import _Footer from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]"
+      [if (v.isFooterPanel())]import _Footer from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]";
       [else]import [v.namePageJsx()/] from "[r.nameDirectoryPagesForAppTsx()/]/[v.namePageJsx()/]";[/if][/if]
     [/for]
-    import reactLogo from './assets/react.svg'
-    import viteLogo from '/vite.svg'
-    import './App.css'
+    import reactLogo from "./assets/react.svg";
+    import viteLogo from "/vite.svg";
+    import "./App.css";
     
     [if (useHF)]
       [r.writeLayouts()/]
@@ -193,6 +201,11 @@
       [/for]
     };
     
+    // -----------------------------------------------
+    // Possibilité de navigation si formulaire valide.
+    // -----------------------------------------------
+    const navigate = useNavigate();
+    
     // ------------------------------------------------------------------------------------
     // Initialise useForm avec le type FormValues pour bénéficier de la validation typée.
     // Récupère register pour lier les champs, handleSubmit pour gérer la soumission,
@@ -214,9 +227,8 @@
     // ----------------------------------------------
     // Traitement métier pour la page.
     // -----------------------------------------------
-    async function validateFormData(data: FormValues): Promise<boolean> {
+    async function validateAndExecuteForm(data: FormValues): Promise<boolean> {
       [protected ('validate form [vc.nameElementId()/]'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
-        await new Promise((r) => setTimeout(r, 500)); // latence simulée
         return data.IdentifiantInput === "12345" && data.passwordInput === "azerty";
       [/protected]
     }
@@ -226,7 +238,7 @@
     // -----------------------------------------------------
     const onSubmit = async (data: FormValues) => {
       console.log("Formulaire soumis :", data);
-      const isValid = await validateFormData(data);
+      const isValid = await validateAndExecuteForm(data);
       if (!isValid) {
         setGlobalMessage({
           text: "[form.get_metaTextError()/]",
@@ -238,6 +250,11 @@
           text: "[form.get_metaTextSuccess()/]",
           severity: "success",
        });
+       [let onSubmit = vc.eAllContents(view::ViewEvent)->select(e | e.isOnSubmit())]
+         [if (not onSubmit->isEmpty())]
+           navigate("/[onSubmit->first().get_urlForPageJsx()/]");
+         [/if]
+       [/let]
     };
     
     // ----------------------------------------------
@@ -285,7 +302,7 @@
     ->select(e | e.isLogo())]
     [if (not logos->isEmpty())]
       [let logo = logos->first()]
-        import opLogo from '[logo.nameDirImages()/]/[logo.get_metaImg()/]';
+        import opLogo from "[logo.nameDirImages()/]/[logo.get_metaImg()/]";
       [/let]
     [/if]
   [/let]
@@ -293,7 +310,7 @@
     ->select(e | e.isRadio() and e.has_metaIcon())]
     [if (not radios->isEmpty())]
       [for (r | radios)]
-        import [r.nameElementId()/]Ico from '[r.nameDirImages()/]/[r.get_metaIcon()/]';
+        import [r.nameElementId()/]Ico from "[r.nameDirImages()/]/[r.get_metaIcon()/]";
       [/for]
     [/if]
   [/let]

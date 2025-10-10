@@ -27,6 +27,8 @@
   
 [query public isAccordion(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Accordion')/]
   
+[query public isAccordionPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('AccordionPanel')/]
+  
 [query public isAlert(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Alert')/] 
   
 [query public isBadge(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Badge')/]
@@ -107,13 +109,13 @@
   
 [query public isTab(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Tab')/]
   
+[query public isTabPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('TabPanel')/]
+  
 [query public isPagination(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Pagination')/]
   
 [query public isShare(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Share')/]
   
 [query public isTranslate(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Translate')/]
-  
-[query public isDisplay(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Display')/]
   
 [query public isSummary(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Summary')/]
   

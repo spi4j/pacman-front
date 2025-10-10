@@ -449,4 +449,28 @@ public final class AnnotationUtils {
 	public static String get_metaSeverity(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_SEVERITY);
 	}
+	
+	public static boolean has_metaExpanded(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_EXPANDED);
+	}
+
+	public static String get_metaExpended(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_EXPANDED);
+	}
+	
+	public static boolean has_metaOpened(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_DEFAULT_OPENED);
+	}
+
+	public static String get_metaOpened(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_DEFAULT_OPENED);
+	}
+	
+	public static boolean has_metaDisplay(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_DISPLAY);
+	}
+
+	public static String get_metaDisplay(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_DISPLAY);
+	}
 }

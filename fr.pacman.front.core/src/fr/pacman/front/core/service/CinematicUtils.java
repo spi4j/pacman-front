@@ -67,12 +67,32 @@ public class CinematicUtils {
 	 */
 	public static List<String> get_urlsForReactRouter(final ViewContainer p_view) {
 		return _transitions.stream()
-				.filter(t -> t.getTo() instanceof ViewState vs && !vs.getViewContainers().isEmpty()
-						&& vs.getViewContainers().get(0) == p_view && t.getOn() != null
-						&& t.getOn().stream()
-								.anyMatch(e -> e instanceof ViewEvent ve && ve.getType() != null
-										&& "onClick".equalsIgnoreCase(ve.getType().getName())))
+				.filter(transition -> transition.getTo() instanceof ViewState viewState
+						&& !viewState.getViewContainers().isEmpty() 
+						&& viewState.getViewContainers().get(0) == p_view
+						&& transition.getOn() != null
+						&& transition.getOn().stream().anyMatch(
+								event -> event instanceof ViewEvent viewEvent 
+								&& isEligibleEventForRoute(viewEvent)))
 				.map(Transition::getName).collect(Collectors.toList());
+	}
+
+	/**
+	 * Vérifie si un événement de vue est éligible pour déclencher une navigation
+	 * (ou "route").
+	 * <p>
+	 * Un événement est considéré comme éligible s'il correspond à un clic
+	 * utilisateur ({@code onClick}) ou à une soumission de formulaire
+	 * ({@code onSubmit}).
+	 * </p>
+	 *
+	 * @param p_event l'événement de vue à analyser (ne doit pas être {@code null})
+	 * @return {@code true} si le type de l'événement est {@code onClick} ou
+	 *         {@code onSubmit}, {@code false} sinon
+	 */
+	private static boolean isEligibleEventForRoute(final ViewEvent p_event) {
+		return p_event.getType() != null && ("onClick".equalsIgnoreCase(p_event.getType().getName())
+				|| "onSubmit".equalsIgnoreCase(p_event.getType().getName()));
 	}
 
 	/**

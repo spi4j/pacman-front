@@ -10,10 +10,17 @@
 [import fr::pacman::front::core::service::AnnotationUtils/]
 [import fr::pacman::front::cinematic::react::aql::query::widgets/]
 
+[comment --------------------------------------------------------------------------------]
+[comment Pour l'instant on profite du laxisme de typeScript, dans les boucles  on supprime 
+         pas la dernière virgule. Ex : ["/goSubMenu2","/goList",].includes(...)/]
+[comment --------------------------------------------------------------------------------]
+
 [comment écriture d'un widget pour react dsfr./]
 [template public writeOpenViewElement(ve : view::AbstractViewElement, insideHL :: Boolean)]
    [if (ve.isAccordion())]
      [ve.writeAccordion()/]
+   [elseif (ve.isAccordionPanel())]
+     [ve.writeAccordionPanel()/]
    [elseif (ve.isRadioPanel())]
      [ve.writeRadioPanel()/]
    [elseif (ve.isCheckBoxPanel())]
@@ -40,8 +47,6 @@
      [ve.writeConsent()/]
    [elseif (ve.isContent())]
      [ve.writeContent()/]
-   [elseif (ve.isDisplay())]
-     [ve.writeDisplay()/]
    [elseif (ve.isDropDown())]
      [ve.writeDropDown()/]
    [elseif (ve.isErrorPanel())]
@@ -62,6 +67,8 @@
      [ve.writeNavigation()/]
    [elseif (ve.isNotice())]
      [ve.writeNotice()/]
+   [elseif (ve.isText())]
+     [ve.writeText()/]
    [elseif (ve.isPagination())]
      [ve.writePagination()/]
    [elseif (ve.isPassword())]
@@ -88,6 +95,8 @@
      [ve.writeSummary()/]
    [elseif (ve.isTab())]
      [ve.writeTab()/]
+   [elseif (ve.isTabPanel())]
+     [ve.writeTabPanel()/]
    [elseif (ve.isTabNav())]
      [ve.writeTabNav()/]
    [elseif (ve.isTable())]
@@ -123,6 +132,13 @@
 [comment écriture d'un widget pour react dsfr (positionnables en CSS/JS)./]
 [template public writeCloseViewElement(ve : view::AbstractViewElement, insideHL :: Boolean)]
   [if (ve.isAccordion())]
+    [ve.writeCloseAccordion()/]
+  [elseif (ve.isAccordionPanel())]
+    [ve.writeCloseAccordionPanel()/]
+  [elseif (ve.isTab())]
+    [ve.writeCloseTab()/]
+  [elseif (ve.isTabPanel())]
+    [ve.writeCloseTabPanel()/]
   [elseif (ve.isTable())]
     [ve.writeCloseTable()/]
   [elseif (ve.isFormPanel())]
@@ -137,6 +153,25 @@
 [/template]
 
 [template private writeAccordion (ve : view::AbstractViewElement)]
+  <Accordion 
+    label="[ve.label/]"
+    [if (ve.hasMetaExpanded() and 'true'.equalsIgnoreCase(ve.get_metaExpended()))]
+       onExpandedChange={function noRefCheck(){}}
+       defaultExpanded
+    [/if]
+  >
+[/template]
+
+[template private writeCloseAccordion (ve : view::AbstractViewElement)]
+  </Accordion>
+[/template]
+
+[template private writeAccordionPanel (ve : view::AbstractViewElement)]
+  <div className={fr.cx("fr-accordions-group")}>
+[/template]
+
+[template private writeCloseAccordionPanel (ve : view::AbstractViewElement)]
+  </div>
 [/template]
 
 [template private writeRadioPanel (ve : view::AbstractViewElement)]
@@ -163,8 +198,8 @@
 [template private writeRadio (ve : view::AbstractViewElement)]
   {
      [if (ve.hasMetaIcon())]illustration: <img alt="illustration" src={[ve.nameElementId()/]Ico}/>,[/if]
-     hintText: '[ve.description.toJSString()/]',
-     label: '[ve.label.toJSString()/]',
+     hintText: "[ve.description/]",
+     label: "[ve.label/]",
      nativeInputProps: {
        ...register("[ve.eContainer().nameElementId()/]", { required: "[ve.eContainer().get_metaTextError()/]" }),
        value: "[ve.get_metaValue()/]",
@@ -193,8 +228,8 @@
 [template private writeCheckBox (ve : view::AbstractViewElement)]
   [let v = ve.oclAsType(view::ViewElement)]
     {
-       hintText: '[ve.description.toJSString()/]',
-       label: '[ve.label.toJSString()/]',
+       hintText: "[ve.description/]",
+       label: "[ve.label/]",
        [if (v.required and ve.eContainer().hasMetaNbRequired())]
          nativeInputProps: {
            ...register("[ve.eContainer().nameElementId()/]", {
@@ -261,9 +296,6 @@
 [/template]
 
 [template private writeContent (ve : view::AbstractViewElement)]
-[/template]
-
-[template private writeDisplay (ve : view::AbstractViewElement)]
 [/template]
 
 [template private writeDropDown (ve : view::AbstractViewElement)]
@@ -383,13 +415,17 @@
          [for (directAccess | nav.eAllContents(view::AbstractViewElement)
            ->select(o3 | o3.isNavigationElement()))]
            {
-             iconId: '[directAccess.get_metaIcon()/]',
+             iconId: "[directAccess.get_metaIcon()/]",
              linkProps: {
-               href: '/[directAccess.urlForPageJsx()/]'
+               href: "/[directAccess.urlForPageJsx()/]"
              },
-           text: '[directAccess.label.toJSString()/]'
+           text: "[directAccess.label/]"
            },
          [/for]
+         [if (nav.hasMetaDisplay() 
+           and 'true'.equalsIgnoreCase(nav.get_metaDisplay()))]
+           headerFooterDisplayItem
+         [/if]
          [']'/]}
       [/let]
     [/if]
@@ -407,9 +443,9 @@
         {  
            isActive: location.pathname === "/[el.urlForPageJsx()/]",
            linkProps: {
-             href: '/[el.urlForPageJsx()/]'
+             href: "/[el.urlForPageJsx()/]"
            },
-           text: '[el.label.toJSString()/]'
+           text: "[el.label/]"
          },
       [/for]
       
@@ -417,22 +453,23 @@
       [for (menu | nav.eAllContents(view::AbstractViewElement)
          ->select(o2 | o2.isNavigationMenu()))]
          {
-           isActive: location.pathname === "/x",
+           isActive: ['['/][for (el | menu.eAllContents(view::AbstractViewElement)
+             ->select(o3 | o3.isNavigationElement()))]"/[el.urlForPageJsx()/]",[/for][']'/].includes(location.pathname),
            menuLinks: ['['/]
            [for (el | menu.eAllContents(view::AbstractViewElement)
              ->select(o3 | o3.isNavigationElement()))]
              {
                linkProps: {
-                 href: '[el.urlForPageJsx()/]'
+                 href: "[el.urlForPageJsx()/]"
                },
-               text: '[el.label.toJSString()/]'
+               isActive: location.pathname === "/[el.urlForPageJsx()/]",
+               text: "[el.label/]"
              },
            [/for]
            ],
-           text: '[menu.label.toJSString()/]'
+           text: "[menu.label/]"
          },
        [/for]
-        //isActive: true,
        [comment barre de navigation mega./]
        [for (menuMega | nav.eAllContents(view::AbstractViewElement)
          ->select(o2 | o2.isNavigationMegaMenu()))]  
@@ -444,18 +481,19 @@
                 {
                    categoryMainLink: {
                    linkProps: {
-                     href: '#'
+                     href: "#"
                     },
-                    text: '[category.label.toJSString()/]'
+                    text: "[category.label/]"
                  },
                  links: ['['/]
                  [for (el | category.eAllContents(view::AbstractViewElement)
                    ->select(o4 | o4.isNavigationElement()))]
                     {
                       linkProps: {
-                        href: '[el.urlForPageJsx()/]'
+                        href: "[el.urlForPageJsx()/]"
                       },
-                      text: '[el.label.toJSString()/]'
+                      isActive: location.pathname === "/[el.urlForPageJsx()/]",
+                      text: "[el.label/]"
                     },
                  [/for]  
                [']'/]     },
@@ -464,20 +502,26 @@
            leader: {
              link: {
                linkProps: {
-                 href: '#'
+                 href: "#"
                },
-               text: 'Voir toute la rubrique'
+               text: "Voir toute la rubrique"
              },
-             paragraph: '[menuMega.description.toJSString()/]',
-             title: '[menuMega.label.toJSString()/]'
+             paragraph: "[menuMega.description/]",
+             title: "[menuMega.label/]"
            }
          },
-         text: '[menuMega.label.toJSString()/]'
+         text: "[menuMega.label/]",
+         isActive: ['['/][for (el | menuMega.eAllContents(view::AbstractViewElement)
+         ->select(o3 | o3.isNavigationElement()))]"/[el.urlForPageJsx()/]",[/for][']'/].includes(location.pathname),
          },
        [/for]
       [']'/]}
     [/let]
   [/if]
+[/template]
+
+[template private writeText (ve : view::AbstractViewElement)]
+  [ve.label/] [ve.description/]
 [/template]
 
 [template private writeNotice (ve : view::AbstractViewElement)]
@@ -487,9 +531,9 @@
     [if (ve.hasMetaClosable() and 'true'.equalsIgnoreCase(ve.get_metaClosable()))]isClosable[/if]
     link={{
       linkProps: {
-        href: '#'
+        href: "#"
       },
-      text: 'Plus d\'informations'
+      text: "Plus d'informations"
     }}
     onClose={function noRefCheck(){}}
     severity="[if (ve.hasMetaSeverity())][ve.get_metaSeverity()/][else]info[/if]"
@@ -581,6 +625,25 @@
 [/template]
 
 [template private writeTab (ve : view::AbstractViewElement)]
+  { 
+    [if (ve.hasMetaOpened())]isDefault: [ve.get_metaOpened()/],[/if]
+    [if (ve.hasMetaIcon())]iconId: "[ve.get_metaIcon()/]",[/if]
+    label: "[ve.label/]",
+    content: 
+[/template]
+
+[template private writeCloseTab (ve : view::AbstractViewElement)]
+  },
+[/template]
+
+[template private writeTabPanel (ve : view::AbstractViewElement)]
+  <Tabs
+    onTabChange={function noRefCheck(){}}
+    tabs={['['/]
+[/template]
+
+[template private writeCloseTabPanel (ve : view::AbstractViewElement)]
+  [']'/]}/>
 [/template]
 
 [template private writeTabNav (ve : view::AbstractViewElement)]
@@ -596,7 +659,7 @@
     [']'/]}
   headers={['['/]
   [for (el | ve.oclAsType(view::ViewContainer).ownedElements)]
-    '[el.name/]',
+    "[el.name/]",
   [/for]
   [']'/]}/>
 [/template]
@@ -659,8 +722,8 @@
     clearSearchInputOnSearch
     brandTop={<>[if (ve.hasMetaBrandTop())][ve.get_metaBrandTop()/][else]INTITULE<br />OFFICIEL[/if]</>}
     homeLinkProps={{
-    href: '/',
-    title: '[if (ve.hasMetaToolTip())][ve.get_metaTooltip()/]else]Accueil - Nom de l’entité[/if]'
+    href: "/",
+    title: "[if (ve.hasMetaToolTip())][ve.get_metaTooltip()/]else]Accueil - Nom de l’entité[/if]"
   }}
   id="[ve.nameElementId()/]"
   serviceTagline="[ve.description/]"
@@ -684,15 +747,15 @@
   operatorLogo={{
     [let l = ve.eAllContents(view::AbstractViewElement)
       ->select(o | o.isLogo())->first()]
-      alt: '[l.oclAsType(view::ViewElement).description/]',
+      alt: "[l.oclAsType(view::ViewElement).description/]",
       imgUrl: opLogo,
       [if (l.has_metaLink())]
         linkProps: {
-          href: '#',
-          title: ''
+          href: "#",
+          title: ""
         },
       [/if]
-      orientation: [if (l.hasMetaOrientation())]'[l.get_metaOrientation()/]'[else]'horizontal'[/if]
+      orientation: [if (l.hasMetaOrientation())]"[l.get_metaOrientation()/]"[else]"horizontal"[/if]
     [/let]
   }}
 [/template]
@@ -705,11 +768,16 @@
       ->select(o | o.isLogo())->isEmpty())]
       [ve.writeOperatorLogo()/]
     [/if]
+    [if (ve.hasMetaDisplay())]
+      bottomItems={['['/]
+        headerFooterDisplayItem
+      [']'/]}
+    [/if]
     termsLinkProps={{
-      href: '#'
+      href: "#"
     }}
     websiteMapLinkProps={{
-      href: '#'
+      href: "#"
     }}
   />
 [/template]

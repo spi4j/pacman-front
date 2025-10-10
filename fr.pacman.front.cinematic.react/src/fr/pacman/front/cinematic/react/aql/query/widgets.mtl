@@ -31,7 +31,7 @@
 [comment vérifie si e layout accepte du positionnement css sur l'élément./]
 [query public isEligibleForCSSPositioning(l: view::Layout) : Boolean =  l.viewElement = null 
   or (l.viewElement <> null and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox()) 
-  and not l.viewElement.isText())/]
+  and not l.viewElement.isText() and not l.viewElement.isTab())/]
 
 [comment vérifie si le layout accepte les balises de positionnement de formulaire./]
 [query public isEligibleForFDSPositioning(l: view::Layout) : Boolean =  l.viewElement <> null 
@@ -40,9 +40,8 @@
   and not l.viewElement.isBlocPanel()/]
   
 [comment vérifie si l'élément doit figurer dans les données à faire gérer par hook-form./]
-[query  public isEligibleForFormValues(ve : view::AbstractViewElement) : Boolean = not ve.isFormPanel() 
- and not ve.isRadio() and not ve.isCheckBox() and not ve.isButton() and not ve.isButtonSubmit() 
- and not ve.isDisplay() and not ve.isTable()/]
+[query  public isEligibleForFormValues(ve : view::AbstractViewElement) : Boolean = ve.isInput() or ve.isPassword() 
+  or ve.isRadio() or ve.isCheckBox() or ve.isCombo() or ve.isSelect()/]
   
 [comment retourne l'uri react attachée au composant pour les imports./]
 [query public reactUriForElement(ve : view::AbstractViewElement) : String = if (ve.isPassword()) then 

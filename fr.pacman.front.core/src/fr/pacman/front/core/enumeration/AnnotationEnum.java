@@ -68,6 +68,12 @@ public enum AnnotationEnum {
 	
 	WITH_SEVERITY("WITH_SEVERITY", ModelEnum.DSL_CINEMATIC, true),
 	
+	WITH_EXPANDED("WITH_DEFAULT_EXPANDED", ModelEnum.DSL_CINEMATIC, true),
+	
+	WITH_DEFAULT_OPENED("WITH_DEFAULT_OPENED", ModelEnum.DSL_CINEMATIC, true),
+	
+	WITH_DISPLAY("WITH_DISPLAY", ModelEnum.DSL_CINEMATIC, true),
+	
 	WITH_TOOLTIP("WITH_TOOLTIP", ModelEnum.DSL_CINEMATIC, true);
 
 	/** Le nom de l'annotation */
