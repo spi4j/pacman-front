@@ -256,7 +256,7 @@
     <possibleEvents xmi:id="_Mk0lEJeAEfCJ2dZMtpi9sQ" technicalid="_MLT44JeAEfCJ2dZMtpi9sQ" name="onMouseLeave"/>
     <metadataDefinitions xmi:id="_le6uMKLQEfCdj_sg-23Kqg" technicalid="_lFzqoaLQEfCdj_sg-23Kqg" title="WITH_URL"/>
   </widgets>
-  <widgets xmi:id="_XZfNUJH1EfCF6-2aQyGFWw" technicalid="_XMD1UJH1EfCF6-2aQyGFWw" name="Modal" icon="/fr.pacman.front.cinematic/icons/Modal.png" isContainer="true" documentation="Concentrer l’attention  sur une tâche ou un élément d’information, sans perdre le contexte de la page en cours.">
+  <widgets xmi:id="_XZfNUJH1EfCF6-2aQyGFWw" technicalid="_XMD1UJH1EfCF6-2aQyGFWw" name="ModalPanel" icon="/fr.pacman.front.cinematic/icons/Modal.png" implementation="createModal" isContainer="true" documentation="Concentrer l’attention  sur une tâche ou un élément d’information, sans perdre le contexte de la page en cours.">
     <possibleEvents xmi:id="_nXBboJLzEfCa3-VOW44b4A" technicalid="_nAAp0JLzEfCa3-VOW44b4A" name="onLoad"/>
     <possibleEvents xmi:id="_80DvgJL0EfCa3-VOW44b4A" technicalid="_8cBqAJL0EfCa3-VOW44b4A" name="onOpen"/>
     <possibleEvents xmi:id="_-IqK8JL0EfCa3-VOW44b4A" technicalid="_9xzxMJL0EfCa3-VOW44b4A" name="onClose"/>
@@ -445,7 +445,10 @@
     <possibleEvents xmi:id="_NLRoAJMVEfCWNsj-B1W6Gw" technicalid="_M5waMJMVEfCWNsj-B1W6Gw" name="onFocus"/>
     <possibleEvents xmi:id="_ZYSXcJMVEfCWNsj-B1W6Gw" technicalid="_ZBg2MJMVEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_axGkgJMVEfCWNsj-B1W6Gw" technicalid="_afDLMJMVEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_rTd2YKgYEfCTqq3EQF3Ssg" technicalid="_qhME4qgYEfCTqq3EQF3Ssg" title="WITH_COLOR_VARIANT"/>
+    <metadataDefinitions xmi:id="_jN0WMKgeEfCTqq3EQF3Ssg" technicalid="_itvH8qgeEfCTqq3EQF3Ssg" title="WITH_EDITION" body="false"/>
   </widgets>
+  <widgets xmi:id="_FFo9UKgAEfCTqq3EQF3Ssg" technicalid="_EanqYKgAEfCTqq3EQF3Ssg" name="TableColumn" icon="/fr.pacman.front.cinematic/icons/Table.png"/>
   <widgets xmi:id="_tKQK8JH1EfCF6-2aQyGFWw" technicalid="_s8QLMJH1EfCF6-2aQyGFWw" name="Tag" icon="/fr.pacman.front.cinematic/icons/Tag.png" documentation=" Catégoriser, classer, organiser les contenus d’un site à l’aide de mots clés. ">
     <possibleEvents xmi:id="_eUhA4JMVEfCWNsj-B1W6Gw" technicalid="_b1Xd4JMVEfCWNsj-B1W6Gw" name="onClick"/>
     <possibleEvents xmi:id="_fdOVYJMVEfCWNsj-B1W6Gw" technicalid="_fJ04QJMVEfCWNsj-B1W6Gw" name="onFocus"/>

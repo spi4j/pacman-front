@@ -74,6 +74,10 @@ public enum AnnotationEnum {
 	
 	WITH_DISPLAY("WITH_DISPLAY", ModelEnum.DSL_CINEMATIC, true),
 	
+	WITH_TABLE_COLOR("WITH_COLOR_VARIANT", ModelEnum.DSL_CINEMATIC, true),
+	
+	WITH_TABLE_EDITION("WITH_EDITION", ModelEnum.DSL_CINEMATIC, true),
+	
 	WITH_TOOLTIP("WITH_TOOLTIP", ModelEnum.DSL_CINEMATIC, true);
 
 	/** Le nom de l'annotation */

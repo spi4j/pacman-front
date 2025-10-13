@@ -7,6 +7,9 @@
 [comment retourne le nom d'une page typescript + jsx./]
 [query public namePageJsx(v : view::ViewContainer): String = v.name.applyNorme_pageDefault()/]
   
+[comment retourne le nom d'une page de service typescript + jsx./]
+[query public namePageServiceJsx(v : view::ViewContainer): String = (v.name + ' service').applyNorme_pageDefault()/]
+  
 [comment retourne le nom de la page App.tsx./]
 [query public namePageAppTsx(any : ecore::EObject): String = 'app'.applyNorme_pageDefault()/]
   

@@ -15,7 +15,7 @@
   
 [query public isBlocPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Bloc')/]
   
-[query public isModalPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Modal')/]
+[query public isModalPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('ModalPanel')/]
 
 [query public isButton(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Button')/]
   
@@ -50,6 +50,8 @@
 [query public isCheckBox(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('CheckBox')/]
   
 [query public isInput(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Input')/]
+  
+[query public isTableColumn(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('TableColumn')/]
   
 [query public isInputNumber(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('InputNumber')/]
 

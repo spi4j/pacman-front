@@ -6,7 +6,9 @@
 [import fr::pacman::front::core::aql::name::name/]
 [import fr::pacman::front::core::aql::query::widgets/]
 [import fr::pacman::front::core::aql::query::events/]
+[import fr::pacman::front::core::aql::query::metadatas/]
 [import fr::pacman::front::core::service::CinematicUtils/]
+[import fr::pacman::front::core::service::AnnotationUtils/]
 
 [comment retourne l'ensemble des panels./]
 [query public viewPanels(r : cinematic::CinematicRoot) : OrderedSet(view::ViewContainer) = r.eAllContents(flow::ViewState)
@@ -19,7 +21,22 @@
 [comment vérifie si la page en cours utilise un formulaire (pour l'instant un seul authorisé par page)./]
 [query public useForm(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.isFormPanel())->isEmpty()/]
-
+  
+[comment vérifie si la page en cours utilise une (ou plusieurs) table(s)./]
+[query public useTables(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
+  ->select(o | o.isTable())->isEmpty()/]
+  
+[query public useEditionButton(vc : view::AbstractViewElement) : Boolean = vc.isTable() and vc.hasMetaTableEdition() 
+  and 'true'.equalsIgnoreCase(vc.get_metaTableEdition())/]
+  
+[comment vérifie si la page en cours utilise une (ou plusieurs) radio(s)./]
+[query public useRadiosWithIcon(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
+  ->select(o | o.isRadio() and o.has_metaIcon())->isEmpty()/]
+  
+[comment vérifie si la page en cours utilise une (ou plusieurs) logo(s)./]
+[query public useLogos(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
+  ->select(o | o.isLogo())->isEmpty()/]
+  
 [comment retourne le formulaire pour la page (si existe)./]
 [query public form(vc : view::ViewContainer) : view::AbstractViewElement = vc.eContents()
   ->select(e | e.oclIsKindOf(view::AbstractViewElement))->select(e | e.isFormPanel())->first()/]
@@ -28,16 +45,15 @@
 [query public useHFViews(r :cinematic::CinematicRoot) : Boolean = r.eAllContents(view::AbstractViewElement)
   ->select(o | o.isHeaderPanel() or o.isFooterPanel())->size() = 2/]
   
-[comment vérifie si e layout accepte du positionnement css sur l'élément./]
-[query public isEligibleForCSSPositioning(l: view::Layout) : Boolean =  l.viewElement = null 
-  or (l.viewElement <> null and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox()) 
-  and not l.viewElement.isText() and not l.viewElement.isTab())/]
+[comment vérifie si le layout accepte du positionnement css sur l'élément./]
+[query public isEligibleForCSSPositioning(l: view::Layout) : Boolean =  l.viewElement = null or (l.viewElement <> null 
+  and not l.viewElement.isRadio() and not l.viewElement.isCheckBox() and not l.viewElement.isTableColumn() 
+  and not l.viewElement.isTab())/]
 
 [comment vérifie si le layout accepte les balises de positionnement de formulaire./]
 [query public isEligibleForFDSPositioning(l: view::Layout) : Boolean =  l.viewElement <> null 
-  and l.isInsideFormLayout() and (not l.viewElement.isRadio() and not l.viewElement.isCheckBox() 
-  and not l.viewElement.isFormPanel() and not l.viewElement.isMainPanel() and not l.viewElement.isPanel()) 
-  and not l.viewElement.isBlocPanel()/]
+  and l.isInsideFormLayout() and not l.viewElement.isRadio() and not l.viewElement.isCheckBox() and not l.viewElement.isFormPanel() 
+  and not l.viewElement.isMainPanel() and not l.viewElement.isPanel() and not l.viewElement.isBlocPanel()/]
   
 [comment vérifie si l'élément doit figurer dans les données à faire gérer par hook-form./]
 [query  public isEligibleForFormValues(ve : view::AbstractViewElement) : Boolean = ve.isInput() or ve.isPassword() 

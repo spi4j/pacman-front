@@ -4,6 +4,8 @@
 [import fr::pacman::front::core::service::AnnotationUtils/]
 
 
+[query public hasMetaTableEdition(e : view::AbstractViewElement) : Boolean = e.has_metaTableEdition() and e.get_metaTableEdition().trim().size() > 0/]
+[query public hasMetaTableColor(e : view::AbstractViewElement) : Boolean = e.has_metaTableColor() and e.get_metaTableColor().trim().size() > 0/]
 [query public hasMetaDisplay(e : view::AbstractViewElement) : Boolean = e.has_metaDisplay() and e.get_metaDisplay().trim().size() > 0/]
 [query public hasMetaOpened(e : view::AbstractViewElement) : Boolean = e.has_metaOpened() and e.get_metaOpened().trim().size() > 0/]
 [query public hasMetaExpanded(e : view::AbstractViewElement) : Boolean = e.has_metaExpanded() and e.get_metaExpended().trim().size() > 0/]

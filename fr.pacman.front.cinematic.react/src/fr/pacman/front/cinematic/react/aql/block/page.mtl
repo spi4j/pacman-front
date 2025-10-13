@@ -20,6 +20,24 @@
          pas la dernière virgule. Ex : ["/goSubMenu2","/goList",].includes(...)/]
 [comment --------------------------------------------------------------------------------]
 
+
+[comment écriture de la page de service (appelée par la page UI)./]
+[template public pageServiceJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
+  [vc.writeAdditionalWidgetImports(false)/]
+  
+  [if (vc.useTables())]
+    [for (tb |vc.eAllContents(view::ViewContainer)->select(o | o.isTable()))]
+      export function getFakeTableData_[tb.nameElementId()/](nbRows = 10): string['['/][']'/]{
+      return Array.from({ length: nbRows }, () => ['['/]
+         [for (cl | tb.ownedElements)]
+           fakerFR.string.alphanumeric(15),
+         [/for]
+        [']'/] );
+      }
+    [/for]
+  [/if]
+[/template]
+
 [comment aiguillage pour l'écriture d'une page typescript + code jsx (panel)./]				
 [template public pageJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
   [if (vc.isHeaderPanel() or vc.isFooterPanel())][vc.pageJsxHFImpl(vs)/][else][vc.pageJsxSDImpl(vs)/][/if]
@@ -48,14 +66,17 @@
   [vc.layout.writeLayouts().writePageJsx(vc)/]
 [/template]
 
-[comment écrite du corps de la page typescript + code jsx (simple factorisation)./]
+[comment écriture du corps de la page typescript + code jsx (simple factorisation)./]
 [template private writePageJsx(body : String, vc : view::ViewContainer)]
-  [vc.writeAdditionalWidgetImports()/]
+  [vc.writeAdditionalWidgetImports(true)/]
   
   export default function [vc.namePageJsx()/] () {
    
     [if (vc.useForm())]
-      [vc.writeHandleForm()/]
+      [vc.writeFormHandler()/]
+    [/if]
+    [if (vc.useTables())]
+      [vc.writeTablesHandler()/]
     [/if]
     
     return (
@@ -75,11 +96,11 @@
 [template private writeLayouts(l : view::Layout)]
   [let insideHl = l.isInsideHorizontalLayout()]
     [let allowCSSPos = l.isEligibleForCSSPositioning()]
-      [let allowFDSPos = l.isEligibleForFDSPositioning() ]
+      [let allowFDSPos = l.isEligibleForFDSPositioning()]
         [l.openLayout(insideHl, allowCSSPos, allowFDSPos)/]
         [l.viewElement.writeElement(insideHl)/]
         [l.scanAllSubLayouts()/]
-        [l.closeLayout(insideHl, allowCSSPos,allowFDSPos)/]
+        [l.closeLayout(insideHl, allowCSSPos, allowFDSPos)/]
       [/let]
     [/let]
   [/let]
@@ -189,8 +210,49 @@
   }
 [/template]
 
+[comment écriture de la gestion des tables./]
+[template private writeTablesHandler(vc : view::ViewContainer)]
+  [let tbls =  vc.eAllContents(view::ViewContainer)->select(o | o.isTable())]
+    [for (tb | tbls)]
+      const ['['/]data_[tb.nameElementId()/], setData_[tb.nameElementId()/][']'/] = useState<any['['/][']'/]>(['['/][']'/]);
+    [/for]
+    [if (not tbls->select(o | o.useEditionButton())->isEmpty())]
+      const ['['/]currentRow, setCurrentRow[']'/] = useState<any['['/][']'/] | null>(null);
+      const ['['/]currentTable, setCurrentTable[']'/] = useState<[tbls->select(o | o.useEditionButton())
+        ->collect(o1 | '"' + o1.nameElementId() + '"')->sep(' | ')/]| null>(null);
+    [/if]
+    
+    // -----------------------------------------------------
+    // Centralisation du pilotage pour la fenêtre d'édition.
+    // -----------------------------------------------------
+    const handleEditClick = (table: [tbls->select(o | o.useEditionButton())
+        ->collect(o1 | '"' + o1.nameElementId() + '"')->sep(' | ')/], row: any['['/][']'/]) => {
+        if (!modal) return;
+        setCurrentRow(row);
+        setCurrentTable(table);
+        setTimeout(() => modal.open(), 0);
+    };
+        
+    // -----------------------------------------------------
+    // Centralisation du pilotage pour la fenêtre d'édition.
+    // -----------------------------------------------------
+    const handleClose = () => {
+        if (!modal) return;
+        setCurrentRow(null);
+        setCurrentTable(null);
+        modal.close(); 
+    };
+    
+    useEffect(() => {
+      [for (tb | tbls)]
+        setData_[tb.nameElementId()/](getFakeTableData_[tb.nameElementId()/]());
+      [/for]
+    }, ['['/][']'/]);
+  [/let]
+[/template]
+
 [comment écriture de toute la gestion de formulaire./]
-[template private writeHandleForm(vc : view::ViewContainer)]
+[template private writeFormHandler(vc : view::ViewContainer)]
   [let form = vc.form()]
     // --------------------------------------------------
     // Définition du type pour les valeurs du formulaire.
@@ -294,24 +356,44 @@
 [/template]
 
 [comment écriture des imports pour la page (panel / header / footer / etc..)./]
-[template private writeAdditionalWidgetImports(vc : view::ViewContainer)]
-  [for (ve | vc.get_viewElementForImports())]
-    import { [ve.widget.implementation.trim()/] } from "[ve.reactUriForElement()/]/[ve.widget.implementation.trim()/]";
-  [/for]
-  [let logos = vc.eAllContents(view::AbstractViewElement)
-    ->select(e | e.isLogo())]
-    [if (not logos->isEmpty())]
-      [let logo = logos->first()]
-        import opLogo from "[logo.nameDirImages()/]/[logo.get_metaImg()/]";
+[template private writeAdditionalWidgetImports(vc : view::ViewContainer, ui : Boolean)]
+  [if (ui)]
+    [for (ve | vc.get_viewElementForImports()->reject(o | o.isModalPanel()))]
+      import { [ve.widget.implementation.trim()/] } from "[ve.reactUriForElement()/]/[ve.widget.implementation.trim()/]";
+    [/for]
+    [if (vc.useLogos())]
+      [let logo = vc.eAllContents(view::AbstractViewElement)
+        ->select(e | e.isLogo())->first()]
+          import opLogo from "[logo.nameDirImages()/]/[logo.get_metaImg()/]";
       [/let]
     [/if]
-  [/let]
-  [let radios = vc.eAllContents(view::AbstractViewElement)
-    ->select(e | e.isRadio() and e.has_metaIcon())]
-    [if (not radios->isEmpty())]
-      [for (r | radios)]
-        import [r.nameElementId()/]Ico from "[r.nameDirImages()/]/[r.get_metaIcon()/]";
+    [if (vc.useRadiosWithIcon())]
+      [for (r | vc.eAllContents(view::AbstractViewElement)
+        ->select(e | e.isRadio() and e.has_metaIcon()))]
+          import [r.nameElementId()/]Ico from "[r.nameDirImages()/]/[r.get_metaIcon()/]";
       [/for]
     [/if]
-  [/let]
+    [if (vc.useTables())]
+      [let tbls =  vc.eAllContents(view::ViewContainer)->select(o | o.isTable())]
+        import React, { useEffect, useState } from "react";
+        import { Button } from "@codegouvfr/react-dsfr/Button"; [comment si table éditable./]
+        [for (tb | tbls)]
+          import { getFakeTableData_[tb.nameElementId()/] } from "[vc.nameDirectoryPagesServiceForAppTsx()/]/[vc.namePageServiceJsx()/]";
+        [/for]
+      [/let]
+      [if (not (vc.eAllContents()->select(o | o.isModalPanel())->isEmpty()))]
+        import { createModal } from "@codegouvfr/react-dsfr/Modal";
+        
+        // --------------------------------------------------------------------
+        // Toujours appeler createModal hors du composant, juste après imports.
+        // --------------------------------------------------------------------
+        const modal = createModal({ id: "edit-row-modal", isOpenedByDefault: false });
+      [/if]
+    [/if]
+  
+  [else]
+    [if (vc.useTables())]
+      import { fakerFR } from '@faker-js/faker';
+    [/if]
+  [/if]
 [/template]

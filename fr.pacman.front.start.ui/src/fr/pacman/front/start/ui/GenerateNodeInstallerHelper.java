@@ -126,7 +126,7 @@ public class GenerateNodeInstallerHelper {
 	private static IStatus installDependencies(IProject project, Path projectDir, SubMonitor monitor) {
 		try {
 			monitor.setTaskName("Installation des dépendances npm... (peux prendre plusieurs minutes "
-					+ " en fonction du cache et de la connexion Internet.)");
+					+ "en fonction du cache et de la connexion Internet.)");
 
 			runProcess(projectDir, npmExec(), "install", "react-router-dom", "--save-dev", "@types/react-router-dom");
 			excludeNodeModules(project);

@@ -473,4 +473,20 @@ public final class AnnotationUtils {
 	public static String get_metaDisplay(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_DISPLAY);
 	}
+	
+	public static boolean has_metaTableColor(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_TABLE_COLOR);
+	}
+
+	public static String get_metaTableColor(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_TABLE_COLOR);
+	}
+	
+	public static boolean has_metaTableEdition(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_TABLE_EDITION);
+	}
+
+	public static String get_metaTableEdition(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_TABLE_EDITION);
+	}
 }

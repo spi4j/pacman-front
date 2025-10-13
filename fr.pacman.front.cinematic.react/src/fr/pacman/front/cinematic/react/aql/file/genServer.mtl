@@ -10,8 +10,15 @@
 
 [comment écriture du fichier d'implémentation pour une page react (view)./]
 [template public filePageJsxImpl(vc : view::ViewContainer, vs : flow::ViewState)]
-  [file (vc.namePageJsx().toFileTypeScriptJsx(vc.nameDirectoryPages()), overwrite, vc.defaultFileEncoding())]
+  [file (vc.namePageJsx().toFileTypeScriptJsx(vc.nameDirectoryPagesJsx()), overwrite, vc.defaultFileEncoding())]
     [vc.pageJsxImpl(vs)/]
+  [/file]
+[/template]
+
+[comment écriture du fichier d'implémentation pour une page de service react./]
+[template public filePageServiceJsxImpl(vc : view::ViewContainer, vs : flow::ViewState)]
+  [file (vc.namePageServiceJsx().toFileTypeScriptJsx(vc.nameDirectoryPagesServiceJsx()), overwrite, vc.defaultFileEncoding())]
+    [vc.pageServiceJsxImpl(vs)/]
   [/file]
 [/template]
 

@@ -68,12 +68,10 @@ public class CinematicUtils {
 	public static List<String> get_urlsForReactRouter(final ViewContainer p_view) {
 		return _transitions.stream()
 				.filter(transition -> transition.getTo() instanceof ViewState viewState
-						&& !viewState.getViewContainers().isEmpty() 
-						&& viewState.getViewContainers().get(0) == p_view
+						&& !viewState.getViewContainers().isEmpty() && viewState.getViewContainers().get(0) == p_view
 						&& transition.getOn() != null
 						&& transition.getOn().stream().anyMatch(
-								event -> event instanceof ViewEvent viewEvent 
-								&& isEligibleEventForRoute(viewEvent)))
+								event -> event instanceof ViewEvent viewEvent && isEligibleEventForRoute(viewEvent)))
 				.map(Transition::getName).collect(Collectors.toList());
 	}
 
@@ -149,6 +147,45 @@ public class CinematicUtils {
 		Iterable<EObject> allContents = () -> EcoreUtil.getAllContents(p_root, true);
 		return StreamSupport.stream(allContents.spliterator(), false).filter(e -> e instanceof Transition)
 				.map(e -> (Transition) e).collect(Collectors.toList());
+	}
+
+	/**
+	 * Vérifie si un layout donné est contenu à l'intérieur d'un layout de type
+	 * "Table".
+	 * <p>
+	 * Cette méthode inspecte la hiérarchie des éléments de vue associés au layout
+	 * fourni. Elle retourne {@code true} si le layout parent correspond à un layout
+	 * dont le widget est nommé "Table" (comparaison insensible à la casse).
+	 * </p>
+	 *
+	 * <p>
+	 * Plus précisément :
+	 * </p>
+	 * <ul>
+	 * <li>Si {@code p_layout} est {@code null}, la méthode retourne
+	 * {@code false}.</li>
+	 * <li>Si le conteneur de l’élément de vue de {@code p_layout} n’est pas un
+	 * {@link Layout}, la méthode retourne {@code false}.</li>
+	 * <li>Si le layout parent ne contient pas un élément de vue de type
+	 * {@link Layout}, la méthode retourne {@code false}.</li>
+	 * <li>Sinon, la méthode compare le nom du widget du layout parent à
+	 * "Table".</li>
+	 * </ul>
+	 *
+	 * @param p_layout le layout dont on veut vérifier s’il est inclus dans un
+	 *                 layout de type "Table"
+	 * @return {@code true} si le layout est contenu dans un layout "Table",
+	 *         {@code false} sinon
+	 */
+	public static boolean isInsideTableLayout(Layout p_layout) {
+		if (p_layout == null || !(p_layout.getViewElement().eContainer() instanceof Layout)) {
+			return false;
+		}
+		if (!(((Layout) p_layout.getViewElement().eContainer()).getViewElement() instanceof Layout)) {
+			return false;
+		}
+		return "Table".equalsIgnoreCase(
+				((Layout) p_layout.getViewElement().eContainer()).getViewElement().getWidget().getName());
 	}
 
 	/**
