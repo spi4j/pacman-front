@@ -17,7 +17,10 @@
 
 [comment --------------------------------------------------------------------------------]
 [comment Pour l'instant on profite du laxisme de typeScript, dans les boucles  on supprime 
-         pas la dernière virgule. Ex : ["/goSubMenu2","/goList",].includes(...)/]
+         pas la dernière virgule. Ex : ["/goSubMenu2","/goList",].includes(...)
+         On prépare le travail sur certains composants mais pour l'instant 1 seul formulaire 
+         par page donc 1 seule table éditable donc si table éditable imposibilité de mettre 
+         au autre formulaire sur la page. -> géré par la validation du modèle./]
 [comment --------------------------------------------------------------------------------]
 
 
@@ -212,24 +215,34 @@
 
 [comment écriture de la gestion des tables./]
 [template private writeTablesHandler(vc : view::ViewContainer)]
-  [let tbls =  vc.eAllContents(view::ViewContainer)->select(o | o.isTable())]
-    [for (tb | tbls)]
+  [let tbs =  vc.eAllContents(view::ViewContainer)->select(o | o.isTable())]
+    [for (tb | tbs)]
       const ['['/]data_[tb.nameElementId()/], setData_[tb.nameElementId()/][']'/] = useState<any['['/][']'/]>(['['/][']'/]);
     [/for]
-    [if (not tbls->select(o | o.useEditionButton())->isEmpty())]
+    [if (vc.useTablesEdition())]
       const ['['/]currentRow, setCurrentRow[']'/] = useState<any['['/][']'/] | null>(null);
-      const ['['/]currentTable, setCurrentTable[']'/] = useState<[tbls->select(o | o.useEditionButton())
+      const ['['/]currentTable, setCurrentTable[']'/] = useState<[tbs->select(o | o.useButtonEdition())
         ->collect(o1 | '"' + o1.nameElementId() + '"')->sep(' | ')/]| null>(null);
     [/if]
     
     // -----------------------------------------------------
     // Centralisation du pilotage pour la fenêtre d'édition.
     // -----------------------------------------------------
-    const handleEditClick = (table: [tbls->select(o | o.useEditionButton())
+    const handleEditClick = (table: [tbs->select(o | o.useButtonEdition())
         ->collect(o1 | '"' + o1.nameElementId() + '"')->sep(' | ')/], row: any['['/][']'/]) => {
         if (!modal) return;
         setCurrentRow(row);
         setCurrentTable(table);
+        [if (vc.useTablesEdition())]
+          [comment on doit obligatoirement avoir un formulaire associé./]
+          reset({
+            [for (e | vc.eAllContents(view::ViewContainer)
+              ->select(o | o.isFormPanel())->first().ownedElements
+              ->select(o | o.isEligibleForFormValues()))]
+              [e.nameElementId()/]: row['['/][eIndex -1/][']'/],
+            [/for]
+          });
+        [/if]
         setTimeout(() => modal.open(), 0);
     };
         
@@ -244,7 +257,7 @@
     };
     
     useEffect(() => {
-      [for (tb | tbls)]
+      [for (tb | tbs)]
         setData_[tb.nameElementId()/](getFakeTableData_[tb.nameElementId()/]());
       [/for]
     }, ['['/][']'/]);
@@ -270,10 +283,11 @@
     
     // ------------------------------------------------------------------------------------
     // Initialise useForm avec le type FormValues pour bénéficier de la validation typée.
-    // Récupère register pour lier les champs, handleSubmit pour gérer la soumission,
+    // Récupère register, reset pour lier les champs, handleSubmit pour gérer la soumission,
     // et errors pour afficher les messages d'erreur liés à chaque champ.
     // -----------------------------------------------------------------------------------
     const { 
+      reset,
       register, 
       handleSubmit, 
       formState: { errors, dirtyFields }, 
@@ -290,9 +304,11 @@
     // Traitement métier pour la page.
     // -----------------------------------------------
     async function validateAndExecuteForm(data: FormValues): Promise<boolean> {
+      console.log("Validation exécutée :", data);
       [protected ('validate form [vc.nameElementId()/]'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
         return data.IdentifiantInput === "12345" && data.passwordInput === "azerty";
       [/protected]
+      return true;
     }
     
     // -----------------------------------------------------
@@ -301,6 +317,7 @@
     const onSubmit = async (data: FormValues) => {
       console.log("Formulaire soumis :", data);
       const isValid = await validateAndExecuteForm(data);
+      
       if (!isValid) {
         setGlobalMessage({
           text: "[form.get_metaTextError()/]",
@@ -308,6 +325,29 @@
         });
         return;
        }
+       
+       [if (vc.useTablesEdition())]
+         // ------------------------------------------------------
+         // Gestion des fenêtres modales pour les tables éditables.
+         // ------------------------------------------------------
+         if (!currentTable || !currentRow) return;
+         [comment on doit obligatoirement avoir un formulaire associé./]
+         const updatedRow = ['['/][for (e | vc.eAllContents(view::ViewContainer)
+                                    ->select(o | o.isFormPanel())->first().ownedElements
+                                    ->select(o | o.isEligibleForFormValues()))]
+                                    data.[e.nameElementId()/], [/for][']'/];
+         
+         [for (tb | vc.eAllContents(view::ViewContainer)
+           ->select(o | o.isTable() and o.useButtonEdition()))]
+           if (currentTable === "[tb.nameElementId()/]") {
+              setData_[tb.nameElementId()/](prev =>
+              prev.map(row => (row['['/]0[']'/] === currentRow['['/]0[']'/] ? updatedRow : row))
+              );
+           } 
+         [/for]
+         modal.close();
+       [/if]
+       
        setGlobalMessage({
           text: "[form.get_metaTextSuccess()/]",
           severity: "success",
@@ -358,7 +398,7 @@
 [comment écriture des imports pour la page (panel / header / footer / etc..)./]
 [template private writeAdditionalWidgetImports(vc : view::ViewContainer, ui : Boolean)]
   [if (ui)]
-    [for (ve | vc.get_viewElementForImports()->reject(o | o.isModalPanel()))]
+    [for (ve | vc.get_viewElementForImports()->reject(o | o.isTableEditor()))]
       import { [ve.widget.implementation.trim()/] } from "[ve.reactUriForElement()/]/[ve.widget.implementation.trim()/]";
     [/for]
     [if (vc.useLogos())]
@@ -375,19 +415,13 @@
     [/if]
     [if (vc.useTables())]
       [let tbls =  vc.eAllContents(view::ViewContainer)->select(o | o.isTable())]
-        import React, { useEffect, useState } from "react";
-        import { Button } from "@codegouvfr/react-dsfr/Button"; [comment si table éditable./]
+        import { useEffect, useState } from "react";
         [for (tb | tbls)]
           import { getFakeTableData_[tb.nameElementId()/] } from "[vc.nameDirectoryPagesServiceForAppTsx()/]/[vc.namePageServiceJsx()/]";
         [/for]
       [/let]
-      [if (not (vc.eAllContents()->select(o | o.isModalPanel())->isEmpty()))]
-        import { createModal } from "@codegouvfr/react-dsfr/Modal";
-        
-        // --------------------------------------------------------------------
-        // Toujours appeler createModal hors du composant, juste après imports.
-        // --------------------------------------------------------------------
-        const modal = createModal({ id: "edit-row-modal", isOpenedByDefault: false });
+      [if (vc.useTablesEdition())]
+        [vc.writeSpecificModalWidgetImport()/]
       [/if]
     [/if]
   
@@ -396,4 +430,14 @@
       import { fakerFR } from '@faker-js/faker';
     [/if]
   [/if]
+[/template]
+
+[comment .écriture de l'import pour la fenêtre modale + initialisation de la fenêtre./]
+[template private writeSpecificModalWidgetImport(vc : view::ViewContainer)]
+  import { createModal } from "@codegouvfr/react-dsfr/Modal";
+  
+  // --------------------------------------------------------------------
+  // Toujours appeler createModal hors du composant, juste après imports.
+  // --------------------------------------------------------------------
+  const modal = createModal({ id: "edit-row-modal", isOpenedByDefault: false });
 [/template]

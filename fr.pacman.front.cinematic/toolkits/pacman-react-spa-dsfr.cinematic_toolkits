@@ -449,6 +449,14 @@
     <metadataDefinitions xmi:id="_jN0WMKgeEfCTqq3EQF3Ssg" technicalid="_itvH8qgeEfCTqq3EQF3Ssg" title="WITH_EDITION" body="false"/>
   </widgets>
   <widgets xmi:id="_FFo9UKgAEfCTqq3EQF3Ssg" technicalid="_EanqYKgAEfCTqq3EQF3Ssg" name="TableColumn" icon="/fr.pacman.front.cinematic/icons/Table.png"/>
+  <widgets xmi:id="_WW938KjAEfCKhL2f6wtZwA" technicalid="_VSKzEKjAEfCKhL2f6wtZwA" name="TableEditor" icon="/fr.pacman.front.cinematic/icons/Modal.png" implementation="createModal" isContainer="true" documentation="Concentrer l’attention  sur une tâche ou un élément d’information, sans perdre le contexte de la page en cours.">
+    <possibleEvents xmi:id="_WW938ajAEfCKhL2f6wtZwA" technicalid="_VSKzFajAEfCKhL2f6wtZwA" name="onLoad"/>
+    <possibleEvents xmi:id="_WW938qjAEfCKhL2f6wtZwA" technicalid="_VSKzEqjAEfCKhL2f6wtZwA" name="onOpen"/>
+    <possibleEvents xmi:id="_WW9386jAEfCKhL2f6wtZwA" technicalid="_VSKzEajAEfCKhL2f6wtZwA" name="onClose"/>
+    <possibleEvents xmi:id="_WW939KjAEfCKhL2f6wtZwA" technicalid="_VSKzE6jAEfCKhL2f6wtZwA" name="onEscapeKeyDown"/>
+    <possibleEvents xmi:id="_WW939ajAEfCKhL2f6wtZwA" technicalid="_VSKzFqjAEfCKhL2f6wtZwA" name="onClickOutside"/>
+    <possibleEvents xmi:id="_WW939qjAEfCKhL2f6wtZwA" technicalid="_VSKzFKjAEfCKhL2f6wtZwA" name="onFocusTrap"/>
+  </widgets>
   <widgets xmi:id="_tKQK8JH1EfCF6-2aQyGFWw" technicalid="_s8QLMJH1EfCF6-2aQyGFWw" name="Tag" icon="/fr.pacman.front.cinematic/icons/Tag.png" documentation=" Catégoriser, classer, organiser les contenus d’un site à l’aide de mots clés. ">
     <possibleEvents xmi:id="_eUhA4JMVEfCWNsj-B1W6Gw" technicalid="_b1Xd4JMVEfCWNsj-B1W6Gw" name="onClick"/>
     <possibleEvents xmi:id="_fdOVYJMVEfCWNsj-B1W6Gw" technicalid="_fJ04QJMVEfCWNsj-B1W6Gw" name="onFocus"/>

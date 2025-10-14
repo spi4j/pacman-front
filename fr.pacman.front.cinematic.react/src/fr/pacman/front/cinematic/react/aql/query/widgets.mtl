@@ -26,7 +26,11 @@
 [query public useTables(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.isTable())->isEmpty()/]
   
-[query public useEditionButton(vc : view::AbstractViewElement) : Boolean = vc.isTable() and vc.hasMetaTableEdition() 
+[comment vérifie si la page en cours utilise une (ou plusieurs) table(s) en édition./]
+[query public useTablesEdition(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
+  ->select(o | o.isTable() and o.useButtonEdition())->isEmpty()/]
+  
+[query public useButtonEdition(vc : view::AbstractViewElement) : Boolean = vc.isTable() and vc.hasMetaTableEdition() 
   and 'true'.equalsIgnoreCase(vc.get_metaTableEdition())/]
   
 [comment vérifie si la page en cours utilise une (ou plusieurs) radio(s)./]
@@ -38,8 +42,8 @@
   ->select(o | o.isLogo())->isEmpty()/]
   
 [comment retourne le formulaire pour la page (si existe)./]
-[query public form(vc : view::ViewContainer) : view::AbstractViewElement = vc.eContents()
-  ->select(e | e.oclIsKindOf(view::AbstractViewElement))->select(e | e.isFormPanel())->first()/]
+[query public form(vc : view::ViewContainer) : view::AbstractViewElement = vc.eAllContents(view::ViewContainer)
+  ->select(e | e.isFormPanel())->first()/]
   
 [comment vérifie si l'application utilise un en-tete et/ou un pied de page./]
 [query public useHFViews(r :cinematic::CinematicRoot) : Boolean = r.eAllContents(view::AbstractViewElement)

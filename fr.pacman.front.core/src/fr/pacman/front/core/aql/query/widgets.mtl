@@ -39,6 +39,8 @@
 
 [query public isLogoOfficial(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('LogoOfficial')/]
 
+[query public isTableEditor(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('TableEditor')/]
+  
 [query public isSearch(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Search')/]
 
 [query public isConnect(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Connect')/]

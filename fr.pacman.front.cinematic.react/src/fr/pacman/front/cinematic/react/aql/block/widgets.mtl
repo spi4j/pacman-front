@@ -61,6 +61,8 @@
     [ve.writeInput()/]
   [elseif (ve.isLink())]
     [ve.writeLink()/]
+  [elseif (ve.isModalPanel())]
+    [ve.writeModalPanel()/]
   [elseif (ve.isLogo())]
     [ve.writeLogo()/]
   [elseif (ve.isNavigation())]
@@ -87,6 +89,8 @@
     [ve.writeSelect()/]
   [elseif (ve.isShare())]
     [ve.writeShare()/]
+  [elseif (ve.isTableEditor())]
+    [ve.writeTableEditor()/]
   [elseif (ve.isSideMenu())]
     [ve.writeSideMenu()/]
   [elseif (ve.isSkipLink())]
@@ -145,6 +149,8 @@
     [ve.writeCloseTable()/]
   [elseif (ve.isFormPanel())]
     [ve.writeCloseForm()/]
+  [elseif (ve.isTableEditor())]
+    [ve.writeCloseTableEditor()/]   
   [elseif (ve.isUser())]
   [elseif (ve.isRadioPanel())]
     [ve.writeCloseRadioPanel(insideHL)/]
@@ -158,8 +164,8 @@
   <Accordion 
     label="[ve.label/]"
     [if (ve.hasMetaExpanded() and 'true'.equalsIgnoreCase(ve.get_metaExpended()))]
-       onExpandedChange={function noRefCheck(){}}
-       defaultExpanded
+      onExpandedChange={function noRefCheck(){}}
+      defaultExpanded
     [/if]
   >
 [/template]
@@ -654,6 +660,7 @@
 [template private writeTableColumn(ve : view::AbstractViewElement)]
 [/template]
 
+[comment prépare multi-tables mais pour l'instant bloque à une seule table éditable./]
 [template private writeTable (ve : view::AbstractViewElement)]
   <Table 
     fixed
@@ -661,7 +668,7 @@
     caption="[ve.label/]"
     data={
       data_[ve.nameElementId()/]
-      [if (ve.useEditionButton())]
+      [if (ve.useButtonEdition())]
         .map((row) => ['['/]
           ...row,
           <Button
@@ -677,25 +684,33 @@
     }
 [/template]
 
+[comment prépare multi-tables mais pour l'instant bloque à une seule table éditable./]
 [template private writeCloseTable (ve : view::AbstractViewElement)]
   headers={['['/]
   [for (el | ve.oclAsType(view::ViewContainer).ownedElements)]
     "[el.label/]",
   [/for]
-  [if (ve.useEditionButton())]
+  [if (ve.useButtonEdition())]
     "Edition",
   [/if]
   [']'/]}/>
-  
-  [if (ve.useEditionButton())]
-    {currentRow && (
-      <modal.Component title={`Modifier la ligne (${currentTable})`} onClose={handleClose}>
-        <div>
-          {currentRow.map((cell, i) => <div key={i}>{cell}</div>)}
-        </div>
-      </modal.Component>
-    )}  
-  [/if]
+[/template]
+
+[comment prépare multi-tables mais pour l'instant bloque à une seule table éditable./]
+[template private writeTableEditor(ve : view::AbstractViewElement)]
+  {currentRow && (
+  <modal.Component 
+    className="modal-auto-size"
+    title="[ve.label/]" 
+    onClose={handleClose}>
+    <div>
+[/template]
+
+[comment prépare multi-tables mais pour l'instant bloque à une seule table éditable./]
+[template private writeCloseTableEditor(ve : view::AbstractViewElement)]
+  </div>
+  </modal.Component>
+  )}  
 [/template]
 
 [template private writeTabLine(ve : view::AbstractViewElement)]
@@ -721,6 +736,9 @@
       }}
     />
   [/let]
+[/template]
+
+[template private writeModalPanel (ve : view::AbstractViewElement)]
 [/template]
 
 [template private writeTootip (ve : view::AbstractViewElement)]
