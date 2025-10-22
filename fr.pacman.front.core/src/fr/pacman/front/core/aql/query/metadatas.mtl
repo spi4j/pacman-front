@@ -3,7 +3,12 @@
 
 [import fr::pacman::front::core::service::AnnotationUtils/]
 
-
+[query public hasMetaStyle(e : view::AbstractViewElement) : Boolean = e.has_metaInlineStyle() and e.get_metaInlineStyle().trim().size() > 0/]
+[query public hasMetaSize(e : view::AbstractViewElement) : Boolean = e.has_metaSize() and e.get_metaSize().trim().size() > 0/]
+[query public hasMetaFontSize(e : view::AbstractViewElement) : Boolean = e.has_metaFontSize() and e.get_metaFontSize().trim().size() > 0/]
+[query public hasMetaMoreInfos(e : view::AbstractViewElement) : Boolean = e.has_metaMoreInformations() and e.get_metaMoreInformations().trim().size() > 0/]
+[query public hasMetaMaxWidth(e : view::AbstractViewElement) : Boolean = e.has_metaMaxWidth() and e.get_metaMaxWidth().trim().size() > 0/]
+[query public hasMetaMaxHeight(e : view::AbstractViewElement) : Boolean = e.has_metaMaxHeight() and e.get_metaMaxHeight().trim().size() > 0/]
 [query public hasMetaTableEdition(e : view::AbstractViewElement) : Boolean = e.has_metaTableEdition() and e.get_metaTableEdition().trim().size() > 0/]
 [query public hasMetaTableColor(e : view::AbstractViewElement) : Boolean = e.has_metaTableColor() and e.get_metaTableColor().trim().size() > 0/]
 [query public hasMetaDisplay(e : view::AbstractViewElement) : Boolean = e.has_metaDisplay() and e.get_metaDisplay().trim().size() > 0/]
@@ -23,7 +28,7 @@
 [query public hasMetaButtonAddon(e : view::AbstractViewElement) : Boolean = e.has_metaButtonAddOn() and e.get_metaButtonAddOn().trim().size() > 0/]
 [query public hasMetaButtonAction(e : view::AbstractViewElement) : Boolean = e.has_metaButtonAction() and e.get_metaButtonAction().trim().size() > 0/]
 [query public hasMetaIcon(e : view::AbstractViewElement) : Boolean = e.has_metaIcon() and e.get_metaIcon().trim().size() > 0/]
-[query public hasPattern(e : view::AbstractViewElement) : Boolean = e.has_metaRegexPattern() and e.get_metaRegexPattern().trim().size() > 0/]
+[query public hasMetaPattern(e : view::AbstractViewElement) : Boolean = e.has_metaRegexPattern() and e.get_metaRegexPattern().trim().size() > 0/]
 [query public hasMetaNbRequired(e : view::AbstractViewElement) : Boolean = e.has_metaRequired() and e.get_metaRequired().toInteger() > 0/]
 [query public hasMetaSteps(e : view::AbstractViewElement) : Boolean = e.has_metaSteps() and e.get_metaSteps().toInteger() > 0/]
 [query public hasMetaDouble(e : view::AbstractViewElement) : Boolean = e.has_metaDouble() and e.get_metaDouble().toBoolean()/]

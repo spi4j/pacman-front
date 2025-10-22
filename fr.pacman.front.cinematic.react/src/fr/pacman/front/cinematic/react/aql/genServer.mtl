@@ -19,6 +19,7 @@
   [for (vc : view::ViewContainer | vs.viewContainers)]
     [if (vc.isViewPanel())]
       [vc.filePageJsxImpl(vs)/]
+      [vc.filePageMockJsxImpl(vs)/]
       [vc.filePageServiceJsxImpl(vs)/]
     [/if]
   [/for]

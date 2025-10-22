@@ -489,4 +489,52 @@ public final class AnnotationUtils {
 	public static String get_metaTableEdition(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_TABLE_EDITION);
 	}
+	
+	public static boolean has_metaMaxWidth(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_MAX_WIDTH);
+	}
+
+	public static String get_metaMaxWidth(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_MAX_WIDTH);
+	}
+	
+	public static boolean has_metaMaxHeight(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_MAX_HEIGHT);
+	}
+
+	public static String get_metaMaxHeight(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_MAX_HEIGHT);
+	}
+	
+	public static boolean has_metaMoreInformations(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_MORE_INFORMATIONS);
+	}
+
+	public static String get_metaMoreInformations(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_MORE_INFORMATIONS);
+	}
+	
+	public static boolean has_metaSize(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_SIZE);
+	}
+
+	public static String get_metaSize(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_SIZE);
+	}
+	
+	public static boolean has_metaFontSize(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_FONT_SIZE);
+	}
+
+	public static String get_metaFontSize(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_FONT_SIZE);
+	}
+	
+	public static boolean has_metaInlineStyle(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_STYLE);
+	}
+
+	public static String get_metaInlineStyle(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_STYLE);
+	}
 }

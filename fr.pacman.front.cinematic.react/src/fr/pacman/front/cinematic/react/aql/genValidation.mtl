@@ -5,4 +5,7 @@
 [comment @main/]
 [comment lancement de la validation pour la modélisation./]
 [template public genValidation(r:cinematic::CinematicRoot)]
+  [comment pas de view sans state/]
+  [comment une seule view par state/]
+  [comment pas d'image sans path/]
 [/template]

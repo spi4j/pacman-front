@@ -1,33 +1,35 @@
 [module widgets(	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
 					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0')/]
 
-[query public isPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Panel')/]
+[query public isPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('PanelSimple')/]
   
-[query public isMainPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('MainPanel')/]
+[query public isMainPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('PanelMain')/]
 
-[query public isFooterPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Footer')/]
+[query public isFooterPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('PanelFooter')/]
 
-[query public isHeaderPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Header')/]
+[query public isHeaderPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('PanelHeader')/]
 
 [query public isErrorPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Error')/]
 
-[query public isFormPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Form')/]
+[query public isFormPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('PanelForm')/]
   
-[query public isBlocPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Bloc')/]
+[query public isBlocPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('PanelBloc')/]
   
-[query public isModalPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('ModalPanel')/]
+[query public isModalPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('PanelModal')/]
 
 [query public isButton(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Button')/]
   
 [query public isButtonSubmit(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('ButtonSubmit')/]
   
-[query public isRadioPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('RadioPanel')/]
+[query public isRadioGroup(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('GroupRadio')/]
     
-[query public isCheckBoxPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('CheckBoxPanel')/]
+[query public isCheckBoxGroup(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('GroupCheckBox')/]
+  
+[query public isAccordionGroup(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('GroupAccordion')/]
+  
+[query public isTabGroup(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('GroupTab')/]
   
 [query public isAccordion(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Accordion')/]
-  
-[query public isAccordionPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('AccordionPanel')/]
   
 [query public isAlert(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Alert')/] 
   
@@ -91,17 +93,19 @@
   
 [query public isSideMenu(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('SideMenu')/]
   
+[query public isImage(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Image')/]
+  
 [query public isCallOut(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('CallOut')/]
   
 [query public isHighLight(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('HighLight')/]
   
 [query public isPassword(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Password')/]
   
-[query public isNavigation(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Navigation')/]
+[query public isNavigationGroup(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('GroupNavigation')/]
   
 [query public isNavigationMenu(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('NavigationMenu')/]
   
-[query public isNavigationQuick(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('NavigationDirectAccess')/]
+[query public isNavigationQuick(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('GroupNavigationDirect')/]
   
 [query public isNavigationElement(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('NavigationElement')/]
 
@@ -112,8 +116,6 @@
 [query public isTabNav(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('TabNav')/]
   
 [query public isTab(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Tab')/]
-  
-[query public isTabPanel(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('TabPanel')/]
   
 [query public isPagination(viewElement : view::AbstractViewElement) : Boolean = viewElement.isType('Pagination')/]
   

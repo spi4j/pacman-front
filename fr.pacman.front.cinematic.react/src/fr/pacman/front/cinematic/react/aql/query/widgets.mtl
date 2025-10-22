@@ -37,9 +37,13 @@
 [query public useRadiosWithIcon(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.isRadio() and o.has_metaIcon())->isEmpty()/]
   
-[comment vérifie si la page en cours utilise une (ou plusieurs) logo(s)./]
+[comment vérifie si la page en cours utilise un (ou plusieurs) logo(s)./]
 [query public useLogos(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.isLogo())->isEmpty()/]
+
+[comment vérifie si la page en cours utilise une (ou plusieurs) image(s)./]
+[query public useImages(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
+  ->select(o | o.isImage())->isEmpty()/]
   
 [comment retourne le formulaire pour la page (si existe)./]
 [query public form(vc : view::ViewContainer) : view::AbstractViewElement = vc.eAllContents(view::ViewContainer)
@@ -76,7 +80,7 @@ de vérification sur le contenu, ne devrait pas avoir de null car vérifié aupa
 propriété help qui n'est pas visible, si help = true alors c'est un tableau sinon juste le type./]
 [query public typeForElement(e : view::AbstractViewElement) : String = if (e.oclIsKindOf(view::ViewElement)) then 
   e.oclAsType(view::ViewElement).type.name.typeJSForElement() else e.oclAsType(view::AbstractViewElement)
-  .eAllContents(view::ViewElement)->first().typeForElement() endif + if (e.isCheckBoxPanel()) then '[]' else '' endif/]
+  .eAllContents(view::ViewElement)->first().typeForElement() endif + if (e.isCheckBoxGroup()) then '[]' else '' endif/]
   
 [comment retourne le transtypage des types pour javascript./]
 [query private typeJSForElement(t : String) : String = if ('String'.equalsIgnoreCase(t)) then 'string' 

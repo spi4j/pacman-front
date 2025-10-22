@@ -22,6 +22,13 @@
   [/file]
 [/template]
 
+[comment écriture du fichier d'implémentation pour une page de service mock react./]
+[template public filePageMockJsxImpl(vc : view::ViewContainer, vs : flow::ViewState)]
+  [file (vc.namePageMockJsx().toFileTypeScriptJsx(vc.nameDirectoryPagesMockJsx()), overwrite, vc.defaultFileEncoding())]
+    [vc.pageMockJsxImpl(vs)/]
+  [/file]
+[/template]
+
 [comment écriture du fichier central pour le pilotage des pages en react (views)./]
 [template public filePageAppTsxImpl(r : cinematic::CinematicRoot)]
   [file (r.namePageAppTsx().toFileTypeScriptJsx(r.nameDirectorySources()), overwrite, r.defaultFileEncoding())]

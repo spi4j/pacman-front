@@ -6,14 +6,23 @@
 [comment retourne le répertoire pour le stockage des pages de service en react./]
 [query public nameDirectoryPagesServiceJsx(any : ecore::EObject) : String = 'src/services'/]
   
+[comment retourne le répertoire pour le stockage des pages de service mock en react./]
+[query public nameDirectoryPagesMockJsx(any : ecore::EObject) : String = 'src/mocks'/]
+  
 [comment retourne le répertoire pour le stockage des pages en react./]
 [query public nameDirectoryPagesForAppTsx(any : ecore::EObject) : String = './pages'/]
   
 [comment retourne le répertoire pour le stockage des pages de service en react./]
 [query public nameDirectoryPagesServiceForAppTsx(any : ecore::EObject) : String = '../services'/]
+  
+[comment retourne le répertoire pour le stockage des pages de service mock en react./]
+[query public nameDirectoryPagesMockForAppTsx(any : ecore::EObject) : String = '../mocks'/]
+  
+[comment retourne le répertoire pour le stockage des images./]
+[query public nameDirectoryImages(any : ecore::EObject) : String = '../assets/imgs'/]
+  
+[comment retourne le répertoire pour le stockage des resources dsfr./]
+[query public nameDirectoryDsfr(any : ecore::EObject) : String = '/dsfr'/]
 
 [comment retourne le répertoire des sources en react./]
 [query public nameDirectorySources(any : ecore::EObject) : String = 'src'/]
-
-[comment retourne le répoertoire de stockage des images./]
-[query public nameDirImages(any : ecore::EObject) : String = '../assets/imgs'/]

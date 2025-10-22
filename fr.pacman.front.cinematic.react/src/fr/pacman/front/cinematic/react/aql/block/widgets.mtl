@@ -19,12 +19,12 @@
 [template public writeOpenViewElement(ve : view::AbstractViewElement, insideHL :: Boolean)]
   [if (ve.isAccordion())]
     [ve.writeAccordion()/]
-  [elseif (ve.isAccordionPanel())]
-    [ve.writeAccordionPanel()/]
-  [elseif (ve.isRadioPanel())]
-    [ve.writeRadioPanel()/]
-  [elseif (ve.isCheckBoxPanel())]
-    [ve.writeCheckBoxPanel()/]
+  [elseif (ve.isAccordionGroup())]
+    [ve.writeAccordionGroup()/]
+  [elseif (ve.isRadioGroup())]
+    [ve.writeRadioGroup()/]
+  [elseif (ve.isCheckBoxGroup())]
+    [ve.writeCheckBoxGroup()/]
   [elseif (ve.isAlert())]
     [ve.writeAlert()/]
   [elseif (ve.isBadge())]
@@ -33,6 +33,8 @@
     [ve.writeBreadCrumb()/]
   [elseif (ve.isButton())]
     [ve.writeButton()/]
+   [elseif (ve.isImage())]
+    [ve.writeImage()/]   
   [elseif (ve.isButtonSubmit())]
     [ve.writeButtonSubmit()/]
   [elseif (ve.isCallOut())]
@@ -65,8 +67,8 @@
     [ve.writeModalPanel()/]
   [elseif (ve.isLogo())]
     [ve.writeLogo()/]
-  [elseif (ve.isNavigation())]
-    [ve.writeNavigation()/]
+  [elseif (ve.isNavigationGroup())]
+    [ve.writeNavigationGroup()/]
   [elseif (ve.isNotice())]
     [ve.writeNotice()/]
   [elseif (ve.isText())]
@@ -101,8 +103,8 @@
     [ve.writeSummary()/]
   [elseif (ve.isTab())]
     [ve.writeTab()/]
-  [elseif (ve.isTabPanel())]
-    [ve.writeTabPanel()/]
+  [elseif (ve.isTabGroup())]
+    [ve.writeTabGroup()/]
   [elseif (ve.isTabNav())]
     [ve.writeTabNav()/]
   [elseif (ve.isTable())]
@@ -139,12 +141,12 @@
 [template public writeCloseViewElement(ve : view::AbstractViewElement, insideHL :: Boolean)]
   [if (ve.isAccordion())]
     [ve.writeCloseAccordion()/]
-  [elseif (ve.isAccordionPanel())]
-    [ve.writeCloseAccordionPanel()/]
+  [elseif (ve.isAccordionGroup())]
+    [ve.writeCloseAccordionGroup()/]
   [elseif (ve.isTab())]
     [ve.writeCloseTab()/]
-  [elseif (ve.isTabPanel())]
-    [ve.writeCloseTabPanel()/]
+  [elseif (ve.isTabGroup())]
+    [ve.writeCloseTabGroup()/]
   [elseif (ve.isTable())]
     [ve.writeCloseTable()/]
   [elseif (ve.isFormPanel())]
@@ -152,10 +154,10 @@
   [elseif (ve.isTableEditor())]
     [ve.writeCloseTableEditor()/]   
   [elseif (ve.isUser())]
-  [elseif (ve.isRadioPanel())]
-    [ve.writeCloseRadioPanel(insideHL)/]
-  [elseif (ve.isCheckBoxPanel())]
-    [ve.writeCloseCheckBoxPanel(insideHL)/]
+  [elseif (ve.isRadioGroup())]
+    [ve.writeCloseRadioGroup(insideHL)/]
+  [elseif (ve.isCheckBoxGroup())]
+    [ve.writeCloseCheckBoxGroup(insideHL)/]
   [else]
   [/if]
 [/template]
@@ -174,22 +176,22 @@
   </Accordion>
 [/template]
 
-[template private writeAccordionPanel (ve : view::AbstractViewElement)]
+[template private writeAccordionGroup (ve : view::AbstractViewElement)]
   <div className={fr.cx("fr-accordions-group")}>
 [/template]
 
-[template private writeCloseAccordionPanel (ve : view::AbstractViewElement)]
+[template private writeCloseAccordionGroup (ve : view::AbstractViewElement)]
   </div>
 [/template]
 
-[template private writeRadioPanel (ve : view::AbstractViewElement)]
+[template private writeRadioGroup (ve : view::AbstractViewElement)]
   <RadioButtons 
     hintText="[ve.description/]"
     legend="[ve.label/]" 
     options={['['/]
 [/template]
 
-[template private writeCloseRadioPanel (ve : view::AbstractViewElement, insideHL :: Boolean)]
+[template private writeCloseRadioGroup (ve : view::AbstractViewElement, insideHL :: Boolean)]
   [']'/]}
   [if (insideHL)]
     orientation="horizontal"
@@ -215,14 +217,14 @@
     },
 [/template]
  
-[template private writeCheckBoxPanel (ve : view::AbstractViewElement)]
+[template private writeCheckBoxGroup (ve : view::AbstractViewElement)]
   <Checkbox
     hintText="[ve.description/]"
     legend="[ve.label/]"
     options={['['/]
 [/template]
 
-[template private writeCloseCheckBoxPanel (ve : view::AbstractViewElement, insideHL :: Boolean)]
+[template private writeCloseCheckBoxGroup (ve : view::AbstractViewElement, insideHL :: Boolean)]
   [']'/]}
   [if (insideHL)]orientation="horizontal"[/if]
         state={errors.[ve.nameElementId()/] ? "error" : dirtyFields.[ve.nameElementId()/] ? "success" : "info"}
@@ -274,6 +276,17 @@
   )}
 [/template]
 
+[template public writeFormAlert (ve : view::AbstractViewElement)]
+  {globalMessage && (
+    <Alert
+      severity={globalMessage.severity}
+      title=""
+      description={globalMessage.text}
+      closable
+    />
+  )}
+[/template]
+
 [template private writeBadge (ve : view::AbstractViewElement)]
 [/template]
 
@@ -316,13 +329,18 @@
 [/template]
 
 [template private writeForm (ve : view::AbstractViewElement)]
-   <form onSubmit={handleSubmit(onSubmit)}>
-     <fieldset className="fr-fieldset" aria-labelledby="text-legend-[ve.nameElementId()/]">
-       <legend className="fr-fieldset__legend" id="text-legend-[ve.nameElementId()/]">
+   <form onSubmit={handleSubmit(onSubmit)} 
+   [if (ve.hasMetaStyle())]
+     style={{
+       [ve.get_metaInlineStyle()/]
+     }}[/if]>
+     <fieldset className="fr-fieldset fr-fieldset__legend-adjusted" aria-labelledby="text-legend-[ve.nameElementId()/]">
+       <legend className="fr-fieldset__legend fr-h4" id="text-legend-[ve.nameElementId()/]">
           [ve.label/]
           <span className="fr-hint-text">[ve.description/]</span>
        </legend>
      <div style={{ width: "100%" }}>
+       [ve.writeFormAlert()/]<p/>
 [/template]
 
 [template private writeCloseForm (ve : view::AbstractViewElement)]
@@ -333,6 +351,8 @@
 
 [template private writeHighLight (ve : view::AbstractViewElement)]
   <Highlight>
+    [ve.label/]
+    [if (ve.label <> null and ve.label.trim().size() > 0)] - [/if]
     [ve.description/]
   </Highlight>
 [/template]
@@ -388,7 +408,8 @@
     nativeInputProps={{
     ...getRegisterProps("[ve.nameElementId()/]", { 
     [if (v.required)]required: "[ve.get_metaTextError()/]", [/if]
-    [if (v.hasPattern())]validate: (value) => /[ve.get_metaRegexPattern()/]/.test(value) || "[ve.get_metaTextError()/]",[/if]
+    [if (v.hasMetaPattern())]validate: (value) => 
+    new RegExp("[ve.get_metaRegexPattern()/]").test(value) || "[ve.get_metaTextError()/]",[/if]
     }),
     type:"[type/]",
     placeholder: "[ve.get_metaTextPlaceHolder()/]",
@@ -406,6 +427,11 @@
 [/template]
 
 [template private writeLink (ve : view::AbstractViewElement)]
+  [let url = ve.urlForPageJsx()]
+    <a href="/[url/]" class="fr-link">
+      [ve.label/]
+    </a>
+  [/let]
 [/template]
 
 [template private writeLogo (ve : view::AbstractViewElement)]
@@ -439,15 +465,15 @@
     [/if]
 [/template]
 
-[template private writeNavigation (ve : view::AbstractViewElement)]
+[template private writeNavigationGroup (ve : view::AbstractViewElement)]
   [if (not ve.eAllContents(view::AbstractViewElement)
-    ->select(o | o.isNavigation())->isEmpty())]
+    ->select(o | o.isNavigationGroup())->isEmpty())]
     [let nav = ve.eAllContents(view::AbstractViewElement)
-      ->select(o1 | o1.isNavigation())->first()]
+      ->select(o1 | o1.isNavigationGroup())->first()]
       navigation={['['/]
       [comment accès direct sans menu./]
       [for (el | nav.eAllContents(view::AbstractViewElement)
-        ->select(o3 | o3.isNavigationElement() and o3.eContainer().isNavigation()))]
+        ->select(o3 | o3.isNavigationElement() and o3.eContainer().isNavigationGroup()))]
         {  
            isActive: location.pathname === "/[el.urlForPageJsx()/]",
            linkProps: {
@@ -529,7 +555,7 @@
 [/template]
 
 [template private writeText (ve : view::AbstractViewElement)]
-  [ve.label/]
+  [ve.label/] [ve.description/]
 [/template]
 
 [template private writeNotice (ve : view::AbstractViewElement)]
@@ -537,16 +563,18 @@
     description="[ve.description/]"
     iconDisplayed
     [if (ve.hasMetaClosable() and 'true'.equalsIgnoreCase(ve.get_metaClosable()))]isClosable[/if]
-    link={{
-      linkProps: {
-        href: "#"
-      },
-      text: "Plus d'informations"
-    }}
+    [if (ve.hasMetaMoreInfos())]
+      link={{
+        linkProps: {
+          href: "#"
+        },
+        text: "Plus d'informations"
+      }}
+    [/if]
     onClose={function noRefCheck(){}}
     severity="[if (ve.hasMetaSeverity())][ve.get_metaSeverity()/][else]info[/if]"
     title="[ve.label/]"
-  />
+  /><p/>
 [/template]
 
 [template private writePagination (ve : view::AbstractViewElement)]
@@ -586,6 +614,14 @@
     defaultValue="France"
     onButtonClick={function noRefCheck(){}}
   />
+[/template]
+
+[template private writeImage(ve : view::AbstractViewElement)]
+  <img
+    src={[ve.nameElementId()/]}
+    alt="[ve.description/]"
+    className="fr-responsive-img"
+  /><p/>
 [/template]
 
 [template private writeSegmented (ve : view::AbstractViewElement)]
@@ -644,13 +680,13 @@
   },
 [/template]
 
-[template private writeTabPanel (ve : view::AbstractViewElement)]
+[template private writeTabGroup (ve : view::AbstractViewElement)]
   <Tabs
     onTabChange={function noRefCheck(){}}
     tabs={['['/]
 [/template]
 
-[template private writeCloseTabPanel (ve : view::AbstractViewElement)]
+[template private writeCloseTabGroup (ve : view::AbstractViewElement)]
   [']'/]}/>
 [/template]
 
@@ -698,12 +734,15 @@
 
 [comment prépare multi-tables mais pour l'instant bloque à une seule table éditable./]
 [template private writeTableEditor(ve : view::AbstractViewElement)]
-  {currentRow && (
+  {currentRow && currentTable && (
   <modal.Component 
     className="modal-auto-size"
     title="[ve.label/]" 
     onClose={handleClose}>
-    <div>
+    <div [if (ve.hasMetaMaxWidth() or ve.hasMetaMaxHeight())] style={{ 
+       [if (ve.hasMetaMaxWidth())] width: "[ve.get_metaMaxWidth()/]"[if (ve.hasMetaMaxHeight())],[/if][/if]
+       [if (ve.hasMetaMaxHeight())] height: "[ve.get_metaMaxHeight()/]"[/if]
+    }}[/if]>
 [/template]
 
 [comment prépare multi-tables mais pour l'instant bloque à une seule table éditable./]
@@ -720,6 +759,27 @@
 [/template]
 
 [template private writeTile (ve : view::AbstractViewElement)]
+  <div
+    className="container"
+    style={{
+      width: [if (ve.hasMetaSize())][ve.get_metaSize()/][else]360[/if]
+    }}
+  >
+    <Tile
+      detail="[ve.description/]"
+      enlargeLinkOrButton
+      [if (ve.has_metaImg())]
+        imageSvg
+        imageUrl="[ve.nameDirectoryDsfr()/]/[ve.get_metaImg()/]"
+      [/if]
+      linkProps={{
+        href: '#'
+      }}
+      orientation="[if (ve.hasMetaOrientation())][ve.get_metaOrientation()/][else]vertical[/if]"
+      title="[ve.label/]"
+      titleAs="h3"
+    />
+  </div>
 [/template]
 
 [template private writeToogle (ve : view::AbstractViewElement)]
@@ -775,7 +835,7 @@
     brandTop={<>[if (ve.hasMetaBrandTop())][ve.get_metaBrandTop()/][else]INTITULE<br />OFFICIEL[/if]</>}
     homeLinkProps={{
     href: "/",
-    title: "[if (ve.hasMetaToolTip())][ve.get_metaTooltip()/]else]Accueil - Nom de l’entité[/if]"
+    title: "[if (ve.hasMetaToolTip())][ve.get_metaTooltip()/][else]Accueil - Nom de l’entité[/if]"
   }}
   id="[ve.nameElementId()/]"
   serviceTagline="[ve.description/]"
@@ -789,7 +849,7 @@
     onSearchButtonClick={function noRefCheck(){}}
   [/if]
   [comment barre de navigation./]
-  [ve.writeNavigation()/]
+  [ve.writeNavigationGroup()/]
   [comment accès direct avec icone./]
   [ve.writeNavigationQuick()/]
   />

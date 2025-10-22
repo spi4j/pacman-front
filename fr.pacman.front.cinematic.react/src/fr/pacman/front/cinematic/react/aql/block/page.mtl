@@ -23,9 +23,12 @@
          au autre formulaire sur la page. -> géré par la validation du modèle./]
 [comment --------------------------------------------------------------------------------]
 
-
 [comment écriture de la page de service (appelée par la page UI)./]
 [template public pageServiceJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
+[/template]
+
+[comment écriture de la page de service mock (appelée par la page UI)./]
+[template public pageMockJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
   [vc.writeAdditionalWidgetImports(false)/]
   
   [if (vc.useTables())]
@@ -84,9 +87,6 @@
     
     return (
       <>
-        [if (vc.useForm())]
-          [vc.writeAlert()/]<p/>
-        [/if]
         [body/]
       </>
     );
@@ -291,7 +291,9 @@
       register, 
       handleSubmit, 
       formState: { errors, dirtyFields }, 
-    } = useForm<FormValues>();
+    } = useForm<FormValues>({
+      mode: "onChange"
+    });
     
     // -----------------------------------
     // Etat générique pour message global.    // -----------------------------------  
@@ -319,10 +321,11 @@
       const isValid = await validateAndExecuteForm(data);
       
       if (!isValid) {
-        setGlobalMessage({
-          text: "[form.get_metaTextError()/]",
-          severity: "error",
+        setGlobalMessage({ 
+           text: "[form.get_metaTextError()/]", 
+           severity: "error",
         });
+        //reset(); 
         return;
        }
        
@@ -348,8 +351,8 @@
          modal.close();
        [/if]
        
-       setGlobalMessage({
-          text: "[form.get_metaTextSuccess()/]",
+       setGlobalMessage({ 
+          text: "[form.get_metaTextSuccess()/]", 
           severity: "success",
        });
        [let onSubmit = vc.eAllContents(view::ViewEvent)->select(e | e.isOnSubmit())]
@@ -404,19 +407,26 @@
     [if (vc.useLogos())]
       [let logo = vc.eAllContents(view::AbstractViewElement)
         ->select(e | e.isLogo())->first()]
-          import opLogo from "[logo.nameDirImages()/]/[logo.get_metaImg()/]";
+        import opLogo from "[logo.nameDirectoryImages()/]/[logo.get_metaImg()/]";
       [/let]
+    [/if]
+    [if (vc.useImages())]
+      [for (i | vc.eAllContents(view::AbstractViewElement)
+        ->select(e | e.isImage()))]
+        import [i.nameElementId()/] from"[i.nameDirectoryImages()/]/[i.get_metaImg()/]";
+      [/for]
     [/if]
     [if (vc.useRadiosWithIcon())]
       [for (r | vc.eAllContents(view::AbstractViewElement)
         ->select(e | e.isRadio() and e.has_metaIcon()))]
-          import [r.nameElementId()/]Ico from "[r.nameDirImages()/]/[r.get_metaIcon()/]";
+          import [r.nameElementId()/]Ico from "[r.nameDirectoryImages()/]/[r.get_metaIcon()/]";
       [/for]
     [/if]
     [if (vc.useTables())]
       [let tbls =  vc.eAllContents(view::ViewContainer)->select(o | o.isTable())]
         import { useEffect, useState } from "react";
         [for (tb | tbls)]
+          import { getFakeTableData_[tb.nameElementId()/] } from "[vc.nameDirectoryPagesMockForAppTsx()/]/[vc.namePageMockJsx()/]";
           import { getFakeTableData_[tb.nameElementId()/] } from "[vc.nameDirectoryPagesServiceForAppTsx()/]/[vc.namePageServiceJsx()/]";
         [/for]
       [/let]
@@ -439,5 +449,8 @@
   // --------------------------------------------------------------------
   // Toujours appeler createModal hors du composant, juste après imports.
   // --------------------------------------------------------------------
-  const modal = createModal({ id: "edit-row-modal", isOpenedByDefault: false });
+  const modal = createModal({ 
+     id: "edit-row-modal", 
+     isOpenedByDefault: false 
+  });
 [/template]
