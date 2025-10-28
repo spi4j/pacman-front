@@ -537,4 +537,20 @@ public final class AnnotationUtils {
 	public static String get_metaInlineStyle(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_STYLE);
 	}
+	
+	public static boolean has_metaArrowType(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_ARROW_TYPE);
+	}
+
+	public static String get_metaArrowType(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_ARROW_TYPE);
+	}
+	
+	public static boolean has_metaCustomCode(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_CUSTOM_CODE);
+	}
+
+	public static String get_metaCustomCode(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_CUSTOM_CODE);
+	}
 }

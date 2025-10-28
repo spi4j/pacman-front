@@ -3,6 +3,8 @@
 
 [import fr::pacman::front::core::service::AnnotationUtils/]
 
+[query public hasMetaCustomCode(e : view::AbstractViewElement) : Boolean = e.has_metaCustomCode() and e.get_metaCustomCode().trim().size() > 0/]
+[query public hasMetaArrowType(e : view::AbstractViewElement) : Boolean = e.has_metaArrowType() and e.get_metaArrowType().trim().size() > 0/]
 [query public hasMetaStyle(e : view::AbstractViewElement) : Boolean = e.has_metaInlineStyle() and e.get_metaInlineStyle().trim().size() > 0/]
 [query public hasMetaSize(e : view::AbstractViewElement) : Boolean = e.has_metaSize() and e.get_metaSize().trim().size() > 0/]
 [query public hasMetaFontSize(e : view::AbstractViewElement) : Boolean = e.has_metaFontSize() and e.get_metaFontSize().trim().size() > 0/]

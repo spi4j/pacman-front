@@ -20,5 +20,5 @@
 [query public nameUrlPageJsx(v : view::ViewContainer): String = if (v.has_metaUrl()) then 
   v.get_metaUrl().replaceAll('/','') else  v.name.replaceAll('\\s+','').toLower() endif/]
   
-[comment retourne le om unique (id) pour un élément de page jsx./]
+[comment retourne le nom unique (id) pour un élément de page jsx./]
 [query public nameElementId(ve : view::AbstractViewElement) : String = ve.name/]

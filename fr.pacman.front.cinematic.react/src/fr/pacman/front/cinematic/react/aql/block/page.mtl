@@ -8,6 +8,7 @@
 [import fr::pacman::front::core::aql::name::directories /]
 [import fr::pacman::front::core::aql::query::eobject/]
 [import fr::pacman::front::core::aql::query::events/]
+[import fr::pacman::front::core::aql::query::metadatas/]
 [import fr::pacman::front::cinematic::react::aql::block::widgets/]
 [import fr::pacman::front::cinematic::react::aql::query::widgets/]
 [import fr::pacman::front::core::aql::query::widgets/]
@@ -34,11 +35,15 @@
   [if (vc.useTables())]
     [for (tb |vc.eAllContents(view::ViewContainer)->select(o | o.isTable()))]
       export function getFakeTableData_[tb.nameElementId()/](nbRows = 10): string['['/][']'/]{
-      return Array.from({ length: nbRows }, () => ['['/]
-         [for (cl | tb.ownedElements)]
-           fakerFR.string.alphanumeric(15),
-         [/for]
-        [']'/] );
+       [protected ('validate form [vc.nameElementId()/]'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+        
+         return Array.from({ length: nbRows }, () => ['['/]
+           [for (cl | tb.ownedElements)]
+             fakerFR.string.alphanumeric(15),
+           [/for]
+          [']'/] );
+          
+       [/protected]
       }
     [/for]
   [/if]
@@ -46,6 +51,10 @@
 
 [comment aiguillage pour l'écriture d'une page typescript + code jsx (panel)./]				
 [template public pageJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
+  import React from "react";
+  import { useEffect, useState } from "react";
+  import { useNavigate, useLocation } from "react-router-dom";
+  import { useAuth } from "../contexts/AuthContext";
   [if (vc.isHeaderPanel() or vc.isFooterPanel())][vc.pageJsxHFImpl(vs)/][else][vc.pageJsxSDImpl(vs)/][/if]
 [/template]
 
@@ -54,7 +63,6 @@
   import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
   [if (vc.isHeaderPanel())]
     import { Header } from "@codegouvfr/react-dsfr/Header";
-    import { useLocation } from "react-router-dom";
   [else]
     import { Footer } from "@codegouvfr/react-dsfr/Footer";
   [/if]
@@ -64,9 +72,7 @@
 [comment écriture d'une page typescript + code jsx (standard panel)./]				
 [template public pageJsxSDImpl (vc : view::ViewContainer, vs : flow::ViewState )]
   [if (vc.useForm())]
-    import React from "react";
     import { useForm } from "react-hook-form";
-    import { useNavigate } from "react-router-dom";
     import { Alert } from "@codegouvfr/react-dsfr/Alert";
   [/if]
   [vc.layout.writeLayouts().writePageJsx(vc)/]
@@ -77,12 +83,20 @@
   [vc.writeAdditionalWidgetImports(true)/]
   
   export default function [vc.namePageJsx()/] () {
-   
+    
+       const { user, hasRole, logout } = useAuth();
+    
+    
+    
+    
     [if (vc.useForm())]
       [vc.writeFormHandler()/]
     [/if]
     [if (vc.useTables())]
       [vc.writeTablesHandler()/]
+    [/if]
+    [if (vc.useSearch())]
+      [vc.writeSearchHandler()/]
     [/if]
     
     return (
@@ -129,7 +143,17 @@
 
 [comment écriture d'un élement, qu'il s'agisse d'un conteneur ou d'un élément standard./]
 [template private writeElement(ve : view::AbstractViewElement, insideHl :: Boolean)]
-  [if (ve <> null)][ve.writeOpenViewElement(insideHl)/][/if]
+  [if (ve <> null)]
+    [if (ve.hasMetaCustomCode())][ve.writeCustomCode()/][/if]
+    [ve.writeOpenViewElement(insideHl)/]
+  [/if]
+[/template]
+
+[comment écriture d'une zone libre de code pour positionner du code javascript./]
+[template private writeCustomCode(ve : view::AbstractViewElement)]
+  {/* [protected ((ve.nameElementId() + '-custom-code').protectedId()) startTagPrefix('// ') endTagPrefix('// ')] */}
+  [ve.get_metaCustomCode()/]
+  {/* [/protected] */}
 [/template]
   
 [comment écriture pour l'ouverture d'un bloc horizontal./]
@@ -155,11 +179,12 @@
     </div> {/* Close form fieldset */}
 [/template]
 
-[comment ./]
+[comment écriture de la page principale (en dehors de main.tsx qui n'est pas censée changer)./]
 [template public pageAppTsxImpl (r : cinematic::CinematicRoot)]
   [let useHF = r.useHFViews()]
     import { useState } from "react";
     import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+    import ProtectedRoutes from "./security/ProtectedRoutes";
     [if (useHF)]
       import { useLocation } from "react-router-dom";
     [/if]
@@ -183,8 +208,8 @@
           <Routes>  
             [for (v : view::ViewContainer  | r.viewPanels())]
               [if (not v.isHeaderPanel() and not v.isFooterPanel())]
-                [for (url | v.urlsForReactRouter())]
-                  <Route path="[url/]" element={< [v.namePageJsx()/] />}/>
+                [for (rt | v.routesForReactRouter())]
+                  [v.writeRoute(rt)/]
                 [/for]
               [/if]
             [/for]
@@ -195,6 +220,25 @@
     }
     export default App
   [/let]
+[/template]
+
+[comment écriture de la route pour chaque page (non protégées, protégées, etc...)./]
+[template private writeRoute(v : view::ViewContainer, rt :: flow::Transition)]
+  [if ('connect'.equalsIgnoreCase(rt.guard))]
+    <Route path="/[rt.name/]" element={< [v.namePageJsx()/] />}/>
+    // Double l'url pour une url fixe en provenance de AuthContext.tsx
+    <Route path="/login" element={< [v.namePageJsx()/] />}/>
+  [elseif ('register'.equalsIgnoreCase(rt.guard))]
+    <Route element={<ProtectedRoutes />}>
+      <Route path="/[rt.name/]" element={< [v.namePageJsx()/] />}/>
+    </Route>
+  [elseif (rt.guard.index('register:') <> -1)]
+    <Route element={<ProtectedRoutes roles={['['/][']'/]} />}>
+      <Route path="/[rt.name/]" element={< [v.namePageJsx()/] />}/>
+    </Route>
+  [else]
+    <Route path="/[rt.name/]" element={< [v.namePageJsx()/] />}/>
+  [/if]
 [/template]
 
 [comment écriture de l'encapsulation avec en-tête et pied de page./]
@@ -223,17 +267,15 @@
       const ['['/]currentRow, setCurrentRow[']'/] = useState<any['['/][']'/] | null>(null);
       const ['['/]currentTable, setCurrentTable[']'/] = useState<[tbs->select(o | o.useButtonEdition())
         ->collect(o1 | '"' + o1.nameElementId() + '"')->sep(' | ')/]| null>(null);
-    [/if]
     
-    // -----------------------------------------------------
-    // Centralisation du pilotage pour la fenêtre d'édition.
-    // -----------------------------------------------------
-    const handleEditClick = (table: [tbs->select(o | o.useButtonEdition())
+      // -----------------------------------------------------
+      // Centralisation du pilotage pour la fenêtre d'édition.
+      // -----------------------------------------------------
+      const handleEditClick = (table: [tbs->select(o | o.useButtonEdition())
         ->collect(o1 | '"' + o1.nameElementId() + '"')->sep(' | ')/], row: any['['/][']'/]) => {
         if (!modal) return;
         setCurrentRow(row);
         setCurrentTable(table);
-        [if (vc.useTablesEdition())]
           [comment on doit obligatoirement avoir un formulaire associé./]
           reset({
             [for (e | vc.eAllContents(view::ViewContainer)
@@ -242,20 +284,23 @@
               [e.nameElementId()/]: row['['/][eIndex -1/][']'/],
             [/for]
           });
-        [/if]
         setTimeout(() => modal.open(), 0);
-    };
+      };
         
-    // -----------------------------------------------------
-    // Centralisation du pilotage pour la fenêtre d'édition.
-    // -----------------------------------------------------
-    const handleClose = () => {
+      // -----------------------------------------------------
+      // Centralisation du pilotage pour la fenêtre d'édition.
+      // -----------------------------------------------------
+      const handleClose = () => {
         if (!modal) return;
         setCurrentRow(null);
         setCurrentTable(null);
         modal.close(); 
-    };
+      };
+    [/if]
     
+    // ----------------------------------------------
+    // Chargement des tables avec des données de test.
+    // ----------------------------------------------
     useEffect(() => {
       [for (tb | tbs)]
         setData_[tb.nameElementId()/](getFakeTableData_[tb.nameElementId()/]());
@@ -288,6 +333,7 @@
     // -----------------------------------------------------------------------------------
     const { 
       reset,
+      watch,
       register, 
       handleSubmit, 
       formState: { errors, dirtyFields }, 
@@ -308,7 +354,9 @@
     async function validateAndExecuteForm(data: FormValues): Promise<boolean> {
       console.log("Validation exécutée :", data);
       [protected ('validate form [vc.nameElementId()/]'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+        
         return data.IdentifiantInput === "12345" && data.passwordInput === "azerty";
+        
       [/protected]
       return true;
     }
@@ -395,6 +443,9 @@
          (dirtyFields['['/]fieldName[']'/] ? successMessage : defaultMessage)
        );
     }
+    
+    [protected ('custom code form [vc.nameElementId()/]'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+    [/protected]
   [/let]
 [/template]
 
@@ -419,15 +470,13 @@
     [if (vc.useRadiosWithIcon())]
       [for (r | vc.eAllContents(view::AbstractViewElement)
         ->select(e | e.isRadio() and e.has_metaIcon()))]
-          import [r.nameElementId()/]Ico from "[r.nameDirectoryImages()/]/[r.get_metaIcon()/]";
+        import [r.nameElementId()/]Ico from "[r.nameDirectoryImages()/]/[r.get_metaIcon()/]";
       [/for]
     [/if]
     [if (vc.useTables())]
       [let tbls =  vc.eAllContents(view::ViewContainer)->select(o | o.isTable())]
-        import { useEffect, useState } from "react";
         [for (tb | tbls)]
           import { getFakeTableData_[tb.nameElementId()/] } from "[vc.nameDirectoryPagesMockForAppTsx()/]/[vc.namePageMockJsx()/]";
-          import { getFakeTableData_[tb.nameElementId()/] } from "[vc.nameDirectoryPagesServiceForAppTsx()/]/[vc.namePageServiceJsx()/]";
         [/for]
       [/let]
       [if (vc.useTablesEdition())]
@@ -453,4 +502,20 @@
      id: "edit-row-modal", 
      isOpenedByDefault: false 
   });
+[/template]
+
+[comment écriture de la gestion générique pour la barre de recherche./]
+[template private writeSearchHandler(vc : view::ViewContainer)]
+  // -----------------------------------
+  // Gestion centralisée de la recherche. 
+  // -----------------------------------
+  const ['['/]searchTerm, setSearchTerm[']'/] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const handleSearch = () => {
+    if (!searchTerm.trim()) return;
+    console.log("Recherche effectuée :", searchTerm);
+    navigate(`/[vc.urlForPageJsx()/]?q=${encodeURIComponent(searchTerm)}`);
+  };
 [/template]

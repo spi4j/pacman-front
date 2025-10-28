@@ -90,6 +90,10 @@ public enum AnnotationEnum {
 	
 	WITH_STYLE("WITH_INLINE_STYLE", ModelEnum.DSL_CINEMATIC, true),
 	
+	WITH_ARROW_TYPE("WITH_ARROW_TYPE", ModelEnum.DSL_CINEMATIC, true),
+	
+	WITH_CUSTOM_CODE("WITH_CUSTOM_CODE", ModelEnum.DSL_CINEMATIC, true),
+	
 	WITH_TOOLTIP("WITH_TOOLTIP", ModelEnum.DSL_CINEMATIC, true);
 
 	/** Le nom de l'annotation */

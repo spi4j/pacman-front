@@ -65,7 +65,7 @@ public class CinematicUtils {
 	 * @see org.obeonetwork.dsl.cinematic.view.ViewContainer
 	 * @see org.obeonetwork.dsl.cinematic.view.ViewEvent
 	 */
-	public static List<String> get_urlsForReactRouter(final ViewContainer p_view) {
+	public static List<String> get_routesForReactRouterOld(final ViewContainer p_view) {
 		return _transitions.stream()
 				.filter(transition -> transition.getTo() instanceof ViewState viewState
 						&& !viewState.getViewContainers().isEmpty() && viewState.getViewContainers().get(0) == p_view
@@ -73,6 +73,45 @@ public class CinematicUtils {
 						&& transition.getOn().stream().anyMatch(
 								event -> event instanceof ViewEvent viewEvent && isEligibleEventForRoute(viewEvent)))
 				.map(Transition::getName).collect(Collectors.toList());
+	}
+
+	/**
+	 * Retourne directement la liste des transitions associées à un conteneur de vue
+	 * {@link ViewContainer} dans le contexte de la génération des routes React.
+	 * <p>
+	 * Cette méthode parcourt l'ensemble des transitions définies dans le modèle
+	 * cinématique et sélectionne celles qui :
+	 * <ul>
+	 * <li>ont pour cible un {@link ViewState} contenant le {@code ViewContainer}
+	 * passé en paramètre,</li>
+	 * <li>sont déclenchées par un événement de type {@code onClick},</li>
+	 * <li>et possèdent un nom de transition valide.</li>
+	 * </ul>
+	 * Les transitions correspondantes sont retournées sous forme d'une liste qui
+	 * pourra ensuite être utilisée pour générer les routes dans le code React
+	 * (fichier <code>page.jsx</code>).
+	 * </p>
+	 *
+	 * @param p_view le {@link ViewContainer} pour lequel on souhaite récupérer les
+	 *               routes React associées.
+	 *
+	 * @return une listes de transitions correspondant aux routes React accessibles
+	 *         depuis ce conteneur ; une liste vide si aucune transition ne
+	 *         correspond.
+	 *
+	 * @see org.obeonetwork.dsl.cinematic.flow.Transition
+	 * @see org.obeonetwork.dsl.cinematic.flow.ViewState
+	 * @see org.obeonetwork.dsl.cinematic.view.ViewContainer
+	 * @see org.obeonetwork.dsl.cinematic.view.ViewEvent
+	 */
+	public static List<Transition> get_routesForReactRouter(final ViewContainer p_view) {
+		return _transitions.stream()
+				.filter(transition -> transition.getTo() instanceof ViewState viewState
+						&& !viewState.getViewContainers().isEmpty() && viewState.getViewContainers().get(0) == p_view
+						&& transition.getOn() != null
+						&& transition.getOn().stream().anyMatch(
+								event -> event instanceof ViewEvent viewEvent && isEligibleEventForRoute(viewEvent)))
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -91,6 +130,30 @@ public class CinematicUtils {
 	private static boolean isEligibleEventForRoute(final ViewEvent p_event) {
 		return p_event.getType() != null && ("onClick".equalsIgnoreCase(p_event.getType().getName())
 				|| "onSubmit".equalsIgnoreCase(p_event.getType().getName()));
+	}
+
+	/**
+	 * Crée une transition "dummy" pour représenter la route d'un MainPanel.
+	 * <p>
+	 * Cette méthode est utilisée lorsque aucune transition existante n'est
+	 * applicable pour un {@link ViewEvent} donné. La transition retournée a :
+	 * <ul>
+	 * <li>un nom vide</li>
+	 * <li>aucun événement déclencheur</li>
+	 * </ul>
+	 * <p>
+	 * Important : cette méthode ne modifie pas le modèle existant et ne remplace
+	 * aucune transition existante.
+	 *
+	 * @param p_view le {@link ViewContainer} pour lequel on souhaite récupérer les
+	 *               routes React associées.
+	 * @return une {@link Transition} avec un nom vide et sans événements
+	 */
+	public static Transition get_routeForMainPanel(final ViewContainer p_view) {
+		Transition t = org.obeonetwork.dsl.cinematic.flow.FlowFactory.eINSTANCE.createTransition();
+		t.setName("");
+		t.getOn().clear();
+		return t;
 	}
 
 	/**

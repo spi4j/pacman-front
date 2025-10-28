@@ -2,24 +2,30 @@
 <cinematic-toolkits:Toolkit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cinematic-toolkits="http://www.obeonetwork.org/dsl/cinematic/toolkits/1.0.0" xmi:id="_jIrpcK8aEeGs4sAdxwacjg" technicalid="_mO1soGBFEe2pbbWWOVDFxA" name="REACT/SPA + DSFR 1.9">
   <widgets xmi:id="_YhqOIKWwEfCk-qAZK2PLFQ" technicalid="_YThrgKWwEfCk-qAZK2PLFQ" name="GroupAccordion" icon="/fr.pacman.front.cinematic/icons/Group.png" implementation="fr" isContainer="true">
     <metadataDefinitions xmi:id="_qiOTwKW0EfCk-qAZK2PLFQ" technicalid="_qL0l8qW0EfCk-qAZK2PLFQ" title="WITH_DEFAULT_EXPANDED" body="false"/>
+    <metadataDefinitions xmi:id="_sW7zILMcEfCzjaYQVtxLdA" technicalid="_rkY74bMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_EWxgQJkaEfCOvPC0MEWKeA" technicalid="_EHHToJkaEfCOvPC0MEWKeA" name="GroupCheckBox" icon="/fr.pacman.front.cinematic/icons/Group.png" implementation="Checkbox" isContainer="true" documentation="Elément de navigation.">
     <metadataDefinitions xmi:id="_JuUHEJ6IEfCOGq9oMtmlDw" technicalid="_JaGxop6IEfCOGq9oMtmlDw" title="TXT_INFO" body="Veuillez saisir le champ"/>
     <metadataDefinitions xmi:id="_KChcgJ6IEfCOGq9oMtmlDw" technicalid="_J3BXIp6IEfCOGq9oMtmlDw" title="TXT_VALID" body="Le champ est valide"/>
     <metadataDefinitions xmi:id="_KWzqcJ6IEfCOGq9oMtmlDw" technicalid="_KJ3aop6IEfCOGq9oMtmlDw" title="TXT_ERROR" body="Le champ est en erreur"/>
     <metadataDefinitions xmi:id="_uAMR0J6VEfCN4vE0a76iPA" technicalid="_tW42Ip6VEfCN4vE0a76iPA" title="WITH_REQUIRED" body="0"/>
+    <metadataDefinitions xmi:id="_xgcqoLMcEfCzjaYQVtxLdA" technicalid="_xEHT8rMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_YKZF0JH1EfCF6-2aQyGFWw" technicalid="_X9WvYJH1EfCF6-2aQyGFWw" name="GroupNavigation" icon="/fr.pacman.front.cinematic/icons/Group.png" implementation="MainNavigation" isContainer="true" documentation="Orienter l’usager à travers les rubriques principales et secondaires du site.">
     <possibleEvents xmi:id="_yz0okJMTEfCWNsj-B1W6Gw" technicalid="_yfMcYJMTEfCWNsj-B1W6Gw" name="onFocus"/>
     <possibleEvents xmi:id="_0I8ocJMTEfCWNsj-B1W6Gw" technicalid="_zz17IJMTEfCWNsj-B1W6Gw" name="onBlur"/>
     <possibleEvents xmi:id="_34RZ4JMTEfCWNsj-B1W6Gw" technicalid="_3eTasJMTEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_5Nb2AJMTEfCWNsj-B1W6Gw" technicalid="_44HGQJMTEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_zEeCILMcEfCzjaYQVtxLdA" technicalid="_yfE2ErMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
-  <widgets xmi:id="_6hB04KBFEfCZt9eKWGl1cg" technicalid="_6ODOgKBFEfCZt9eKWGl1cg" name="GroupNavigationDirect" icon="/fr.pacman.front.cinematic/icons/Group.png" isContainer="true" documentation="Orienter l’usager à travers les rubriques principales et secondaires du site."/>
+  <widgets xmi:id="_6hB04KBFEfCZt9eKWGl1cg" technicalid="_6ODOgKBFEfCZt9eKWGl1cg" name="GroupNavigationDirect" icon="/fr.pacman.front.cinematic/icons/Group.png" isContainer="true" documentation="Orienter l’usager à travers les rubriques principales et secondaires du site.">
+    <metadataDefinitions xmi:id="_0Px-sLMcEfCzjaYQVtxLdA" technicalid="_z8J4ErMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
+  </widgets>
   <widgets xmi:id="_5wnZ4JkZEfCOvPC0MEWKeA" technicalid="_5EsIAJkZEfCOvPC0MEWKeA" name="GroupRadio" icon="/fr.pacman.front.cinematic/icons/Group.png" implementation="RadioButtons" isContainer="true" documentation="Elément de navigation.">
     <metadataDefinitions xmi:id="_DqCQcJ6IEfCOGq9oMtmlDw" technicalid="_DPCWgp6IEfCOGq9oMtmlDw" title="TXT_INFO" body="Veuillez saisir le champ"/>
     <metadataDefinitions xmi:id="_EB7MAJ6IEfCOGq9oMtmlDw" technicalid="_DxwCAp6IEfCOGq9oMtmlDw" title="TXT_VALID" body="Le champ est valide"/>
     <metadataDefinitions xmi:id="_EZkP8J6IEfCOGq9oMtmlDw" technicalid="_EJJ1Yp6IEfCOGq9oMtmlDw" title="TXT_ERROR" body="Le champ est en erreur"/>
+    <metadataDefinitions xmi:id="_1KmBILMcEfCzjaYQVtxLdA" technicalid="_04iAwrMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_qrj68JH1EfCF6-2aQyGFWw" technicalid="_qVUlMJH1EfCF6-2aQyGFWw" name="GroupTab" icon="/fr.pacman.front.cinematic/icons/Group.png" implementation="Tabs" isContainer="true" documentation="Structurer plusieurs sections de contenu liées, en affichant une seule section à la fois dans un espace limité.">
     <possibleEvents xmi:id="_eks_gJL1EfCa3-VOW44b4A" technicalid="_eOGdYJL1EfCa3-VOW44b4A" name="onChange"/>
@@ -30,6 +36,7 @@
     <possibleEvents xmi:id="_ANRV8JMUEfCWNsj-B1W6Gw" technicalid="__29uwJMTEfCWNsj-B1W6Gw" name="onClick"/>
     <possibleEvents xmi:id="_BhQtYJMUEfCWNsj-B1W6Gw" technicalid="_BLf4wJMUEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_CxOgcJMUEfCWNsj-B1W6Gw" technicalid="_Cez6wJMUEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_2J_ooLMcEfCzjaYQVtxLdA" technicalid="_1tU6wrMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_39BaoJd_EfCJ2dZMtpi9sQ" technicalid="_3u6GIJd_EfCJ2dZMtpi9sQ" name="PanelMain" icon="/fr.pacman.front.cinematic/icons/Panel.png" isContainer="true" documentation="Documentation&#x9;Elément de navigation.">
     <possibleEvents xmi:id="_KVAekJeAEfCJ2dZMtpi9sQ" technicalid="_JvevoJeAEfCJ2dZMtpi9sQ" name="onLoad"/>
@@ -38,6 +45,7 @@
     <possibleEvents xmi:id="_L0_qoJeAEfCJ2dZMtpi9sQ" technicalid="_LjdOsJeAEfCJ2dZMtpi9sQ" name="onMouseEnter"/>
     <possibleEvents xmi:id="_Mk0lEJeAEfCJ2dZMtpi9sQ" technicalid="_MLT44JeAEfCJ2dZMtpi9sQ" name="onMouseLeave"/>
     <metadataDefinitions xmi:id="_le6uMKLQEfCdj_sg-23Kqg" technicalid="_lFzqoaLQEfCdj_sg-23Kqg" title="WITH_URL"/>
+    <metadataDefinitions xmi:id="_3CsLMLMcEfCzjaYQVtxLdA" technicalid="_2wxUwrMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_XZfNUJH1EfCF6-2aQyGFWw" technicalid="_XMD1UJH1EfCF6-2aQyGFWw" name="PanelModal" icon="/fr.pacman.front.cinematic/icons/Panel.png" implementation="createModal" isContainer="true" documentation="Concentrer l’attention  sur une tâche ou un élément d’information, sans perdre le contexte de la page en cours.">
     <possibleEvents xmi:id="_nXBboJLzEfCa3-VOW44b4A" technicalid="_nAAp0JLzEfCa3-VOW44b4A" name="onLoad"/>
@@ -46,6 +54,7 @@
     <possibleEvents xmi:id="__hF9gJL0EfCa3-VOW44b4A" technicalid="__NRpoJL0EfCa3-VOW44b4A" name="onEscapeKeyDown"/>
     <possibleEvents xmi:id="_ApkBcJL1EfCa3-VOW44b4A" technicalid="_AXNtMJL1EfCa3-VOW44b4A" name="onClickOutside"/>
     <possibleEvents xmi:id="_B2K-gJL1EfCa3-VOW44b4A" technicalid="_BjghMJL1EfCa3-VOW44b4A" name="onFocusTrap"/>
+    <metadataDefinitions xmi:id="_4FwxwLMcEfCzjaYQVtxLdA" technicalid="_3y6uQrMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_rT6mUJHzEfCF6-2aQyGFWw" technicalid="_rHyO0JHzEfCF6-2aQyGFWw" name="PanelForm" icon="/fr.pacman.front.cinematic/icons/Panel.png" implementation="" isContainer="true" documentation="Formulaire.">
     <possibleEvents xmi:id="_gyPgAJLzEfCa3-VOW44b4A" technicalid="_gIjCwJLzEfCa3-VOW44b4A" name="onLoad"/>
@@ -58,6 +67,7 @@
     <possibleEvents xmi:id="_Ng9g8JMREfCWNsj-B1W6Gw" technicalid="_NSg1QJMREfCWNsj-B1W6Gw" name="onKeyUp"/>
     <metadataDefinitions xmi:id="_WzQfwKT5EfCj4oBHig1aWA" technicalid="_WXOEAaT5EfCj4oBHig1aWA" title="TXT_ERROR"/>
     <metadataDefinitions xmi:id="_XHsesKT5EfCj4oBHig1aWA" technicalid="_W7P-IqT5EfCj4oBHig1aWA" title="TXT_VALID"/>
+    <metadataDefinitions xmi:id="_5l4gsLMcEfCzjaYQVtxLdA" technicalid="_49Ai0rMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_cVIkIJJGEfCaOp8KF-MYRg" technicalid="_cBrcoJJGEfCaOp8KF-MYRg" name="PanelSimple" icon="/fr.pacman.front.cinematic/icons/Panel.png" isContainer="true" documentation="Elément de navigation.">
     <possibleEvents xmi:id="_b2UYkJLzEfCa3-VOW44b4A" technicalid="_bXxbYJLzEfCa3-VOW44b4A" name="onLoad"/>
@@ -66,6 +76,7 @@
     <possibleEvents xmi:id="_WenmMJMWEfCWNsj-B1W6Gw" technicalid="_WKtLsJMWEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_Y87bsJMWEfCWNsj-B1W6Gw" technicalid="_YnySIJMWEfCWNsj-B1W6Gw" name="onMouseLeave"/>
     <metadataDefinitions xmi:id="_rFsJcKLQEfCdj_sg-23Kqg" technicalid="_qhf3QqLQEfCdj_sg-23Kqg" title="WITH_URL"/>
+    <metadataDefinitions xmi:id="__00vMLMcEfCzjaYQVtxLdA" technicalid="__kRxwrMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_qBVkIJHzEfCF6-2aQyGFWw" technicalid="_pzLMUJHzEfCF6-2aQyGFWw" name="PanelHeader" icon="/fr.pacman.front.cinematic/icons/Panel.png" implementation="Header" isContainer="true" documentation=" Elément de navigation.">
     <possibleEvents xmi:id="_j3YE8JLzEfCa3-VOW44b4A" technicalid="_jOfgAJLzEfCa3-VOW44b4A" name="onLoad"/>
@@ -78,14 +89,18 @@
     <possibleEvents xmi:id="_9QyAYJL3EfCa3-VOW44b4A" technicalid="_83VloJL3EfCa3-VOW44b4A" name="onMouseLeave"/>
     <metadataDefinitions xmi:id="_3C-dAKLfEfCdj_sg-23Kqg" technicalid="_2sfPoqLfEfCdj_sg-23Kqg" title="WITH_BRAND_TOP" body="&lt;>INTITULE&lt;br />OFFICIEL&lt;/>"/>
     <metadataDefinitions xmi:id="_3ca3wKLfEfCdj_sg-23Kqg" technicalid="_3LCM0qLfEfCdj_sg-23Kqg" title="WITH_TOOLTIP" body="Accueil - Nom de l’entité"/>
+    <metadataDefinitions xmi:id="_BZEwMLMdEfCzjaYQVtxLdA" technicalid="_AwklwrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
-  <widgets xmi:id="_ZJwbEKUPEfCj4oBHig1aWA" technicalid="_YoQ3kKUPEfCj4oBHig1aWA" name="PanelBloc" icon="/fr.pacman.front.cinematic/icons/Panel.png" isContainer="true"/>
+  <widgets xmi:id="_ZJwbEKUPEfCj4oBHig1aWA" technicalid="_YoQ3kKUPEfCj4oBHig1aWA" name="PanelBloc" icon="/fr.pacman.front.cinematic/icons/Panel.png" isContainer="true">
+    <metadataDefinitions xmi:id="_CcvMoLMdEfCzjaYQVtxLdA" technicalid="_CLGqErMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
+  </widgets>
   <widgets xmi:id="_rh8JUJH1EfCF6-2aQyGFWw" technicalid="_rULaIJH1EfCF6-2aQyGFWw" name="PanelFooter" icon="/fr.pacman.front.cinematic/icons/Panel.png" implementation="Footer" isContainer="true" documentation="Elément de navigation.">
     <possibleEvents xmi:id="_d4dPcJLzEfCa3-VOW44b4A" technicalid="_dCURoJLzEfCa3-VOW44b4A" name="onLoad"/>
     <possibleEvents xmi:id="_j7By4JMUEfCWNsj-B1W6Gw" technicalid="_gOYiAJMUEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_lhgogJMUEfCWNsj-B1W6Gw" technicalid="_lOFWMJMUEfCWNsj-B1W6Gw" name="onMouseLeave"/>
     <metadataDefinitions xmi:id="_8y-MsKAhEfCZt9eKWGl1cg" technicalid="_8FyWkqAhEfCZt9eKWGl1cg" title="WITH_ACCESSIBILITY" body="fully compliant"/>
     <metadataDefinitions xmi:id="_D1YgoKXiEfC9cJkVLOBQKg" technicalid="_DZ3CQqXiEfC9cJkVLOBQKg" title="WITH_DISPLAY" body="false"/>
+    <metadataDefinitions xmi:id="_DL5_wLMdEfCzjaYQVtxLdA" technicalid="_C4O10rMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_I0S7AJH0EfCF6-2aQyGFWw" technicalid="_IOpQQ5H0EfCF6-2aQyGFWw" name="Accordion" icon="/fr.pacman.front.cinematic/icons/Accordion.png" implementation="Accordion" isContainer="true" documentation="Afficher ou masquer une section de contenu présentée dans une page.">
     <possibleEvents xmi:id="_Xcn0cJLzEfCa3-VOW44b4A" technicalid="_XDMn0JLzEfCa3-VOW44b4A" name="onFocus"/>
@@ -93,12 +108,14 @@
     <possibleEvents xmi:id="_1IHXgJL0EfCa3-VOW44b4A" technicalid="_0wjzIJL0EfCa3-VOW44b4A" name="onToggle"/>
     <possibleEvents xmi:id="_2qcs8JL0EfCa3-VOW44b4A" technicalid="_2clQEJL0EfCa3-VOW44b4A" name="onKeyDown"/>
     <metadataDefinitions xmi:id="_8WElUKWzEfCk-qAZK2PLFQ" technicalid="_7QIQ8qWzEfCk-qAZK2PLFQ" title="WITH_EXPENDED" body="false"/>
+    <metadataDefinitions xmi:id="_Ev6JILMdEfCzjaYQVtxLdA" technicalid="_D-4U0rMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_kO0y8JHzEfCF6-2aQyGFWw" technicalid="_kDLjoJHzEfCF6-2aQyGFWw" name="Alert" icon="/fr.pacman.front.cinematic/icons/Alert.png" implementation="Alert" documentation="Relayer une information à l’usager.">
     <possibleEvents xmi:id="_kzMiEJL1EfCa3-VOW44b4A" technicalid="_kkzgwJL1EfCa3-VOW44b4A" name="onClose"/>
     <possibleEvents xmi:id="_l93lcJL1EfCa3-VOW44b4A" technicalid="_lsQ4EJL1EfCa3-VOW44b4A" name="onClick"/>
     <possibleEvents xmi:id="_nAVvEJL1EfCa3-VOW44b4A" technicalid="_myVIQJL1EfCa3-VOW44b4A" name="onFocus"/>
     <possibleEvents xmi:id="_oE6KcJL1EfCa3-VOW44b4A" technicalid="_ny3YMJL1EfCa3-VOW44b4A" name="onBlur"/>
+    <metadataDefinitions xmi:id="_GBK8sLMdEfCzjaYQVtxLdA" technicalid="_FXH6IrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_kh0ncJHzEfCF6-2aQyGFWw" technicalid="_kU9QIJHzEfCF6-2aQyGFWw" name="Badge" icon="/fr.pacman.front.cinematic/icons/Badge.png" implementation="Badge" documentation="Valoriser une information liée à un élément précis du site.">
     <possibleEvents xmi:id="_6Gr4YJL2EfCa3-VOW44b4A" technicalid="_50QroJL2EfCa3-VOW44b4A" name="onClick"/>
@@ -108,6 +125,7 @@
     <possibleEvents xmi:id="__4uIcJL2EfCa3-VOW44b4A" technicalid="__q3SoJL2EfCa3-VOW44b4A" name="onKeyUp"/>
     <possibleEvents xmi:id="_CShRYJL3EfCa3-VOW44b4A" technicalid="_CE5sIJL3EfCa3-VOW44b4A" name="onMouseEnter"/>
     <possibleEvents xmi:id="_DfXfAJL3EfCa3-VOW44b4A" technicalid="_DLPpIJL3EfCa3-VOW44b4A" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_GzX1sLMdEfCzjaYQVtxLdA" technicalid="_GgTvwrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_j8lMYJHzEfCF6-2aQyGFWw" technicalid="_jnshgJHzEfCF6-2aQyGFWw" name="Button" icon="/fr.pacman.front.cinematic/icons/Button.png" implementation="Button" documentation="Effectuer une action.">
     <possibleEvents xmi:id="_M3heAJLzEfCa3-VOW44b4A" technicalid="_L_K5sJLzEfCa3-VOW44b4A" name="onClick"/>
@@ -115,6 +133,7 @@
     <possibleEvents xmi:id="_VLzoYJLzEfCa3-VOW44b4A" technicalid="_UjnnAJLzEfCa3-VOW44b4A" name="onBlur"/>
     <possibleEvents xmi:id="_kn6ZQJkCEfCCxMPawgpazA" technicalid="_jpFZgJkCEfCCxMPawgpazA" name="onMouseEnter"/>
     <possibleEvents xmi:id="_mmT_oJkCEfCCxMPawgpazA" technicalid="_mXT6UJkCEfCCxMPawgpazA" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_Ht4WILMdEfCzjaYQVtxLdA" technicalid="_Hc5T0rMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_PCz5EJkCEfCCxMPawgpazA" technicalid="_OuLF0JkCEfCCxMPawgpazA" name="ButtonSubmit" icon="/fr.pacman.front.cinematic/icons/Button.png" implementation="Button" documentation="Documentation&#x9;Effectuer une action dans un formulaire.">
     <possibleEvents xmi:id="_clL48JkCEfCCxMPawgpazA" technicalid="_bqxfIJkCEfCCxMPawgpazA" name="onSubmit"/>
@@ -122,6 +141,7 @@
     <possibleEvents xmi:id="_hyLiQJkCEfCCxMPawgpazA" technicalid="_hdMJsJkCEfCCxMPawgpazA" name="onBlur"/>
     <possibleEvents xmi:id="_pyV2wJkCEfCCxMPawgpazA" technicalid="_pGnZMJkCEfCCxMPawgpazA" name="onMouseEnter"/>
     <possibleEvents xmi:id="_rOpcsJkCEfCCxMPawgpazA" technicalid="_qy4GsJkCEfCCxMPawgpazA" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_IXFrMLMdEfCzjaYQVtxLdA" technicalid="_IGjU0rMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_rAPcYJHzEfCF6-2aQyGFWw" technicalid="_q08LUJHzEfCF6-2aQyGFWw" name="BreadCrumb" icon="/fr.pacman.front.cinematic/icons/Breadcrumb.png" documentation="Fil d’Ariane qui permet à l’usager de se situer sur le site qu’il consulte.">
     <possibleEvents xmi:id="_rc1IgJL1EfCa3-VOW44b4A" technicalid="_rIi6kJL1EfCa3-VOW44b4A" name="onClick"/>
@@ -131,6 +151,7 @@
     <possibleEvents xmi:id="_gmnFgJL4EfCa3-VOW44b4A" technicalid="_gZiS0JL4EfCa3-VOW44b4A" name="onKeyUp"/>
     <possibleEvents xmi:id="_h27d4JL4EfCa3-VOW44b4A" technicalid="_hmAF8JL4EfCa3-VOW44b4A" name="onMouseEnter"/>
     <possibleEvents xmi:id="_jBPU4JL4EfCa3-VOW44b4A" technicalid="_iy_dgJL4EfCa3-VOW44b4A" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_JSsX0LMdEfCzjaYQVtxLdA" technicalid="_JAJPQrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_mt5dcJHzEfCF6-2aQyGFWw" technicalid="_me6mQJHzEfCF6-2aQyGFWw" name="Card" icon="/fr.pacman.front.cinematic/icons/Card.png" documentation="Rediriger l’usager vers une page éditoriale donc elle donne un aperçu.">
     <possibleEvents xmi:id="_uEmmkJL2EfCa3-VOW44b4A" technicalid="_twU_sJL2EfCa3-VOW44b4A" name="onClick"/>
@@ -140,6 +161,7 @@
     <possibleEvents xmi:id="_yw3hYJL2EfCa3-VOW44b4A" technicalid="_ybZnsJL2EfCa3-VOW44b4A" name="onKeyUp"/>
     <possibleEvents xmi:id="_0SnA8JL2EfCa3-VOW44b4A" technicalid="_zxXVEJL2EfCa3-VOW44b4A" name="onMouseEnter"/>
     <possibleEvents xmi:id="_15EBYJL2EfCa3-VOW44b4A" technicalid="_1gqIcJL2EfCa3-VOW44b4A" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_KB94oLMdEfCzjaYQVtxLdA" technicalid="_JuxP0rMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_Wwrg4JH1EfCF6-2aQyGFWw" technicalid="_WniL8JH1EfCF6-2aQyGFWw" name="CallOut" icon="/fr.pacman.front.cinematic/icons/Callout.png" documentation="Mettre en forme du contenu dans une page.">
     <possibleEvents xmi:id="_DBK2YJMTEfCWNsj-B1W6Gw" technicalid="_BsqhkJMTEfCWNsj-B1W6Gw" name="onClick"/>
@@ -149,6 +171,7 @@
     <possibleEvents xmi:id="_IH8i8JMTEfCWNsj-B1W6Gw" technicalid="_H6Ma0JMTEfCWNsj-B1W6Gw" name="onKeyUp"/>
     <possibleEvents xmi:id="_Lb-fgJMTEfCWNsj-B1W6Gw" technicalid="_LNn6cJMTEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_Nc_VAJMTEfCWNsj-B1W6Gw" technicalid="_NQH9sJMTEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_LRtCMLMdEfCzjaYQVtxLdA" technicalid="_K_QAQrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_nB3iUJHzEfCF6-2aQyGFWw" technicalid="_mz6l4JHzEfCF6-2aQyGFWw" name="CheckBox" icon="/fr.pacman.front.cinematic/icons/Checkbox.png" implementation="Checkbox" documentation="Sélectionner une ou plusieurs options dans une liste.">
     <possibleEvents xmi:id="_k8HqAJL0EfCa3-VOW44b4A" technicalid="_kuLUoJL0EfCa3-VOW44b4A" name="onChange"/>
@@ -156,6 +179,7 @@
     <possibleEvents xmi:id="_nGXUAJL0EfCa3-VOW44b4A" technicalid="_m4ugoJL0EfCa3-VOW44b4A" name="onBlur"/>
     <possibleEvents xmi:id="_Vs5xAJL4EfCa3-VOW44b4A" technicalid="_SrYgwJL4EfCa3-VOW44b4A" name="onClick"/>
     <metadataDefinitions xmi:id="_891ToJ6GEfCOGq9oMtmlDw" technicalid="_8dV1sp6GEfCOGq9oMtmlDw" title="WITH_VALUE"/>
+    <metadataDefinitions xmi:id="_MV0xoLMdEfCzjaYQVtxLdA" technicalid="_MGHhsrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_V-Ke0JH1EfCF6-2aQyGFWw" technicalid="_Vu6h4JH1EfCF6-2aQyGFWw" name="ComboBox" icon="/fr.pacman.front.cinematic/icons/Combobox.png" documentation="Ce composant est en version bêta.">
     <possibleEvents xmi:id="_n6gLEJMSEfCWNsj-B1W6Gw" technicalid="_lrn4sJMSEfCWNsj-B1W6Gw" name="onChange"/>
@@ -164,6 +188,7 @@
     <possibleEvents xmi:id="_wtJscJMSEfCWNsj-B1W6Gw" technicalid="_wVT0MJMSEfCWNsj-B1W6Gw" name="onBlur"/>
     <possibleEvents xmi:id="_yJKXcJMSEfCWNsj-B1W6Gw" technicalid="_xzJEIJMSEfCWNsj-B1W6Gw" name="onKeyDown"/>
     <possibleEvents xmi:id="_zYhGgJMSEfCWNsj-B1W6Gw" technicalid="_zGh-oJMSEfCWNsj-B1W6Gw" name="onKeyUp"/>
+    <metadataDefinitions xmi:id="_NEmjMLMdEfCzjaYQVtxLdA" technicalid="_MziBUrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_mC2VUJHzEfCF6-2aQyGFWw" technicalid="_lych0JHzEfCF6-2aQyGFWw" name="Connect" icon="/fr.pacman.front.cinematic/icons/Connect.png" documentation="Bouton FranceConnect  en relation avec des fournisseurs d’identités pour se connecter à un autre site.">
     <possibleEvents xmi:id="_hyxokJL2EfCa3-VOW44b4A" technicalid="_hfjxoJL2EfCa3-VOW44b4A" name="onClick"/>
@@ -173,6 +198,7 @@
     <possibleEvents xmi:id="_olZy8JL2EfCa3-VOW44b4A" technicalid="_oW3AoJL2EfCa3-VOW44b4A" name="onKeyUp"/>
     <possibleEvents xmi:id="_pxnucJL2EfCa3-VOW44b4A" technicalid="_pjS-kJL2EfCa3-VOW44b4A" name="onChange"/>
     <possibleEvents xmi:id="_q5QE4JL2EfCa3-VOW44b4A" technicalid="_qqU4EJL2EfCa3-VOW44b4A" name="onSubmit"/>
+    <metadataDefinitions xmi:id="_OWUCsLMdEfCzjaYQVtxLdA" technicalid="_Ns-KwrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_ro-QUJHzEfCF6-2aQyGFWw" technicalid="_rcQC8JHzEfCF6-2aQyGFWw" name="Consent" icon="/fr.pacman.front.cinematic/icons/Consent.png" implementation="consentManagement" documentation="Définir ses préférences sur l'utilisation de ses données personnelles.">
     <possibleEvents xmi:id="_P9TAgJMREfCWNsj-B1W6Gw" technicalid="_OBhQUJMREfCWNsj-B1W6Gw" name="onChange"/>
@@ -182,6 +208,7 @@
     <possibleEvents xmi:id="_V0Ra8JMREfCWNsj-B1W6Gw" technicalid="_VhNVAJMREfCWNsj-B1W6Gw" name="onBlur"/>
     <possibleEvents xmi:id="_W_cNkJMREfCWNsj-B1W6Gw" technicalid="_WtRfgJMREfCWNsj-B1W6Gw" name="onKeyDown"/>
     <possibleEvents xmi:id="_YEl3wJMREfCWNsj-B1W6Gw" technicalid="_Xx-dwJMREfCWNsj-B1W6Gw" name="onKeyUp"/>
+    <metadataDefinitions xmi:id="_PQJNsLMdEfCzjaYQVtxLdA" technicalid="_O96OMrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_n3SHYJHzEfCF6-2aQyGFWw" technicalid="_nrhjUJHzEfCF6-2aQyGFWw" name="Content" icon="/fr.pacman.front.cinematic/icons/Content.png" documentation="Intégrer des contenus multimédias de manière accessible et responsive.">
     <possibleEvents xmi:id="_UKn7YJL3EfCa3-VOW44b4A" technicalid="_T44EEJL3EfCa3-VOW44b4A" name="onClick"/>
@@ -191,6 +218,7 @@
     <possibleEvents xmi:id="_ZN0IcJL3EfCa3-VOW44b4A" technicalid="_Yyv9EJL3EfCa3-VOW44b4A" name="onKeyUp"/>
     <possibleEvents xmi:id="_aXgUYJL3EfCa3-VOW44b4A" technicalid="_aEU5sJL3EfCa3-VOW44b4A" name="onMouseEnter"/>
     <possibleEvents xmi:id="_bmZJYJL3EfCa3-VOW44b4A" technicalid="_bTgpoJL3EfCa3-VOW44b4A" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_QX78MLMdEfCzjaYQVtxLdA" technicalid="_P0jiUrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_WOuqYJH1EfCF6-2aQyGFWw" technicalid="_WEbe4JH1EfCF6-2aQyGFWw" name="DropDown" icon="/fr.pacman.front.cinematic/icons/Dropdown.png" documentation="Ce composant est en version bêta.">
     <possibleEvents xmi:id="_PsZHcJL1EfCa3-VOW44b4A" technicalid="_PfRRcJL1EfCa3-VOW44b4A" name="onBlur"/>
@@ -200,6 +228,7 @@
     <possibleEvents xmi:id="_VII-cJL1EfCa3-VOW44b4A" technicalid="_UzQTkJL1EfCa3-VOW44b4A" name="onSelect"/>
     <possibleEvents xmi:id="_WRU0EJL1EfCa3-VOW44b4A" technicalid="_WDS_IJL1EfCa3-VOW44b4A" name="onOpen"/>
     <possibleEvents xmi:id="_XWIgAJL1EfCa3-VOW44b4A" technicalid="_XE6NIJL1EfCa3-VOW44b4A" name="onClose"/>
+    <metadataDefinitions xmi:id="_RLVvELMdEfCzjaYQVtxLdA" technicalid="_Q4-MsrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_KdZKUJH1EfCF6-2aQyGFWw" technicalid="_KSdFoJH1EfCF6-2aQyGFWw" name="Follow" icon="/fr.pacman.front.cinematic/icons/Follow.png" documentation=" S’inscrire à (aux) lettre(s) d’information proposée(s), ainsi que des liens vers les réseaux sociaux de l’entité.">
     <possibleEvents xmi:id="_CpWBsJMSEfCWNsj-B1W6Gw" technicalid="_AxfIMJMSEfCWNsj-B1W6Gw" name="onClick"/>
@@ -209,8 +238,9 @@
     <possibleEvents xmi:id="_H3F48JMSEfCWNsj-B1W6Gw" technicalid="_Hq_9sJMSEfCWNsj-B1W6Gw" name="onKeyUp"/>
     <possibleEvents xmi:id="_I0-dgJMSEfCWNsj-B1W6Gw" technicalid="_IoHGMJMSEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_J6ZNcJMSEfCWNsj-B1W6Gw" technicalid="_Ju2EwJMSEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_SAP90LMdEfCzjaYQVtxLdA" technicalid="_Rsn3MrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
-  <widgets xmi:id="_XpH1wKmkEfC-YOAopVywXw" technicalid="_XZe3QKmkEfC-YOAopVywXw" name="Image">
+  <widgets xmi:id="_XpH1wKmkEfC-YOAopVywXw" technicalid="_XZe3QKmkEfC-YOAopVywXw" name="Image" icon="/fr.pacman.front.cinematic/icons/Logo.png">
     <possibleEvents xmi:id="_eX04Za2UEfCaid03SmNGfg" technicalid="_d9rTAK2UEfCaid03SmNGfg" name="onClick"/>
     <possibleEvents xmi:id="_eX04Zq2UEfCaid03SmNGfg" technicalid="_d9rTAa2UEfCaid03SmNGfg" name="onFocus"/>
     <possibleEvents xmi:id="_eX04Z62UEfCaid03SmNGfg" technicalid="_d9rTAq2UEfCaid03SmNGfg" name="onBlur"/>
@@ -218,6 +248,7 @@
     <possibleEvents xmi:id="_eX04aa2UEfCaid03SmNGfg" technicalid="_d9rTBK2UEfCaid03SmNGfg" name="onMouseLeave"/>
     <metadataDefinitions xmi:id="_ZmdsMKmkEfC-YOAopVywXw" technicalid="_Y5B-cqmkEfC-YOAopVywXw" title="WITH_IMG"/>
     <metadataDefinitions xmi:id="_arwgUKmkEfC-YOAopVywXw" technicalid="_aYHLkqmkEfC-YOAopVywXw" title="WITH_LINK"/>
+    <metadataDefinitions xmi:id="_SzVnoLMdEfCzjaYQVtxLdA" technicalid="_Siz4UrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_nUfjYJHzEfCF6-2aQyGFWw" technicalid="_nH0ZUJHzEfCF6-2aQyGFWw" name="Input" icon="/fr.pacman.front.cinematic/icons/Input.png" implementation="Input" documentation="Entrer du contenu et/ou des données.">
     <possibleEvents xmi:id="_dGZq8JL0EfCa3-VOW44b4A" technicalid="_czO3UJL0EfCa3-VOW44b4A" name="onChange"/>
@@ -235,6 +266,7 @@
     <metadataDefinitions xmi:id="_fksHIJ0MEfCkka7XcLxBbA" technicalid="_dkS8sp0MEfCkka7XcLxBbA" title="WITH_PATTERN" help=""/>
     <metadataDefinitions xmi:id="_qY-wIJ0MEfCkka7XcLxBbA" technicalid="_pv1sgp0MEfCkka7XcLxBbA" title="WITH_MAXLENGTH" body="100" help=""/>
     <metadataDefinitions xmi:id="_xAkJgJ1LEfCpho8JG0TEFQ" technicalid="_wl_GUZ1LEfCpho8JG0TEFQ" title="WITH_TEXTAREA" body="false" help=""/>
+    <metadataDefinitions xmi:id="_T2VVsLMdEfCzjaYQVtxLdA" technicalid="_TeigwrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_LQNHUJH1EfCF6-2aQyGFWw" technicalid="_Kus8wJH1EfCF6-2aQyGFWw" name="Link" icon="/fr.pacman.front.cinematic/icons/Link.png" documentation="Se déplacer au sein d’une même page, entre deux pages d’un même site ou vers un site externe.">
     <possibleEvents xmi:id="_BS2rgJL0EfCa3-VOW44b4A" technicalid="_A51ukJL0EfCa3-VOW44b4A" name="onClick"/>
@@ -244,11 +276,14 @@
     <possibleEvents xmi:id="_RNlHMJMSEfCWNsj-B1W6Gw" technicalid="_Q35yIJMSEfCWNsj-B1W6Gw" name="onKeyUp"/>
     <possibleEvents xmi:id="_STF9wJMSEfCWNsj-B1W6Gw" technicalid="_SAubYJMSEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_TaaLIJMSEfCWNsj-B1W6Gw" technicalid="_TIIIUJMSEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_g08hQK_oEfCrL4nmomQtdg" technicalid="_gfNh0q_oEfCrL4nmomQtdg" title="WITH_ARROW_TYPE" body="none"/>
+    <metadataDefinitions xmi:id="_U3aYMLMdEfCzjaYQVtxLdA" technicalid="_UjXa0rMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_H33oEKAjEfCZt9eKWGl1cg" technicalid="_HmiAcKAjEfCZt9eKWGl1cg" name="Logo" icon="/fr.pacman.front.cinematic/icons/Logo.png" documentation="Afficher un logo.">
     <metadataDefinitions xmi:id="_YtDcgKAjEfCZt9eKWGl1cg" technicalid="_XlNqsqAjEfCZt9eKWGl1cg" title="WITH_IMG"/>
     <metadataDefinitions xmi:id="_xM_xoKAtEfCZt9eKWGl1cg" technicalid="_wquLAqAtEfCZt9eKWGl1cg" title="WTH_LINK"/>
     <metadataDefinitions xmi:id="_0ggw0KAtEfCZt9eKWGl1cg" technicalid="_0H6DkqAtEfCZt9eKWGl1cg" title="WITH_ORIENTATION" body="horizontal"/>
+    <metadataDefinitions xmi:id="_Vni0oLMdEfCzjaYQVtxLdA" technicalid="_VTqPUrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_lsMv4JHzEfCF6-2aQyGFWw" technicalid="_lddwUJHzEfCF6-2aQyGFWw" name="LogoOfficial" icon="/fr.pacman.front.cinematic/icons/Logo.png" implementation="Logo" documentation="Afficher un logo.">
     <possibleEvents xmi:id="_W5-6EJL2EfCa3-VOW44b4A" technicalid="_WlOyEJL2EfCa3-VOW44b4A" name="onClick"/>
@@ -256,6 +291,7 @@
     <possibleEvents xmi:id="_Zq0C8JL2EfCa3-VOW44b4A" technicalid="_ZYN3EJL2EfCa3-VOW44b4A" name="onBlur"/>
     <possibleEvents xmi:id="_bW6_cJL2EfCa3-VOW44b4A" technicalid="_a99F0JL2EfCa3-VOW44b4A" name="onKeyDown"/>
     <possibleEvents xmi:id="_eBcE8JL2EfCa3-VOW44b4A" technicalid="_duCn0JL2EfCa3-VOW44b4A" name="onKeyUp"/>
+    <metadataDefinitions xmi:id="_WlbZMLMdEfCzjaYQVtxLdA" technicalid="_WVffwrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_k0pc0JHzEfCF6-2aQyGFWw" technicalid="_knz6sJHzEfCF6-2aQyGFWw" name="Notice" icon="/fr.pacman.front.cinematic/icons/Notice.png" implementation="Notice" documentation="Attirer l’attention des usagers sur une information importante et temporaire.">
     <possibleEvents xmi:id="_30dzkJL1EfCa3-VOW44b4A" technicalid="_3nknEJL1EfCa3-VOW44b4A" name="onFocus"/>
@@ -266,6 +302,7 @@
     <possibleEvents xmi:id="_BnlTcJL2EfCa3-VOW44b4A" technicalid="_BX54sJL2EfCa3-VOW44b4A" name="onClose"/>
     <metadataDefinitions xmi:id="_cNoKoKThEfCpf8vYgr0tCg" technicalid="_bvljwaThEfCpf8vYgr0tCg" title="WITH_CLOSABLE" body="false"/>
     <metadataDefinitions xmi:id="_clzaEKThEfCpf8vYgr0tCg" technicalid="_cVPOgqThEfCpf8vYgr0tCg" title="WITH_SEVERITY" body="info"/>
+    <metadataDefinitions xmi:id="_Xqx3sLMdEfCzjaYQVtxLdA" technicalid="_XN7joLMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_nmWIYJHzEfCF6-2aQyGFWw" technicalid="_narq8JHzEfCF6-2aQyGFWw" name="Quote" icon="/fr.pacman.front.cinematic/icons/Quote.png" documentation="Mettre en forme du contenu dans une page.">
     <possibleEvents xmi:id="_JdId8JL3EfCa3-VOW44b4A" technicalid="_IOncYJL3EfCa3-VOW44b4A" name="onClick"/>
@@ -275,6 +312,7 @@
     <possibleEvents xmi:id="_Ot0UcJL3EfCa3-VOW44b4A" technicalid="_ObrbkJL3EfCa3-VOW44b4A" name="onKeyUp"/>
     <possibleEvents xmi:id="_P3vw8JL3EfCa3-VOW44b4A" technicalid="_PlZcsJL3EfCa3-VOW44b4A" name="onMouseEnter"/>
     <possibleEvents xmi:id="_RORfAJL3EfCa3-VOW44b4A" technicalid="_Q0RqoJL3EfCa3-VOW44b4A" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_Ydu-oLMdEfCzjaYQVtxLdA" technicalid="_YMp1srMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_oJgf0JHzEfCF6-2aQyGFWw" technicalid="_n9xJ4JHzEfCF6-2aQyGFWw" name="Segmented" icon="/fr.pacman.front.cinematic/icons/Segmented.png" documentation="Choisir un type de vue parmi plusieurs options d'affichage disponibles.">
     <possibleEvents xmi:id="_fUwRgJL3EfCa3-VOW44b4A" technicalid="_etjuoJL3EfCa3-VOW44b4A" name="onChange"/>
@@ -283,6 +321,7 @@
     <possibleEvents xmi:id="_ikkccJL3EfCa3-VOW44b4A" technicalid="_iXFaEJL3EfCa3-VOW44b4A" name="onBlur"/>
     <possibleEvents xmi:id="_jyFYcJL3EfCa3-VOW44b4A" technicalid="_jZddEJL3EfCa3-VOW44b4A" name="onKeyDown"/>
     <possibleEvents xmi:id="_k1WzUJL3EfCa3-VOW44b4A" technicalid="_kmvvkJL3EfCa3-VOW44b4A" name="onKeyUp"/>
+    <metadataDefinitions xmi:id="_ZcE2MLMdEfCzjaYQVtxLdA" technicalid="_ZF8OIrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_qtVHcJHzEfCF6-2aQyGFWw" technicalid="_qgBrQJHzEfCF6-2aQyGFWw" name="User" icon="/fr.pacman.front.cinematic/icons/User.png" documentation="Ce composant est en version bêta.">
     <possibleEvents xmi:id="_AgmyYJL4EfCa3-VOW44b4A" technicalid="_-Xfw0JL3EfCa3-VOW44b4A" name="onClick"/>
@@ -294,6 +333,7 @@
     <possibleEvents xmi:id="_K1UjcJL4EfCa3-VOW44b4A" technicalid="_KnkbUJL4EfCa3-VOW44b4A" name="onMouseLeave"/>
     <possibleEvents xmi:id="_MJ_QUJL4EfCa3-VOW44b4A" technicalid="_L42dAJL4EfCa3-VOW44b4A" name="onChange"/>
     <possibleEvents xmi:id="_Oxh6UJL4EfCa3-VOW44b4A" technicalid="_OY27oJL4EfCa3-VOW44b4A" name="onSelect"/>
+    <metadataDefinitions xmi:id="_aU-0ILMdEfCzjaYQVtxLdA" technicalid="_aCvNkrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_XElUUJH1EfCF6-2aQyGFWw" technicalid="_W5EA0JH1EfCF6-2aQyGFWw" name="HighLight" icon="/fr.pacman.front.cinematic/icons/Highlight.png" implementation="Highlight" documentation="Mettre en forme du contenu dans une page.">
     <possibleEvents xmi:id="_SQJiAJMTEfCWNsj-B1W6Gw" technicalid="_OhQ1cJMTEfCWNsj-B1W6Gw" name="onClick"/>
@@ -303,12 +343,18 @@
     <possibleEvents xmi:id="_XRptAJMTEfCWNsj-B1W6Gw" technicalid="_W-ijwJMTEfCWNsj-B1W6Gw" name="onKeyUp"/>
     <possibleEvents xmi:id="_YaSJAJMTEfCWNsj-B1W6Gw" technicalid="_YH70wJMTEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_ZuWY8JMTEfCWNsj-B1W6Gw" technicalid="_ZMkhkJMTEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_bQ30oLMdEfCzjaYQVtxLdA" technicalid="_a8ZZcrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_WilX8KBCEfCZt9eKWGl1cg" technicalid="_WUbAIKBCEfCZt9eKWGl1cg" name="NavigationMenu" icon="/fr.pacman.front.cinematic/icons/Navigation.png" isContainer="true" documentation="Orienter l’usager à travers les rubriques principales et secondaires du site.">
     <metadataDefinitions xmi:id="_HiIbEKBDEfCZt9eKWGl1cg" technicalid="_HANZwqBDEfCZt9eKWGl1cg" title="WITH_LINK"/>
+    <metadataDefinitions xmi:id="_cN6EoLMdEfCzjaYQVtxLdA" technicalid="_b5PcMrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
-  <widgets xmi:id="_wy3dYKJ9EfCkw9nEP7Fo_g" technicalid="_wiuIkKJ9EfCkw9nEP7Fo_g" name="NavigationMegaMenu" icon="/fr.pacman.front.cinematic/icons/Navigation.png" isContainer="true" documentation="Documentation&#x9;Orienter l’usager à travers les rubriques principales et secondaires du site."/>
-  <widgets xmi:id="_YYh0cKKIEfCkw9nEP7Fo_g" technicalid="_YI-8kKKIEfCkw9nEP7Fo_g" name="NavigationMegaCategory" icon="/fr.pacman.front.cinematic/icons/Navigation.png" isContainer="true" documentation="Documentation&#x9;Orienter l’usager à travers les rubriques principales et secondaires du site."/>
+  <widgets xmi:id="_wy3dYKJ9EfCkw9nEP7Fo_g" technicalid="_wiuIkKJ9EfCkw9nEP7Fo_g" name="NavigationMegaMenu" icon="/fr.pacman.front.cinematic/icons/Navigation.png" isContainer="true" documentation="Documentation&#x9;Orienter l’usager à travers les rubriques principales et secondaires du site.">
+    <metadataDefinitions xmi:id="_dDQ_ULMdEfCzjaYQVtxLdA" technicalid="_cwemMrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
+  </widgets>
+  <widgets xmi:id="_YYh0cKKIEfCkw9nEP7Fo_g" technicalid="_YI-8kKKIEfCkw9nEP7Fo_g" name="NavigationMegaCategory" icon="/fr.pacman.front.cinematic/icons/Navigation.png" isContainer="true" documentation="Documentation&#x9;Orienter l’usager à travers les rubriques principales et secondaires du site.">
+    <metadataDefinitions xmi:id="_dwaZMLMdEfCzjaYQVtxLdA" technicalid="_ddDYUbMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
+  </widgets>
   <widgets xmi:id="_9aeHMKBFEfCZt9eKWGl1cg" technicalid="_9MadEKBFEfCZt9eKWGl1cg" name="NavigationElement" icon="/fr.pacman.front.cinematic/icons/Navigation.png" documentation="Orienter l’usager à travers les rubriques principales et secondaires du site.">
     <possibleEvents xmi:id="_2tZPUKNzEfC0pe3Xpl-Fuw" technicalid="_2QiUMKNzEfC0pe3Xpl-Fuw" name="onClick"/>
     <possibleEvents xmi:id="_7jgpsKNzEfC0pe3Xpl-Fuw" technicalid="_7LH-4KNzEfC0pe3Xpl-Fuw" name="onBlur"/>
@@ -316,6 +362,7 @@
     <possibleEvents xmi:id="_-GUksKNzEfC0pe3Xpl-Fuw" technicalid="_90ZHMKNzEfC0pe3Xpl-Fuw" name="onMouseLeave"/>
     <metadataDefinitions xmi:id="_7wTU8KJ1EfCkw9nEP7Fo_g" technicalid="_63caUqJ1EfCkw9nEP7Fo_g" title="WITH_LINK"/>
     <metadataDefinitions xmi:id="_8EzlUKJ1EfCkw9nEP7Fo_g" technicalid="_735xwqJ1EfCkw9nEP7Fo_g" title="WITH_ICON"/>
+    <metadataDefinitions xmi:id="_ey2toLMdEfCzjaYQVtxLdA" technicalid="_egoVMrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_q8U60JH1EfCF6-2aQyGFWw" technicalid="_qx7osJH1EfCF6-2aQyGFWw" name="Pagination" icon="/fr.pacman.front.cinematic/icons/Pagination.png" documentation=" Naviguer entre les différentes pages d’une liste d’éléments.">
     <possibleEvents xmi:id="_Gyad8JMUEfCWNsj-B1W6Gw" technicalid="_EgTRYJMUEfCWNsj-B1W6Gw" name="onClick"/>
@@ -326,6 +373,7 @@
     <possibleEvents xmi:id="_JhghcJMUEfCWNsj-B1W6Gw" technicalid="_JRRGAJMUEfCWNsj-B1W6Gw" name="onKeyUp"/>
     <possibleEvents xmi:id="_PYWZAJMUEfCWNsj-B1W6Gw" technicalid="_PB3LoJMUEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_RdYL0JMUEfCWNsj-B1W6Gw" technicalid="_RHs2wJMUEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_fsnnMLMdEfCzjaYQVtxLdA" technicalid="_faANMrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_XygxUJH1EfCF6-2aQyGFWw" technicalid="_Xke8YJH1EfCF6-2aQyGFWw" name="Password" icon="/fr.pacman.front.cinematic/icons/Password.png" implementation="PasswordInput" documentation="Aider l’usager à créer ou saisir un mot de passe.">
     <possibleEvents xmi:id="_dU_IcJMTEfCWNsj-B1W6Gw" technicalid="_a_B9sJMTEfCWNsj-B1W6Gw" name="onChange"/>
@@ -341,6 +389,7 @@
     <metadataDefinitions xmi:id="_Ptu1cJ3QEfCo6_1VTWF0bg" technicalid="_PSLh4p3QEfCo6_1VTWF0bg" title="TXT_INFO" body="Veuillez saisir le champ"/>
     <metadataDefinitions xmi:id="_Qf8VgJ3QEfCo6_1VTWF0bg" technicalid="_QKr3Mp3QEfCo6_1VTWF0bg" title="TXT_ERROR" body="Le champ est en erreur"/>
     <metadataDefinitions xmi:id="_Q2-VcJ3QEfCo6_1VTWF0bg" technicalid="_QnnDwp3QEfCo6_1VTWF0bg" title="TXT_VALID" body="Le champ est valide"/>
+    <metadataDefinitions xmi:id="_gh8FoLMdEfCzjaYQVtxLdA" technicalid="_gPzMwrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_U8owYJH1EfCF6-2aQyGFWw" technicalid="_UuowoJH1EfCF6-2aQyGFWw" name="Select" icon="/fr.pacman.front.cinematic/icons/Select.png" implementation="Select" documentation=" Choisir un élément dans une liste donnée.">
     <possibleEvents xmi:id="_suJb4JL0EfCa3-VOW44b4A" technicalid="_sarGQJL0EfCa3-VOW44b4A" name="onChange"/>
@@ -353,6 +402,7 @@
     <metadataDefinitions xmi:id="_-5hfQJ69EfCN4vE0a76iPA" technicalid="_-thDkp69EfCN4vE0a76iPA" title="TXT_VALID" body="Le champ est valide"/>
     <metadataDefinitions xmi:id="__Rt80J69EfCN4vE0a76iPA" technicalid="__FeQkp69EfCN4vE0a76iPA" title="TXT_INFO" body="Veuillez saisir le champ"/>
     <metadataDefinitions xmi:id="_LbzsYJ7EEfCN4vE0a76iPA" technicalid="_K0emop7EEfCN4vE0a76iPA" title="WITH_VALUES"/>
+    <metadataDefinitions xmi:id="_hgW1sLMdEfCzjaYQVtxLdA" technicalid="_hC-9MrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_lVoC8JHzEfCF6-2aQyGFWw" technicalid="_k-q7gJHzEfCF6-2aQyGFWw" name="Search" icon="/fr.pacman.front.cinematic/icons/Search.png" implementation="SearchBar" documentation="Accéder rapidement à un contenu en lançant une recherche sur un mot clé ou une phrase.">
     <possibleEvents xmi:id="_K2jkcJL2EfCa3-VOW44b4A" technicalid="_KfV-UJL2EfCa3-VOW44b4A" name="onChange"/>
@@ -364,6 +414,7 @@
     <possibleEvents xmi:id="_T1WEYJL2EfCa3-VOW44b4A" technicalid="_Th6yEJL2EfCa3-VOW44b4A" name="onClick"/>
     <possibleEvents xmi:id="_aYKRIJL2EfCa3-VOW44b4A" technicalid="_aYJqEpL2EfCa3-VOW44b4A" name="onKeyDown"/>
     <possibleEvents xmi:id="_aYKRIZL2EfCa3-VOW44b4A" technicalid="_aYJqE5L2EfCa3-VOW44b4A" name="onBlur"/>
+    <metadataDefinitions xmi:id="_iVdRsLMdEfCzjaYQVtxLdA" technicalid="_iBi3MrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_rNpUUJH1EfCF6-2aQyGFWw" technicalid="_rCGysJH1EfCF6-2aQyGFWw" name="Share" icon="/fr.pacman.front.cinematic/icons/Share.png" documentation=" Partager le contenu consulté via différents canaux.">
     <possibleEvents xmi:id="_WdblUJMUEfCWNsj-B1W6Gw" technicalid="_WHi04JMUEfCWNsj-B1W6Gw" name="onClick"/>
@@ -373,6 +424,7 @@
     <possibleEvents xmi:id="_buIp8JMUEfCWNsj-B1W6Gw" technicalid="_bZYh8JMUEfCWNsj-B1W6Gw" name="onKeyUp"/>
     <possibleEvents xmi:id="_dDCnYJMUEfCWNsj-B1W6Gw" technicalid="_csdTYJMUEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_eT7ngJMUEfCWNsj-B1W6Gw" technicalid="_eBOt8JMUEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_jKZVoLMdEfCzjaYQVtxLdA" technicalid="_i4GrwrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_H8pr4JH1EfCF6-2aQyGFWw" technicalid="_Ht1MwJH1EfCF6-2aQyGFWw" name="Stepper" icon="/fr.pacman.front.cinematic/icons/Stepper.png" documentation="Accompagner l’usager au sein d’un formulaire ou une démarche en plusieurs étapes.">
     <possibleEvents xmi:id="_fcvKAJMREfCWNsj-B1W6Gw" technicalid="_ZKbecJMREfCWNsj-B1W6Gw" name="onClick"/>
@@ -383,6 +435,7 @@
     <possibleEvents xmi:id="_qd7mkJMREfCWNsj-B1W6Gw" technicalid="_qREPQJMREfCWNsj-B1W6Gw" name="onKeyUp"/>
     <possibleEvents xmi:id="_rjuxAJMREfCWNsj-B1W6Gw" technicalid="_rWfmQJMREfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_s-Mj4JMREfCWNsj-B1W6Gw" technicalid="_syfqMJMREfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_kDx0sLMdEfCzjaYQVtxLdA" technicalid="_jvpXwrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_WhLsUJH1EfCF6-2aQyGFWw" technicalid="_WUsvgJH1EfCF6-2aQyGFWw" name="SideMenu" icon="/fr.pacman.front.cinematic/icons/Sidemenu.png" documentation=" Présenter une liste verticale de liens placée à côté du contenu.">
     <possibleEvents xmi:id="_FKfO8JL1EfCa3-VOW44b4A" technicalid="_EkmToJL1EfCa3-VOW44b4A" name="onOpen"/>
@@ -392,6 +445,7 @@
     <possibleEvents xmi:id="_J5swEJL1EfCa3-VOW44b4A" technicalid="_Jt5IsJL1EfCa3-VOW44b4A" name="onKeyDown"/>
     <possibleEvents xmi:id="_LBQ1EJL1EfCa3-VOW44b4A" technicalid="_KwHasJL1EfCa3-VOW44b4A" name="onFocus"/>
     <possibleEvents xmi:id="_L7Ex8JL1EfCa3-VOW44b4A" technicalid="_Lu9okJL1EfCa3-VOW44b4A" name="onBlur"/>
+    <metadataDefinitions xmi:id="_lBuqsLMdEfCzjaYQVtxLdA" technicalid="_kvGCkrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_LqSbQJH1EfCF6-2aQyGFWw" technicalid="_LdZ10JH1EfCF6-2aQyGFWw" name="SkipLink" icon="/fr.pacman.front.cinematic/icons/Skiplink.png" documentation="Accéder plus rapidement à des zones précises de la page.">
     <possibleEvents xmi:id="_V3_n4JMSEfCWNsj-B1W6Gw" technicalid="_UKrKcJMSEfCWNsj-B1W6Gw" name="onClick"/>
@@ -399,6 +453,7 @@
     <possibleEvents xmi:id="_a0iaYJMSEfCWNsj-B1W6Gw" technicalid="_aiWeMJMSEfCWNsj-B1W6Gw" name="onBlur"/>
     <possibleEvents xmi:id="_cS2LcJMSEfCWNsj-B1W6Gw" technicalid="_cCFyoJMSEfCWNsj-B1W6Gw" name="onKeyDown"/>
     <possibleEvents xmi:id="_dT28gJMSEfCWNsj-B1W6Gw" technicalid="_dHiXwJMSEfCWNsj-B1W6Gw" name="onKeyUp"/>
+    <metadataDefinitions xmi:id="_l6WUwLMdEfCzjaYQVtxLdA" technicalid="_lnm-8rMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_sXq3cJH1EfCF6-2aQyGFWw" technicalid="_sNjSIJH1EfCF6-2aQyGFWw" name="Summary" icon="/fr.pacman.front.cinematic/icons/Summary.png" implementation="Summary" documentation="Liste d’ancres placée au-dessus du contenu correspondant.">
     <possibleEvents xmi:id="_Aa1bYJMVEfCWNsj-B1W6Gw" technicalid="_-OEo4JMUEfCWNsj-B1W6Gw" name="onClick"/>
@@ -408,6 +463,7 @@
     <possibleEvents xmi:id="_Fy2B4JMVEfCWNsj-B1W6Gw" technicalid="_Fa3mwJMVEfCWNsj-B1W6Gw" name="onKeyUp"/>
     <possibleEvents xmi:id="_HD3k4JMVEfCWNsj-B1W6Gw" technicalid="_Gr04UJMVEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_IMmHgJMVEfCWNsj-B1W6Gw" technicalid="_H4opsJMVEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_m5NJsLMdEfCzjaYQVtxLdA" technicalid="_mnH7MrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_mXd6cJHzEfCF6-2aQyGFWw" technicalid="_mJP4QJHzEfCF6-2aQyGFWw" name="Radio" icon="/fr.pacman.front.cinematic/icons/Radio.png" implementation="RadioButtons" documentation="Réaliser un choix unique parmi plusieurs options.">
     <possibleEvents xmi:id="_n9uZ0JL0EfCa3-VOW44b4A" technicalid="_nvaRAJL0EfCa3-VOW44b4A" name="onBlur"/>
@@ -418,6 +474,7 @@
     <possibleEvents xmi:id="_SKtukZL2EfCa3-VOW44b4A" technicalid="_SKtHh5L2EfCa3-VOW44b4A" name="onFocus"/>
     <metadataDefinitions xmi:id="_5v1GkJ6GEfCOGq9oMtmlDw" technicalid="_5Yyfkp6GEfCOGq9oMtmlDw" title="WITH_VALUE"/>
     <metadataDefinitions xmi:id="_WqIyYJ6KEfCOGq9oMtmlDw" technicalid="_WVxr8p6KEfCOGq9oMtmlDw" title="WITH_ICON"/>
+    <metadataDefinitions xmi:id="_nu_iMLMdEfCzjaYQVtxLdA" technicalid="_nbXbkrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_obSzYJHzEfCF6-2aQyGFWw" technicalid="_oPsAUJHzEfCF6-2aQyGFWw" name="Range" icon="/fr.pacman.front.cinematic/icons/Range.png" implementation="Range" documentation="Délimiter manuellement une sélection par rapport à une valeur minimale et maximale.">
     <possibleEvents xmi:id="_nio48JL3EfCa3-VOW44b4A" technicalid="_ljlyUJL3EfCa3-VOW44b4A" name="onChange"/>
@@ -437,13 +494,16 @@
     <metadataDefinitions xmi:id="_Cm9HYJ7LEfCN4vE0a76iPA" technicalid="_CcDe8p7LEfCN4vE0a76iPA" title="TXT_VALID" body="Veuillez saisir le champ"/>
     <metadataDefinitions xmi:id="_nepA0J7LEfCN4vE0a76iPA" technicalid="_iEGqwp7LEfCN4vE0a76iPA" title="WITH_STEPS"/>
     <metadataDefinitions xmi:id="_qxhG0J7LEfCN4vE0a76iPA" technicalid="_qg-wcp7LEfCN4vE0a76iPA" title="WITH_DOUBLE" body="false"/>
+    <metadataDefinitions xmi:id="_omwQoLMdEfCzjaYQVtxLdA" technicalid="_oTjAwrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_qPitUJH1EfCF6-2aQyGFWw" technicalid="_qD1MkJH1EfCF6-2aQyGFWw" name="TabNav" icon="/fr.pacman.front.cinematic/icons/Tabnav.png" documentation="Ce composant est en version bêta. ">
     <metadataDefinitions xmi:id="_1u_04J0GEfCkka7XcLxBbA" technicalid="_1gQOQp0GEfCkka7XcLxBbA" body="false"/>
+    <metadataDefinitions xmi:id="_p2QwsLMdEfCzjaYQVtxLdA" technicalid="_pjHyQrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_MSl5IKXEEfCk-qAZK2PLFQ" technicalid="_MGfW0KXEEfCk-qAZK2PLFQ" name="Tab" icon="/fr.pacman.front.cinematic/icons/Tab.png" isContainer="true" documentation="Documentation&#x9;Structurer plusieurs sections de contenu liées, en affichant une seule section à la fois dans un espace limité.">
     <metadataDefinitions xmi:id="_gW-3sKXIEfC9cJkVLOBQKg" technicalid="_f82gcqXIEfC9cJkVLOBQKg" title="WITH_ICON"/>
     <metadataDefinitions xmi:id="_wIMzEKXbEfC9cJkVLOBQKg" technicalid="_vJ7M8qXbEfC9cJkVLOBQKg" title="WITH_DEFAULT_OPENED" body="false"/>
+    <metadataDefinitions xmi:id="_qmfTwLMdEfCzjaYQVtxLdA" technicalid="_qUyfwrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_ssyy4JH1EfCF6-2aQyGFWw" technicalid="_sgdAAJH1EfCF6-2aQyGFWw" name="Table" icon="/fr.pacman.front.cinematic/icons/Table.png" implementation="Table" isContainer="true" documentation="Liste structurée de données textuelles et/ou numériques.">
     <possibleEvents xmi:id="_tfm4kJL1EfCa3-VOW44b4A" technicalid="_tKouIJL1EfCa3-VOW44b4A" name="onRowClick"/>
@@ -457,8 +517,11 @@
     <possibleEvents xmi:id="_axGkgJMVEfCWNsj-B1W6Gw" technicalid="_afDLMJMVEfCWNsj-B1W6Gw" name="onMouseLeave"/>
     <metadataDefinitions xmi:id="_rTd2YKgYEfCTqq3EQF3Ssg" technicalid="_qhME4qgYEfCTqq3EQF3Ssg" title="WITH_COLOR_VARIANT"/>
     <metadataDefinitions xmi:id="_jN0WMKgeEfCTqq3EQF3Ssg" technicalid="_itvH8qgeEfCTqq3EQF3Ssg" title="WITH_EDITION" body="false"/>
+    <metadataDefinitions xmi:id="_rXFDMLMdEfCzjaYQVtxLdA" technicalid="_rAqHQrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
-  <widgets xmi:id="_FFo9UKgAEfCTqq3EQF3Ssg" technicalid="_EanqYKgAEfCTqq3EQF3Ssg" name="TableColumn" icon="/fr.pacman.front.cinematic/icons/Table.png"/>
+  <widgets xmi:id="_FFo9UKgAEfCTqq3EQF3Ssg" technicalid="_EanqYKgAEfCTqq3EQF3Ssg" name="TableColumn" icon="/fr.pacman.front.cinematic/icons/Table.png">
+    <metadataDefinitions xmi:id="_sZErsLMdEfCzjaYQVtxLdA" technicalid="_ryB50rMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
+  </widgets>
   <widgets xmi:id="_WW938KjAEfCKhL2f6wtZwA" technicalid="_VSKzEKjAEfCKhL2f6wtZwA" name="TableEditor" icon="/fr.pacman.front.cinematic/icons/Table.png" implementation="createModal" isContainer="true" documentation="Concentrer l’attention  sur une tâche ou un élément d’information, sans perdre le contexte de la page en cours.">
     <possibleEvents xmi:id="_WW938ajAEfCKhL2f6wtZwA" technicalid="_VSKzFajAEfCKhL2f6wtZwA" name="onLoad"/>
     <possibleEvents xmi:id="_WW938qjAEfCKhL2f6wtZwA" technicalid="_VSKzEqjAEfCKhL2f6wtZwA" name="onOpen"/>
@@ -466,6 +529,7 @@
     <possibleEvents xmi:id="_WW939KjAEfCKhL2f6wtZwA" technicalid="_VSKzE6jAEfCKhL2f6wtZwA" name="onEscapeKeyDown"/>
     <possibleEvents xmi:id="_WW939ajAEfCKhL2f6wtZwA" technicalid="_VSKzFqjAEfCKhL2f6wtZwA" name="onClickOutside"/>
     <possibleEvents xmi:id="_WW939qjAEfCKhL2f6wtZwA" technicalid="_VSKzFKjAEfCKhL2f6wtZwA" name="onFocusTrap"/>
+    <metadataDefinitions xmi:id="_tqAvILMdEfCzjaYQVtxLdA" technicalid="_tVROMrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_tKQK8JH1EfCF6-2aQyGFWw" technicalid="_s8QLMJH1EfCF6-2aQyGFWw" name="Tag" icon="/fr.pacman.front.cinematic/icons/Tag.png" documentation=" Catégoriser, classer, organiser les contenus d’un site à l’aide de mots clés. ">
     <possibleEvents xmi:id="_eUhA4JMVEfCWNsj-B1W6Gw" technicalid="_b1Xd4JMVEfCWNsj-B1W6Gw" name="onClick"/>
@@ -476,8 +540,11 @@
     <possibleEvents xmi:id="_k6MUYJMVEfCWNsj-B1W6Gw" technicalid="_klG1MJMVEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_mG8bYJMVEfCWNsj-B1W6Gw" technicalid="_l0W2kJMVEfCWNsj-B1W6Gw" name="onMouseLeave"/>
     <possibleEvents xmi:id="_ne_MYJMVEfCWNsj-B1W6Gw" technicalid="_nNZtIJMVEfCWNsj-B1W6Gw" name="onRemove"/>
+    <metadataDefinitions xmi:id="_ulITkLMdEfCzjaYQVtxLdA" technicalid="_uO5k4rMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
-  <widgets xmi:id="_GdUYAKLIEfCkw9nEP7Fo_g" technicalid="_GPpIYKLIEfCkw9nEP7Fo_g" name="Text" icon="/fr.pacman.front.cinematic/icons/Input.png" documentation="Ecrire du texte directement sur la page"/>
+  <widgets xmi:id="_GdUYAKLIEfCkw9nEP7Fo_g" technicalid="_GPpIYKLIEfCkw9nEP7Fo_g" name="Text" icon="/fr.pacman.front.cinematic/icons/Input.png" documentation="Ecrire du texte directement sur la page">
+    <metadataDefinitions xmi:id="_vZ8bsLMdEfCzjaYQVtxLdA" technicalid="_vFZIArMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
+  </widgets>
   <widgets xmi:id="_KE05UJH1EfCF6-2aQyGFWw" technicalid="_J5Uz8JH1EfCF6-2aQyGFWw" name="Toogle" icon="/fr.pacman.front.cinematic/icons/Toogle.png" implementation="ToggleSwitch" documentation="Faire un choix entre deux états opposés (activé / désactivé).">
     <possibleEvents xmi:id="_7N7ZAJMREfCWNsj-B1W6Gw" technicalid="_4AHZMJMREfCWNsj-B1W6Gw" name="onChange"/>
     <possibleEvents xmi:id="_8MCAAJMREfCWNsj-B1W6Gw" technicalid="_7-KjIJMREfCWNsj-B1W6Gw" name="onClick"/>
@@ -488,6 +555,7 @@
     <metadataDefinitions xmi:id="_y4yRQJ69EfCN4vE0a76iPA" technicalid="_ybWuYp69EfCN4vE0a76iPA" title="TXT_ERROR" body="Le champ est en erreur"/>
     <metadataDefinitions xmi:id="_zPI7wJ69EfCN4vE0a76iPA" technicalid="_zAZ8Mp69EfCN4vE0a76iPA" title="TXT_VALID" body="Le champ est valide"/>
     <metadataDefinitions xmi:id="_zm24MJ69EfCN4vE0a76iPA" technicalid="_zYaMgp69EfCN4vE0a76iPA" title="TXT_INFO" body="Veuillez saisir le champ"/>
+    <metadataDefinitions xmi:id="_wGlfQLMdEfCzjaYQVtxLdA" technicalid="_vyOY0rMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_JtQt4JH1EfCF6-2aQyGFWw" technicalid="_JaDeAJH1EfCF6-2aQyGFWw" name="Tooltip" icon="/fr.pacman.front.cinematic/icons/Tooltip.png" implementation="Tooltip" documentation="Afficher un contenu complémentaire lié à un élément précis de l’interface.">
     <possibleEvents xmi:id="_w08L8JMREfCWNsj-B1W6Gw" technicalid="_uriPcJMREfCWNsj-B1W6Gw" name="onClick"/>
@@ -506,6 +574,7 @@
     <possibleEvents xmi:id="_uwAi8JMVEfCWNsj-B1W6Gw" technicalid="_ucl3sJMVEfCWNsj-B1W6Gw" name="onKeyUp"/>
     <possibleEvents xmi:id="_wFFfgJMVEfCWNsj-B1W6Gw" technicalid="_vuY2wJMVEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_xPbLsJMVEfCWNsj-B1W6Gw" technicalid="_w5TxwJMVEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_xESdoLMdEfCzjaYQVtxLdA" technicalid="_wqgEorMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_rxWeUJH1EfCF6-2aQyGFWw" technicalid="_rmpDIJH1EfCF6-2aQyGFWw" name="Translate" icon="/fr.pacman.front.cinematic/icons/Translate.png" documentation=" Choisir la langue dans laquelle est affiché le contenu du site.">
     <possibleEvents xmi:id="_pMtu8JMUEfCWNsj-B1W6Gw" technicalid="_mcvhsJMUEfCWNsj-B1W6Gw" name="onClick"/>
@@ -516,6 +585,7 @@
     <possibleEvents xmi:id="_vERYMJMUEfCWNsj-B1W6Gw" technicalid="_uvKD0JMUEfCWNsj-B1W6Gw" name="onKeyUp"/>
     <possibleEvents xmi:id="_xAqzcJMUEfCWNsj-B1W6Gw" technicalid="_wofkAJMUEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_yhGrcJMUEfCWNsj-B1W6Gw" technicalid="_yJXg4JMUEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <metadataDefinitions xmi:id="_yGh9wLMdEfCzjaYQVtxLdA" technicalid="_xwtewrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_xQm8UJH1EfCF6-2aQyGFWw" technicalid="_xAbyUJH1EfCF6-2aQyGFWw" name="Tile" icon="/fr.pacman.front.cinematic/icons/Button.png" implementation="Tile" documentation="Rediriger l’usager vers des pages de contenu.">
     <possibleEvents xmi:id="_0AhaUJMVEfCWNsj-B1W6Gw" technicalid="_ySEUcJMVEfCWNsj-B1W6Gw" name="onClick"/>
@@ -528,6 +598,7 @@
     <metadataDefinitions xmi:id="__FcuYK8DEfCwNZXD4fKsLA" technicalid="_-q3rMq8DEfCwNZXD4fKsLA" title="WITH_IMG"/>
     <metadataDefinitions xmi:id="__jRS0K8DEfCwNZXD4fKsLA" technicalid="__Nq2Qq8DEfCwNZXD4fKsLA" title="WITH_FONT_SIZE"/>
     <metadataDefinitions xmi:id="_cWaUwK8JEfCwNZXD4fKsLA" technicalid="_b-DfIq8JEfCwNZXD4fKsLA" title="WITH_SIZE" body="300"/>
+    <metadataDefinitions xmi:id="_zDZOoLMdEfCzjaYQVtxLdA" technicalid="_ygrjIrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_xqkUcJH1EfCF6-2aQyGFWw" technicalid="_xbIxUJH1EfCF6-2aQyGFWw" name="Upload" icon="/fr.pacman.front.cinematic/icons/Upload.png" implementation="Upload" documentation="Sélectionner et d’envoyer un ou plusieurs fichiers.">
     <possibleEvents xmi:id="_Bq0AEJMWEfCWNsj-B1W6Gw" technicalid="_-rOpgJMVEfCWNsj-B1W6Gw" name="onChange"/>

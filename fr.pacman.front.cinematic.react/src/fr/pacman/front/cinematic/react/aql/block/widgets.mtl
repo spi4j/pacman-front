@@ -9,6 +9,7 @@
 [import fr::pacman::front::core::aql::name::directories /]
 [import fr::pacman::front::core::service::AnnotationUtils/]
 [import fr::pacman::front::cinematic::react::aql::query::widgets/]
+[import fr::pacman::front::core::aql::output::resources/]
 
 [comment --------------------------------------------------------------------------------]
 [comment Pour l'instant on profite du laxisme de typeScript, dans les boucles  on supprime 
@@ -317,6 +318,10 @@
 [/template]
 
 [template private writeContent (ve : view::AbstractViewElement)]
+  [if (ve.label <> null and ve.label.trim().size()> 0)]
+    <p className="fr-text--lg fr-text--bold">[ve.label/]</p>
+  [/if]
+  [ve.description/]
 [/template]
 
 [template private writeDropDown (ve : view::AbstractViewElement)]
@@ -428,14 +433,20 @@
 
 [template private writeLink (ve : view::AbstractViewElement)]
   [let url = ve.urlForPageJsx()]
-    <a href="/[url/]" class="fr-link">
-      [ve.label/]
+    <p/><a href="/[url/]" 
+    [if (ve.hasMetaArrowType())]
+      [if ('left'.equalsIgnoreCase(ve.get_metaArrowType()))]className="fr-link fr-icon-arrow-left-line fr-link--icon-left"[/if]
+      [if ('right'.equalsIgnoreCase(ve.get_metaArrowType()))]className="fr-link fr-icon-arrow-right-line fr-link--icon-right"[/if]
+      [if ('download'.equalsIgnoreCase(ve.get_metaArrowType()))]target="_self" className="fr-link fr-link fr-link--download"[/if]
+      [if ('external'.equalsIgnoreCase(ve.get_metaArrowType()))]rel="noopener external" className="fr-link"[/if]
+    [/if]
+      >[ve.label/]
     </a>
   [/let]
 [/template]
 
 [template private writeLogo (ve : view::AbstractViewElement)]
-  <p class="fr-logo">
+  <p className="fr-logo">
     [ve.label/]
   </p>
 [/template]
@@ -555,7 +566,10 @@
 [/template]
 
 [template private writeText (ve : view::AbstractViewElement)]
-  [ve.label/] [ve.description/]
+  [if (ve.label <> null and ve.label.trim().size()> 0)]
+    <p className="fr-text--lg fr-text--bold">[ve.label/] : </p>
+  [/if]
+  [ve.description/]
 [/template]
 
 [template private writeNotice (ve : view::AbstractViewElement)]
@@ -611,8 +625,10 @@
 
 [template private writeSearch (ve : view::AbstractViewElement)]
   <SearchBar
-    defaultValue="France"
-    onButtonClick={function noRefCheck(){}}
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    onSearchButtonClick={handleSearch}
+    placeholder="Rechercher une page contenant..."
   />
 [/template]
 
@@ -635,6 +651,8 @@
         nativeSelectProps={{
           defaultValue: "",
           ...register("[ve.nameElementId()/]"[if (v.required)], { required: "[ve.get_metaTextError()/]" }[/if]),
+          [protected (ve.nameElementId().protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+          [/protected]
         }}
         state={errors.[ve.nameElementId()/] ? "error" : dirtyFields.[ve.nameElementId()/] ? "success" : "info"}
            stateRelatedMessage={
@@ -673,11 +691,11 @@
     [if (ve.hasMetaOpened())]isDefault: [ve.get_metaOpened()/],[/if]
     [if (ve.hasMetaIcon())]iconId: "[ve.get_metaIcon()/]",[/if]
     label: "[ve.label/]",
-    content: 
+    content: (<>
 [/template]
 
 [template private writeCloseTab (ve : view::AbstractViewElement)]
-  },
+  </>)},
 [/template]
 
 [template private writeTabGroup (ve : view::AbstractViewElement)]
@@ -772,9 +790,11 @@
         imageSvg
         imageUrl="[ve.nameDirectoryDsfr()/]/[ve.get_metaImg()/]"
       [/if]
-      linkProps={{
-        href: '#'
-      }}
+      [let url = ve.urlForPageJsx()]
+        linkProps={{
+          href: "/[url/]"
+        }}
+      [/let]
       orientation="[if (ve.hasMetaOrientation())][ve.get_metaOrientation()/][else]vertical[/if]"
       title="[ve.label/]"
       titleAs="h3"
