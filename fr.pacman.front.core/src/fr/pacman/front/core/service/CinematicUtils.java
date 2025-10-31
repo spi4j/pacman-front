@@ -193,6 +193,39 @@ public class CinematicUtils {
 	}
 
 	/**
+	 * Recherche et renvoie la garde associée à une transition déclenchée par un
+	 * événement donné.
+	 * <p>
+	 * Cette méthode parcourt la liste des transitions disponibles
+	 * ({@code _transitions}) et, pour chacune d'entre elles, vérifie si l'événement
+	 * fourni ({@code p_event}) correspond à l'un des événements déclencheurs de la
+	 * transition. Si une correspondance est trouvée et que la transition possède
+	 * une garde non vide, la valeur de cette garde est renvoyée.
+	 * </p>
+	 *
+	 * @param p_event L'événement {@link ViewEvent} pour lequel on souhaite
+	 *                récupérer la garde associée.
+	 *
+	 * @return La garde ({@link String}) associée à la transition déclenchée par
+	 *         {@code p_event}, ou {@code null} si aucune transition correspondante
+	 *         n'est trouvée, ou si aucune garde n'est définie.
+	 *
+	 * @see Transition
+	 * @see Event
+	 */
+	public static String get_guard(final ViewEvent p_event) {
+		for (Transition transition : _transitions) {
+			for (Event e : transition.getOn()) {
+				if (e == p_event) {
+					if (null != transition.getGuard() && !transition.getGuard().isEmpty())
+						return transition.getGuard();
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Récupère toutes les transitions présentes dans un {@link CinematicRoot}.
 	 * <p>
 	 * Cette méthode parcourt l'intégralité du modèle EMF contenu dans

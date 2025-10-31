@@ -67,6 +67,7 @@
     <possibleEvents xmi:id="_Ng9g8JMREfCWNsj-B1W6Gw" technicalid="_NSg1QJMREfCWNsj-B1W6Gw" name="onKeyUp"/>
     <metadataDefinitions xmi:id="_WzQfwKT5EfCj4oBHig1aWA" technicalid="_WXOEAaT5EfCj4oBHig1aWA" title="TXT_ERROR"/>
     <metadataDefinitions xmi:id="_XHsesKT5EfCj4oBHig1aWA" technicalid="_W7P-IqT5EfCj4oBHig1aWA" title="TXT_VALID"/>
+    <metadataDefinitions xmi:id="_4MWeoLSgEfCYyNg2nw_0sQ" technicalid="_3yUOArSgEfCYyNg2nw_0sQ" title="TXT_INFO"/>
     <metadataDefinitions xmi:id="_5l4gsLMcEfCzjaYQVtxLdA" technicalid="_49Ai0rMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_cVIkIJJGEfCaOp8KF-MYRg" technicalid="_cBrcoJJGEfCaOp8KF-MYRg" name="PanelSimple" icon="/fr.pacman.front.cinematic/icons/Panel.png" isContainer="true" documentation="Elément de navigation.">
@@ -116,6 +117,9 @@
     <possibleEvents xmi:id="_nAVvEJL1EfCa3-VOW44b4A" technicalid="_myVIQJL1EfCa3-VOW44b4A" name="onFocus"/>
     <possibleEvents xmi:id="_oE6KcJL1EfCa3-VOW44b4A" technicalid="_ny3YMJL1EfCa3-VOW44b4A" name="onBlur"/>
     <metadataDefinitions xmi:id="_GBK8sLMdEfCzjaYQVtxLdA" technicalid="_FXH6IrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
+    <metadataDefinitions xmi:id="_ttSewLSgEfCYyNg2nw_0sQ" technicalid="_tMYKEbSgEfCYyNg2nw_0sQ" title="TXT_INFO"/>
+    <metadataDefinitions xmi:id="_uGYUMLSgEfCYyNg2nw_0sQ" technicalid="_t2MjIrSgEfCYyNg2nw_0sQ" title="TXT_ERROR"/>
+    <metadataDefinitions xmi:id="_ufO5ELSgEfCYyNg2nw_0sQ" technicalid="_uOiKorSgEfCYyNg2nw_0sQ" title="TXT_VALID"/>
   </widgets>
   <widgets xmi:id="_kh0ncJHzEfCF6-2aQyGFWw" technicalid="_kU9QIJHzEfCF6-2aQyGFWw" name="Badge" icon="/fr.pacman.front.cinematic/icons/Badge.png" implementation="Badge" documentation="Valoriser une information liée à un élément précis du site.">
     <possibleEvents xmi:id="_6Gr4YJL2EfCa3-VOW44b4A" technicalid="_50QroJL2EfCa3-VOW44b4A" name="onClick"/>
@@ -348,12 +352,15 @@
   <widgets xmi:id="_WilX8KBCEfCZt9eKWGl1cg" technicalid="_WUbAIKBCEfCZt9eKWGl1cg" name="NavigationMenu" icon="/fr.pacman.front.cinematic/icons/Navigation.png" isContainer="true" documentation="Orienter l’usager à travers les rubriques principales et secondaires du site.">
     <metadataDefinitions xmi:id="_HiIbEKBDEfCZt9eKWGl1cg" technicalid="_HANZwqBDEfCZt9eKWGl1cg" title="WITH_LINK"/>
     <metadataDefinitions xmi:id="_cN6EoLMdEfCzjaYQVtxLdA" technicalid="_b5PcMrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
+    <metadataDefinitions xmi:id="_p9lzYLYgEfCQwMueU4o9vw" technicalid="_pYCPQrYgEfCQwMueU4o9vw" title="WITH_FORCE_SECURED" body="false"/>
   </widgets>
   <widgets xmi:id="_wy3dYKJ9EfCkw9nEP7Fo_g" technicalid="_wiuIkKJ9EfCkw9nEP7Fo_g" name="NavigationMegaMenu" icon="/fr.pacman.front.cinematic/icons/Navigation.png" isContainer="true" documentation="Documentation&#x9;Orienter l’usager à travers les rubriques principales et secondaires du site.">
     <metadataDefinitions xmi:id="_dDQ_ULMdEfCzjaYQVtxLdA" technicalid="_cwemMrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
+    <metadataDefinitions xmi:id="_Vze1ELYhEfCQwMueU4o9vw" technicalid="_VVVggrYhEfCQwMueU4o9vw" title="WITH_FORCE_SECURED" body="false"/>
   </widgets>
   <widgets xmi:id="_YYh0cKKIEfCkw9nEP7Fo_g" technicalid="_YI-8kKKIEfCkw9nEP7Fo_g" name="NavigationMegaCategory" icon="/fr.pacman.front.cinematic/icons/Navigation.png" isContainer="true" documentation="Documentation&#x9;Orienter l’usager à travers les rubriques principales et secondaires du site.">
     <metadataDefinitions xmi:id="_dwaZMLMdEfCzjaYQVtxLdA" technicalid="_ddDYUbMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
+    <metadataDefinitions xmi:id="_Z1NlILYhEfCQwMueU4o9vw" technicalid="_ZPTbsrYhEfCQwMueU4o9vw" title="WITH_FORCE_SECURED" body="false"/>
   </widgets>
   <widgets xmi:id="_9aeHMKBFEfCZt9eKWGl1cg" technicalid="_9MadEKBFEfCZt9eKWGl1cg" name="NavigationElement" icon="/fr.pacman.front.cinematic/icons/Navigation.png" documentation="Orienter l’usager à travers les rubriques principales et secondaires du site.">
     <possibleEvents xmi:id="_2tZPUKNzEfC0pe3Xpl-Fuw" technicalid="_2QiUMKNzEfC0pe3Xpl-Fuw" name="onClick"/>

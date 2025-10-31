@@ -21,6 +21,9 @@
 [comment vérifie si la page en cours utilise un formulaire (pour l'instant un seul authorisé par page)./]
 [query public useForm(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.isFormPanel())->isEmpty()/]
+
+[comment vérifie si la page en cours nécessite l'utilisation de la sécurité./]
+[query public useSecurity(vc : view::ViewContainer) : Boolean = true/]
   
 [comment vérifie si la page en cours utilise un composant de recherche./]
 [query public useSearch(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
@@ -108,10 +111,30 @@ propriété help qui n'est pas visible, si help = true alors c'est un tableau si
   else v.get_routesForReactRouter()->collect(u | '/' + u) endif/]
 
 [comment retourne l(es)'url(s) pour la page react (utilisé dans le app.tsx pour le routage par react-router)./]
-[query public routesForReactRouter(v : view::ViewContainer) : Sequence(flow::Transition) = if(v.isMainPanel()) 
+[query public routesForReact(v : view::ViewContainer) : Sequence(flow::Transition) = if(v.isMainPanel()) 
   then Sequence{v.get_routeForMainPanel()} else v.get_routesForReactRouter() endif/]
 
 [comment retourne l'url pour la page (utilisé pour chaque élément qui est un lien)./]
 [query public urlForPageJsx(ve : view::AbstractViewElement) : String = let onClick = ve.events
   ->select(e | e.isOnClick())->first() in if onClick <> null then onClick.get_urlForPageJsx() else '#' endif/]
+
+[comment retourne la garde pour la transition associée à l'événement onclick (si existe)./]
+[query public useRouteWithGuard(ve : view::AbstractViewElement) : String = let onClick = ve.events
+  ->select(e | e.isOnClick())->first() in if onClick <> null then onClick.get_guard() else null endif/]
+
+[comment vérifie si tous les sous-menus sont protégés par une garde./]
+[query public useRoutesWithGuard(vc : view::AbstractViewElement) : Boolean = if (not vc.oclIsKindOf(view::ViewContainer)) 
+  then false else vc.oclAsType(view::ViewContainer).ownedElements->select(o | o.useRouteWithGuard() <> null)->size() = 
+  vc.oclAsType(view::ViewContainer).ownedElements->size() or (vc.hasMetaForceSecured() 
+  and 'true'.equalsIgnoreCase(vc.get_metaAllSecured())) endif/]
+
+[comment aggregation des toutes les gardes pour un menu avec sous menus (plus de contrôle on est déjà passé par useRoutesWithGuard)./]
+[query public guards(vc : view::AbstractViewElement) : String = '' + vc.oclAsType(view::ViewContainer).ownedElements
+  ->select(o | o.useRouteWithGuard() <> null)->collect(o | o.useRouteWithGuard().replaceAll('register:',''))
+  ->asSet()->sep(',')/]
+
+[comment construction de la liste des rôles en fonction de ce qui est écrit dans la garde./]
+[query public roles(guard : String) : String =  let inner = if guard <> null and guard.index(':') <> -1 
+  then guard.substring(guard.index(':') + 1) else '' endif in if inner.size() = 0 then ''
+  else '"' + inner.replaceAll('\\s*,\\s*', '", "') + '"' endif/]
 

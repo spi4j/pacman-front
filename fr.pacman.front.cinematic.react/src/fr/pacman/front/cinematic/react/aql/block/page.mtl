@@ -84,11 +84,9 @@
   
   export default function [vc.namePageJsx()/] () {
     
-       const { user, hasRole, logout } = useAuth();
-    
-    
-    
-    
+    [if (vc.useSecurity())]
+      [vc.writeSecurityHandler()/]
+    [/if]
     [if (vc.useForm())]
       [vc.writeFormHandler()/]
     [/if]
@@ -98,6 +96,9 @@
     [if (vc.useSearch())]
       [vc.writeSearchHandler()/]
     [/if]
+    
+    [protected ((vc.nameElementId() + '-custom-code').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+    [/protected]
     
     return (
       <>
@@ -208,7 +209,7 @@
           <Routes>  
             [for (v : view::ViewContainer  | r.viewPanels())]
               [if (not v.isHeaderPanel() and not v.isFooterPanel())]
-                [for (rt | v.routesForReactRouter())]
+                [for (rt | v.routesForReact())]
                   [v.writeRoute(rt)/]
                 [/for]
               [/if]
@@ -233,7 +234,7 @@
       <Route path="/[rt.name/]" element={< [v.namePageJsx()/] />}/>
     </Route>
   [elseif (rt.guard.index('register:') <> -1)]
-    <Route element={<ProtectedRoutes roles={['['/][']'/]} />}>
+    <Route element={<ProtectedRoutes roles={['['/][rt.guard.roles()/][']'/]} />}>
       <Route path="/[rt.name/]" element={< [v.namePageJsx()/] />}/>
     </Route>
   [else]
@@ -354,11 +355,8 @@
     async function validateAndExecuteForm(data: FormValues): Promise<boolean> {
       console.log("Validation exécutée :", data);
       [protected ('validate form [vc.nameElementId()/]'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
-        
-        return data.IdentifiantInput === "12345" && data.passwordInput === "azerty";
-        
+        return true;
       [/protected]
-      return true;
     }
     
     // -----------------------------------------------------
@@ -489,6 +487,8 @@
       import { fakerFR } from '@faker-js/faker';
     [/if]
   [/if]
+  [protected ((vc.nameElementId() + '-imports').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+  [/protected]
 [/template]
 
 [comment .écriture de l'import pour la fenêtre modale + initialisation de la fenêtre./]
@@ -518,4 +518,13 @@
     console.log("Recherche effectuée :", searchTerm);
     navigate(`/[vc.urlForPageJsx()/]?q=${encodeURIComponent(searchTerm)}`);
   };
+[/template]
+
+[comment écriture de la gestion générique pour la gestion de la sécurité./]
+[template private writeSecurityHandler(vc : view::ViewContainer)]
+  // --------------------------------
+  // Gestion générique de la sécurité.
+  // --------------------------------
+  const { login, user, logout } = useAuth();
+  
 [/template]

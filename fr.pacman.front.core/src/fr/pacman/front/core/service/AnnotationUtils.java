@@ -553,4 +553,12 @@ public final class AnnotationUtils {
 	public static String get_metaCustomCode(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_CUSTOM_CODE);
 	}
+	
+	public static boolean has_metaAllSecured(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_ALL_SECURED);
+	}
+
+	public static String get_metaAllSecured(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_ALL_SECURED);
+	}
 }

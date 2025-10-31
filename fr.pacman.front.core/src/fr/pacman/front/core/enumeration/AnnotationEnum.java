@@ -94,6 +94,8 @@ public enum AnnotationEnum {
 	
 	WITH_CUSTOM_CODE("WITH_CUSTOM_CODE", ModelEnum.DSL_CINEMATIC, true),
 	
+	WITH_ALL_SECURED("WITH_FORCE_SECURED", ModelEnum.DSL_CINEMATIC, true),
+	
 	WITH_TOOLTIP("WITH_TOOLTIP", ModelEnum.DSL_CINEMATIC, true);
 
 	/** Le nom de l'annotation */

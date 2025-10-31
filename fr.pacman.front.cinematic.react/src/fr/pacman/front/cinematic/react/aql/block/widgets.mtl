@@ -485,35 +485,41 @@
       [comment accès direct sans menu./]
       [for (el | nav.eAllContents(view::AbstractViewElement)
         ->select(o3 | o3.isNavigationElement() and o3.eContainer().isNavigationGroup()))]
-        {  
-           isActive: location.pathname === "/[el.urlForPageJsx()/]",
-           linkProps: {
-             href: "/[el.urlForPageJsx()/]"
+        [el.writeCodeForSMGuard(true)/]
+          {  
+             isActive: location.pathname === "/[el.urlForPageJsx()/]",
+             linkProps: {
+               href: "/[el.urlForPageJsx()/]"
+             },
+             text: "[el.label/]"
            },
-           text: "[el.label/]"
-         },
+         [el.writeCodeForSMGuard(false)/]
       [/for]
       
       [comment barre de navigation avec menus et sous-menus./]
       [for (menu | nav.eAllContents(view::AbstractViewElement)
          ->select(o2 | o2.isNavigationMenu()))]
+         [menu.writeCodeForMGuard(true)/]
          {
            isActive: ['['/][for (el | menu.eAllContents(view::AbstractViewElement)
              ->select(o3 | o3.isNavigationElement()))]"/[el.urlForPageJsx()/]",[/for][']'/].includes(location.pathname),
            menuLinks: ['['/]
            [for (el | menu.eAllContents(view::AbstractViewElement)
              ->select(o3 | o3.isNavigationElement()))]
-             {
-               linkProps: {
+             [el.writeCodeForSMGuard(true)/]
+               {
+                 linkProps: {
                  href: "[el.urlForPageJsx()/]"
                },
                isActive: location.pathname === "/[el.urlForPageJsx()/]",
                text: "[el.label/]"
              },
+             [el.writeCodeForSMGuard(false)/]
            [/for]
            ],
            text: "[menu.label/]"
          },
+         [menu.writeCodeForMGuard(false)/]
        [/for]
        [comment barre de navigation mega./]
        [for (menuMega | nav.eAllContents(view::AbstractViewElement)
@@ -563,6 +569,27 @@
       [']'/]}
     [/let]
   [/if]
+[/template]
+
+[template private writeCodeForSMGuard(el : view::AbstractViewElement, begin :: Boolean)]
+  [let guard = el.useRouteWithGuard()]
+    [if (guard <> null and guard.index('register:') <> -1)]
+      [guard.writeCodeForGuard(begin)/]
+    [/if]
+  [/let]
+[/template]
+
+[template private writeCodeForMGuard(el : view::AbstractViewElement, begin :: Boolean)]
+  [if (el.useRoutesWithGuard())]
+    [let guards = 'register:' + el.guards()]
+      [guards.writeCodeForGuard(begin)/]
+    [/let]
+  [/if]
+[/template]
+
+[template private writeCodeForGuard(guard : String, begin :: Boolean)]
+  [if (begin)]...(user && ['['/][guard.roles()/][']'/]
+    .some(role => user.roles?.includes(role)) ? ['['/][else][']'/] : ['['/][']'/]),[/if]
 [/template]
 
 [template private writeText (ve : view::AbstractViewElement)]
