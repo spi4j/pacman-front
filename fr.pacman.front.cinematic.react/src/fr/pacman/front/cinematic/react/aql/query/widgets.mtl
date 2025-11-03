@@ -37,6 +37,12 @@
 [query public useTablesEdition(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.isTable() and o.useButtonEdition())->isEmpty()/]
   
+[comment vérifie si la page en cours utilise des tables en édition avec des boites de sélection./]
+[query public useSelectInTableEdition(vc : view::ViewContainer) : Boolean = vc.useTablesEdition() 
+  and vc.eAllContents(view::ViewContainer)->exists(o1 | o1.isTableEditor() and o1.eAllContents()
+  ->exists(o2 | o2.isSelect()))/]
+  
+[comment ./]
 [query public useButtonEdition(vc : view::AbstractViewElement) : Boolean = vc.isTable() and vc.hasMetaTableEdition() 
   and 'true'.equalsIgnoreCase(vc.get_metaTableEdition())/]
   

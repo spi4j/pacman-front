@@ -35,7 +35,7 @@
   [if (vc.useTables())]
     [for (tb |vc.eAllContents(view::ViewContainer)->select(o | o.isTable()))]
       export function getFakeTableData_[tb.nameElementId()/](nbRows = 10): string['['/][']'/]{
-       [protected ('validate form [vc.nameElementId()/]'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+       [protected (('validate form ' + tb.nameElementId()).protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
         
          return Array.from({ length: nbRows }, () => ['['/]
            [for (cl | tb.ownedElements)]
@@ -375,16 +375,13 @@
         return;
        }
        
+       [comment on doit obligatoirement avoir un formulaire associé./]
        [if (vc.useTablesEdition())]
          // ------------------------------------------------------
          // Gestion des fenêtres modales pour les tables éditables.
          // ------------------------------------------------------
          if (!currentTable || !currentRow) return;
-         [comment on doit obligatoirement avoir un formulaire associé./]
-         const updatedRow = ['['/][for (e | vc.eAllContents(view::ViewContainer)
-                                    ->select(o | o.isFormPanel())->first().ownedElements
-                                    ->select(o | o.isEligibleForFormValues()))]
-                                    data.[e.nameElementId()/], [/for][']'/];
+         const updatedRow = ['['/][vc.writeUpdatedRow()/][']'/];
          
          [for (tb | vc.eAllContents(view::ViewContainer)
            ->select(o | o.isTable() and o.useButtonEdition()))]
@@ -447,6 +444,14 @@
   [/let]
 [/template]
 
+[comment écriture de l'injection des données dans la ligne d'édition./]
+[template private writeUpdatedRow (vc : view::ViewContainer)]
+  [for (e | vc.eAllContents(view::ViewContainer)
+       ->select(o | o.isFormPanel())->first().ownedElements
+       ->select(o | o.isEligibleForFormValues()))]
+        data.[e.nameElementId()/], [/for]
+[/template]
+
 [comment écriture des imports pour la page (panel / header / footer / etc..)./]
 [template private writeAdditionalWidgetImports(vc : view::ViewContainer, ui : Boolean)]
   [if (ui)]
@@ -487,8 +492,7 @@
       import { fakerFR } from '@faker-js/faker';
     [/if]
   [/if]
-  [protected ((vc.nameElementId() + '-imports').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
-  [/protected]
+  [vc.writeProtectedZoneBeforeFunction()/]
 [/template]
 
 [comment .écriture de l'import pour la fenêtre modale + initialisation de la fenêtre./]
@@ -502,6 +506,31 @@
      id: "edit-row-modal", 
      isOpenedByDefault: false 
   });
+[/template]
+
+[comment écriture du tableau de transformation des données pour les listes déroulantes dans les tables éditables./]
+[template private writeProtectedZoneBeforeFunction (vc : view::ViewContainer)]
+  [protected ((vc.nameElementId() + '-imports').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+    [if (vc.useTables())]
+      const selectColumns: Record<number, Record<string, string>> = {
+      [if (vc.useSelectInTableEdition() )]
+        [for (s | vc.eAllContents(view::ViewContainer)
+           ->select(o1 | o1.isTableEditor())
+           ->collect(o1 | o1.eAllContents()
+           ->select(o2 | o2.isSelect()))
+           ->union(Sequence{}))]
+            [sIndex/]: {
+              [for (option | s.get_metaValues().tokenize(','))]
+                [if (option <> null and option.trim().size() > 0  and option.index(':') > 0)]
+                     [option.tokenize(':')->at(1)/]:"[option.tokenize(':')->at(2)/]",
+                [/if]
+              [/for]
+            }         
+        [/for]
+      [/if]
+      };
+    [/if]
+  [/protected]
 [/template]
 
 [comment écriture de la gestion générique pour la barre de recherche./]

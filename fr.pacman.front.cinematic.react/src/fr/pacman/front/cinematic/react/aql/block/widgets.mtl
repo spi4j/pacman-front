@@ -748,6 +748,43 @@
     [if (ve.hasMetaTableColor())]colorVariant="[ve.get_metaTableColor()/]"[/if]
     caption="[ve.label/]"
     data={
+      [if (ve.useButtonEdition())]
+        data_requestsInProgressTable.map((row) => {
+          // On clone la ligne pour ne pas modifier les données originales
+          const displayRow = ['['/]...row[']'/];
+          Object.entries(selectColumns).forEach((['['/]colIndex, labelMap[']'/]) => {
+            const index = Number(colIndex);
+            const code = displayRow['['/]index[']'/];
+            if (labelMap && code in labelMap) {
+            displayRow['['/]index[']'/] = labelMap['['/]code[']'/];
+          }
+        });
+        // On ajoute le bouton d’édition à la fin
+        return ['['/]
+          ...displayRow,
+          <Button
+             key={row['['/]0[']'/]}
+             // On passe toujours la ligne brute.
+             onClick={() => handleEditClick("requestsInProgressTable", row)} 
+             secondary="true"
+             small="true"
+          >
+          Éditer
+          </Button>,
+          [']'/];
+        })}
+      [else]
+          data_[ve.nameElementId()/]
+        }
+      [/if]
+[/template]
+
+[template private writeTable_sav (ve : view::AbstractViewElement)]
+  <Table 
+    fixed
+    [if (ve.hasMetaTableColor())]colorVariant="[ve.get_metaTableColor()/]"[/if]
+    caption="[ve.label/]"
+    data={
       data_[ve.nameElementId()/]
       [if (ve.useButtonEdition())]
         .map((row) => ['['/]
