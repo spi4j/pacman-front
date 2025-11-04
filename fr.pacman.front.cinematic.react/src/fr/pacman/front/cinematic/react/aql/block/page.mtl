@@ -275,6 +275,7 @@
       const handleEditClick = (table: [tbs->select(o | o.useButtonEdition())
         ->collect(o1 | '"' + o1.nameElementId() + '"')->sep(' | ')/], row: any['['/][']'/]) => {
         if (!modal) return;
+        setGlobalMessage(null);
         setCurrentRow(row);
         setCurrentTable(table);
           [comment on doit obligatoirement avoir un formulaire associé./]
@@ -508,24 +509,33 @@
   });
 [/template]
 
-[comment écriture du tableau de transformation des données pour les listes déroulantes dans les tables éditables./]
+[comment écriture du tableau de transformation des données pour les listes déroulantes dans les tables éditables.
+         attention pour l'instant si plusieurs tables les indexs sont les mêmes, à compléter dans le futur./]
 [template private writeProtectedZoneBeforeFunction (vc : view::ViewContainer)]
   [protected ((vc.nameElementId() + '-imports').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
     [if (vc.useTables())]
+      
+      // ------------------------------------------------------
+      // On écrit la liste de correspondance dans tous les cas.
+      // ------------------------------------------------------
       const selectColumns: Record<number, Record<string, string>> = {
-      [if (vc.useSelectInTableEdition() )]
-        [for (s | vc.eAllContents(view::ViewContainer)
+      [if (vc.useSelectInTableEdition())]
+        [for (tbForm | vc.eAllContents(view::ViewContainer)
            ->select(o1 | o1.isTableEditor())
-           ->collect(o1 | o1.eAllContents()
-           ->select(o2 | o2.isSelect()))
-           ->union(Sequence{}))]
-            [sIndex/]: {
-              [for (option | s.get_metaValues().tokenize(','))]
-                [if (option <> null and option.trim().size() > 0  and option.index(':') > 0)]
-                     [option.tokenize(':')->at(1)/]:"[option.tokenize(':')->at(2)/]",
-                [/if]
-              [/for]
-            }         
+           ->collect(o2 | o2.ownedElements
+           ->select(o3 | o3.isFormPanel())
+           ->collect(o4 | o4.oclAsType(view::ViewContainer))))]
+           [for (tbColumn | tbForm.ownedElements)]
+             [if (tbColumn.isSelect())]
+                [tbColumnIndex -1/]: {
+                [for (option | tbColumn.get_metaValues().tokenize(','))]
+                  [if (option <> null and option.trim().size() > 0 and option.index(':') > 0)]
+                       [option.tokenize(':')->at(1)/]:"[option.tokenize(':')->at(2)/]",
+                  [/if]
+                [/for]
+                },
+             [/if]
+           [/for]
         [/for]
       [/if]
       };

@@ -561,4 +561,12 @@ public final class AnnotationUtils {
 	public static String get_metaAllSecured(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_ALL_SECURED);
 	}
+	
+	public static boolean has_metaDisabled(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_DISABLED);
+	}
+
+	public static String get_metaDisabled(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_DISABLED);
+	}
 }

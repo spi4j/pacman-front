@@ -208,6 +208,7 @@
 
 [template private writeRadio (ve : view::AbstractViewElement)]
   {
+     [if (ve.hasMetaDisabled() and 'true'.equalsIgnoreCase(ve.get_metaDisabled()))]disabled[/if]
      [if (ve.hasMetaIcon())]illustration: <img alt="illustration" src={[ve.nameElementId()/]Ico}/>,[/if]
      hintText: "[ve.description/]",
      label: "[ve.label/]",
@@ -239,6 +240,7 @@
 [template private writeCheckBox (ve : view::AbstractViewElement)]
   [let v = ve.oclAsType(view::ViewElement)]
     {
+       [if (ve.hasMetaDisabled() and 'true'.equalsIgnoreCase(ve.get_metaDisabled()))]disabled[/if]
        hintText: "[ve.description/]",
        label: "[ve.label/]",
        [if (v.required and ve.eContainer().hasMetaNbRequired())]
@@ -398,6 +400,7 @@
 [let v = ve.oclAsType(view::ViewElement)]
   <Input 
     label="[ve.label/]"
+    [if (ve.hasMetaDisabled() and 'true'.equalsIgnoreCase(ve.get_metaDisabled()))]disabled[/if]
     [if (ve.hasMetaButtonAddon())] addon={<Button>[ve.get_metaButtonAddOn()/]</Button>}[/if]
     [if (ve.hasMetaButtonAction())] addon={<Button iconId="fr-icon-delete-line" priority="secondary" title="Supprimer le champ"/>}[/if]
     [if (ve.hasMetaIcon())]iconId="[ve.get_metaIcon()/]"[/if]
@@ -420,14 +423,16 @@
     placeholder: "[ve.get_metaTextPlaceHolder()/]",
     maxLength: [ve.get_metaMaxlength()/]
     }}
-    state={fieldState("[ve.nameElementId()/]")}
-    [if (srm)]
-      stateRelatedMessage={fieldMessage(
-          "[ve.nameElementId()/]",
-          "[v.get_metaTextInfo()/]",
-          "[v.get_metaTextSuccess()/]"
-       )}
-     [/if]
+    [if (not v.hasMetaDisabled() or 'false'.equalsIgnoreCase(v.get_metaDisabled()))]
+      state={fieldState("[ve.nameElementId()/]")}
+      [if (srm)]
+        stateRelatedMessage={fieldMessage(
+           "[ve.nameElementId()/]",
+           "[v.get_metaTextInfo()/]",
+           "[v.get_metaTextSuccess()/]"
+        )}
+      [/if]
+    [/if]
   [/let]
 [/template]
 
@@ -454,10 +459,10 @@
 [template private writeNavigationQuick(ve : view::AbstractViewElement)]
   [if (not ve.eAllContents(view::AbstractViewElement)
       ->select(o1 | o1.isNavigationQuick())->isEmpty())]
-      [let nav = ve.eAllContents(view::AbstractViewElement)
+      [let nav = ve.eAllContents(view::ViewContainer)
           ->select(o2 | o2.isNavigationQuick())->first()]
          quickAccessItems={['['/]
-         [for (directAccess | nav.eAllContents(view::AbstractViewElement)
+         [for (directAccess | nav.ownedElements
            ->select(o3 | o3.isNavigationElement()))]
            {
              iconId: "[directAccess.get_metaIcon()/]",
@@ -675,6 +680,7 @@
      <Select
         label="[ve.label/]"
         hint="[ve.description/]" 
+        [if (ve.hasMetaDisabled() and 'true'.equalsIgnoreCase(ve.get_metaDisabled()))]disabled[/if]
         nativeSelectProps={{
           defaultValue: "",
           ...register("[ve.nameElementId()/]"[if (v.required)], { required: "[ve.get_metaTextError()/]" }[/if]),
@@ -744,7 +750,7 @@
 [comment prépare multi-tables mais pour l'instant bloque à une seule table éditable./]
 [template private writeTable (ve : view::AbstractViewElement)]
   <Table 
-    fixed
+    [if (ve.useButtonEdition())]className="table-edition"[else]fixed[/if]
     [if (ve.hasMetaTableColor())]colorVariant="[ve.get_metaTableColor()/]"[/if]
     caption="[ve.label/]"
     data={
