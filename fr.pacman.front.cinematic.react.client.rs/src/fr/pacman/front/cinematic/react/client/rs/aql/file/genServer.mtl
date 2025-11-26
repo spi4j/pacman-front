@@ -1,0 +1,29 @@
+[module genServer(	'http://www.obeonetwork.org/dsl/soa/4.0.0',
+					'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
+
+[import fr::pacman::front::core::aql::base/]
+[import fr::pacman::front::core::aql::name::name/]
+[import fr::pacman::front::core::aql::name::directories/]
+[import fr::pacman::front::core::aql::output::resources/]
+[import fr::pacman::front::cinematic::react::client::rs::aql::block::services/]
+
+[comment écriture du fichier d'implémentation pour une page de service client (rest)./]
+[template public fileServiceTsImpl(s : soa::Service)]
+  [file (s.nameServiceTs().toFileTypeTs(s.nameDirectoryPagesServiceTs()), overwrite, s.defaultFileEncoding())]
+    [s.serviceImpl()/]
+  [/file]
+[/template]
+
+[comment écriture du fichier d 'implémentation pour la page de congiguration des services./]
+[template public fileServiceConfigJs(m : soa::System)]
+  [file (m.nameServiceConfigTs().toFileTypeJs(m.nameDirectoryPagesServiceConfigJs()), overwrite, m.defaultFileEncoding())]
+    [m.serviceConfigImpl()/]
+  [/file]
+[/template]
+
+[comment écriture du fichier d'implémentation pour un dto utilisé par le client react./]
+[template public fileServiceXtoTs(d : environment::DTO)]
+  [file (d.nameXtoTs().toFileTypeTs(d.nameDirectoryDtosTs()), overwrite, d.defaultFileEncoding())]
+    [d.serviceXtoImpl()/]
+  [/file]
+[/template]

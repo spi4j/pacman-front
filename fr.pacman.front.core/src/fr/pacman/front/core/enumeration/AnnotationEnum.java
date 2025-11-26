@@ -98,6 +98,8 @@ public enum AnnotationEnum {
 	
 	WITH_DISABLED("WITH_DISABLED", ModelEnum.DSL_CINEMATIC, true),
 	
+	WITH_LIBRARY_NAME("LIBRARY_NAME", ModelEnum.DSL_CINEMATIC, true),
+	
 	WITH_TOOLTIP("WITH_TOOLTIP", ModelEnum.DSL_CINEMATIC, true);
 
 	/** Le nom de l'annotation */

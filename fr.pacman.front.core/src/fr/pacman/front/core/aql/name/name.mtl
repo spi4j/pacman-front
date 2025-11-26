@@ -1,9 +1,29 @@
 [module name(	'http://www.obeonetwork.org/dsl/environment/3.0.0', 
-				'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0')/]
+				'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0',
+				'http://www.obeonetwork.org/dsl/soa/4.0.0')/]
 				
+				
+[import fr::pacman::front::core::aql::base/]		
+[import fr::pacman::front::core::aql::name::eobjects/]
+[import fr::pacman::front::core::aql::rule::common/]
 [import fr::pacman::front::core::convention::rule::PageNamingRule/]
 [import fr::pacman::front::core::service::AnnotationUtils/]
 
+[comment retourne le nom de la classe pour un objet sérialisé./]
+[query public nameXtoTs(d : environment::DTO) : String = (d.name() + d.suffixXto()).applyNorme_pageDefault()/] 
+  
+[comment retourne le nom d'un service./]
+[query public nameServiceTs(s: String): String = (s + s.suffixService()).applyNorme_pageDefault()/]
+  
+[comment retourne le nom d'une page typescript./]
+[query public nameServiceTs(s: soa::Service): String = s.name().nameServiceTs()/]
+  
+[comment retourne le nom d'une page typescript./]
+[query public nameServiceTs(s: soa::Interface): String = s.name().nameServiceTs()/]
+  
+[comment retourne le nom d'une page de configuration des services en js./]
+[query public nameServiceConfigTs(any : ecore::EObject): String = 'config'.applyNorme_pageDefault()/]
+  
 [comment retourne le nom d'une page typescript + jsx./]
 [query public namePageJsx(v : view::ViewContainer): String = v.name.applyNorme_pageDefault()/]
   
@@ -22,3 +42,6 @@
   
 [comment retourne le nom unique (id) pour un élément de page jsx./]
 [query public nameElementId(ve : view::AbstractViewElement) : String = ve.name/]
+  
+[comment retourne le nom de l'opération pour un service./]
+[query public nameOperationTs(o : soa::Operation) : String = o.name.toLowerFirst()/]

@@ -94,44 +94,6 @@ public abstract class PacmanUIGenerator extends PacmanUIProjectAction {
 	private String _representations;
 
 	/**
-	 * Constructeur pour une sélection par ressource de type 'fichier'. Ce fichier
-	 * peut être un fichier de type '.entities', '.react', '.requirements',
-	 * .environment'.
-	 * 
-	 * A ce niveau et pour l'instant on ne prend en compte qu'une seule ressource,
-	 * même si le système est prévu à la base pour pouvoir traiter plusieurs
-	 * ressources (évolution future si besoin).
-	 * 
-	 * @param p_selectedResource la ressource sélectionnée par le développeur.
-	 * @throws CoreException
-	 */
-	public PacmanUIGenerator(IResource p_selectedResource) {
-		_resources = new ArrayList<>();
-		_resources.add(p_selectedResource.getLocation().toString());
-		_resources.addAll(loadAdditionnalResources(p_selectedResource));
-		_rootPath = new File(p_selectedResource.getLocation().toString()).getParentFile();
-		_representations = File.separator + _rootPath.getName() + File.separator + "representations.aird";
-		_values = Collections.emptyList();
-	}
-
-	/**
-	 * Constructeur pour une sélection de ressources de type {@link EObject}. Cette
-	 * ressource peut être un {@link Component}, un {@lin DTO}, une {@link Entity},
-	 * un {@link Namespace}, etc..
-	 * 
-	 * A ce niveau et pour l'instant on ne prend en compte qu'une seule ressource,
-	 * même si le système est prévu à la base pour plusieurs ressources (évolution
-	 * future si besoin).
-	 * 
-	 * @param p_selectedEObject la ressource sélectionnée par le développeur.
-	 */
-	public PacmanUIGenerator(EObject p_selectedEObject) {
-		_values = Collections.singletonList(p_selectedEObject);
-		_rootPath = new File(PlugInUtils.getModelFolderFromEObject(p_selectedEObject));
-		_resources = Collections.emptyList();
-	}
-
-	/**
 	 * Retourne la liste de l'ensemble des propriétés de génération (options) qui
 	 * sont incompatibles avec le modèle et le(s) générateur(s) sélectionné(s).
 	 * 
@@ -196,6 +158,44 @@ public abstract class PacmanUIGenerator extends PacmanUIProjectAction {
 	protected abstract Logger getLogger();
 
 	/**
+	 * Constructeur pour une sélection par ressource de type 'fichier'. Ce fichier
+	 * peut être un fichier de type '.entities', '.react', '.requirements',
+	 * .environment'.
+	 * 
+	 * A ce niveau et pour l'instant on ne prend en compte qu'une seule ressource,
+	 * même si le système est prévu à la base pour pouvoir traiter plusieurs
+	 * ressources (évolution future si besoin).
+	 * 
+	 * @param p_selectedResource la ressource sélectionnée par le développeur.
+	 * @throws CoreException
+	 */
+	public PacmanUIGenerator(IResource p_selectedResource) {
+		_resources = new ArrayList<>();
+		_resources.add(p_selectedResource.getLocation().toString());
+		_resources.addAll(loadAdditionnalResources(p_selectedResource));
+		_rootPath = new File(p_selectedResource.getLocation().toString()).getParentFile();
+		_representations = File.separator + _rootPath.getName() + File.separator + "representations.aird";
+		_values = Collections.emptyList();
+	}
+
+	/**
+	 * Constructeur pour une sélection de ressources de type {@link EObject}. Cette
+	 * ressource peut être un {@link Component}, un {@lin DTO}, une {@link Entity},
+	 * un {@link Namespace}, etc..
+	 * 
+	 * A ce niveau et pour l'instant on ne prend en compte qu'une seule ressource,
+	 * même si le système est prévu à la base pour plusieurs ressources (évolution
+	 * future si besoin).
+	 * 
+	 * @param p_selectedEObject la ressource sélectionnée par le développeur.
+	 */
+	public PacmanUIGenerator(EObject p_selectedEObject) {
+		_values = Collections.singletonList(p_selectedEObject);
+		_rootPath = new File(PlugInUtils.getModelFolderFromEObject(p_selectedEObject));
+		_resources = Collections.emptyList();
+	}
+
+	/**
 	 * Retourne la liste de ressources additionnlles en fonction de la ressource
 	 * initialement sélectionnée par le développeur de l'application cible.
 	 * 
@@ -256,7 +256,7 @@ public abstract class PacmanUIGenerator extends PacmanUIProjectAction {
 					generator.setResources(_resources);
 					generator.setValues(_values);
 					generator.generate(monitor);
-					
+
 					if (PacmanValidatorsReport.hasReport())
 						displayAndfillReportView();
 				}

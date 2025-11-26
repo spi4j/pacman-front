@@ -1,0 +1,19 @@
+[module eobjects(	'http://www.obeonetwork.org/dsl/environment/3.0.0', 
+                    'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/flow/1.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/toolkits/1.0.0',
+					'http://www.obeonetwork.org/dsl/soa/4.0.0')/]
+
+[import fr::pacman::front::core::aql::string/]
+  
+[comment vérifie si un chaine n'est pas nulle ou vide./]
+[query public exists(str : String ) : Boolean  = str <> null and str.trim().size() > 0/]
+  
+[comment vérifie si un objet existe bien./]
+[query public exists(any : ecore::EObject) : Boolean = any <> null/]
+  
+[comment vérifie si le layout est de type horizontal./]
+[query public isHorizontalLayout(l : view::Layout) : Boolean = l.direction = view::LayoutDirection::HORIZONTAL/]
+
+

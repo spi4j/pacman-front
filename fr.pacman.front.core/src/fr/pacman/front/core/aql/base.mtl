@@ -16,6 +16,9 @@
 [comment l'extension pour tous les fichiers de type typescript./]
 [query public extensionTypeScript(any : ecore::EObject) : String = '.ts'/]  
 
+[comment l'extension pour tous les fichiers de type javascript./]
+[query public extensionJavaScript(any : ecore::EObject) : String = '.js'/]  
+
 [comment l'extension pour tous les fichiers de type typescript + jsx./]
 [query public extensionTypeScriptJsx(any : ecore::EObject) : String = '.tsx'/]  
 

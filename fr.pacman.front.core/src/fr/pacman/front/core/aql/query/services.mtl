@@ -1,0 +1,41 @@
+[module services(	'http://www.obeonetwork.org/dsl/environment/3.0.0', 
+				    'http://www.obeonetwork.org/dsl/soa/4.0.0')/]
+
+[import fr::pacman::front::core::aql::base/]
+[import fr::pacman::front::core::aql::query::eobjects/]
+
+[comment vérifie si un service contient des opérations de type rest./]
+[query public isRsService(s : soa::Service) : Boolean = s.exists() and not s.ownedInterface.ownedOperations
+  ->select(o | o.exposition = soa::ExpositionKind::REST)->isEmpty() /]
+					
+[comment vérifie si l'opération a un paramètre en sortie (entité, dto, type primitif) (transverse)./]
+[query public hasOutput(o : soa::Operation) : Boolean = o.output <> null and o.output->size() > 0 /]
+
+[comment vérifie si l'opération a des paramètres en entrée (entité, dto, type primitif) (transverse)./]
+[query public hasInputs(o : soa::Operation) : Boolean = o.input <> null and o.input->size() > 0 /]
+  
+[comment vérifie si l'opération est une opération de type rest./]
+[query public isRsOperation(o : soa::Operation) : Boolean = o.exists() and o.public and o.exposition = soa::ExpositionKind::REST/]
+
+[comment normalisation d'une uri pour les services rest etc..../]
+[query public toUri(uri : String) : String = if(uri.exists()) then uri.trim().toPath().replaceAll('\\/$', '') else '/' endif/]
+
+
+
+
+
+
+
+
+[comment normalisation d'un chemin de ressource à partir d'une chaine de caractères./]  
+[query private toPath(pkg : String) : String = if(pkg <> null and pkg.trim()->size() > 0) then  pkg.replaceAll('\\.', '/').normalizePath()
+  .ensureTrailingSlash() else '' endif/]
+  
+[comment ajoute un slash à la fin de la chaine./]
+[query private ensureTrailingSlash(path : String) : String = if path = null then '/' else if path.endsWith('/') then path else path + '/' endif endif/]
+
+[comment normalisation d'un chemin de ressource à partir d'une chaine de caractères./]  
+[query private normalizePath(path : String) : String = path.replaceAll('/+', '/').trim()/]
+ 
+[comment retourne le nom du paramètre de sortie pour l'operation./]
+[query public outputName(o : soa::Operation) : String = if (o.hasOutput()) then o.output->first().name else o.cNoModelisation() endif/]

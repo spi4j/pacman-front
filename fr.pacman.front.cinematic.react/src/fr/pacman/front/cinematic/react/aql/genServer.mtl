@@ -20,7 +20,7 @@
     [if (vc.isViewPanel())]
       [vc.filePageJsxImpl(vs)/]
       [vc.filePageMockJsxImpl(vs)/]
-      [vc.filePageServiceJsxImpl(vs)/]
+      [comment vc.filePageServiceTsImpl(vs)/]
     [/if]
   [/for]
  [/for]

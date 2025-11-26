@@ -9,14 +9,32 @@
 [comment retourne le répertoire pour le stockage des pages de service mock en react./]
 [query public nameDirectoryPagesMockJsx(any : ecore::EObject) : String = 'src/mocks'/]
   
+[comment retourne le répertoire pour le stockage des dtos en react./]
+[query public nameDirectoryDtosTs(any : ecore::EObject) : String = 'src/models'/]
+  
 [comment retourne le répertoire pour le stockage des pages en react./]
 [query public nameDirectoryPagesForAppTsx(any : ecore::EObject) : String = './pages'/]
   
 [comment retourne le répertoire pour le stockage des pages de service en react./]
 [query public nameDirectoryPagesServiceForAppTsx(any : ecore::EObject) : String = '../services'/]
   
+[comment retourne le répertoire pour le stockage des dtos en react./]
+[query public nameDirectoryDtosForAppTs(any : ecore::EObject) : String = '../models'/]
+  
+[comment retourne le répertoire pour le stockage des pages de service en react./]
+[query public nameDirectoryPagesServiceTs(any : ecore::EObject) : String = 'src/services'/]
+  
+[comment retourne le répertoire pour le stockage des pages de configuration pour les services en react./]
+[query public nameDirectoryPagesServiceConfigJs(any : ecore::EObject) : String = 'src/config'/]
+  
+[comment retourne le répertoire pour le stockage des pages de configuration pour les services en react./]
+[query public nameDirectoryPagesConfigJsForService(any : ecore::EObject) : String = '../config'/]
+  
 [comment retourne le répertoire pour le stockage des pages de service mock en react./]
 [query public nameDirectoryPagesMockForAppTsx(any : ecore::EObject) : String = '../mocks'/]
+  
+[comment retourne le répertoire pour le stockage des dtos de service  en react./]
+[query public nameDirectoryDtosForServiceTs(any : ecore::EObject) : String = '../models'/]
   
 [comment retourne le répertoire pour le stockage des images./]
 [query public nameDirectoryImages(any : ecore::EObject) : String = '../assets/imgs'/]

@@ -218,20 +218,23 @@
 				<module>fr.pacman.front.branding</module>
 				<module>fr.pacman.front.config</module>
 				<module>fr.pacman.front.core</module>
-				<module>fr.pacman.front.cinematic.react</module>
 				<module>fr.pacman.front.start</module>
 				<module>fr.pacman.front.cinematic</module>
+				<module>fr.pacman.front.cinematic.react</module>
+				<module>fr.pacman.front.cinematic.react.client.rs</module>
 				
 				<!-- modules couche UI. -->
 				<module>fr.pacman.front.core.ui</module>
 				<module>fr.pacman.front.config.ui</module>
 				<module>fr.pacman.front.start.ui</module>
 				<module>fr.pacman.front.cinematic.react.ui</module>
+				<module>fr.pacman.front.cinematic.react.client.rs.ui</module>
 				
 				<!-- modules produits. -->
 				<module>fr.pacman.front.core.ui.feature</module>
 				<module>fr.pacman.front.config.ui.feature</module>
 				<module>fr.pacman.front.cinematic.react.ui.feature</module>
+				<module>fr.pacman.front.cinematic.react.client.rs.ui.feature</module>
 				<module>fr.pacman.front.cinematic.feature</module>
 				<module>fr.pacman.front.start.ui.feature</module>
 

@@ -569,4 +569,12 @@ public final class AnnotationUtils {
 	public static String get_metaDisabled(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_DISABLED);
 	}
+	
+	public static boolean has_metaLibraryName(final ObeoDSMObject p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_LIBRARY_NAME);
+	}
+
+	public static String get_metaLibraryName(final ObeoDSMObject p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_LIBRARY_NAME);
+	}
 }

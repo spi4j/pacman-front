@@ -1,0 +1,63 @@
+[module pages(	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
+				'http://www.obeonetwork.org/dsl/soa/4.0.0', 
+				'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
+				
+[import fr::pacman::front::core::aql::base /]
+[import fr::pacman::front::core::aql::name::name/]
+[import fr::pacman::front::core::aql::query::services/]
+[import fr::pacman::front::core::convention::rule::PageNamingRule/]
+[import fr::pacman::front::core::service::AnnotationUtils/]
+  
+[comment retourne la liste des actions pour la page (le controlleur) en cours de traitement./]
+[query public rsActions(vc : flow::ViewState) : OrderedSet(flow::ActionState) = if vc.eContainer() = null 
+  or not vc.eContainer().oclIsKindOf(flow::Flow) OrderedSet{} else vc.eContainer().eAllContents(flow::Transition)
+  ->select(o | o.to.oclIsKindOf(flow::ActionState) and o.from = vc)->collect(o1 | o1.to.oclAsType(flow::ActionState))
+  ->asOrderedSet() endif/]
+  
+[comment retourne le nom de la librairie associée au service./]
+[query public rsLibraryNameForService(vs : flow::ViewState, s : soa::Interface) : String = vs.rsActionStateFromService(s)
+  .get_metaLibraryName()/]
+  
+[comment retourne l'actionState associé au service en cours de traitement./]
+[query public rsActionStateFromService(vs : flow::ViewState, s : soa::Interface) : flow::ActionState =
+  vs.rsActions()->select(a | a.actions->collect(act | act.operations)->exists(op | op.oclIsKindOf(soa::Operation) 
+  and op.eContainer() = s))->first()/]
+
+[comment retourne le nom de la librairie associée au dto./]
+[query public rsLibraryNameForDto(vs : flow::ViewState, d : environment::DTO) : String = vs.rsActionStateFromDto(d)
+  .get_metaLibraryName()/]
+ 
+[comment retourne l'actionState associé au dto en cours de traitement./]
+[query public rsActionStateFromDto(vs : flow::ViewState, d : environment::DTO) : flow::ActionState =
+  vs.rsActions()->select(a | a.actions->collect(act | act.operations)->exists(op | op.oclIsKindOf(soa::Operation) 
+  and ( op.input->exists(i | i.type = d) or op.output->first().type = d)))->first()/]
+  
+[comment ./]
+[comment query private rsActionStateFromService(vs : flow::ViewState, s : soa::Interface) : flow::ActionState =  
+  vs.rsActions()->select(o | o.actions->exists(op | op.eContainer() = s))->first()/]
+
+[comment query private rsActionStateFromService2(vs : flow::ViewState, s : soa::Interface) : flow::ActionState =  
+  vs.rsActions()->collect(o | o.actions)->collect(o2 | o2.operations)->collect(p |p.eContainer())/]
+  
+[comment retourne la liste des operations pour la page (le controlleur) en cours de traitement./]
+[query private rsTmpOperations(vc : flow::ViewState) : OrderedSet(soa::Operation) = vc.rsActions()
+  ->collect(o | o.actions)->collect(o2 | o2.operations)/]
+  
+[comment retourne la liste des operations pour la page (le controlleur) en cours de traitement. Pour l'instant passe par la fonction 
+         temporaire rsTmpOperations (qui devrait renvoyer directement les infos) car problème de compilation non compris à ce jour./]
+[query public rsOperationsForViewState(vc : flow::ViewState) : OrderedSet(soa::Operation) = vc.rsTmpOperations()->select(o | o.isRsOperation())/]
+
+[comment retourne le nom du service associé par le biais de l'interface./]
+[query public rsServiceNameFromOperation(o : soa::Operation) : String = if (o.eContainer() <> null and o.eContainer() 
+.oclIsKindOf( soa::Interface )) then o.eContainer().oclAsType(soa::Interface).name.nameServiceTs() 
+else o.cNoModelisation() endif/]
+
+[comment retourne la liste des services pour la page (le controlleur) en cours de traitement./]
+[query public rsServicesForViewState(vc : flow::ViewState) : OrderedSet(soa::Interface) = vc.rsActions()
+  ->collect(o | o.actions)->collect(o2 | o2.operations)->collect(o3 |o3.eContainer().oclAsType(soa::Interface))
+  ->asOrderedSet()/]
+
+[comment ./]
+[query public rsXtosForViewState(vc : flow::ViewState) : OrderedSet(environment::DTO) = let ops = vc.rsOperationsForViewState() in (ops
+  ->collect(o1 | o1.input)->asOrderedSet())->union((ops->collect(o2 | o2.output)->asOrderedSet()))
+  ->select(o4 | o4.type.oclIsKindOf(environment::DTO))->collect(o5 | o5.type.oclAsType(environment::DTO))/]

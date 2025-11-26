@@ -1,13 +1,15 @@
-[module page( 	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
+[module pages( 	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
 				'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0', 
 				'http://www.obeonetwork.org/dsl/cinematic/flow/1.0.0', 
 				'http://www.obeonetwork.org/dsl/cinematic/toolkits/1.0.0',
-				'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
+				'http://www.obeonetwork.org/dsl/environment/3.0.0',
+				'http://www.obeonetwork.org/dsl/soa/4.0.0')/]
 				
 [import fr::pacman::front::core::aql::name::name /]
 [import fr::pacman::front::core::aql::name::directories /]
-[import fr::pacman::front::core::aql::query::eobject/]
+[import fr::pacman::front::core::aql::query::eobjects/]
 [import fr::pacman::front::core::aql::query::events/]
+[import fr::pacman::front::core::aql::query::pages/]
 [import fr::pacman::front::core::aql::query::metadatas/]
 [import fr::pacman::front::cinematic::react::aql::block::widgets/]
 [import fr::pacman::front::cinematic::react::aql::query::widgets/]
@@ -15,6 +17,7 @@
 [import fr::pacman::front::core::service::CinematicUtils/]
 [import fr::pacman::front::core::service::AnnotationUtils/]
 [import fr::pacman::front::core::aql::output::resources/]
+[import fr::pacman::front::core::aql::rule::method/]
 
 [comment --------------------------------------------------------------------------------]
 [comment Pour l'instant on profite du laxisme de typeScript, dans les boucles  on supprime 
@@ -25,12 +28,13 @@
 [comment --------------------------------------------------------------------------------]
 
 [comment écriture de la page de service (appelée par la page UI)./]
-[template public pageServiceJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
+[template public pageServiceTsImpl (vc : view::ViewContainer, vs : flow::ViewState )]
+  
 [/template]
 
 [comment écriture de la page de service mock (appelée par la page UI)./]
 [template public pageMockJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
-  [vc.writeAdditionalWidgetImports(false)/]
+  [vc.writeAdditionalWidgetImports(vs, false)/]
   
   [if (vc.useTables())]
     [for (tb |vc.eAllContents(view::ViewContainer)->select(o | o.isTable()))]
@@ -66,7 +70,7 @@
   [else]
     import { Footer } from "@codegouvfr/react-dsfr/Footer";
   [/if]
-  [vc.writeElement(false).writePageJsx(vc)/]
+  [vc.writeElement(false).writePageJsx(vc, vs)/]
 [/template]
 
 [comment écriture d'une page typescript + code jsx (standard panel)./]				
@@ -75,12 +79,12 @@
     import { useForm } from "react-hook-form";
     import { Alert } from "@codegouvfr/react-dsfr/Alert";
   [/if]
-  [vc.layout.writeLayouts().writePageJsx(vc)/]
+  [vc.layout.writeLayouts().writePageJsx(vc, vs)/]
 [/template]
 
 [comment écriture du corps de la page typescript + code jsx (simple factorisation)./]
-[template private writePageJsx(body : String, vc : view::ViewContainer)]
-  [vc.writeAdditionalWidgetImports(true)/]
+[template private writePageJsx(body : String, vc : view::ViewContainer, vs : flow::ViewState)]
+  [vc.writeAdditionalWidgetImports(vs, true)/]
   
   export default function [vc.namePageJsx()/] () {
     
@@ -454,7 +458,7 @@
 [/template]
 
 [comment écriture des imports pour la page (panel / header / footer / etc..)./]
-[template private writeAdditionalWidgetImports(vc : view::ViewContainer, ui : Boolean)]
+[template private writeAdditionalWidgetImports(vc : view::ViewContainer, vs : flow::ViewState, ui : Boolean)]
   [if (ui)]
     [for (ve | vc.get_viewElementForImports()->reject(o | o.isTableEditor()))]
       import { [ve.widget.implementation.trim()/] } from "[ve.reactUriForElement()/]/[ve.widget.implementation.trim()/]";
@@ -487,16 +491,22 @@
         [vc.writeSpecificModalWidgetImport()/]
       [/if]
     [/if]
-  
+    [for (s | vs.rsServicesForViewState())]
+      import { [s.nameServiceTs()/] } from "[vs.rsLibraryNameForService(s)/]";
+    [/for]
+    [for (d | vs.rsXtosForViewState())]
+      import { [d.nameXtoTs()/] } from "[vs.rsLibraryNameForDto(d)/]";
+    [/for]
   [else]
     [if (vc.useTables())]
       import { fakerFR } from '@faker-js/faker';
     [/if]
   [/if]
+  
   [vc.writeProtectedZoneBeforeFunction()/]
 [/template]
 
-[comment .écriture de l'import pour la fenêtre modale + initialisation de la fenêtre./]
+[comment écriture de l'import pour la fenêtre modale + initialisation de la fenêtre./]
 [template private writeSpecificModalWidgetImport(vc : view::ViewContainer)]
   import { createModal } from "@codegouvfr/react-dsfr/Modal";
   
@@ -567,3 +577,4 @@
   const { login, user, logout } = useAuth();
   
 [/template]
+

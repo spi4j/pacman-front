@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="fr.pacman.front.cinematic.react.ui.feature"
+      label="PacMan Front - Client RS"
+      version="5.0.0.qualifier"
+      provider-name="Cali"
+      plugin="fr.pacman.front.branding">
+         
+   <includes
+      id="fr.pacman.front.core.ui.feature"
+      version="0.0.0"/>
+      
+   <includes
+         id="fr.pacman.front.cinematic.feature"
+         version="0.0.0"/>
+      
+   <plugin
+         id="fr.pacman.front.cinematic.react.client.rs"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="fr.pacman.front.cinematic.react.client.rs.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+            
+</feature>
