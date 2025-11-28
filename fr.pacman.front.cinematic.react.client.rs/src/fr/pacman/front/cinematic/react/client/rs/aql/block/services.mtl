@@ -14,7 +14,7 @@
   
   [for (o | s.ownedInterface.ownedOperations)]
     [if (o.isRsOperation())]
-      export async function [o.nameOperationTs()/](userId) {
+      export async function [o.nameRsOperationTs()/](userId) {
         const { data } = await apiClient.[o.writeOperationUri(s)/]
         return data;
       }
@@ -35,7 +35,7 @@
   else s.cNoModelisation() endif/]
 
 [comment écriture du fichier de configuration pour l'ensemble des services rest./]
-[template public serviceConfigImpl(m : soa::System)]
+[template public serviceConfigImpl(any : ecore::EObject)]
     import axios from "axios";
     export const apiClient = axios.create({    
     baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api",
@@ -47,6 +47,6 @@
 
 [comment écriture d'un dto (objet métier)./]
 [template public serviceXtoImpl(d : environment::DTO)]
-  export const [d.nameXtoTs()/] = {
+  export const [d.nameRsXtoTs()/] = {
   };
 [/template]

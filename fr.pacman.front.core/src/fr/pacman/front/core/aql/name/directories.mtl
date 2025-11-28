@@ -25,10 +25,10 @@
 [query public nameDirectoryPagesServiceTs(any : ecore::EObject) : String = 'src/services'/]
   
 [comment retourne le répertoire pour le stockage des pages de configuration pour les services en react./]
-[query public nameDirectoryPagesServiceConfigJs(any : ecore::EObject) : String = 'src/config'/]
+[query public nameDirectoryPagesServiceConfigJs(any : ecore::EObject) : String = 'src/api'/]
   
 [comment retourne le répertoire pour le stockage des pages de configuration pour les services en react./]
-[query public nameDirectoryPagesConfigJsForService(any : ecore::EObject) : String = '../config'/]
+[query public nameDirectoryPagesConfigJsForService(any : ecore::EObject) : String = '../api'/]
   
 [comment retourne le répertoire pour le stockage des pages de service mock en react./]
 [query public nameDirectoryPagesMockForAppTsx(any : ecore::EObject) : String = '../mocks'/]

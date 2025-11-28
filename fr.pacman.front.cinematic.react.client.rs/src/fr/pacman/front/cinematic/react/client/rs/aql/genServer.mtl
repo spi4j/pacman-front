@@ -15,7 +15,7 @@
 [comment @main/]	
 [template public genServer(m : soa::System)]
   [comment écriture du fichier de configuration pour les services./]
-  [comment m.fileServiceConfigJs()/]
+  [m.fileServiceConfigJs()/]
   [comment écriture des différents objets pour le stockage des données./]
   [for (d | m.eAllContents(environment::DTO))]
     [comment d.fileServiceDtoTs()/]

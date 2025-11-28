@@ -11,6 +11,7 @@
 [import fr::pacman::front::core::aql::query::events/]
 [import fr::pacman::front::core::aql::query::pages/]
 [import fr::pacman::front::core::aql::query::metadatas/]
+[import fr::pacman::front::core::aql::output::comments/]
 [import fr::pacman::front::cinematic::react::aql::block::widgets/]
 [import fr::pacman::front::cinematic::react::aql::query::widgets/]
 [import fr::pacman::front::core::aql::query::widgets/]
@@ -99,6 +100,9 @@
     [/if]
     [if (vc.useSearch())]
       [vc.writeSearchHandler()/]
+    [/if]
+    [if (vs.useRsServices())]
+      [vc.writeRestCallsHandler(vs)/]
     [/if]
     
     [protected ((vc.nameElementId() + '-custom-code').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
@@ -262,6 +266,18 @@
   }
 [/template]
 
+[comment écriture des fonctions pour les appels de service rest./]
+[template private writeRestCallsHandler(vc :: view::ViewContainer, vs : flow::ViewState)]
+  [vc.lineSeparator()/]
+  [for (o | vs.rsOperationsForViewState())]
+    [o.description.commentMultiLines()/]
+    async function [o.nameRsOperationTs()/]() {
+      const result = await [o.rsServiceNameFromOperation()/].[o.nameRsOperationTs()/]();
+    }
+    
+  [/for]
+[/template]
+
 [comment écriture de la gestion des tables./]
 [template private writeTablesHandler(vc : view::ViewContainer)]
   [let tbs =  vc.eAllContents(view::ViewContainer)->select(o | o.isTable())]
@@ -311,6 +327,9 @@
       [for (tb | tbs)]
         setData_[tb.nameElementId()/](getFakeTableData_[tb.nameElementId()/]());
       [/for]
+      
+      [protected ('use effect'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+      [/protected]
     }, ['['/][']'/]);
   [/let]
 [/template]
@@ -491,11 +510,14 @@
         [vc.writeSpecificModalWidgetImport()/]
       [/if]
     [/if]
+    [if (vs.useRsServices())]
+      import { [vs.nameServiceConfigTs()/] } from "[vs.nameDirectoryPagesConfigJsForService()/]/[vs.nameServiceConfigTs()/]";
+    [/if]
     [for (s | vs.rsServicesForViewState())]
-      import { [s.nameServiceTs()/] } from "[vs.rsLibraryNameForService(s)/]";
+      import { [s.nameRsServiceTs()/] } from "[vs.rsLibraryNameForService(s)/]";
     [/for]
     [for (d | vs.rsXtosForViewState())]
-      import { [d.nameXtoTs()/] } from "[vs.rsLibraryNameForDto(d)/]";
+      import { [d.nameRsXtoTs()/] } from "[vs.rsLibraryNameForDto(d)/]";
     [/for]
   [else]
     [if (vc.useTables())]

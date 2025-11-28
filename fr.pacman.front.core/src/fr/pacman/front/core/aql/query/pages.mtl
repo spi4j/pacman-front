@@ -9,7 +9,7 @@
 [import fr::pacman::front::core::service::AnnotationUtils/]
   
 [comment retourne la liste des actions pour la page (le controlleur) en cours de traitement./]
-[query public rsActions(vc : flow::ViewState) : OrderedSet(flow::ActionState) = if vc.eContainer() = null 
+[query public rsActionsStatesForViewState(vc : flow::ViewState) : OrderedSet(flow::ActionState) = if vc.eContainer() = null 
   or not vc.eContainer().oclIsKindOf(flow::Flow) OrderedSet{} else vc.eContainer().eAllContents(flow::Transition)
   ->select(o | o.to.oclIsKindOf(flow::ActionState) and o.from = vc)->collect(o1 | o1.to.oclAsType(flow::ActionState))
   ->asOrderedSet() endif/]
@@ -20,8 +20,8 @@
   
 [comment retourne l'actionState associé au service en cours de traitement./]
 [query public rsActionStateFromService(vs : flow::ViewState, s : soa::Interface) : flow::ActionState =
-  vs.rsActions()->select(a | a.actions->collect(act | act.operations)->exists(op | op.oclIsKindOf(soa::Operation) 
-  and op.eContainer() = s))->first()/]
+  vs.rsActionsStatesForViewState()->select(a | a.actions->collect(act | act.operations)
+  ->exists(op | op.oclIsKindOf(soa::Operation) and op.eContainer() = s))->first()/]
 
 [comment retourne le nom de la librairie associée au dto./]
 [query public rsLibraryNameForDto(vs : flow::ViewState, d : environment::DTO) : String = vs.rsActionStateFromDto(d)
@@ -29,8 +29,9 @@
  
 [comment retourne l'actionState associé au dto en cours de traitement./]
 [query public rsActionStateFromDto(vs : flow::ViewState, d : environment::DTO) : flow::ActionState =
-  vs.rsActions()->select(a | a.actions->collect(act | act.operations)->exists(op | op.oclIsKindOf(soa::Operation) 
-  and ( op.input->exists(i | i.type = d) or op.output->first().type = d)))->first()/]
+  vs.rsActionsStatesForViewState()->select(a | a.actions->collect(act | act.operations)
+  ->exists(op | op.oclIsKindOf(soa::Operation) and ( op.input->exists(i | i.type = d) 
+  or op.output->first().type = d)))->first()/]
   
 [comment ./]
 [comment query private rsActionStateFromService(vs : flow::ViewState, s : soa::Interface) : flow::ActionState =  
@@ -40,7 +41,7 @@
   vs.rsActions()->collect(o | o.actions)->collect(o2 | o2.operations)->collect(p |p.eContainer())/]
   
 [comment retourne la liste des operations pour la page (le controlleur) en cours de traitement./]
-[query private rsTmpOperations(vc : flow::ViewState) : OrderedSet(soa::Operation) = vc.rsActions()
+[query private rsTmpOperations(vc : flow::ViewState) : OrderedSet(soa::Operation) = vc.rsActionsStatesForViewState()
   ->collect(o | o.actions)->collect(o2 | o2.operations)/]
   
 [comment retourne la liste des operations pour la page (le controlleur) en cours de traitement. Pour l'instant passe par la fonction 
@@ -49,11 +50,11 @@
 
 [comment retourne le nom du service associé par le biais de l'interface./]
 [query public rsServiceNameFromOperation(o : soa::Operation) : String = if (o.eContainer() <> null and o.eContainer() 
-.oclIsKindOf( soa::Interface )) then o.eContainer().oclAsType(soa::Interface).name.nameServiceTs() 
+.oclIsKindOf( soa::Interface )) then o.eContainer().oclAsType(soa::Interface).name.nameRsServiceTs() 
 else o.cNoModelisation() endif/]
 
 [comment retourne la liste des services pour la page (le controlleur) en cours de traitement./]
-[query public rsServicesForViewState(vc : flow::ViewState) : OrderedSet(soa::Interface) = vc.rsActions()
+[query public rsServicesForViewState(vc : flow::ViewState) : OrderedSet(soa::Interface) = vc.rsActionsStatesForViewState()
   ->collect(o | o.actions)->collect(o2 | o2.operations)->collect(o3 |o3.eContainer().oclAsType(soa::Interface))
   ->asOrderedSet()/]
 
@@ -61,3 +62,6 @@ else o.cNoModelisation() endif/]
 [query public rsXtosForViewState(vc : flow::ViewState) : OrderedSet(environment::DTO) = let ops = vc.rsOperationsForViewState() in (ops
   ->collect(o1 | o1.input)->asOrderedSet())->union((ops->collect(o2 | o2.output)->asOrderedSet()))
   ->select(o4 | o4.type.oclIsKindOf(environment::DTO))->collect(o5 | o5.type.oclAsType(environment::DTO))/]
+
+[comment vérifie si la page utilise des services rest./]
+[query public useRsServices(vc : flow::ViewState) : Boolean = not vc.rsServicesForViewState()->isEmpty()/]
