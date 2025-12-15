@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.obeonetwork.dsl.cinematic.CinematicRoot;
 import org.obeonetwork.dsl.cinematic.Event;
@@ -19,6 +20,10 @@ import org.obeonetwork.dsl.cinematic.view.Layout;
 import org.obeonetwork.dsl.cinematic.view.LayoutDirection;
 import org.obeonetwork.dsl.cinematic.view.ViewContainer;
 import org.obeonetwork.dsl.cinematic.view.ViewEvent;
+import org.obeonetwork.dsl.environment.BindingElement;
+import org.obeonetwork.dsl.environment.BindingReference;
+import org.obeonetwork.dsl.environment.BoundableElement;
+import org.obeonetwork.dsl.environment.EnvironmentPackage;
 
 public class CinematicUtils {
 
@@ -435,4 +440,62 @@ public class CinematicUtils {
 				collectElements((ViewContainer) e, map);
 		}
 	}
+
+	/**
+	 * Recherche le {@link BoundableElement} lié à l’élément fourni en paramètre.
+	 * <p>
+	 * Cette méthode utilise un {@link ECrossReferenceAdapter} pour analyser le
+	 * modèle et retrouver le premier {@link BindingElement} pour lequel
+	 * {@code p_object} est utilisé comme élément lié à gauche. Elle récupère
+	 * ensuite le {@link BindingReference} correspondant et retourne l’élément lié à
+	 * droite.
+	 * </p>
+	 *
+	 * <p>
+	 * <strong>Important :</strong> cette implémentation n’est pas encore sécurisée.
+	 * Plusieurs cas peuvent entraîner une {@link NullPointerException} ou une
+	 * {@link IndexOutOfBoundsException}, notamment :
+	 * </p>
+	 * <ul>
+	 * <li>aucun {@link BindingElement} ne référence l’élément fourni ;</li>
+	 * <li>la liste retournée par {@code getReferencedByAsLeft()} est vide ;</li>
+	 * <li>l’élément de droite du {@link BindingReference} est manquant.</li>
+	 * </ul>
+	 * <p>
+	 * Des vérifications supplémentaires devront être ajoutées pour sécuriser
+	 * totalement cette méthode.
+	 * </p>
+	 *
+	 * @param p_object l’élément {@link BoundableElement} pour lequel la recherche
+	 *                 de liaison est effectuée ; ne doit pas être {@code null}
+	 * @return l’élément {@link BoundableElement} lié à droite, ou {@code null}
+	 *         lorsque la méthode sera sécurisée et qu’aucune liaison n’est trouvée
+	 */
+	public static BoundableElement searchBindingForElement(final BoundableElement p_object) {
+		ECrossReferenceAdapter crossReferencer = getCrossReferencer(p_object);
+		BindingElement leftBindingElement = crossReferencer
+				.getInverseReferences(p_object, EnvironmentPackage.Literals.BINDING_ELEMENT__BOUND_ELEMENT, true)
+				.stream().map(s -> s.getEObject()).map(BindingElement.class::cast).findFirst().orElse(null);
+
+		if (leftBindingElement == null) {
+			return null;
+		}
+
+		List<BindingReference> refs = leftBindingElement.getReferencedByAsLeft();
+		if (refs == null || refs.isEmpty()) {
+			return null;
+		}
+
+		BindingReference ref = refs.get(0);
+		if (ref.getRight() == null) {
+			return null;
+		}
+		return ref.getRight().getBoundElement();
+	}
+
+	private static ECrossReferenceAdapter getCrossReferencer(EObject p_object) {
+		return p_object.eAdapters().stream().filter(ECrossReferenceAdapter.class::isInstance)
+				.map(ECrossReferenceAdapter.class::cast).findFirst().orElse(null);
+	}
+
 }

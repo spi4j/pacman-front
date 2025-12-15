@@ -24,8 +24,8 @@
 [/template]
 
 [comment écriture de la liste des paramètres en entrée (si existent) pour une opération de type rest./]
-[query private writeRsInputs(o : soa::Operation) : String = if (o.hasInputs()) then o.input->asOrderedSet()
-  ->collect(o1 : soa::Parameter | '${' + o1.name + '}')->sep(', ')->toString() else '' endif /]
+[query public writeRsInputs(o : soa::Operation) : String = if (o.hasInputs()) then o.input->asOrderedSet()
+  ->collect(o1 : soa::Parameter | o1.name)->sep(', ')->toString() else '' endif /]
   
 [comment retourne l'uri (complète) pour un service rest./]
 [query public writeOperationUri( o : soa::Operation, s : soa::Service) : String = if (s.isRsService()) 

@@ -1,4 +1,6 @@
 [module services(	'http://www.obeonetwork.org/dsl/environment/3.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/flow/1.0.0', 
+					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0',
 				    'http://www.obeonetwork.org/dsl/soa/4.0.0')/]
 
 [import fr::pacman::front::core::aql::base/]
@@ -14,12 +16,20 @@
 [comment vérifie si l'opération a des paramètres en entrée (entité, dto, type primitif) (transverse)./]
 [query public hasInputs(o : soa::Operation) : Boolean = o.input <> null and o.input->size() > 0 /]
   
+[comment vérifie si le paramètre est une liste (0,*)(1,*). /]
+[query public isMultiple(p : soa::Parameter) : Boolean = p.multiplicity = environment::MultiplicityKind::ONE_STAR 
+  or p.multiplicity = environment::MultiplicityKind::ZERO_STAR/]
+  
 [comment vérifie si l'opération est une opération de type rest./]
 [query public isRsOperation(o : soa::Operation) : Boolean = o.exists() and o.public and o.exposition = soa::ExpositionKind::REST/]
 
 [comment normalisation d'une uri pour les services rest etc..../]
 [query public toUri(uri : String) : String = if(uri.exists()) then uri.trim().toPath().replaceAll('\\/$', '') else '/' endif/]
 
+[comment retourne l'opération ciblée par l'évenement (pour l'instant une seule opération par événement))./]
+[query public rsOperationFromEvent(evt : view::ViewEvent, vs : flow::ViewState) : soa::Operation = vs.eContainer()
+  .eAllContents(flow::Transition)->select(o | o.from = vs and o.on->includes(evt))->first().to.actions
+  ->first().operations->first().oclAsType(soa::Operation)/]
 
 
 

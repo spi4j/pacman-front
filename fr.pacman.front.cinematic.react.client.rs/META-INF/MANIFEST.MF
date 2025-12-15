@@ -12,4 +12,5 @@ Require-Bundle: org.eclipse.core.runtime,
  fr.pacman.front.core
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
-Export-Package: fr.pacman.front.cinematic.react.client.rs.main
+Export-Package: fr.pacman.front.cinematic.react.client.rs.main, 
+ fr.pacman.front.cinematic.react.client.rs.aql.block

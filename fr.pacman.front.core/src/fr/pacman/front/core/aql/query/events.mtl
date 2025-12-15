@@ -7,3 +7,5 @@
 [query public isOnBlur(event : view::ViewEvent) : Boolean =  'onBlur'.equalsIgnoreCase(event.type.name)/]
 
 [query public isOnSubmit(event : view::ViewEvent) : Boolean =  'onSubmit'.equalsIgnoreCase(event.type.name)/]
+
+[query public isOnLoad(event : view::ViewEvent) : Boolean =  'onLoad'.equalsIgnoreCase(event.type.name)/]

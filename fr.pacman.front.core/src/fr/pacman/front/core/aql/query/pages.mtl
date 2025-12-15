@@ -33,13 +33,6 @@
   ->exists(op | op.oclIsKindOf(soa::Operation) and ( op.input->exists(i | i.type = d) 
   or op.output->first().type = d)))->first()/]
   
-[comment ./]
-[comment query private rsActionStateFromService(vs : flow::ViewState, s : soa::Interface) : flow::ActionState =  
-  vs.rsActions()->select(o | o.actions->exists(op | op.eContainer() = s))->first()/]
-
-[comment query private rsActionStateFromService2(vs : flow::ViewState, s : soa::Interface) : flow::ActionState =  
-  vs.rsActions()->collect(o | o.actions)->collect(o2 | o2.operations)->collect(p |p.eContainer())/]
-  
 [comment retourne la liste des operations pour la page (le controlleur) en cours de traitement./]
 [query private rsTmpOperations(vc : flow::ViewState) : OrderedSet(soa::Operation) = vc.rsActionsStatesForViewState()
   ->collect(o | o.actions)->collect(o2 | o2.operations)/]

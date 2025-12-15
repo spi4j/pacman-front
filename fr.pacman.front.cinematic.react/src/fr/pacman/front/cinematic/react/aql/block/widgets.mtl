@@ -6,10 +6,13 @@
 [import fr::pacman::front::core::aql::name::name/]
 [import fr::pacman::front::core::aql::query::widgets/]
 [import fr::pacman::front::core::aql::query::metadatas/]
+[import fr::pacman::front::core::aql::query::eobjects/]
 [import fr::pacman::front::core::aql::name::directories /]
+[import fr::pacman::front::core::aql::name::eobjects /]
 [import fr::pacman::front::core::service::AnnotationUtils/]
 [import fr::pacman::front::cinematic::react::aql::query::widgets/]
 [import fr::pacman::front::core::aql::output::resources/]
+[import fr::pacman::front::core::service::CinematicUtils/]
 
 [comment --------------------------------------------------------------------------------]
 [comment Pour l'instant on profite du laxisme de typeScript, dans les boucles  on supprime 
@@ -599,7 +602,9 @@
 
 [template private writeText (ve : view::AbstractViewElement)]
   [if (ve.label <> null and ve.label.trim().size()> 0)]
-    <p className="fr-text--lg fr-text--bold">[ve.label/] : </p>
+    <p className="fr-text--lg fr-text--bold">[ve.label/] : {" "}
+    [if (ve.isBinded())]{user?.[ve.searchBindingForElement()
+      .oclAsType(environment::Attribute).nameAttribute()/] ?? "-"}[/if]</p>
   [/if]
   [ve.description/]
 [/template]

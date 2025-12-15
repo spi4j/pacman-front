@@ -36,6 +36,7 @@
     <possibleEvents xmi:id="_ANRV8JMUEfCWNsj-B1W6Gw" technicalid="__29uwJMTEfCWNsj-B1W6Gw" name="onClick"/>
     <possibleEvents xmi:id="_BhQtYJMUEfCWNsj-B1W6Gw" technicalid="_BLf4wJMUEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_CxOgcJMUEfCWNsj-B1W6Gw" technicalid="_Cez6wJMUEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <possibleEvents xmi:id="_nf00YNZ1EfCn3awzdaJn9A" technicalid="_mv3-INZ1EfCn3awzdaJn9A" name="onLoad"/>
     <metadataDefinitions xmi:id="_2J_ooLMcEfCzjaYQVtxLdA" technicalid="_1tU6wrMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
   </widgets>
   <widgets xmi:id="_39BaoJd_EfCJ2dZMtpi9sQ" technicalid="_3u6GIJd_EfCJ2dZMtpi9sQ" name="PanelMain" icon="/fr.pacman.front.cinematic/icons/Panel.png" isContainer="true" documentation="Documentation&#x9;Elément de navigation.">
@@ -527,6 +528,7 @@
     <possibleEvents xmi:id="_NLRoAJMVEfCWNsj-B1W6Gw" technicalid="_M5waMJMVEfCWNsj-B1W6Gw" name="onFocus"/>
     <possibleEvents xmi:id="_ZYSXcJMVEfCWNsj-B1W6Gw" technicalid="_ZBg2MJMVEfCWNsj-B1W6Gw" name="onMouseEnter"/>
     <possibleEvents xmi:id="_axGkgJMVEfCWNsj-B1W6Gw" technicalid="_afDLMJMVEfCWNsj-B1W6Gw" name="onMouseLeave"/>
+    <possibleEvents xmi:id="_jATxkNZ0EfCn3awzdaJn9A" technicalid="_imAbMNZ0EfCn3awzdaJn9A" name="onLoad"/>
     <metadataDefinitions xmi:id="_rTd2YKgYEfCTqq3EQF3Ssg" technicalid="_qhME4qgYEfCTqq3EQF3Ssg" title="WITH_COLOR_VARIANT"/>
     <metadataDefinitions xmi:id="_jN0WMKgeEfCTqq3EQF3Ssg" technicalid="_itvH8qgeEfCTqq3EQF3Ssg" title="WITH_EDITION" body="false"/>
     <metadataDefinitions xmi:id="_rXFDMLMdEfCzjaYQVtxLdA" technicalid="_rAqHQrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
