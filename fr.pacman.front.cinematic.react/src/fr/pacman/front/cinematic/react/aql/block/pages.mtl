@@ -340,7 +340,7 @@
         [let evt = tb.events->select(o | o.isOnLoad())]
           [if (not evt->isEmpty() and tb.isBinded())]
             [let o = evt->first().rsOperationFromEvent(vs)]
-              [protected (o.name().protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+              [protected ((o.name() + tb.nameElementId()).protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
                 // Placer ici le code pour l'initialisation des paramètres en entrée.
               [/protected]
               
@@ -361,11 +361,19 @@
         // Mapping des données pour [tb.nameElementId()/]
         // ----------------------------------------------
         function [(tb.nameElementId() + ' data map').apply_methodDefault()/] (result) {
-           return result.map(req => ['['/]
-           [for (e | tb.ownedElements)]
-              req.[e.searchBindingForElement().oclAsType(environment::Attribute).nameAttribute()/] ?? "",
-           [/for]
-           [']'/]);
+           return result
+             [protected ((tb.nameElementId() + 'map').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+             [/protected]
+             .map(req => { 
+             const row = ['['/]
+             [for (e | tb.ownedElements)]
+               req.[e.searchBindingForElement().oclAsType(environment::Attribute).nameAttribute()/] ?? "",
+             [/for]
+             [']'/];
+             [protected ((tb.nameElementId() + 'map-2').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+             [/protected]
+             return row;
+           });
          }
        [/if]
    [/for]
@@ -456,7 +464,19 @@
            [/for]
            modal.close();
          [/if]
+         [for (f | vc.eAllContents(view::ViewContainer)->select(o | o.isFormPanel()))]
+           [let evts = f.ownedElements->select(o | o.isButtonSubmit())->first().events->select(o1 | o1.isOnSubmit())]
+             [if (not evts->isEmpty())]
+               const payload = [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data);
+               await [evts->first().rsOperationFromEvent(vs).name().apply_methodDefault()/](payload);
+             [/if]
+           [/let]
+         [/for]
          
+         [protected ((vc.nameElementId() + ' submit').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+              
+         [/protected]
+            
          setGlobalMessage({ 
             text: "[form.get_metaTextSuccess()/]", 
             severity: "success",
@@ -510,8 +530,7 @@
        );
     }
     
-    [for (f | vc.eAllContents(view::ViewContainer)
-      ->select(o | o.isFormPanel()))]
+    [for (f | vc.eAllContents(view::ViewContainer)->select(o | o.isFormPanel()))]
       [let oe = f.ownedElements->select(o | o.isBinded())]
         [if (not oe->isEmpty())]
           // ---------------------------------------------
