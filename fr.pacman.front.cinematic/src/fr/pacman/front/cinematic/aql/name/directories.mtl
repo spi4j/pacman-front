@@ -1,4 +1,0 @@
-[module directories(	'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
-
-[comment retourne le répertoire pour le stockage des pages en react./]
-[query public nameDirectoryPages(any : ecore::EObject) : String = '/src/pages'/]

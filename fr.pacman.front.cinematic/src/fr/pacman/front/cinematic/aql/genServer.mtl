@@ -1,9 +1,0 @@
-[comment encoding = UTF-8 /]
-[module genServer( 	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
-					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0', 
-					'http://www.obeonetwork.org/dsl/cinematic/flow/1.0.0', 
-					'http://www.obeonetwork.org/dsl/cinematic/toolkits/1.0.0')/]
-
-[comment écriture des fichiers cinematique./]
-[template public genServer(r : cinematic::CinematicRoot)]
-[/template]

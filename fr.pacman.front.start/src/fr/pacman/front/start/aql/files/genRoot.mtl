@@ -1,3 +1,0 @@
-[module genRoot('http://www.eclipse.org/ocl/1.1.0/Ecore')/]
-
-[import fr::pacman::front::start::aql::block::Root/]

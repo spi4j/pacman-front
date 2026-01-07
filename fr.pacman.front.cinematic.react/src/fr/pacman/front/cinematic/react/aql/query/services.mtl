@@ -1,3 +1,0 @@
-[module services(	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
-					'http://www.obeonetwork.org/dsl/environment/3.0.0', 
-					'http://www.obeonetwork.org/dsl/soa/4.0.0')/]

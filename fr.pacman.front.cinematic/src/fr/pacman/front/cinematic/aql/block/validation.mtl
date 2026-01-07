@@ -1,5 +1,0 @@
-[module validation(	'http://www.obeonetwork.org/dsl/environment/3.0.0', 
-					'http://www.obeonetwork.org/dsl/cinematic/3.0.0')/]
-
-[template public validation (r : cinematic::CinematicRoot)]
-[/template]
