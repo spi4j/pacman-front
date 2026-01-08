@@ -240,7 +240,7 @@ C:<span class="se">\U</span>sers&gt;npm<span class="w"> </span>-v
 <div align="center">
 <img alt="Installation" src="images/pcm-installed-softwares.png" width="500"/>
 </div>
-<h2 id="creation-du-projet">☕ Création du projet</h2>
+<h2 id="creation-du-projet">⚛️Création du projet</h2>
 <hr/>
 <p>Une fois ISD activé, se positionner sur la perspective "<em>Modeling</em>", située en haut à gauche de l'IDE.   </p>
 <p>Puis, se positionner (comme tout autre création de projet) sur la vue "<em>Model Explorer</em>" et effectuer un click droit "<em>New/Project...</em>" ou se positionner dans le menu "<em>File/New/Project...</em>" en haut de l'IDE. </p>
@@ -509,7 +509,7 @@ Un toolkit est développé spécifiquement par le créateur du générateur, et 
 </div>
 <p>Dans les deux cas, sélectionner uniquement le toolkit : "<em>REACT/SPA + DSFR1.9</em>".</p>
 <h3 id="notions-de-base">Notions de base</h3>
-<p>❗❗❗ Pour rappel, l'objectif de ce document n'est pas ici, d'expliciter l'utilisation des outils de modélisation qui sont censés être déjà connus par le développeur. Se reporter aux diverses documentations ad hoc pour la modélisation d'un fichier "<em>.cinematic</em>".</p>
+<p>❗ Pour rappel, l'objectif de ce document n'est pas ici, d'expliciter l'utilisation des outils de modélisation qui sont censés être déjà connus par le développeur. Se reporter aux diverses documentations ad hoc pour la modélisation d'un fichier "<em>.cinematic</em>".</p>
 <p>Cependant, avant de commencer une modélisation de type cinématique, il convient toutefois d’en rappeler rapidement les enjeux et principes fondamentaux. Dans les grandes lignes : </p>
 <ul>
 <li>
@@ -528,7 +528,7 @@ Un toolkit est développé spécifiquement par le créateur du générateur, et 
 <p>Le "<em>package</em>" est simplement un conteneur qui permet d’organiser et de mieux répartir les différents écrans de l’application en unités logiques. Au moment de la génération, toutes les pages qui vont représenter les différents écrans seront alors réparties dans des répertoires dont les noms seront ceux définis par les noms de package. Il est bien evident que si la notion de package n’est pas obligatoire pour le bon fonctionnement de l’application. Pour l'instant cette notion n'a pas été prise en compte dans le cadre de la génération, toutes les pages générées sont donc directement sous le répertoire  : "<em>/pages</em>".</p>
 </li>
 <li>
-<p>La notion de <em>Flow</em> est  à peu près identique à celle de <em>Package</em>  mais plus orienté (comme sont nom l’indique) au niveau de la découpe logique des différents flux de l’application. De manière générale il est important  de comprendre que les notions de <em>Package</em> et de <em>Flow</em> se résument simplement en des conteneurs de haut niveau qui permettent de mieux structurer la modélisation de l’application en différentes unités logiques et ainsi de mieux visualiser les intéractions entre les différents domaines fonctionnels de cette dernière.</p>
+<p>La notion de "<em>Flow</em>" est  à peu près identique à celle de "<em>Package</em>"  mais plus orienté (comme sont nom l’indique) au niveau de la découpe logique des différents flux de l’application. De manière générale il est important  de comprendre que les notions de "<em>Package</em>" et de "<em>Flow</em>" se résument simplement en des conteneurs de haut niveau qui permettent de mieux structurer la modélisation de l’application en différentes unités logiques et ainsi de mieux visualiser les intéractions entre les différents domaines fonctionnels de cette dernière.</p>
 </li>
 </ul>
 <p>❗ Il est important de noter que dans le cadre de la modélisation React, la notion de "<em>Flow Events</em>" n'est pas utilisée pour l'instant.</p>
@@ -564,7 +564,7 @@ Un toolkit est développé spécifiquement par le créateur du générateur, et 
 <div align="center">
 <img alt="Modélisation cinématique" src="images/pcm-react-demo-1.png"/>
 </div>
-<h3 id="en-tete-et-pied-page">En-tête et pied-page</h3>
+<h3 id="en-tete-et-pied-page">📄 En-tête et pied-page</h3>
 <h4 id="modelisation">Modelisation</h4>
 <p>Il est possible de rajouter pour l'ensemble de l'application un en-tête et un pied-de-page (ici modélisés au niveau du "<em>Package diagram</em>"). Pour ce faire définir deux "<em>ViewContainer</em>" au niveau du "<em>Package Diagram</em>"</p>
 <div align="center">
@@ -774,7 +774,7 @@ Un toolkit est développé spécifiquement par le créateur du générateur, et 
 </code></pre></div>
 <p>Ce type de code sert à déterminer si un menu parent doit être considéré comme actif en fonction de la route courante. Concrètement, "<em>location.pathname</em>" contient le chemin de l’URL actuellement affichée au niveau du navigateur. Le tableau regroupe toutes les routes associées aux sous-fonctionnalités du menu. La méthode includes vérifie si la route courante correspond à l’une de ces valeurs.
 Si c’est le cas, isActive est positionné à la valeur "<em>true</em>", ce qui permet de mettre en surbrillance le menu principal, même lorsque l’utilisateur se trouve sur une sous-page. Cette approche garantit une cohérence visuelle de la navigation et indique clairement à l’utilisateur dans quelle section fonctionnelle il se situe.</p>
-<h3 id="securisation-des-acces">Sécurisation des accès</h3>
+<h3 id="securisation-des-acces">🔒 Sécurisation des accès</h3>
 <p>La sécurité regroupe l’ensemble des mécanismes visant à protéger les données, les utilisateurs et l’application elle-même contre les accès non autorisés (entre autres). Elle repose notamment sur l’authentification des utilisateurs et la gestion des autorisations (droits et rôles).</p>
 <h4 id="modelisation_1">Modélisation</h4>
 <p>❗ Dans le cas ou l'accès à une page est limité à une authentification et/ou à un rôle spécifique, il est possible de l'indiquer au niveau de la rubrique "<em>Guard</em>" du sous-onglet "<em>Transition</em>" de l'onglet "<em>properties</em>" pour la transition. Si on reprend la page d'en-tête avec l'ensemble des menus de navigation, différentes transitions ont été modélisées, chacune avec une "<em>Guard</em>" spécifique. Il suffit simplement d'indiquer le mot clé "<em>register</em>", suivi de "<em>:</em>", suivi de la liste des rôles (<em>register:[rôle 1,rôle 2,rôle 3..]</em>). </p>
@@ -985,7 +985,7 @@ Si c’est le cas, isActive est positionné à la valeur "<em>true</em>", ce qui
 <img alt="Modélisation cinématique" src="images/pcm-react-header-footer-6.png"/></p>
 <p>Enfin, le rendu si l'utilisateur est un administrateur :</p>
 <p><img alt="Modélisation cinématique" src="images/pcm-react-header-footer-7.png"/></p>
-<h3 id="formulaire">Formulaire</h3>
+<h3 id="formulaire">📄 Formulaire</h3>
 <p>Elément central d’un site web permettant à l’utilisateur de saisir et transmettre des données à l’application. Il constitue le principal moyen d’interaction entre l’interface et la logique métier, que ce soit pour une authentification, une recherche ou une demande spécifique. La conception d’un formulaire repose sur plusieurs aspects essentiels : la clarté des champs, la validation des données (pour éviter les erreurs ou les entrées invalides), la gestion des retours utilisateur et la sécurité des informations transmises.</p>
 <p>Ici, la gestion des formulaires est en grande partie déléguée aux composants du DSFR. Ces composants fournissent des champs, des labels et des messages d’erreur conformes aux standards d’accessibilité et d’ergonomie, ce qui permet de se concentrer principalement sur la logique métier et la validation des données. En s’appuyant sur le DSFR, la structure, le comportement et l’affichage des formulaires sont harmonisés, tout en garantissant une expérience utilisateur cohérente et conforme aux bonnes pratiques des sites institutionnels.</p>
 <h4 id="modelisation_2">Modélisation</h4>
@@ -1241,7 +1241,7 @@ Si c’est le cas, isActive est positionné à la valeur "<em>true</em>", ce qui
 <div align="center">
 <img alt="Modélisation cinématique" src="images/pcm-react-form-10.png"/>
 </div>
-<h3 id="table">Table</h3>
+<h3 id="table">📄 Table</h3>
 <p>Avec <strong>Pacman</strong>, les tables sont également gérées avec les composants DSFR, ce qui permet d’afficher des listes de données de manière structurée et accessible. Par contre, si les composants DSFR ne prennent pas en charge nativement les tables éditables où certaines cellules peuvent être modifiées directement par l’utilisateur, cette fonctionnalité est néanmoins implémentée et gérée par les générateur <strong>Pacman</strong>. </p>
 <p>Pour le développement et les tests, on utilise <em>Faker</em> afin de générer des données fictives réalistes, ce qui permet de peupler les tables sans dépendre d’un backend réel et de vérifier le comportement de l’interface dans différents scénarios.</p>
 <p>❗ Au niveau de ce chapitre, on fait délibérément abstraction du binding (liaison des données) avec la couche soa pour se concentrer exclusivement sur la visualisation de l'IHM. Pour la liaison des données, se reporter au chapitre concernant la modélisation des services.</p>
@@ -1375,7 +1375,7 @@ Si c’est le cas, isActive est positionné à la valeur "<em>true</em>", ce qui
 <img alt="Modélisation cinématique" src="images/pcm-react-table-3.png"/>
 </div>
 <p>Dans le cas d'un table éditable (comme modélisée précédemment), le code généré est le suivant : </p>
-<h3 id="page-standard">Page standard</h3>
+<h3 id="page-standard">📄 Page standard</h3>
 <p>Bien que la modélisation d’un formulaire et celle d’une table couvrent l’essentiel des cas d’usage (en termes de données dynamiques), il reste pertinent d’aborder également la modélisation d’une page plus simple, dédiée uniquement à l’affichage de quelques données. Pour cet exemple nous prendrons la page d'affichage des informations pour le profil utilisateur. Comme il est possible de le voir avec l'écran ci-dessous, il s'agit simplement d'afficher quelques informations essentielles pour l'identification de l'utilisateur connecté.</p>
 <div align="center">
 <img alt="Modélisation cinématique" src="images/pcm-react-profil-1.png"/>
@@ -1477,10 +1477,10 @@ Si c’est le cas, isActive est positionné à la valeur "<em>true</em>", ce qui
 <p>On commence par récupérer l’utilisateur courant via le hook "<em>useAuth</em>", ce qui permet d’accéder aux données de profil tout en restant cohérent avec la gestion centralisée de l’authentification.</p>
 <p>Le contenu de chaque onglet affiche simplement les données issues de l’objet "<em>user</em>", avec l’opérateur "<em>?.</em>" pour éviter les erreurs si certaines propriétés sont absentes, et une valeur par défaut ("-") lorsque l’information n’est pas disponible.</p>
 <p>Ce composant illustre ainsi une page purement déclarative, orientée affichage, où la logique métier est minimale et où l’essentiel du comportement et du rendu est délégué aux composants DSFR.</p>
-<h3 id="authentification">Authentification</h3>
+<h3 id="authentification">🔒 Authentification</h3>
 <h4 id="modelisation_5">Modélisation</h4>
 <h4 id="generation_5">Génération</h4>
-<h3 id="service">Service</h3>
+<h3 id="service">🔗 Service</h3>
 <p>Les services REST destinés à être appelés par l'application React sont modélisés et générés par l'ensemble des générateurs <strong>Pacman</strong> backend. Il est en effet nécessaire de modéliser et générer : </p>
 <ul>
 <li>
@@ -1914,6 +1914,6 @@ Run<span class="w"> </span><span class="sb">`</span>npm<span class="w"> </span>a
 </tbody>
 </table>
 </main>
-<nav class="local-toc"><ul><li><a href="#-19122025-initialisation-du-document">- 19/12/2025 : Initialisation du document.</a></li><li><a href="#introduction">🚀 Introduction</a></li><li><a href="#pacman-et-react">🧩 Pacman et React</a></li><li><a href="#installation">🛠️ Installation</a></li><ul><li><a href="#prerequis">Prérequis</a></li><li><a href="#installation-node">Installation Node</a></li><li><a href="#plugins-externes">Plugins externes</a></li><li><a href="#plugin-pacman">Plugin Pacman</a></li></ul><li><a href="#creation-du-projet">☕ Création du projet</a></li><ul><li><a href="#wizard-de-creation">Wizard de création</a></li><li><a href="#fichiers-et-repertoires-generes">Fichiers et répertoires Générés</a></li></ul><li><a href="#fichiers-de-configuration">📝 Fichiers de configuration</a></li><ul><ul><li><a href="#dsfrconfigts">dsfr.config.ts</a></li><li><a href="#packagejson">package.json</a></li><li><a href="#tsconfigjson">tsconfig.json</a></li><li><a href="#tsconfignodejson">tsconfig.node.json</a></li><li><a href="#tsconfigappjson">tsconfig.app.json</a></li><li><a href="#viteconfigts">vite.config.ts</a></li></ul></ul><li><a href="#generation-de-la-cinematique">🛢 Génération de la cinématique</a></li><ul><li><a href="#toolkit">Toolkit</a></li><li><a href="#notions-de-base">Notions de base</a></li><li><a href="#lancement-du-serveur">Lancement du serveur</a></li><li><a href="#en-tete-et-pied-page">En-tête et pied-page</a></li><ul><li><a href="#modelisation">Modelisation</a></li><li><a href="#generation">Génération</a></li></ul><li><a href="#securisation-des-acces">Sécurisation des accès</a></li><ul><li><a href="#modelisation_1">Modélisation</a></li><li><a href="#generation_1">Génération</a></li></ul><li><a href="#formulaire">Formulaire</a></li><ul><li><a href="#modelisation_2">Modélisation</a></li><li><a href="#generation_2">Génération</a></li></ul><li><a href="#table">Table</a></li><ul><li><a href="#modelisation_3">Modélisation</a></li><li><a href="#generation_3">Génération</a></li></ul><li><a href="#page-standard">Page standard</a></li><ul><li><a href="#modelisation_4">Modélisation</a></li><li><a href="#generation_4">Génération</a></li></ul><li><a href="#authentification">Authentification</a></li><ul><li><a href="#modelisation_5">Modélisation</a></li><li><a href="#generation_5">Génération</a></li></ul><li><a href="#service">Service</a></li><ul><li><a href="#importation-dune-librairie">Importation d'une librairie</a></li><li><a href="#modelisation_6">Modélisation</a></li><li><a href="#generation_6">Génération</a></li><li><a href="#securisation">Sécurisation</a></li></ul><li><a href="#tests">Tests</a></li></ul><li><a href="#validation-de-la-modelisation">✔️ Validation de la modélisation</a></li><li><a href="#deploiement">Déploiement</a></li><li><a href="#annexes">📎 Annexes</a></li></ul></nav>
+<nav class="local-toc"><ul><li><a href="#-19122025-initialisation-du-document">- 19/12/2025 : Initialisation du document.</a></li><li><a href="#introduction">🚀 Introduction</a></li><li><a href="#pacman-et-react">🧩 Pacman et React</a></li><li><a href="#installation">🛠️ Installation</a></li><ul><li><a href="#prerequis">Prérequis</a></li><li><a href="#installation-node">Installation Node</a></li><li><a href="#plugins-externes">Plugins externes</a></li><li><a href="#plugin-pacman">Plugin Pacman</a></li></ul><li><a href="#creation-du-projet">⚛️Création du projet</a></li><ul><li><a href="#wizard-de-creation">Wizard de création</a></li><li><a href="#fichiers-et-repertoires-generes">Fichiers et répertoires Générés</a></li></ul><li><a href="#fichiers-de-configuration">📝 Fichiers de configuration</a></li><ul><ul><li><a href="#dsfrconfigts">dsfr.config.ts</a></li><li><a href="#packagejson">package.json</a></li><li><a href="#tsconfigjson">tsconfig.json</a></li><li><a href="#tsconfignodejson">tsconfig.node.json</a></li><li><a href="#tsconfigappjson">tsconfig.app.json</a></li><li><a href="#viteconfigts">vite.config.ts</a></li></ul></ul><li><a href="#generation-de-la-cinematique">🛢 Génération de la cinématique</a></li><ul><li><a href="#toolkit">Toolkit</a></li><li><a href="#notions-de-base">Notions de base</a></li><li><a href="#lancement-du-serveur">Lancement du serveur</a></li><li><a href="#en-tete-et-pied-page">📄 En-tête et pied-page</a></li><ul><li><a href="#modelisation">Modelisation</a></li><li><a href="#generation">Génération</a></li></ul><li><a href="#securisation-des-acces">🔒 Sécurisation des accès</a></li><ul><li><a href="#modelisation_1">Modélisation</a></li><li><a href="#generation_1">Génération</a></li></ul><li><a href="#formulaire">📄 Formulaire</a></li><ul><li><a href="#modelisation_2">Modélisation</a></li><li><a href="#generation_2">Génération</a></li></ul><li><a href="#table">📄 Table</a></li><ul><li><a href="#modelisation_3">Modélisation</a></li><li><a href="#generation_3">Génération</a></li></ul><li><a href="#page-standard">📄 Page standard</a></li><ul><li><a href="#modelisation_4">Modélisation</a></li><li><a href="#generation_4">Génération</a></li></ul><li><a href="#authentification">🔒 Authentification</a></li><ul><li><a href="#modelisation_5">Modélisation</a></li><li><a href="#generation_5">Génération</a></li></ul><li><a href="#service">🔗 Service</a></li><ul><li><a href="#importation-dune-librairie">Importation d'une librairie</a></li><li><a href="#modelisation_6">Modélisation</a></li><li><a href="#generation_6">Génération</a></li><li><a href="#securisation">Sécurisation</a></li></ul><li><a href="#tests">Tests</a></li></ul><li><a href="#validation-de-la-modelisation">✔️ Validation de la modélisation</a></li><li><a href="#deploiement">Déploiement</a></li><li><a href="#annexes">📎 Annexes</a></li></ul></nav>
 </body>
 </html>

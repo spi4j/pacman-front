@@ -167,7 +167,7 @@ Il est aussi possible de récupérer l'ensemble des sources et de les compiler (
   <img src="images/pcm-installed-softwares.png" alt="Installation" width="500">
 </div>
 
-## ☕ Création du projet  
+## ⚛️Création du projet  
  ---
 Une fois ISD activé, se positionner sur la perspective "*Modeling*", située en haut à gauche de l'IDE.   
 ![Perspective "Modeling"](images/pcm-modeling.png)
@@ -599,7 +599,7 @@ Le serveur est alors disponible sur l'adresse : *http://localhost:5173/*
    <img src="images/pcm-react-demo-1.png" alt="Modélisation cinématique">
 </div>
 
-### En-tête et pied-page
+### 📄 En-tête et pied-page
 
 #### Modelisation
 
@@ -835,7 +835,7 @@ isActive: ["/goToNewRequest", "/gotToListRequest", "/goToFollowRequest"]
 Ce type de code sert à déterminer si un menu parent doit être considéré comme actif en fonction de la route courante. Concrètement, "*location.pathname*" contient le chemin de l’URL actuellement affichée au niveau du navigateur. Le tableau regroupe toutes les routes associées aux sous-fonctionnalités du menu. La méthode includes vérifie si la route courante correspond à l’une de ces valeurs.
 Si c’est le cas, isActive est positionné à la valeur "*true*", ce qui permet de mettre en surbrillance le menu principal, même lorsque l’utilisateur se trouve sur une sous-page. Cette approche garantit une cohérence visuelle de la navigation et indique clairement à l’utilisateur dans quelle section fonctionnelle il se situe.
 
-### Sécurisation des accès
+### 🔒 Sécurisation des accès
 
 La sécurité regroupe l’ensemble des mécanismes visant à protéger les données, les utilisateurs et l’application elle-même contre les accès non autorisés (entre autres). Elle repose notamment sur l’authentification des utilisateurs et la gestion des autorisations (droits et rôles).
 
@@ -1089,7 +1089,7 @@ Enfin, le rendu si l'utilisateur est un administrateur :
 <img src="images/pcm-react-header-footer-7.png" alt="Modélisation cinématique">
 
 
-### Formulaire
+### 📄 Formulaire
 
 Elément central d’un site web permettant à l’utilisateur de saisir et transmettre des données à l’application. Il constitue le principal moyen d’interaction entre l’interface et la logique métier, que ce soit pour une authentification, une recherche ou une demande spécifique. La conception d’un formulaire repose sur plusieurs aspects essentiels : la clarté des champs, la validation des données (pour éviter les erreurs ou les entrées invalides), la gestion des retours utilisateur et la sécurité des informations transmises.
 
@@ -1403,7 +1403,7 @@ Un exemple de saisie incorrecte :
     <img src="images/pcm-react-form-10.png" alt="Modélisation cinématique">
 </div>
 
-### Table
+### 📄 Table
 
 Avec **Pacman**, les tables sont également gérées avec les composants DSFR, ce qui permet d’afficher des listes de données de manière structurée et accessible. Par contre, si les composants DSFR ne prennent pas en charge nativement les tables éditables où certaines cellules peuvent être modifiées directement par l’utilisateur, cette fonctionnalité est néanmoins implémentée et gérée par les générateur **Pacman**. 
 
@@ -1575,7 +1575,7 @@ Le résultat à l'affichage est le suivant :
 
 Dans le cas d'un table éditable (comme modélisée précédemment), le code généré est le suivant : 
 
-### Page standard
+### 📄 Page standard
 
 Bien que la modélisation d’un formulaire et celle d’une table couvrent l’essentiel des cas d’usage (en termes de données dynamiques), il reste pertinent d’aborder également la modélisation d’une page plus simple, dédiée uniquement à l’affichage de quelques données. Pour cet exemple nous prendrons la page d'affichage des informations pour le profil utilisateur. Comme il est possible de le voir avec l'écran ci-dessous, il s'agit simplement d'afficher quelques informations essentielles pour l'identification de l'utilisateur connecté.
 
@@ -1694,13 +1694,13 @@ Le contenu de chaque onglet affiche simplement les données issues de l’objet 
 
 Ce composant illustre ainsi une page purement déclarative, orientée affichage, où la logique métier est minimale et où l’essentiel du comportement et du rendu est délégué aux composants DSFR.
 
-### Authentification 
+### 🔒 Authentification 
 
 #### Modélisation
 
 #### Génération
 
-### Service
+### 🔗 Service
 
 Les services REST destinés à être appelés par l'application React sont modélisés et générés par l'ensemble des générateurs **Pacman** backend. Il est en effet nécessaire de modéliser et générer : 
 
