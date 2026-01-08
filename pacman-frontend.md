@@ -525,7 +525,7 @@ Dans les deux cas, sélectionner uniquement le toolkit : "*REACT/SPA + DSFR1.9*"
 
 ### Notions de base 
 
-❗❗❗ Pour rappel, l'objectif de ce document n'est pas ici, d'expliciter l'utilisation des outils de modélisation qui sont censés être déjà connus par le développeur. Se reporter aux diverses documentations ad hoc pour la modélisation d'un fichier "*.cinematic*".
+❗ Pour rappel, l'objectif de ce document n'est pas ici, d'expliciter l'utilisation des outils de modélisation qui sont censés être déjà connus par le développeur. Se reporter aux diverses documentations ad hoc pour la modélisation d'un fichier "*.cinematic*".
 
 Cependant, avant de commencer une modélisation de type cinématique, il convient toutefois d’en rappeler rapidement les enjeux et principes fondamentaux. Dans les grandes lignes : 
 
@@ -539,7 +539,7 @@ Cependant, avant de commencer une modélisation de type cinématique, il convien
 
 - Le "*package*" est simplement un conteneur qui permet d’organiser et de mieux répartir les différents écrans de l’application en unités logiques. Au moment de la génération, toutes les pages qui vont représenter les différents écrans seront alors réparties dans des répertoires dont les noms seront ceux définis par les noms de package. Il est bien evident que si la notion de package n’est pas obligatoire pour le bon fonctionnement de l’application. Pour l'instant cette notion n'a pas été prise en compte dans le cadre de la génération, toutes les pages générées sont donc directement sous le répertoire  : "*/pages*".
 
-- La notion de *Flow* est  à peu près identique à celle de *Package*  mais plus orienté (comme sont nom l’indique) au niveau de la découpe logique des différents flux de l’application. De manière générale il est important  de comprendre que les notions de *Package* et de *Flow* se résument simplement en des conteneurs de haut niveau qui permettent de mieux structurer la modélisation de l’application en différentes unités logiques et ainsi de mieux visualiser les intéractions entre les différents domaines fonctionnels de cette dernière.
+- La notion de "*Flow*" est  à peu près identique à celle de "*Package*"  mais plus orienté (comme sont nom l’indique) au niveau de la découpe logique des différents flux de l’application. De manière générale il est important  de comprendre que les notions de "*Package*" et de "*Flow*" se résument simplement en des conteneurs de haut niveau qui permettent de mieux structurer la modélisation de l’application en différentes unités logiques et ainsi de mieux visualiser les intéractions entre les différents domaines fonctionnels de cette dernière.
 
 ❗ Il est important de noter que dans le cadre de la modélisation React, la notion de "*Flow Events*" n'est pas utilisée pour l'instant.
 
@@ -1694,6 +1694,12 @@ Le contenu de chaque onglet affiche simplement les données issues de l’objet 
 
 Ce composant illustre ainsi une page purement déclarative, orientée affichage, où la logique métier est minimale et où l’essentiel du comportement et du rendu est délégué aux composants DSFR.
 
+### Authentification 
+
+#### Modélisation
+
+#### Génération
+
 ### Service
 
 Les services REST destinés à être appelés par l'application React sont modélisés et générés par l'ensemble des générateurs **Pacman** backend. Il est en effet nécessaire de modéliser et générer : 
@@ -1896,6 +1902,10 @@ La gestion des erreurs d’appel aux services repose ici principalement sur l’
 
 #### Sécurisation
 
+La sécurisation des services REST repose principalement sur l’utilisation de mécanismes d’authentification et d’autorisation adaptés aux échanges HTTP. Ave cled générateurs **Pacman** la gestion des appels sécurisés consiste à utiliser des jetons ("*tokens*"), de type JWT (cas le plus courant de manière générale), émis après une authentification réussie et transmis ensuite à chaque appel de service via l’en-tête Authorization.
+
+Ce processus est transparent dans le cadre de la génération de la cinématique, il existe juste un paramètre supplémentaire pour le passage du jeton. Pour la sécurisation des services (et appels) rest, se reporter à la documentation concernant **Pacman**" backend. 
+
 ### Tests
 
 Pour les tests, il suffit simplement (comme vu précédemment au niveau du chapitre concernant le lancement du serveur) de lancer la commande suivante dans le terminal :
@@ -1907,7 +1917,7 @@ Il est même fortement conseillé de laisser le serveur toujours tourner pendant
 
 ## ✔️ Validation de la modélisation
 ---
-On peut remarquer la présence d'un "***Validation du diagramme de modélisation***". Quelle que soit la couche à générer, il est toujours possible de lancer directement le générateur désiré et celui-ci va automatiquement activer la validation du diagramme avant de se lancer. Si des erreurs sont detectées, il est alors possible d'aller voir le résultat de la validation au niveau de la vue dédiée à la validation (Rapport de validation).
+On peut remarquer la présence d'une "***Validation du diagramme de modélisation***". Quelle que soit la couche à générer, il est toujours possible de lancer directement le générateur désiré et celui-ci va automatiquement activer la validation du diagramme avant de se lancer. Si des erreurs sont detectées, il est alors possible d'aller voir le résultat de la validation au niveau de la vue dédiée à la validation (Rapport de validation).
 
 Pour plus d'informations sur le fonctionnement et l'utilisation du système de validation, se reporter à la documentation de **Pacman** backend.
 
@@ -1963,3 +1973,17 @@ Pour plus d'informations sur le fonctionnement et l'utilisation du système de v
 | WITH_LIBRARY_NAME | OUI | Nom de la librarie SOA pour l'action | 
 | WITH_TOOLTIP | OUI | Ajout tooltip pour le composant DSFR | 
 
+• Liste des règles de validation
+
+| Règle| S'applique sur |
+|------|----------------|
+|Un contrôleur ne peux gérer qu'une seule page|VIEWSTATE|
+|Une page ne peux avoir qu'un seul contrôleur|VIEWCONTAINER|
+|Une page doit avoir au moins un composant|VIEWCONTAINER|
+|Un composant "*Tab*" doit être dans un conteneur "*GroupTab*"||
+|Un composant "*Accordion*" doit être dans un conteneur "*GroupAccordion*"||
+|Un composant "*CheckBox*" doit être dans un conteneur"*GroupCheckBox*"||
+|Un composant "*NavigationElement*" doit être dans un conteneur "*GroupNavigation*"||
+|Un composant "*Radio*" doit être dans un conteneur "*GroupRadio*"||
+|Un composant "*TableColumn*" doit être dans un conteneur "*Table*"||
+|Un composant "*ButtonSubmit*" doit être dans un conteneur "*PanelForm*"||
