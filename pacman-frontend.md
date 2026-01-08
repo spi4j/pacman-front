@@ -479,7 +479,7 @@ export default defineConfig({
 
 ```
 
-## 🛢 Génération de la cinématique
+## 🔀 Génération de la cinématique
 ---
 
 ❗ Il est important de souligner que le méta-modèle cinématique est volontairement très ouvert et permissif. Une même fonctionnalité peut donc être modélisée de plusieurs façons. Des choix ont ainsi été nécessaires, notamment en fonction de la cible technique visée. Même si cela peut paraître peu intuitif au premier abord, une génération React n’a pas les mêmes contraintes ni les mêmes besoins qu’une modélisation en JSP ou en JSF. Il ne faut donc pas s’étonner, sur certains écrans de modélisation, d’accéder à certaines propriétés d’une manière spécifique ou de ne pas utiliser l’ensemble des fonctionnalités disponibles.
