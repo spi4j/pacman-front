@@ -13,9 +13,9 @@ Elle apporte l'ensemble des informations nécessaires sur la modélisation et la
 
 Elle est destinée aux développeurs souhaitant comprendre et utiliser l'ensemble des générateurs. 
 
-Il est à noter que cette documentation ne rentre pas dans les détails de la modélisation de l'application, aspect dont les bases sont censées être déjà connues et maîtrisées par les developpeurs qui vont utiliser cette version du plugin  **pacman**. Se reporter aux différents documents ad hoc pour plus d'informations sur ce sujet.
+Il est à noter que cette documentation ne rentre pas dans les détails de la modélisation de l'application, aspect dont les bases sont censées être déjà connues et maîtrisées par les developeurs qui vont utiliser cette version du plugin  **pacman**. Se reporter aux différents documents ad hoc pour plus d'informations sur ce sujet.
 
-❗ Les nommages des différentes classes est ici donné avec la configuration par défaut du fichier de nommage qui est généré avec un nouveau projet. Il sont donc susceptibles d'évoluer en fonction des règles précisées par les développeurs de l'application cible.
+❗ Les nommages des différentes classes est ici donné avec la configuration par défaut du fichier de nommage qui est généré avec un nouveau projet. Ils sont donc susceptibles d'évoluer en fonction des règles précisées par les développeurs de l'application cible.
 
 ❗ De nombreux exemples de code React sont donnés dans le cadre de ce document, afin de ne pas rendre le code trop verbeux et trop long à lire, ces exemples ont pour la plupart, été expurgés de la majorité des commentaires.
 
@@ -33,7 +33,7 @@ Pour Pacman lors de l'initialisation d'un projet, le générateur va donc toujou
 
 - ***[Nom du projet]-model*** : contient les différents fichiers de modélisation de l'application ainsi que les fichiers de configuration pour les options de génération de l'application. Ce projet ne contient (et ne doit contenir) aucun code. 
 
-- ***[Nom du projet]-server*** : le projet qui contient l'ensemble du code d'exécution pour que l'utilisateur puisse intéragir avec le code métier. Le projet serveur en React correspond à la partie front-end de l’application, chargée de fournir l’interface utilisateur et de gérer les interactions avec le backend. Il s’agit d’une application TypeScript structurée autour de composants React, exécutée côté client dans le navigateur et servie par un serveur HTTP lors du développement et du déploiement. Le projet React communique avec les services backend via des appels REST pour récupérer et envoyer des données, tout en restant totalement découplé de la logique métier, qui demeure côté serveur Java.
+- ***[Nom du projet]-server*** : le projet qui contient l'ensemble du code d'exécution pour que l'utilisateur puisse interagir avec le code métier. Le projet serveur en React correspond à la partie front-end de l’application, chargée de fournir l’interface utilisateur et de gérer les interactions avec le backend. Il s’agit d’une application TypeScript structurée autour de composants React, exécutée côté client dans le navigateur et servie par un serveur HTTP lors du développement et du déploiement. Le projet React communique avec les services backend via des appels REST pour récupérer et envoyer des données, tout en restant totalement découplé de la logique métier, qui demeure côté serveur Java.
 
 ## 🛠️ Installation
 ---
@@ -72,7 +72,7 @@ Avant de commencer l’installation ou l’utilisation du plugin, il est indispe
 
 2 - Installation des plugins d'édition
 
-Si leur installation est optionnelle, les plugins d’édition JSON, YAML dans l’IDE Eclipse sont toutefois fortement recommandés pour améliorer la lisibilité, la cohérence et la fiabilité du développement. Ces plugins apportent des fonctionnalités clés telles que la coloration syntaxique, la validation de la structure, l’auto-complétion et la détection précoce des erreurs, facilitant ainsi l’édition des fichiers de configuration, des scripts de base de données et des paramètres de journalisation. 
+Si leur installation est optionnelle, les plugins d’édition JSON, YAML dans l’IDE Eclipse sont toutefois fortement recommandés pour améliorer la lisibilité, la cohérence et la fiabilité du développement. Ces plugins apportent des fonctionnalités clés telles que la coloration syntaxique, la validation de la structure, l'auto-complétion et la détection précoce des erreurs, facilitant ainsi l’édition des fichiers de configuration, des scripts de base de données et des paramètres de journalisation. 
 
 En centralisant ces outils dans l’environnement de développement, le développeur gagne en productivité, réduit les risques d’erreurs de syntaxe ou de configuration, et assure une meilleure conformité aux standards techniques du projet.
 
@@ -182,7 +182,7 @@ Naviguer dans l'arborescence jusqu'au répertoire "*IS Designer*" et sélectionn
 
 ### Wizard de création
 
-Au niveau de la création du projet frontend, simplement saisir le nom désiré pour le projet, ainsi que l'auteur ou l'organisme. Pour l'instant une seule option est disponible au niveau du choix pour le framework (et donc le language utilisé), il s'agit du framework React qui est couplé avec les composants DSFR...
+Au niveau de la création du projet frontend, simplement saisir le nom désiré pour le projet, ainsi que l'auteur ou l'organisme. Pour l'instant une seule option est disponible au niveau du choix pour le framework (et donc le langage utilisé), il s'agit du framework React qui est couplé avec les composants DSFR...
 
 ❗ Les composants DSFR (Design System de l’État) du ministère constituent un ensemble cohérent de briques d’interface standardisées, conçues pour garantir l’accessibilité, la cohérence graphique et l’uniformité des services numériques publics. Ils couvrent aussi bien les éléments fondamentaux (boutons, champs de formulaire, alertes, modales, tableaux) que des composants plus structurants (en-tête, pied de page, navigation, fil d’Ariane), en s’appuyant sur des règles strictes d’ergonomie, de contrastes et de conformité au RGAA. En adoptant ces composants, les applications ministérielles assurent une expérience utilisateur homogène, inclusive et conforme aux exigences de l’État, tout en facilitant la maintenance, la réutilisabilité et l’industrialisation des interfaces.
 
@@ -236,7 +236,7 @@ La structure créée pour le projet est la suivante :
   
 Au niveau du répertoire ***/pacman-properties*** les deux fichiers de paramètrage sont toujours présents.  
 
-❗ De même, si les fichiers de propriétés sont créés à la base pour des projets Java, il est encore une fois à préciser que seules, ici, quelques propriétés sont utilisés pour la génération des projets. Il ne faut donc pas s'étonner de la présence de certaines propriétés liées exclusivement à Java. Ces fichiers doivent obligatoirement être conservés pour le bon fonctionnement des générateurs.
+❗ De même, si les fichiers de propriétés sont créés à la base pour des projets Java, il est encore une fois à préciser que seules, ici, quelques propriétés sont utilisées pour la génération des projets. Il ne faut donc pas s'étonner de la présence de certaines propriétés liées exclusivement à Java. Ces fichiers doivent obligatoirement être conservés pour le bon fonctionnement des générateurs.
 
 Le fichier *project.properties* est quant à lui limité à sa plus stricte expression : 
 
@@ -256,7 +256,7 @@ project.debug.enabled = false
 };
 ```
 
-❗ Par ailleurs, il est possible de voir deux répertoires *libraries* et *mockup* qui sont aussi présents au niveau de l'image représentant la stucture du projet. Il est à noter que ces deux répertoires sont donnés ici à titre purement informatif afin d'être exhaustif, mais ils ne sont pas affichés dès la création du projet. Le répertoire *mockup* sera utilisé pour le stockage des images utilisées pour la modélisation des écrans et le répertoire *libraries* contiendra la modélisation pour la (ou les) librairie(s) d'appel des différents services de type REST.
+❗ Par ailleurs, il est possible de voir deux répertoires *libraries* et *mockup* qui sont aussi présents au niveau de l'image représentant la structure du projet. Il est à noter que ces deux répertoires sont donnés ici à titre purement informatif afin d'être exhaustif, mais ils ne sont pas affichés dès la création du projet. Le répertoire *mockup* sera utilisé pour le stockage des images utilisées pour la modélisation des écrans et le répertoire *libraries* contiendra la modélisation pour la (ou les) librairie(s) d'appel des différents services de type REST.
 
 ➤ Le projet "***demo-dsfr-server***" dans lequel un répertoire (entre autres) est créé, il s'agit du répertoire "**/src**" (équivalent du "**/src/main/java**"). Ce répertoire sert de base (racine) pour l'ensemble de la génération, il va contenir l'ensemble des fichiers de configuration générés à la création du projet ainsi que l'ensemble des sources pour les objets métier et les différents services. 
 
@@ -286,13 +286,13 @@ La fonction "**login**" implémente par défaut une authentification simulée, d
 
 • **/pages** : C'est au niveau de ce répertoire que seront générées toutes les pages issues de la modélisation.
 
-• **/mocks** :  Ce répertoire va contenir les fichiers d'implémentations simulées pour des services. Ils sont utilisés principalement pendant le développement et les tests afin de découpler l’application de ses dépendances externes, comme par exemple une API backend. Ces mocks automatiquement générés à partir de la modélisation de la cinématique facilitent la mise au point de l’interface utilisateur, la validation du parcour fonctionnel, sans pour autant dépendre de la disponibilité ou de l’état du backend.
+• **/mocks** :  Ce répertoire va contenir les fichiers d'implémentations simulées pour des services. Ils sont utilisés principalement pendant le développement et les tests afin de découpler l’application de ses dépendances externes, comme par exemple une API backend. Ces mocks automatiquement générés à partir de la modélisation de la cinématique facilitent la mise au point de l’interface utilisateur, la validation du parcours fonctionnel, sans pour autant dépendre de la disponibilité ou de l’état du backend.
 
 • **/security** :  Par défaut, ce répertoire contient uniquement le fichier "**ProtectedRoute.tsx**". Ce fichier permet de sécuriser l’accès aux routes de l’application en fonction de l’état d’authentification et, si nécessaire, des rôles de l’utilisateur. Il s’appuie sur react-router-dom et sur le contexte d’authentification fourni par "**AuthContext**" afin de centraliser la logique de protection des routes dans un composant unique et réutilisable. Si aucun utilisateur n’est connecté, l’accès à la route est bloqué et l’utilisateur est automatiquement redirigé vers la page de connexion. Lorsque la route protégée définit une liste de rôles autorisés, le composant vérifie que l’utilisateur dispose d’au moins l’un de ces rôles ; dans le cas contraire, une redirection vers une page d’accès non autorisé est effectuée.
 
 Si toutes les conditions sont remplies, le composant autorise l’accès à la route.
 
-• **/services** :   Ce répertoire peux contenir les fichiers d'appel pour les différents services REST (ceux non issus des librairies importées au niveau du répertoire **/lib** et écrits directement par le développeur).
+• **/services** :   Ce répertoire peut contenir les fichiers d'appel pour les différents services REST (ceux non issus des librairies importées au niveau du répertoire **/lib** et écrits directement par le développeur).
 
 Ainsi que les principaux fichiers : 
 
@@ -316,7 +316,7 @@ Par ailleurs, le projet contient :
 
 ❗  Dans le cadre des projets générés par Pacman, le fichier *package-lock.json* ne joue pas un rôle fonctionnel essentiel, puisque Pacman écrit lui-même les dépendances avec des versions figées dans le *package.json* (devDependencies, peerDependencies, etc.). Le rôle normal d’un *package-lock.json* est d’assurer une installation strictement reproductible des dépendances, en enregistrant les versions exactes réellement installées. Mais ici, comme les dépendances sont déjà imposées et contrôlées par Pacman, ce fichier ne sert pas à figer des choix du développeur — il ne fait que refléter l'état final de l'installation. 
 
-Il reste néanmoins utile pour garantir que deux installations successives (ou deux postes différents) utiliseront exactement la même arborescence npm, évitant ainsi les légères variations possibles dans la résolution interne de npm, même lorsque les versions sont verrouillées. En bref : ce n’est pas indispensable pour Pacman, mais cela renforce la reproductibilité et évite les comportements imprévisibles de npm. Il reste toujours possible de le désactiver en mettant la propriété à "false" au niveau du fichier *.npmrc*.
+Il reste néanmoins utile pour garantir que deux installations successives (ou deux postes différents) utiliseront exactement la même arborescence npm, évitant ainsi les légères variations possibles dans la résolution interne de npm, même lorsque les versions sont verrouillées. En bref : ce n’est pas indispensable pour Pacman, mais cela renforce la reproductibilité et évite les comportements imprévisibles de npm. Il reste toujours possible de le désactiver en mettant la propriété à "false" au niveau du fichier "*.npmrc*".
 
 #### dsfr.config.ts 
 
@@ -484,7 +484,7 @@ export default defineConfig({
 
 ❗ Il est important de souligner que le méta-modèle cinématique est volontairement très ouvert et permissif. Une même fonctionnalité peut donc être modélisée de plusieurs façons. Des choix ont ainsi été nécessaires, notamment en fonction de la cible technique visée. Même si cela peut paraître peu intuitif au premier abord, une génération React n’a pas les mêmes contraintes ni les mêmes besoins qu’une modélisation en JSP ou en JSF. Il ne faut donc pas s’étonner, sur certains écrans de modélisation, d’accéder à certaines propriétés d’une manière spécifique ou de ne pas utiliser l’ensemble des fonctionnalités disponibles.
 
-Cette documentation est basée sur un projet destiné à créer un site de gestion concernant la demande et le suivi de démarches administratives. Par exemple un utilisateur peux effectuer une demande d'obtention de carte grise ou de carte d'identité. Il n'est pas dans l'objectif de ce document d'expliciter l'ensemble de la modélisation mais de voir les bases essentielles pour la modélisation et la génération d'une page react, ainsi que l'appel à un service de type REST.
+Cette documentation est basée sur un projet destiné à créer un site de gestion concernant la demande et le suivi de démarches administratives. Par exemple un utilisateur peut effectuer une demande d'obtention de carte grise ou de carte d'identité. Il n'est pas dans l'objectif de ce document d'expliciter l'ensemble de la modélisation mais de voir les bases essentielles pour la modélisation et la génération d'une page react, ainsi que l'appel à un service de type REST.
 
 On peut noter dès maintenant que le fichier de modélisation cinématique contient deux diagrammes (représentations) par défaut qui sont respectivement : 
 
@@ -505,7 +505,7 @@ Un toolkit est développé spécifiquement par le créateur du générateur, et 
 
 -	D’avoir une génération incomplète, non fonctionnelle et contenant de nombreux effets de bord non prévus par le développeur du générateur.
 
--	De manière plus générale, de ne pas avoir l’ensemble des fonctionalités et composants initialement prévus.
+-	De manière plus générale, de ne pas avoir l’ensemble des fonctionnalités et composants initialement prévus.
 
 Pour associer un toolkit au diagramme, deux possibilités s’offrent à l’utilisateur : 
 
@@ -535,11 +535,11 @@ Cependant, avant de commencer une modélisation de type cinématique, il convien
 
 -	Un contrôleur peut (si besoin) appeler la couche de modélisation SOA (base de données ou autre) à l’aide d’actions ("*Action*"). Dans le cas d'une application de type React, il s'agira d'appeler les services REST.
 
--	Chaque contrôleur peut être relié avec un ou plusieurs autres contrôleurs par l’intermédaire de transitions ("*Transition*"), elles-même activées (ou executées) par le biais d’un ou plusieurs événements ("*Events*").
+-	Chaque contrôleur peut être relié avec un ou plusieurs autres contrôleurs par l’intermédiaire de transitions ("*Transition*"), elles-mêmes activées (ou executées) par le biais d’un ou plusieurs événements ("*Events*").
 
-- Le "*package*" est simplement un conteneur qui permet d’organiser et de mieux répartir les différents écrans de l’application en unités logiques. Au moment de la génération, toutes les pages qui vont représenter les différents écrans seront alors réparties dans des répertoires dont les noms seront ceux définis par les noms de package. Il est bien evident que si la notion de package n’est pas obligatoire pour le bon fonctionnement de l’application. Pour l'instant cette notion n'a pas été prise en compte dans le cadre de la génération, toutes les pages générées sont donc directement sous le répertoire  : "*/pages*".
+- Le "*package*" est simplement un conteneur qui permet d’organiser et de mieux répartir les différents écrans de l’application en unités logiques. Au moment de la génération, toutes les pages qui vont représenter les différents écrans seront alors réparties dans des répertoires dont les noms seront ceux définis par les noms de package. Il est bien évident que si la notion de package n’est pas obligatoire pour le bon fonctionnement de l’application. Pour l'instant cette notion n'a pas été prise en compte dans le cadre de la génération, toutes les pages générées sont donc directement sous le répertoire  : "*/pages*".
 
-- La notion de "*Flow*" est  à peu près identique à celle de "*Package*"  mais plus orienté (comme sont nom l’indique) au niveau de la découpe logique des différents flux de l’application. De manière générale il est important  de comprendre que les notions de "*Package*" et de "*Flow*" se résument simplement en des conteneurs de haut niveau qui permettent de mieux structurer la modélisation de l’application en différentes unités logiques et ainsi de mieux visualiser les intéractions entre les différents domaines fonctionnels de cette dernière.
+- La notion de "*Flow*" est  à peu près identique à celle de "*Package*"  mais plus orienté (comme son nom l’indique) au niveau de la découpe logique des différents flux de l’application. De manière générale il est important  de comprendre que les notions de "*Package*" et de "*Flow*" se résument simplement en des conteneurs de haut niveau qui permettent de mieux structurer la modélisation de l’application en différentes unités logiques et ainsi de mieux visualiser les interactions entre les différents domaines fonctionnels de cette dernière.
 
 ❗ Il est important de noter que dans le cadre de la modélisation React, la notion de "*Flow Events*" n'est pas utilisée pour l'instant.
 
@@ -601,7 +601,7 @@ Le serveur est alors disponible sur l'adresse : *http://localhost:5173/*
 
 ### 📄 En-tête et pied-page
 
-#### Modelisation
+#### Modélisation
 
 Il est possible de rajouter pour l'ensemble de l'application un en-tête et un pied-de-page (ici modélisés au niveau du "*Package diagram*"). Pour ce faire définir deux "*ViewContainer*" au niveau du "*Package Diagram*"
 
@@ -633,17 +633,17 @@ La structure des différents éléments est la suivante (liste des éléments) :
   <img src="images/pcm-react-header-footer-3-b.png" alt="Modélisation cinématique">
 </div>
 
-Au niveau du "*Flow*" chaque page est reliée à un "*viewState*", par exemple, avec la page d'en-tête, cette dernière est reliée au "*viewState*" : "*headerState*". De nombreuses transitions ont été tirées entre ce contrôleur et les autres contrôleurs. Pour rappel, chaque transition est associée à un évenement qui est lui même attaché à un des éléments ("*widgets*"), ainsi la transition est activée uniquement au momment du déclanchement de l'événement associé à l'élément. Pour attacher l'événement, simplement faire un double-click au niveau de la transition afin d'afficher la fenêtre de sélection de l'événement : 
+Au niveau du "*Flow*" chaque page est reliée à un "*viewState*", par exemple, avec la page d'en-tête, cette dernière est reliée au "*viewState*" : "*headerState*". De nombreuses transitions ont été tirées entre ce contrôleur et les autres contrôleurs. Pour rappel, chaque transition est associée à un événement qui est lui même attaché à un des éléments ("*widgets*"), ainsi la transition est activée uniquement au moment du déclanchement de l'événement associé à l'élément. Pour attacher l'événement, simplement faire un double-clic au niveau de la transition afin d'afficher la fenêtre de sélection de l'événement : 
 
 <div align="center">
   <img src="images/pcm-react-event-triggering.png" alt="Modélisation cinématique" width="400">
 </div>
 
-Sinon il est aussi possible en sélectionnant la transition, d'afficher l'onglet "*Properties*" et de sélectionner l'évenement dans la rubrique "*On*" sur le sous-onglet principal "*Transition*".
+Sinon il est aussi possible en sélectionnant la transition, d'afficher l'onglet "*Properties*" et de sélectionner l'événement dans la rubrique "*On*" sur le sous-onglet principal "*Transition*".
 
 #### Génération 
 
-Voici, à titre purement indicatif le code généré suite à la modélisation de l'en-tête vue précédemment. Dans le cadre de ce document on se concentrera plutôt sur la notion d'en-tête puisque la notion de pied-de-page fonctionne excatement sur la même logique. Ce code est relativement long mais il permet de bien voir l'agencement du code effectué par le générateur **Pacman**. De manière générale il a été essayé de centraliser au maximum les différents processus.
+Voici, à titre purement indicatif le code généré suite à la modélisation de l'en-tête vue précédemment. Dans le cadre de ce document on se concentrera plutôt sur la notion d'en-tête puisque la notion de pied-de-page fonctionne exactement sur la même logique. Ce code est relativement long mais il permet de bien voir l'agencement du code effectué par le générateur **Pacman**. De manière générale il a été essayé de centraliser au maximum les différents processus.
 
 ```ts
 import React from "react";
@@ -856,7 +856,7 @@ Il est par ailleurs possible de voir directement la gestion de la sécurité au 
 
 Au niveau des éléments il est aussi possible pour une page de les afficher ou de les supprimer et fonction de l'utilisateur connecté. Il n'y a rien à faire de particulier, à partir du moment ou le générateur détecte une transition avec une "*Guard*" associée à l'élément, le code est alors automatiquement rajouté pour gérer l'affichage de l'élément en fonction de l'utilisateur qui est connecté.
 
-Le corrolaire à ce système de fonctionnement est qu'il existe une métadonnées positionnable sur l'élément qui permet de forcer sont affichage dans certains cas spécifique. Par exemmple dans l'application de démonstration, il existe un menu déroulant "*Mon compte*" avec deux sous-menus, respectivement "*Mes informations*" et "*Deconnexion*". Ces deux sous-menus ne peuvent apparaitre que si la personne est connectée à l'application (authentifiée). Dans ce cas, positionner la métadonnée "*WITH_FORCE_SECURED*" avec la velur "*true*" au niveau du conteneur : 
+Le corolaire à ce système de fonctionnement est qu'il existe une métadonnées positionnable sur l'élément qui permet de forcer sont affichage dans certains cas spécifique. Par exemple dans l'application de démonstration, il existe un menu déroulant "*Mon compte*" avec deux sous-menus, respectivement "*Mes informations*" et "*Deconnexion*". Ces deux sous-menus ne peuvent apparaitre que si la personne est connectée à l'application (authentifiée). Dans ce cas, positionner la métadonnée "*WITH_FORCE_SECURED*" avec la valeur "*true*" au niveau du conteneur : 
 
 <div align="center">
   <img src="images/pcm-react-security-2.png" alt="Modélisation cinématique" width="400">
@@ -1073,7 +1073,7 @@ La fonction "*login([...])*" simule une authentification, elle vérifie les iden
 
 Un hook dans React est une fonction spéciale qui permet d’utiliser les fonctionnalités internes de React, comme l’état, le cycle de vie ou les contextes, sans écrire de composant de classe. Les hooks permettent d’ajouter de la logique réutilisable à des composants fonctionnels, tout en gardant un code plus simple et plus lisible. 
 
-Le hook personnalisé "*useAuth*" fournit une abstraction simple pour accéder au contexte d’authentification de l’application. Il permet de récupérer directement les informations et fonctions liées à l’authentification sans appeler explicitement useContext, ce qui améliore la lisibilité du code. Il garantit également que le contexte est utilisé à l’intérieur du AuthProvider, en levant une erreur (message délibirément laissé en anglais) si ce n’est pas le cas, et évite ainsi les usages incorrects tout en centralisant l’accès à la logique d’authentification. 
+Le hook personnalisé "*useAuth*" fournit une abstraction simple pour accéder au contexte d’authentification de l’application. Il permet de récupérer directement les informations et fonctions liées à l’authentification sans appeler explicitement useContext, ce qui améliore la lisibilité du code. Il garantit également que le contexte est utilisé à l’intérieur du AuthProvider, en levant une erreur (message délibérément laissé en anglais) si ce n’est pas le cas, et évite ainsi les usages incorrects tout en centralisant l’accès à la logique d’authentification. 
 
 Voici le rendu si aucun utilisateur n'est encore authentifié :
 
@@ -1082,11 +1082,11 @@ Voici le rendu si aucun utilisateur n'est encore authentifié :
 Voici le rendu avec un utilisateur authentifié :
 
 <img src="images/pcm-react-header-footer-5.png" alt="Modélisation cinématique">
-<img src="images/pcm-react-header-footer-6.png" alt="Modélisation cinématique">
+<img src="images/pcm-react-header-footer-7.png" alt="Modélisation cinématique">
 
 Enfin, le rendu si l'utilisateur est un administrateur :
 
-<img src="images/pcm-react-header-footer-7.png" alt="Modélisation cinématique">
+<img src="images/pcm-react-header-footer-6.png" alt="Modélisation cinématique">
 
 
 ### 📄 Formulaire
@@ -1152,7 +1152,7 @@ Ainsi le champ sera affiché uniquement si la valeur de la liste déroulante est
 ```
 etc...
 
-Enfin pour fermer la dernière portion, le code suivant a été simplement positionné au niveau du bouton de validation du formulaire: 
+Enfin pour fermer la dernière portion, le code suivant a été simplement positionné au niveau du bouton de validation du formulaire : 
 
 ```ts
 </>)} 
@@ -1166,7 +1166,7 @@ Au niveau de l'élément représentant le formulaire, les valeurs suivantes ont 
 
 #### Génération
 
-A la génération le code produit est le suivant (pour raison de lisibilité ce code est découpé en plusieurs parties, avec pour chaque partie une explication). Voici en premier quelques exemples pour le codage des différents élements du formulaire. Il est bien évidemment impossible d'être exhaustif sur l'ensemble des composants du DSRF, sont donc donnés ici un exemple pour un champ text et un exemple pour une liste déroulante.
+A la génération le code produit est le suivant (pour raison de lisibilité ce code est découpé en plusieurs parties, avec pour chaque partie une explication). Voici en premier quelques exemples pour le codage des différents éléments du formulaire. Il est bien évidemment impossible d'être exhaustif sur l'ensemble des composants du DSRF, sont donc donnés ici un exemple pour un champ text et un exemple pour une liste déroulante.
 
 Ci-contre le codage d'un champ de type "Text" : 
 
@@ -1458,7 +1458,7 @@ Voici le code (très simple) pour l'affichage de la table :
 
 Ce code illustre l’utilisation d’une table DSFR pour afficher la liste des démarches administratives de l’utilisateur. La table est configurée avec des colonnes fixes et un titre accessible (caption) pour améliorer l’ergonomie et l’accessibilité. Les données affichées proviennent de "*data_ListRequestTable*", qui peut être peuplé avec des données fictives via Faker pour le développement et les tests. Les en-têtes définissent chaque colonne (Type de démarche, Identifiant, Statut, Raison).
 
-L’état "*data\_ListRequestTable*" contient les données à afficher dans la table. Au chargement du composant (useEffect), les données sont initialement peuplées avec des données fictives générées par "*getFakeTableData\_ListRequestTable()*". La récupération des données fictives est laissée ici pour démonstration dans le cadre de l'écriture de ce document mais (on peut par ailleurs remarquer que cette partie de code est située entre balises de type "*user code*") il suffit de supprimer cette ligne pour évter l'appel au mock.
+L’état "*data\_ListRequestTable*" contient les données à afficher dans la table. Au chargement du composant (useEffect), les données sont initialement peuplées avec des données fictives générées par "*getFakeTableData\_ListRequestTable()*". La récupération des données fictives est laissée ici pour démonstration dans le cadre de l'écriture de ce document mais (on peut par ailleurs remarquer que cette partie de code est située entre balises de type "*user code*") il suffit de supprimer cette ligne pour éviter l'appel au mock.
 
 ```ts
 const [data_ListRequestTable, setData_ListRequestTable] = useState<any[]>([]);
@@ -1508,7 +1508,7 @@ L’objectif est de fournir des données mockées rapidement pour tester l’aff
 
 La fonction "*listRequestTableDataMap*" effectue le mapping des données brutes pour la table DSFR : elle transforme chaque objet req en tableau correspondant aux colonnes, et remplace les codes (type, status, reason) par des libellés lisibles à l’aide des constantes REQUEST_TYPE_LABELS, REQUEST_STATUS_LABELS et REQUEST_REASON_LABELS. Cela permet d’afficher directement des intitulés compréhensibles dans la table plutôt que des codes techniques. 
 
-Il est ici impossible de tout laisser à la génération automatique, le développeur doit donc surcharger le résultat de la génération (dans les zones "*user code*" prévues à cet effet) pour que l’ensemble fonctionne correctement. Il est à noter que ce code supplémentaire est uniquement lié au fait de l'utilisation de la valeure de listes déroulantes au niveau de la table. Si au niveau de cette dernière il n'y avait que des champs finaux à afficher la génération automatique prends le relais..
+Il est ici impossible de tout laisser à la génération automatique, le développeur doit donc surcharger le résultat de la génération (dans les zones "*user code*" prévues à cet effet) pour que l’ensemble fonctionne correctement. Il est à noter que ce code supplémentaire est uniquement lié au fait de l'utilisation de la valeure de listes déroulantes au niveau de la table. Si au niveau de cette dernière il n'y avait que des champs finaux à afficher la génération automatique prends le relais.
 
 ```ts
 function listRequestTableDataMap (result) {
@@ -1736,7 +1736,7 @@ To address all issues, run:
 Run `npm audit` for details.
 ```
 
-Pour vérifier la bonne prise en compte de la librairie, se positionner au niveau du répertoire "*/node_modules*" et regarder si il existe bien un nouveau répertoire avec comme nom celui de la librairie qui vient d'être installée. Dans le cas de notre application de démonstration, la librairie a été appelée : "*demo-dsfr-client-rest*".
+Pour vérifier la bonne prise en compte de la librairie, se positionner au niveau du répertoire "*/node_modules*" et regarder s'il existe bien un nouveau répertoire avec comme nom celui de la librairie qui vient d'être installée. Dans le cas de notre application de démonstration, la librairie a été appelée : "*demo-dsfr-client-rest*".
 
 <div align="center">
   <img src="images/pcm-library-client-node-modules.png" alt="Librairie client rest">
@@ -1774,7 +1774,7 @@ Les différents fichiers de modélisation sont alors automatiquement copiés dan
 
 Pour relier un service avec une page,  nous allons reprendre les deux pages précédentes qui ont été étudiées pour la modélisation d'un formulaire et la modélisation d'une table. Dans le cas de la table, nous désirons que les données soit affichées directement au chargement de la page. 
 
-Il est donc nécessaire de modéliser une action au niveau du diagramme des "*Flow*" et de relier cette action avec une transition (la transition de retour n'est pas utilisée au niveau de la modélisation mais il est fortement conseillé de la positionner afin de mieux comprendre les intéractions entre les différents composants) :
+Il est donc nécessaire de modéliser une action au niveau du diagramme des "*Flow*" et de relier cette action avec une transition (la transition de retour n'est pas utilisée au niveau de la modélisation mais il est fortement conseillé de la positionner afin de mieux comprendre les interactions entre les différents composants) :
 
 <div align="center">
   <img src="images/pcm-soa-service-1.png" alt="Modélisation des services">
@@ -1786,7 +1786,7 @@ Se positionner au niveau de la transition afin de faire apparaître ses proprié
   <img src="images/pcm-soa-service-2.png" alt="Modélisation des services">
 </div>
 
-❗ Attention lors du choix de l'évenement à bien prendre celui qui est directement issu de l'élément à impacter, et non pas celui de son éventuel conteneur. Dans notre cas, il s'agit donc de l'événement "*onLoad*" attaché à la table et non à la page ou au formulaire, etc... Au niveau de la rubrique "*On*", cliquer sur le bouton "*+*" comme cité précédemment et cocher l'événement dans la nouvelle fenêtre qui apparaît : 
+❗ Attention lors du choix de l'événement à bien prendre celui qui est directement issu de l'élément à impacter, et non pas celui de son éventuel conteneur. Dans notre cas, il s'agit donc de l'événement "*onLoad*" attaché à la table et non à la page ou au formulaire, etc... Au niveau de la rubrique "*On*", cliquer sur le bouton "*+*" comme cité précédemment et cocher l'événement dans la nouvelle fenêtre qui apparaît : 
 
 <div align="center">
   <img src="images/pcm-soa-service-3.png" alt="Modélisation des services" width="400">
@@ -1842,7 +1842,7 @@ Ainsi pour la modélisation de la table :
 
 #### Génération
 
-Au niveau des imports, on peux constater qu'un nouvel import est effectué automatiquement pour mettre à disposition la nouvelle librairie importée. On remarque qu'il y a deux imports pour un service, l'import pour le service en lui-même auquel il faut ajouter l'import pour les objets du service (DTOs).
+Au niveau des imports, on peut constater qu'un nouvel import est effectué automatiquement pour mettre à disposition la nouvelle librairie importée. On remarque qu'il y a deux imports pour un service, l'import pour le service en lui-même auquel il faut ajouter l'import pour les objets du service (DTOs).
 
 ```ts
 import { requests } from "demo-dsfr-client-rest";
@@ -1917,7 +1917,7 @@ Il est même fortement conseillé de laisser le serveur toujours tourner pendant
 
 ## ✔️ Validation de la modélisation
 ---
-On peut remarquer la présence d'une "***Validation du diagramme de modélisation***". Quelle que soit la couche à générer, il est toujours possible de lancer directement le générateur désiré et celui-ci va automatiquement activer la validation du diagramme avant de se lancer. Si des erreurs sont detectées, il est alors possible d'aller voir le résultat de la validation au niveau de la vue dédiée à la validation (Rapport de validation).
+On peut remarquer la présence d'une "***Validation du diagramme de modélisation***". Quelle que soit la couche à générer, il est toujours possible de lancer directement le générateur désiré et celui-ci va automatiquement activer la validation du diagramme avant de se lancer. Si des erreurs sont détectées, il est alors possible d'aller voir le résultat de la validation au niveau de la vue dédiée à la validation (Rapport de validation).
 
 Pour plus d'informations sur le fonctionnement et l'utilisation du système de validation, se reporter à la documentation de **Pacman** backend.
 
@@ -1977,7 +1977,7 @@ Pour plus d'informations sur le fonctionnement et l'utilisation du système de v
 
 | Règle| S'applique sur |
 |------|----------------|
-|Un contrôleur ne peux gérer qu'une seule page|VIEWSTATE|
+|Un contrôleur ne peut gérer qu'une seule page|VIEWSTATE|
 |Une page ne peux avoir qu'un seul contrôleur|VIEWCONTAINER|
 |Une page doit avoir au moins un composant|VIEWCONTAINER|
 |Un composant "*Tab*" doit être dans un conteneur "*GroupTab*"||
