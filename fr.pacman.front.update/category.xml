@@ -9,6 +9,9 @@
    <feature url="features/fr.pacman.front.cinematic.react.ui.feature_0.0.0.jar" id="fr.pacman.front.cinematic.react.ui.feature" version="0.0.0">
       <category name="fr.pacman.front.dev"/>
    </feature>
+   <feature url="features/fr.pacman.front.cinematic.react.client.rs.ui.feature_0.0.0.jar" id="fr.pacman.front.cinematic.react.client.rs.ui.feature" version="0.0.0">
+      <category name="fr.pacman.front.dev"/>
+   </feature>
    <feature url="features/fr.pacman.front.start.ui.feature_0.0.0.jar" id="fr.pacman.front.start.ui.feature" version="0.0.0">
       <category name="fr.pacman.front.dev"/>
    </feature>

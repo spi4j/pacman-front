@@ -10,9 +10,9 @@
 		<version>5.0.0</version>
 	</parent>
 	
-	<artifactId>fr.pacman.front.cinematic.react.ui.feature</artifactId>
+	<artifactId>fr.pacman.front.cinematic.react.client.rs.ui.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
-	<name>fr.pacman.front.react.cinematic.ui.feature</name>
-	<description>Feature UI Pacman front Cinematique.</description>
+	<name>fr.pacman.front.react.cinematic.react.client.rs.ui.feature</name>
+	<description>Feature UI Pacman front Client Rest Cinematique.</description>
 
 </project>

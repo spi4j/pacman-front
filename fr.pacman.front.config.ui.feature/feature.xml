@@ -24,18 +24,4 @@
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
-         id="fr.pacman.front.config.spi4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.pacman.front.config.spring"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
 </feature>

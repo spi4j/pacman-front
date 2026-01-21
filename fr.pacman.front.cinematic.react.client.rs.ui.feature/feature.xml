@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.pacman.front.cinematic.react.ui.feature"
+      id="fr.pacman.front.cinematic.react.client.rs.ui.feature"
       label="PacMan Front - Client RS"
       version="5.0.0.qualifier"
       provider-name="Cali"

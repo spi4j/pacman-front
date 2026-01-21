@@ -16,7 +16,6 @@
       <import plugin="org.eclipse.acceleo.engine"/>
       <import plugin="org.obeonetwork.dsl.overview"/>
       <import plugin="org.obeonetwork.dsl.entity"/>
-      <import plugin="org.obeonetwork.dsl.react"/>
       <import plugin="org.eclipse.acceleo.query.ide"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.ocl"/>
