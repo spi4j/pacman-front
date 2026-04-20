@@ -22,6 +22,9 @@
 [comment retourne le nom d'une page typescript./]
 [query public nameRsServiceTs(s: soa::Interface): String = s.name().nameRsServiceTs()/]
   
+[comment retourne le nom pour le fichier qui s'occupe de l'injection axios dans les librairies./]
+[query public nameRsOverrideApiClientTs(any: ecore::EObject): String = 'overrideApiClient'/]
+  
 [comment retourne le nom d'une page de configuration des services en js./]
 [query public nameServiceConfigTs(any : ecore::EObject): String = 'apiClient'/]
   

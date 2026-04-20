@@ -300,7 +300,11 @@
 [/template]
 
 [template private writeButton (ve : view::AbstractViewElement)]
-  <Button>[ve.label/]</Button>
+  [let url = ve.urlForPageJsx()]
+    [if (url.exists())]<Link to="/[url/]">[/if] 
+    <p/><Button>[ve.label/]</Button>
+    [if (url.exists())]</Link>[/if] 
+  [/let]
 [/template]
 
 [template private writeButtonSubmit (ve : view::AbstractViewElement)]
@@ -829,7 +833,7 @@
 [template private writeTableEditor(ve : view::AbstractViewElement)]
   {currentRow && currentTable && (
   <modal.Component 
-    className="modal-auto-size"
+    className="request-modal-[ve.name/] fr-modal--lg-[ve.name/]"
     title="[ve.label/]" 
     onClose={handleClose}>
     <div [if (ve.hasMetaMaxWidth() or ve.hasMetaMaxHeight())] style={{ 
@@ -912,10 +916,19 @@
 [template private writeUpload (ve : view::AbstractViewElement)]
   [let v = ve.oclAsType(view::ViewElement)]
     <Upload
-      multiple 
+      multiple
+      label="[ve.label/]" 
       hint="[ve.description/]"
       state="default"
       stateRelatedMessage="Text de validation / d'explication de l'erreur"
+      nativeInputProps={{
+        onChange: (e) => {
+          setValue("[ve.name/]", e.target.files, {
+          shouldValidate: true,
+          shouldDirty: true,
+          });
+        }
+      }}
     />
   [/let]
 [/template]

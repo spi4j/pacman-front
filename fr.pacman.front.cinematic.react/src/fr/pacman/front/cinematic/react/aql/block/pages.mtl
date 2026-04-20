@@ -406,6 +406,7 @@
       reset,
       watch,
       register, 
+      setValue,
       handleSubmit, 
       formState: { errors, dirtyFields }, 
     } = useForm<FormValues>({
@@ -482,7 +483,7 @@
             severity: "success",
          });
          [let onSubmit = vc.eAllContents(view::ViewEvent)->select(e | e.isOnSubmit())]
-           [if (not onSubmit->isEmpty())]
+           [if (not onSubmit->isEmpty() and onSubmit->first().get_urlForPageJsx().exists())]
              navigate("/[onSubmit->first().get_urlForPageJsx()/]");
            [/if]
          [/let]
@@ -490,7 +491,7 @@
       } catch (error) {
           console.error(error);
           setGlobalMessage({
-            text: "Une erreur est survenue lors de l’enregistrement.",
+            text: "Une erreur est survenue lors de l’accès au service.",
             severity: "error",
           });
        }
@@ -567,6 +568,7 @@
 [comment écriture des imports pour la page (panel / header / footer / etc..)./]
 [template private writeAdditionalWidgetImports(vc : view::ViewContainer, vs : flow::ViewState, ui : Boolean)]
   [if (ui)]
+    import { Link } from "react-router-dom";
     [for (ve | vc.get_viewElementForImports()->reject(o | o.isTableEditor()))]
       import { [ve.widget.implementation.trim()/] } from "[ve.reactUriForElement()/]/[ve.widget.implementation.trim()/]";
     [/for]
@@ -602,7 +604,7 @@
       import { [vs.nameServiceConfigTs()/] } from "[vs.nameDirectoryPagesConfigJsForService()/]/[vs.nameServiceConfigTs()/]";
     [/if]
     [for (s | vs.rsServicesForViewState())]
-      import { [s.nameRsServiceTs()/] } from "[vs.rsLibraryNameForService(s)/]";
+      import { [s.nameRsServiceTs()/] } from "[vs.nameDirectoryPagesConfigJsForService()/]/[vs.nameRsOverrideApiClientTs()/]";
     [/for]
     [for (d | vs.rsXtosForViewState())]
       import { [d.nameRsXtoTs()/] } from "[vs.rsLibraryNameForDto(d)/]";

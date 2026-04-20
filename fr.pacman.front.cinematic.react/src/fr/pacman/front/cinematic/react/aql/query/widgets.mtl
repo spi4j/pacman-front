@@ -82,7 +82,7 @@
   
 [comment vérifie si l'élément doit figurer dans les données à faire gérer par hook-form./]
 [query  public isEligibleForFormValues(ve : view::AbstractViewElement) : Boolean = ve.isInput() or ve.isPassword() 
-  or ve.isRadio() or ve.isCheckBox() or ve.isCombo() or ve.isSelect()/]
+  or ve.isRadio() or ve.isCheckBox() or ve.isCombo() or ve.isSelect() or ve.isUpload()/]
   
 [comment retourne l'uri react attachée au composant pour les imports./]
 [query public reactUriForElement(ve : view::AbstractViewElement) : String = if (ve.isPassword()) then 
@@ -95,9 +95,10 @@
 [comment retourne le type pour l'élément si l'élément est un conteneur on prend le type du premier élément contenu. Pas 
 de vérification sur le contenu, ne devrait pas avoir de null car vérifié auparavant par la validation. On détourne la 
 propriété help qui n'est pas visible, si help = true alors c'est un tableau sinon juste le type./]
-[query public typeForElement(e : view::AbstractViewElement) : String = if (e.oclIsKindOf(view::ViewElement)) then 
-  e.oclAsType(view::ViewElement).type.name.typeJSForElement() else e.oclAsType(view::AbstractViewElement)
-  .eAllContents(view::ViewElement)->first().typeForElement() endif + if (e.isCheckBoxGroup()) then '[]' else '' endif/]
+[query public typeForElement(e : view::AbstractViewElement) : String = if (e.isUpload()) then 'FileList' else 
+  if (e.oclIsKindOf(view::ViewElement)) then e.oclAsType(view::ViewElement).type.name.typeJSForElement() else 
+  e.oclAsType(view::AbstractViewElement).eAllContents(view::ViewElement)->first().typeForElement() endif 
+  + if (e.isCheckBoxGroup()) then '[]' else '' endif endif/]
   
 [comment retourne le transtypage des types pour javascript./]
 [query private typeJSForElement(t : String) : String = if ('String'.equalsIgnoreCase(t)) then 'string' 
