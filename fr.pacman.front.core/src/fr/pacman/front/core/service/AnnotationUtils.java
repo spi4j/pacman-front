@@ -1,6 +1,7 @@
 package fr.pacman.front.core.service;
 
 import org.eclipse.emf.ecore.EObject;
+import org.obeonetwork.dsl.cinematic.flow.Transition;
 import org.obeonetwork.dsl.cinematic.view.AbstractViewElement;
 import org.obeonetwork.dsl.environment.Annotation;
 import org.obeonetwork.dsl.environment.MetaData;
@@ -209,7 +210,7 @@ public final class AnnotationUtils {
 	public static String get_metaPasswordDescription(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.PASSWORD_DESCRIPTION);
 	}
-	
+
 	public static boolean has_metaTextInfo(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_INFO);
 	}
@@ -217,7 +218,7 @@ public final class AnnotationUtils {
 	public static String get_metaTextInfo(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_INFO);
 	}
-	
+
 	public static boolean has_metaTextSuccess(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_SUCCESS);
 	}
@@ -225,7 +226,7 @@ public final class AnnotationUtils {
 	public static String get_metaTextSuccess(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_SUCCESS);
 	}
-	
+
 	public static boolean has_metaTextPlaceHolder(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_PLACEHOLDER);
 	}
@@ -233,7 +234,7 @@ public final class AnnotationUtils {
 	public static String get_metaTextPlaceHolder(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_PLACEHOLDER);
 	}
-	
+
 	public static boolean has_metaTextError(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_ERROR);
 	}
@@ -241,7 +242,7 @@ public final class AnnotationUtils {
 	public static String get_metaTextError(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_ERROR);
 	}
-	
+
 	public static boolean has_metaRegexPattern(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_REGEX);
 	}
@@ -249,7 +250,7 @@ public final class AnnotationUtils {
 	public static String get_metaRegexPattern(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_REGEX);
 	}
-	
+
 	public static boolean has_metaIcon(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_ICON);
 	}
@@ -257,7 +258,7 @@ public final class AnnotationUtils {
 	public static String get_metaIcon(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_ICON);
 	}
-	
+
 	public static boolean has_metaButtonAddOn(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_BUTTON_ADDON);
 	}
@@ -265,7 +266,7 @@ public final class AnnotationUtils {
 	public static String get_metaButtonAddOn(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_BUTTON_ADDON);
 	}
-	
+
 	public static boolean has_metaButtonAction(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_BUTTON_ACTION);
 	}
@@ -273,7 +274,7 @@ public final class AnnotationUtils {
 	public static String get_metaButtonAction(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_BUTTON_ACTION);
 	}
-	
+
 	public static boolean has_metaMaxlength(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_MAXLENGTH);
 	}
@@ -281,7 +282,7 @@ public final class AnnotationUtils {
 	public static String get_metaMaxlength(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_MAXLENGTH);
 	}
-	
+
 	public static boolean has_metaTextarea(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_TEXTAREA);
 	}
@@ -289,7 +290,7 @@ public final class AnnotationUtils {
 	public static String get_metaTextArea(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_TEXTAREA);
 	}
-	
+
 	public static boolean has_metaMsgGroup(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_MSG_GROUP);
 	}
@@ -297,15 +298,47 @@ public final class AnnotationUtils {
 	public static String get_metaMsgGroup(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_MSG_GROUP);
 	}
-	
+
 	public static boolean has_metaHint(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_HINT);
+	}
+
+	public static boolean has_metaButtonValue(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_VALUE);
+	}
+
+	public static String get_metaButtonValue(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_VALUE);
+	}
+
+	public static boolean has_metaCustomStyle(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_CUSTOM_STYLE);
+	}
+
+	public static boolean has_metaRightIcon(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_RIGHT_ICON);
+	}
+
+	public static boolean has_metaLeftIcon(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_LEFT_ICON);
+	}
+
+	public static String get_metaCustomStyle(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_CUSTOM_STYLE);
+	}
+
+	public static String get_metaRightIcon(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_RIGHT_ICON);
+	}
+
+	public static String get_metaLeftIcon(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_LEFT_ICON);
 	}
 
 	public static String get_metaHint(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_HINT);
 	}
-	
+
 	public static boolean has_metaValue(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_VALUE);
 	}
@@ -313,7 +346,7 @@ public final class AnnotationUtils {
 	public static String get_metaValue(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_VALUE);
 	}
-	
+
 	public static boolean has_metaRequired(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_REQUIRED);
 	}
@@ -321,7 +354,7 @@ public final class AnnotationUtils {
 	public static String get_metaRequired(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_REQUIRED);
 	}
-	
+
 	public static boolean has_metaValues(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_VALUES);
 	}
@@ -329,7 +362,7 @@ public final class AnnotationUtils {
 	public static String get_metaValues(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_VALUES);
 	}
-	
+
 	public static boolean has_metaHideMinMax(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_HIDE_MIN_MAX);
 	}
@@ -337,7 +370,7 @@ public final class AnnotationUtils {
 	public static String get_metaHideMinMax(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_HIDE_MIN_MAX);
 	}
-	
+
 	public static boolean has_metaMax(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_VALUE_MAX);
 	}
@@ -345,7 +378,7 @@ public final class AnnotationUtils {
 	public static String get_metaMax(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_VALUE_MAX);
 	}
-	
+
 	public static boolean has_metaMin(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_VALUE_MIN);
 	}
@@ -353,7 +386,7 @@ public final class AnnotationUtils {
 	public static String get_metaMin(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_VALUE_MIN);
 	}
-	
+
 	public static boolean has_metaSteps(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_STEPS);
 	}
@@ -361,7 +394,7 @@ public final class AnnotationUtils {
 	public static String get_metaSteps(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_STEPS);
 	}
-	
+
 	public static boolean has_metaDouble(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_DOUBLE);
 	}
@@ -369,7 +402,7 @@ public final class AnnotationUtils {
 	public static String get_metaDouble(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_DOUBLE);
 	}
-	
+
 	public static boolean has_metaPrefix(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_PREFIX);
 	}
@@ -377,7 +410,7 @@ public final class AnnotationUtils {
 	public static String get_metaPrefix(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_PREFIX);
 	}
-	
+
 	public static boolean has_metaSuffix(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_SUFFIX);
 	}
@@ -385,7 +418,7 @@ public final class AnnotationUtils {
 	public static String get_metaSuffix(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_SUFFIX);
 	}
-	
+
 	public static boolean has_metaImg(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_IMG);
 	}
@@ -393,7 +426,7 @@ public final class AnnotationUtils {
 	public static String get_metaImg(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_IMG);
 	}
-	
+
 	public static boolean has_metaLink(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_LINK);
 	}
@@ -401,7 +434,7 @@ public final class AnnotationUtils {
 	public static String get_metaLink(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_LINK);
 	}
-	
+
 	public static boolean has_metaOrientation(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_ORIENTATION);
 	}
@@ -409,7 +442,7 @@ public final class AnnotationUtils {
 	public static String get_metaOrientation(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_ORIENTATION);
 	}
-	
+
 	public static boolean has_metaBrandTop(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_BRAND_TOP);
 	}
@@ -417,7 +450,7 @@ public final class AnnotationUtils {
 	public static String get_metaBrandTop(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_BRAND_TOP);
 	}
-	
+
 	public static boolean has_metaTooltip(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_TOOLTIP);
 	}
@@ -425,15 +458,23 @@ public final class AnnotationUtils {
 	public static String get_metaTooltip(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_TOOLTIP);
 	}
-	
+
 	public static boolean has_metaUrl(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_URL);
+	}
+
+	public static boolean has_metaUrlParams(final Transition p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_URL_PARAMS);
+	}
+
+	public static String get_metaUrlParams(final Transition p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_URL_PARAMS);
 	}
 
 	public static String get_metaUrl(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_URL);
 	}
-	
+
 	public static boolean has_metaClosable(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_CLOSABLE);
 	}
@@ -441,7 +482,7 @@ public final class AnnotationUtils {
 	public static String get_metaClosable(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_CLOSABLE);
 	}
-	
+
 	public static boolean has_metaSeverity(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_SEVERITY);
 	}
@@ -449,7 +490,7 @@ public final class AnnotationUtils {
 	public static String get_metaSeverity(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_SEVERITY);
 	}
-	
+
 	public static boolean has_metaExpanded(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_EXPANDED);
 	}
@@ -457,7 +498,7 @@ public final class AnnotationUtils {
 	public static String get_metaExpended(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_EXPANDED);
 	}
-	
+
 	public static boolean has_metaOpened(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_DEFAULT_OPENED);
 	}
@@ -465,7 +506,7 @@ public final class AnnotationUtils {
 	public static String get_metaOpened(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_DEFAULT_OPENED);
 	}
-	
+
 	public static boolean has_metaDisplay(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_DISPLAY);
 	}
@@ -473,7 +514,7 @@ public final class AnnotationUtils {
 	public static String get_metaDisplay(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_DISPLAY);
 	}
-	
+
 	public static boolean has_metaTableColor(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_TABLE_COLOR);
 	}
@@ -481,7 +522,7 @@ public final class AnnotationUtils {
 	public static String get_metaTableColor(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_TABLE_COLOR);
 	}
-	
+
 	public static boolean has_metaTableEdition(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_TABLE_EDITION);
 	}
@@ -489,7 +530,7 @@ public final class AnnotationUtils {
 	public static String get_metaTableEdition(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_TABLE_EDITION);
 	}
-	
+
 	public static boolean has_metaMaxWidth(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_MAX_WIDTH);
 	}
@@ -497,7 +538,7 @@ public final class AnnotationUtils {
 	public static String get_metaMaxWidth(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_MAX_WIDTH);
 	}
-	
+
 	public static boolean has_metaMaxHeight(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_MAX_HEIGHT);
 	}
@@ -505,15 +546,23 @@ public final class AnnotationUtils {
 	public static String get_metaMaxHeight(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_MAX_HEIGHT);
 	}
-	
+
 	public static boolean has_metaMoreInformations(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_MORE_INFORMATIONS);
+	}
+
+	public static boolean has_metaLineSelectable(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_LINE_SELECT);
+	}
+
+	public static String get_metaLineSelectable(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_LINE_SELECT);
 	}
 
 	public static String get_metaMoreInformations(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_MORE_INFORMATIONS);
 	}
-	
+
 	public static boolean has_metaSize(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_SIZE);
 	}
@@ -521,7 +570,7 @@ public final class AnnotationUtils {
 	public static String get_metaSize(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_SIZE);
 	}
-	
+
 	public static boolean has_metaFontSize(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_FONT_SIZE);
 	}
@@ -529,7 +578,7 @@ public final class AnnotationUtils {
 	public static String get_metaFontSize(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_FONT_SIZE);
 	}
-	
+
 	public static boolean has_metaInlineStyle(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_STYLE);
 	}
@@ -537,7 +586,7 @@ public final class AnnotationUtils {
 	public static String get_metaInlineStyle(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_STYLE);
 	}
-	
+
 	public static boolean has_metaArrowType(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_ARROW_TYPE);
 	}
@@ -545,7 +594,7 @@ public final class AnnotationUtils {
 	public static String get_metaArrowType(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_ARROW_TYPE);
 	}
-	
+
 	public static boolean has_metaCustomCode(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_CUSTOM_CODE);
 	}
@@ -553,7 +602,7 @@ public final class AnnotationUtils {
 	public static String get_metaCustomCode(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_CUSTOM_CODE);
 	}
-	
+
 	public static boolean has_metaAllSecured(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_ALL_SECURED);
 	}
@@ -561,7 +610,7 @@ public final class AnnotationUtils {
 	public static String get_metaAllSecured(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_ALL_SECURED);
 	}
-	
+
 	public static boolean has_metaDisabled(final AbstractViewElement p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_DISABLED);
 	}
@@ -569,7 +618,7 @@ public final class AnnotationUtils {
 	public static String get_metaDisabled(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_DISABLED);
 	}
-	
+
 	public static boolean has_metaLibraryName(final ObeoDSMObject p_object) {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_LIBRARY_NAME);
 	}

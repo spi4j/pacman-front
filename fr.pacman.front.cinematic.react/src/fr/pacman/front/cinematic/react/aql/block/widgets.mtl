@@ -1,18 +1,20 @@
 [module widgets(	'http://www.obeonetwork.org/dsl/cinematic/3.0.0', 
 					'http://www.obeonetwork.org/dsl/cinematic/view/1.0.0',
-					'http://www.obeonetwork.org/dsl/environment/3.0.0')/]
+					'http://www.obeonetwork.org/dsl/environment/3.0.0',
+					'http://www.obeonetwork.org/dsl/entity/3.0.0')/]
 
 [import fr::pacman::front::core::aql::string/]
 [import fr::pacman::front::core::aql::name::name/]
+[import fr::pacman::front::core::aql::name::directories /]
+[import fr::pacman::front::core::aql::name::eobjects /]
 [import fr::pacman::front::core::aql::query::widgets/]
 [import fr::pacman::front::core::aql::query::metadatas/]
 [import fr::pacman::front::core::aql::query::eobjects/]
-[import fr::pacman::front::core::aql::name::directories /]
-[import fr::pacman::front::core::aql::name::eobjects /]
-[import fr::pacman::front::core::service::AnnotationUtils/]
 [import fr::pacman::front::cinematic::react::aql::query::widgets/]
+[import fr::pacman::front::core::service::AnnotationUtils/]
 [import fr::pacman::front::core::aql::output::resources/]
 [import fr::pacman::front::core::service::CinematicUtils/]
+[import fr::pacman::front::core::aql::rule::variable/]
 
 [comment --------------------------------------------------------------------------------]
 [comment Pour l'instant on profite du laxisme de typeScript, dans les boucles  on supprime 
@@ -137,6 +139,8 @@
     [ve.writeHeader()/]
   [elseif (ve.isFooterPanel())]
     [ve.writeFooter()/]
+  [elseif (ve.isBlocPanel())]
+    [ve.writeBloc()/]
   [else]  
   [/if]
 [/template]
@@ -155,6 +159,8 @@
     [ve.writeCloseTable()/]
   [elseif (ve.isFormPanel())]
     [ve.writeCloseForm()/]
+  [elseif (ve.isBlocPanel())]
+    [ve.writeCloseBloc()/]
   [elseif (ve.isTableEditor())]
     [ve.writeCloseTableEditor()/]   
   [elseif (ve.isUser())]
@@ -266,7 +272,7 @@
 [/template]
 
 [template public writeAlert (ve : view::AbstractViewElement)]
-  {globalMessage && (
+  {globalMessage && globalMessage.text.trim() !== "" && (
     <Alert
       severity={globalMessage.severity}
       title={
@@ -283,7 +289,7 @@
 [/template]
 
 [template public writeFormAlert (ve : view::AbstractViewElement)]
-  {globalMessage && (
+  {globalMessage && globalMessage.text.trim() !== "" && (
     <Alert
       severity={globalMessage.severity}
       title=""
@@ -302,13 +308,32 @@
 [template private writeButton (ve : view::AbstractViewElement)]
   [let url = ve.urlForPageJsx()]
     [if (url.exists())]<Link to="/[url/]">[/if] 
-    <p/><Button>[ve.label/]</Button>
-    [if (url.exists())]</Link>[/if] 
+    <p/><Button [ve.writeCustomStyle()/] type="button" [if (ve.hasClickEvent())]onClick={
+       [('handle click ' + ve.nameElementId()).apply_variableDefault()/]}[/if] 
+      [if (ve.hasMetaRightIcon())] 
+        iconId="fr-icon-[ve.get_metaRightIcon()/]" 
+        iconPosition="right"[/if]
+      [if (ve.hasMetaLeftIcon())] 
+        iconId="fr-icon-[ve.get_metaLeftIcon()/]" 
+        iconPosition="left"[/if] 
+      [if (ve.hasMetaButtonValue())]
+        value="[ve.get_metaButtonValue()/]"
+      [/if]>
+       [ve.label/]</Button>[if (url.exists())]</Link>[/if] 
   [/let]
 [/template]
 
 [template private writeButtonSubmit (ve : view::AbstractViewElement)]
-  <p/><Button type="submit">[ve.label/]</Button>
+  <p/><Button type="submit" [ve.writeCustomStyle()/]
+      [if (ve.hasMetaRightIcon())] 
+        iconId="fr-icon-[ve.get_metaRightIcon()/]" 
+        iconPosition="right"[/if]
+      [if (ve.hasMetaLeftIcon())] 
+        iconId="fr-icon-[ve.get_metaLeftIcon()/]" 
+        iconPosition="left"[/if]
+      [if (ve.hasMetaButtonValue())]
+        value="[ve.get_metaButtonValue()/]"
+      [/if]>[ve.label/]</Button>
 [/template]
 
 [template private writeCallOut (ve : view::AbstractViewElement)]
@@ -361,6 +386,10 @@
       </div> {/* writeCloseForm */}
     </fieldset>
   </form>
+[/template]
+
+[template private writeCloseBloc (ve : view::AbstractViewElement)]
+    </div>
 [/template]
 
 [template private writeHighLight (ve : view::AbstractViewElement)]
@@ -604,11 +633,16 @@
     .some(role => user.roles?.includes(role)) ? ['['/][else][']'/] : ['['/][']'/]),[/if]
 [/template]
 
+[comment ./]
 [template private writeText (ve : view::AbstractViewElement)]
   [if (ve.label <> null and ve.label.trim().size()> 0)]
-    <p className="fr-text--lg fr-text--bold">[ve.label/] : {" "}
-    [if (ve.isBinded())]{user?.[ve.searchBindingForElement()
-      .oclAsType(environment::Attribute).nameAttribute()/] ?? "-"}[/if]</p>
+    <p>[ve.label/] : {" "}
+    [if (ve.isBinded())]
+      [let right = ve.rightBoundElement()]
+       [let parent = right.eContainer()]
+         {[parent.oclAsType(entity::Entity).name.nameDtoForBinding()/]?.[right.oclAsType(environment::Attribute).nameAttribute()/] ?? "-"}
+      [/let][/let]
+     [/if]</p>
   [/if]
   [ve.description/]
 [/template]
@@ -677,7 +711,11 @@
   <img
     src={[ve.nameElementId()/]}
     alt="[ve.description/]"
-    className="fr-responsive-img"
+    [if (ve.has_metaSize())]
+      width={[ve.get_metaSize()/]}
+    [else]
+      className="fr-responsive-img"
+    [/if]
   /><p/>
 [/template]
 
@@ -761,6 +799,7 @@
   <Table 
     [if (ve.useButtonEdition())]className="table-edition"[else]fixed[/if]
     [if (ve.hasMetaTableColor())]colorVariant="[ve.get_metaTableColor()/]"[/if]
+    [if (ve.hasMetaLineSelectable())]className="line-selectable-table"[/if]
     caption="[ve.label/]"
     data={
       [if (ve.useButtonEdition())]
@@ -789,7 +828,20 @@
           [']'/];
         })}
       [else]
+        [if (ve.hasMetaLineSelectable())]
+          data_[ve.nameElementId()/].map((row, index) => ['['/]
+            <input
+              type="radio"
+              name="selected[ve.nameElementId()/]"
+              checked={selectedRow_[ve.nameElementId()/] === index}
+              onChange={() => setSelectedRow_[ve.nameElementId()/](index)}
+              aria-label={`Sélectionner la ligne ${index + 1}`}
+            />,
+            ...row
+          [']'/])
+        [else]
           data_[ve.nameElementId()/]
+        [/if]
         }
       [/if]
 [/template]
@@ -820,6 +872,10 @@
 [comment prépare multi-tables mais pour l'instant bloque à une seule table éditable./]
 [template private writeCloseTable (ve : view::AbstractViewElement)]
   headers={['['/]
+  [comment On rajoute une colonne si ligne sélectionnable./]
+  [if (ve.hasMetaLineSelectable())]
+    "",
+  [/if]
   [for (el | ve.oclAsType(view::ViewContainer).ownedElements)]
     "[el.label/]",
   [/for]
@@ -980,6 +1036,11 @@
   }}
 [/template]
 
+[template private writeBloc(ve : view::AbstractViewElement)]
+   <div><p/>
+     <h4 style={{ marginLeft: "-1rem" }}>[ve.label/]</h4>
+[/template]
+
 [template private writeFooter(ve : view::AbstractViewElement)]   
   <Footer
     accessibility="fully compliant"
@@ -1000,4 +1061,9 @@
       href: "#"
     }}
   />
+[/template]
+
+[comment écriture du style inline si besoin pôur le composant./]
+[template private writeCustomStyle(ve : view::AbstractViewElement)]
+  [if (ve.has_metaCustomStyle())] style={{ [ve.get_metaCustomStyle()/] }} [/if]
 [/template]

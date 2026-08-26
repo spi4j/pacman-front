@@ -27,15 +27,15 @@
 [query public toUri(uri : String) : String = if(uri.exists()) then uri.trim().toPath().replaceAll('\\/$', '') else '/' endif/]
 
 [comment retourne l'opération ciblée par l'évenement (pour l'instant une seule opération par événement))./]
-[query public rsOperationFromEvent(evt : view::ViewEvent, vs : flow::ViewState) : soa::Operation = vs.eContainer()
+[query public rsOperationFromEvent(evt : view::ViewEvent, vs : flow::ViewState) : soa::Operation =
+  let transitions = vs.eContainer().eAllContents(flow::Transition)->select(o | o.from = vs and o.on->includes(evt)) in
+  if transitions->isEmpty() then null else let transition = transitions->first() in if transition.to.actions->isEmpty()
+  then null else let action = transition.to.actions->first() in if action.operations->isEmpty()
+  then null else action.operations->first().oclAsType(soa::Operation) endif endif endif/]
+
+[comment query public rsOperationFromEvent(evt : view::ViewEvent, vs : flow::ViewState) : soa::Operation = vs.eContainer()
   .eAllContents(flow::Transition)->select(o | o.from = vs and o.on->includes(evt))->first().to.actions
   ->first().operations->first().oclAsType(soa::Operation)/]
-
-
-
-
-
-
 
 [comment normalisation d'un chemin de ressource à partir d'une chaine de caractères./]  
 [query private toPath(pkg : String) : String = if(pkg <> null and pkg.trim()->size() > 0) then  pkg.replaceAll('\\.', '/').normalizePath()

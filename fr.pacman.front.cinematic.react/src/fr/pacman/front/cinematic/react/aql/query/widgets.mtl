@@ -22,6 +22,10 @@
 [query public useForm(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.isFormPanel())->isEmpty()/]
 
+[comment vérifie si la page encore utilise des éléments avec déclanchement d'événements./]
+[query public useEvents(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
+  ->select(o | o.events->size() > 0)->isEmpty()/]
+
 [comment vérifie si la page en cours nécessite l'utilisation de la sécurité./]
 [query public useSecurity(vc : view::ViewContainer) : Boolean = true/]
   
@@ -70,6 +74,10 @@
 [query public isEligibleForCSSPositioning(l: view::Layout) : Boolean =  l.viewElement = null or (l.viewElement <> null 
   and not l.viewElement.isRadio() and not l.viewElement.isCheckBox() and not l.viewElement.isTableColumn() 
   and not l.viewElement.isTab())/]
+  
+[comment vérifie si l'élément permet d'avoir des évenements spécifiques (autre que onSubmit)./]
+[query public isEligibleForSpecificEvents(ve : view::AbstractViewElement) : Boolean = ve.isButton() 
+  and ve.hasClickEvent()/]
   
 [comment vérifie si le layout est un conteneur js pour des éléments à positionnement js et non css./]
 [query public isEligibleForJSContainer(l: view::Layout) : Boolean = l.viewElement <> null 
@@ -130,13 +138,13 @@ propriété help qui n'est pas visible, si help = true alors c'est un tableau si
   ->select(e | e.isOnClick())->first() in if onClick <> null then onClick.get_guard() else null endif/]
 
 [comment vérifie si tous les sous-menus sont protégés par une garde./]
-[query public useRoutesWithGuard(vc : view::AbstractViewElement) : Boolean = if (not vc.oclIsKindOf(view::ViewContainer)) 
-  then false else vc.oclAsType(view::ViewContainer).ownedElements->select(o | o.useRouteWithGuard() <> null)->size() = 
-  vc.oclAsType(view::ViewContainer).ownedElements->size() or (vc.hasMetaForceSecured() 
-  and 'true'.equalsIgnoreCase(vc.get_metaAllSecured())) endif/]
+[query public useRoutesWithGuard(ve : view::AbstractViewElement) : Boolean = if (not ve.oclIsKindOf(view::ViewContainer)) 
+  then false else ve.oclAsType(view::ViewContainer).ownedElements->select(o | o.useRouteWithGuard() <> null)->size() = 
+  ve.oclAsType(view::ViewContainer).ownedElements->size() or (ve.hasMetaForceSecured() 
+  and 'true'.equalsIgnoreCase(ve.get_metaAllSecured())) endif/]
 
 [comment aggregation des toutes les gardes pour un menu avec sous menus (plus de contrôle on est déjà passé par useRoutesWithGuard)./]
-[query public guards(vc : view::AbstractViewElement) : String = '' + vc.oclAsType(view::ViewContainer).ownedElements
+[query public guards(ve : view::AbstractViewElement) : String = '' + ve.oclAsType(view::ViewContainer).ownedElements
   ->select(o | o.useRouteWithGuard() <> null)->collect(o | o.useRouteWithGuard().replaceAll('register:',''))
   ->asSet()->sep(',')/]
 
@@ -144,4 +152,8 @@ propriété help qui n'est pas visible, si help = true alors c'est un tableau si
 [query public roles(guard : String) : String =  let inner = if guard <> null and guard.index(':') <> -1 
   then guard.substring(guard.index(':') + 1) else '' endif in if inner.size() = 0 then ''
   else '"' + inner.replaceAll('\\s*,\\s*', '", "') + '"' endif/]
+  
+[comment vérifie si l'élément est clickable./]
+[query public hasClickEvent(ve : view::AbstractViewElement) : Boolean = not ve.events->select(e | e.isOnClick())
+  ->isEmpty()/]
 

@@ -246,7 +246,8 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 		IStatus status = GenerateNodeInstallerHelper.ensureToolsReady(p_project,
 				p_project.getLocation().toFile().toPath(), p_monitor.split(20));
 		if (!status.isOK())
-			throw new RuntimeException("");
+			throw new RuntimeException("La création du projet n'a pas pu aboutir, le code retour est : "
+					+ status.getCode() + " - " + status.getMessage() + " - " + status.getException());
 		WizardUtil.refreshProject(p_monitor, p_project);
 	}
 

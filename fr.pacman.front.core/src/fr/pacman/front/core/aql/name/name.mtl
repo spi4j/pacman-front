@@ -49,3 +49,6 @@
   
 [comment retourne le nom de l'opération pour un service./]
 [query public nameRsOperationTs(o : soa::Operation) : String = o.name.toLowerFirst()/]
+  
+[comment retourne le nom du dto mais pour le binding dans les pages./]
+[query public nameDtoForBinding(s : String) : String = (s + ' data').applyNorme_variableDefault()/]

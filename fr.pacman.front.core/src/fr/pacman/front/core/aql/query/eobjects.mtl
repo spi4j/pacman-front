@@ -20,6 +20,6 @@
 [comment vérifie si l'élément et l'ensemble des ses enfants ont bien un binding associé./]
 [query public isBinded(be : environment::BoundableElement) : Boolean = be <> null and let bindables = be.eAllContents()
   ->select(e | e.oclIsKindOf(environment::BoundableElement)) in if bindables->notEmpty() then bindables
-  ->forAll(x | x.searchBindingForElement() <> null) else be.searchBindingForElement() <> null endif/]
+  ->forAll(x | x.rightBoundElement() <> null) else be.rightBoundElement() <> null endif/]
 
 

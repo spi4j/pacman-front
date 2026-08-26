@@ -200,7 +200,7 @@ public class GenerateNodeInstallerHelper {
 			Files.writeString(logFile, logMessage + System.lineSeparator(), StandardOpenOption.CREATE,
 					StandardOpenOption.APPEND);
 		} catch (IOException e) {
-			e.printStackTrace(); // tu peux aussi logger dans Eclipse
+			e.printStackTrace();
 		}
 	}
 

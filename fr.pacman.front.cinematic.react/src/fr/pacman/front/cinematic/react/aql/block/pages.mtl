@@ -22,6 +22,7 @@
 [import fr::pacman::front::core::service::AnnotationUtils/]
 [import fr::pacman::front::core::aql::output::resources/]
 [import fr::pacman::front::core::aql::rule::method/]
+[import fr::pacman::front::core::aql::rule::variable/]
 
 [comment --------------------------------------------------------------------------------]
 [comment Pour l'instant on profite du laxisme de typeScript, dans les boucles  on supprime 
@@ -61,7 +62,7 @@
 [template public pageJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
   import React from "react";
   import { useEffect, useState } from "react";
-  import { useNavigate, useLocation } from "react-router-dom";
+  import { useNavigate, useLocation, useParams } from "react-router-dom";
   import { useAuth } from "../contexts/AuthContext";
   [if (vc.isHeaderPanel() or vc.isFooterPanel())][vc.pageJsxHFImpl(vs)/][else][vc.pageJsxSDImpl(vs)/][/if]
 [/template]
@@ -94,6 +95,9 @@
     
     [if (vc.useSecurity())]
       [vc.writeSecurityHandler(vs)/]
+    [/if]
+    [if (vc.useEvents())]
+      [vc.writeEventsHandler(vs)/]
     [/if]
     [if (vc.useForm())]
       [vc.writeFormHandler(vs)/]
@@ -242,14 +246,14 @@
     <Route path="/login" element={< [v.namePageJsx()/] />}/>
   [elseif ('register'.equalsIgnoreCase(rt.guard))]
     <Route element={<ProtectedRoutes />}>
-      <Route path="/[rt.name/]" element={< [v.namePageJsx()/] />}/>
+      <Route path="/[rt.name  + rt.writeUrlParams()/]" element={< [v.namePageJsx()/] />}/>
     </Route>
   [elseif (rt.guard.index('register:') <> -1)]
     <Route element={<ProtectedRoutes roles={['['/][rt.guard.roles()/][']'/]} />}>
-      <Route path="/[rt.name/]" element={< [v.namePageJsx()/] />}/>
+      <Route path="/[rt.name  + rt.writeUrlParams()/]" element={< [v.namePageJsx()/] />}/>
     </Route>
   [else]
-    <Route path="/[rt.name/]" element={< [v.namePageJsx()/] />}/>
+    <Route path="/[rt.name  + rt.writeUrlParams()/]" element={< [v.namePageJsx()/] />}/>
   [/if]
 [/template]
 
@@ -288,6 +292,8 @@
   [let tbs =  vc.eAllContents(view::ViewContainer)->select(o | o.isTable())]
     [for (tb | tbs)]
       const ['['/]data_[tb.nameElementId()/], setData_[tb.nameElementId()/][']'/] = useState<any['['/][']'/]>(['['/][']'/]);
+      [if (tb.hasMetaLineSelectable())]
+        const ['['/]selectedRow_[tb.nameElementId()/], setSelectedRow_[tb.nameElementId()/][']'/] = useState<number | null>(null);[/if]
     [/for]
     [if (vc.useTablesEdition())]
       const ['['/]currentRow, setCurrentRow[']'/] = useState<any['['/][']'/] | null>(null);
@@ -367,7 +373,7 @@
              .map(req => { 
              const row = ['['/]
              [for (e | tb.ownedElements)]
-               req.[e.searchBindingForElement().oclAsType(environment::Attribute).nameAttribute()/] ?? "",
+               req.[e.rightBoundElement().oclAsType(environment::Attribute).nameAttribute()/] ?? "",
              [/for]
              [']'/];
              [protected ((tb.nameElementId() + 'map-2').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
@@ -378,6 +384,34 @@
        [/if]
    [/for]
   [/let]
+[/template]
+
+[comment écriture de la gestion des événements./]
+[template private writeEventsHandler(vc : view::ViewContainer, vs : flow::ViewState)]
+  [for (e | vc.eAllContents(view::AbstractViewElement))]
+    [if (e.isEligibleForSpecificEvents() and e.hasClickEvent())]
+      // --------------------------------------------------
+      // Traitement de l'événement onClick : [e.name/].
+      // --------------------------------------------------
+      async function [('handle click ' + e.nameElementId()).apply_variableDefault()/]() {
+         try {
+            [protected (('handle click ' + e.nameElementId()).protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+            [let evts = e.events->select(o1 | o1.isOnClick())]
+            [if (not evts->isEmpty())]
+              const result = await [evts->first().rsOperationFromEvent(vs).name().apply_methodDefault()/]();
+            [/if]
+            [/let]
+            [/protected]
+         } catch (e) {
+            console.error(e);
+            setGlobalMessage({
+                text: "Erreur lors du traitement de [('handle click ' + e.name).apply_variableDefault()/]",
+                severity: "error"
+            });
+         }
+      }
+    [/if]
+  [/for]
 [/template]
 
 [comment écriture de toute la gestion de formulaire./]
@@ -433,10 +467,20 @@
     // -----------------------------------------------------
     // Fonction appelée lors de la soumission du formulaire.
     // -----------------------------------------------------
-    const onSubmit = async (data: FormValues) => {
+    const onSubmit = async (
+      data: FormValues,
+      event?: React.BaseSyntheticEvent
+      ) => {
+      
       try {
         console.log("Formulaire soumis :", data);
         const isValid = await validateAndExecuteForm(data);
+        
+        const action = event?.nativeEvent 
+           ? (event.nativeEvent as SubmitEvent).submitter as HTMLButtonElement 
+           : null;
+        const actionValue = action?.value;
+        console.log("Action :", actionValue);
         
         if (!isValid) {
           setGlobalMessage({ 
@@ -446,6 +490,9 @@
           //reset(); 
           return;
          }
+         
+         [protected ((vc.nameElementId() + ' beforeSubmit').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+         [/protected]
          
          [comment on doit obligatoirement avoir un formulaire associé./]
          [if (vc.useTablesEdition())]
@@ -466,16 +513,23 @@
            modal.close();
          [/if]
          [for (f | vc.eAllContents(view::ViewContainer)->select(o | o.isFormPanel()))]
-           [let evts = f.ownedElements->select(o | o.isButtonSubmit())->first().events->select(o1 | o1.isOnSubmit())]
-             [if (not evts->isEmpty())]
-               const payload = [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data);
-               await [evts->first().rsOperationFromEvent(vs).name().apply_methodDefault()/](payload);
+           [let buttons = f.ownedElements->select(o | o.isButtonSubmit())]
+             [if (not buttons->isEmpty())]
+               [let button = buttons->first()]
+                 [let evts = button.events->select(o1 | o1.isOnSubmit())]
+                   [if (not evts->isEmpty())]
+                     [let evt = evts->first()]
+                       const payload = [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data);
+                       const result = await [evt.rsOperationFromEvent(vs).nameOperation()/](payload);
+                     [/let]
+                   [/if]
+                 [/let]
+               [/let]
              [/if]
            [/let]
          [/for]
          
          [protected ((vc.nameElementId() + ' submit').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
-              
          [/protected]
             
          setGlobalMessage({ 
@@ -537,17 +591,16 @@
           // ---------------------------------------------
           // Peuplement des données pour le(s) service(s).
           // ---------------------------------------------
-          function [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data : FormValues) 
-          {
-            return {
-              [for (e | oe)]
-               [e.searchBindingForElement().oclAsType(environment::Attribute).nameAttribute()/]: data.[e.nameElementId()/],
-              [/for]
-              [protected ((f.nameElementId() + ' payload')
-                .protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
-              [/protected]
-            };
-          }
+          [protected ((f.nameElementId() + ' payload').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+            function [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data : FormValues) 
+            {
+              return {
+                [for (e | oe)]
+                  [e.rightBoundElement().oclAsType(environment::Attribute).nameAttribute()/]: data.[e.nameElementId()/],
+                [/for]
+              };
+            }
+          [/protected]
         [/if] 
       [/let]
     [/for]
@@ -689,3 +742,10 @@
   const { login, user, logout } = useAuth();
   
 [/template]
+
+[comment "bug" inexpliqué ce jour, obligé de tout border au niveau des événements et de vérifier si opération est nulle./]
+[query private nameOperation(o : soa::Operation) : String = if (o <> null) then o.name().apply_methodDefault() else '' endif/]
+
+[comment écriture des paramètres pour l'url (si besoin)./]
+[query private writeUrlParams(rt :: flow::Transition) : String = '' + if (rt.hasMetaUrlParams()) then '/' + rt.get_metaUrlParams()
+  .tokenize(',')->collect(option | ':' + option.trim())->sep('/') else '' endif/]

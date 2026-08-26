@@ -471,7 +471,7 @@ public class CinematicUtils {
 	 * @return l’élément {@link BoundableElement} lié à droite, ou {@code null}
 	 *         lorsque la méthode sera sécurisée et qu’aucune liaison n’est trouvée
 	 */
-	public static BoundableElement searchBindingForElement(final BoundableElement p_object) {
+	public static BoundableElement rightBoundElement(final BoundableElement p_object) {
 		ECrossReferenceAdapter crossReferencer = getCrossReferencer(p_object);
 		BindingElement leftBindingElement = crossReferencer
 				.getInverseReferences(p_object, EnvironmentPackage.Literals.BINDING_ELEMENT__BOUND_ELEMENT, true)
@@ -493,6 +493,19 @@ public class CinematicUtils {
 		return ref.getRight().getBoundElement();
 	}
 
+	/**
+	 * Récupère le premier {@link ECrossReferenceAdapter} attaché à l'objet EMF
+	 * fourni.
+	 * <p>
+	 * Cet adapter est utilisé pour accéder aux références inverses dans le modèle
+	 * EMF. Il permet notamment de retrouver les éléments qui référencent
+	 * directement {@code p_object}.
+	 * </p>
+	 *
+	 * @param p_object l'objet EMF dont on veut récupérer le cross referencer
+	 * @return l'instance de {@link ECrossReferenceAdapter} si présente,
+	 *         {@code null} sinon
+	 */
 	private static ECrossReferenceAdapter getCrossReferencer(EObject p_object) {
 		return p_object.eAdapters().stream().filter(ECrossReferenceAdapter.class::isInstance)
 				.map(ECrossReferenceAdapter.class::cast).findFirst().orElse(null);
