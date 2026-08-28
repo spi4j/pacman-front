@@ -3,6 +3,7 @@
 📅 Historique des mises à jour
 
 - 19/12/2025 : Initialisation du document.
+- 28/08/2026 : Mise à jour suite montée de version du studio 6.0.0.
 ---
 
 ## 🚀 Introduction
@@ -23,29 +24,29 @@ Il est à noter que cette documentation ne rentre pas dans les détails de la mo
 
 Pacman V5 frontend est un un générateur de code basé sur le framework React.
 
-React est un framework (plus précisément une bibliothèque) JavaScript orienté vers la construction d’interfaces utilisateur modernes, dynamiques et fortement interactives, principalement pour des applications web monopages (SPA). Basé sur une approche déclarative et componentisée, React permet de structurer l’interface en composants réutilisables, chacun gérant son propre état et son cycle de vie, ce qui facilite la maintenance et l’évolution des applications complexes. 
+React est un framework (plus précisément une bibliothèque) JavaScript orienté vers la construction d'interfaces utilisateur modernes, dynamiques et fortement interactives, principalement pour des applications web monopages (SPA). Basé sur une approche déclarative et componentisée, React permet de structurer l'interface en composants réutilisables, chacun gérant son propre état et son cycle de vie, ce qui facilite la maintenance et l'évolution des applications complexes. 
 
-L’utilisation conjointe de React, Vite et Faker permet de mettre en place un environnement de développement léger, rapide et efficace. React structure l’application autour de composants réutilisables et facilite la gestion de l’état et de la navigation. Vite simplifie la configuration du projet et offre un serveur de développement très rapide avec rechargement à chaud, ce qui réduit fortement le temps de compilation. Faker est utilisé pour générer des données de test, permettant de développer et tester les écrans sans dépendre d’un backend disponible. L'ensemble a été pensé afin de favoriser un développement itératif, une meilleure isolation du frontend et des cycles de test plus rapides.
+L'utilisation conjointe de React, Vite et Faker permet de mettre en place un environnement de développement léger, rapide et efficace. React structure l'application autour de composants réutilisables et facilite la gestion de l'état et de la navigation. Vite simplifie la configuration du projet et offre un serveur de développement très rapide avec rechargement à chaud, ce qui réduit fortement le temps de compilation. Faker est utilisé pour générer des données de test, permettant de développer et tester les écrans sans dépendre d'un backend disponible. L'ensemble a été pensé afin de favoriser un développement itératif, une meilleure isolation du frontend et des cycles de test plus rapides.
 
-Dans un contexte d’interaction avec des services REST développés en Java (par exemple avec Spring Boot), React joue le rôle de client front-end consommant des API HTTP exposées par le backend. Cette séparation claire entre le front-end React et le backend Java favorise une architecture découplée, scalable et testable, où React se concentre sur l’expérience utilisateur tandis que les services Java assurent la logique métier, la persistance des données et la sécurité.
+Dans un contexte d'interaction avec des services REST développés en Java (par exemple avec Spring Boot), React joue le rôle de client front-end consommant des API HTTP exposées par le backend. Cette séparation claire entre le front-end React et le backend Java favorise une architecture découplée, scalable et testable, où React se concentre sur l'expérience utilisateur tandis que les services Java assurent la logique métier, la persistance des données et la sécurité.
 
 Pour Pacman lors de l'initialisation d'un projet, le générateur va donc toujours créer uniquement deux projets distincts qui sont respectivement : 
 
 - ***[Nom du projet]-model*** : contient les différents fichiers de modélisation de l'application ainsi que les fichiers de configuration pour les options de génération de l'application. Ce projet ne contient (et ne doit contenir) aucun code. 
 
-- ***[Nom du projet]-server*** : le projet qui contient l'ensemble du code d'exécution pour que l'utilisateur puisse interagir avec le code métier. Le projet serveur en React correspond à la partie front-end de l’application, chargée de fournir l’interface utilisateur et de gérer les interactions avec le backend. Il s’agit d’une application TypeScript structurée autour de composants React, exécutée côté client dans le navigateur et servie par un serveur HTTP lors du développement et du déploiement. Le projet React communique avec les services backend via des appels REST pour récupérer et envoyer des données, tout en restant totalement découplé de la logique métier, qui demeure côté serveur Java.
+- ***[Nom du projet]-server*** : le projet qui contient l'ensemble du code d'exécution pour que l'utilisateur puisse interagir avec le code métier. Le projet serveur en React correspond à la partie front-end de l'application, chargée de fournir l'interface utilisateur et de gérer les interactions avec le backend. Il s'agit d'une application TypeScript structurée autour de composants React, exécutée côté client dans le navigateur et servie par un serveur HTTP lors du développement et du déploiement. Le projet React communique avec les services backend via des appels REST pour récupérer et envoyer des données, tout en restant totalement découplé de la logique métier, qui demeure côté serveur Java.
 
 ## 🛠️ Installation
 ---
 ### Prérequis
-- Version Information System Designer  :  5.1.1+
-- JDK : 17+
+- Version Information System Designer  :  6.0.0+
+- JDK : 21+
 
 ### Installation Node
 
-L’installation de Node.js consiste à mettre en place l’environnement d’exécution nécessaire au fonctionnement des applications JavaScript côté serveur et des outils front-end. Elle débute par le téléchargement de la version recommandée (généralement LTS) depuis le site officiel, suivie de l’installation via un programme d’installation ou un gestionnaire de paquets selon le système d’exploitation. 
+L'installation de Node.js consiste à mettre en place l'environnement d'exécution nécessaire au fonctionnement des applications JavaScript côté serveur et des outils front-end. Elle débute par le téléchargement de la version recommandée (généralement LTS) depuis le site officiel, suivie de l'installation via un programme d'installation ou un gestionnaire de paquets selon le système d'exploitation. 
 
-Il est à noter que, une fois installé, Node.js inclut automatiquement npm, le gestionnaire de dépendances, permettant d’installer et de gérer les bibliothèques du projet. La validation de l’installation se fera donc en vérifiant les versions de node et npm, garantissant ainsi que l’environnement est prêt à être utilisé pour le développement et l’exécution de l’application.
+Il est à noter que, une fois installé, Node.js inclut automatiquement npm, le gestionnaire de dépendances, permettant d'installer et de gérer les bibliothèques du projet. La validation de l'installation se fera donc en vérifiant les versions de node et npm, garantissant ainsi que l'environnement est prêt à être utilisé pour le développement et l'exécution de l'application.
 
 1 - Télécharger la dernière version Node.js sur : **https://nodejs.org**
 
@@ -64,7 +65,7 @@ C:\Users>npm -v
 
 1 - Vérification de la version pour l'IDE
 
-Avant de commencer l’installation ou l’utilisation du plugin, il est indispensable de vérifier que l’IDE Eclipse utilisé correspond bien à la version 5.1.1 requise. Pour cela, ouvrez Eclipse puis accédez au menu "*Help/About Eclipse IDE*". Dans la fenêtre d’information, contrôlez attentivement le numéro de version affiché ainsi que les détails de la plateforme. Assurez-vous que la version indiquée est au moins la 5.1.1, afin de garantir la compatibilité complète du plugin et d’éviter tout comportement inattendu ou erreur d’exécution liée à une version non conforme de l’environnement Eclipse.
+Avant de commencer l'installation ou l'utilisation du plugin, il est indispensable de vérifier que l'IDE Eclipse utilisé correspond bien à la version 5.1.1 requise. Pour cela, ouvrez Eclipse puis accédez au menu "*Help/About Eclipse IDE*". Dans la fenêtre d'information, contrôlez attentivement le numéro de version affiché ainsi que les détails de la plateforme. Assurez-vous que la version indiquée est au moins la 5.1.1, afin de garantir la compatibilité complète du plugin et d'éviter tout comportement inattendu ou erreur d'exécution liée à une version non conforme de l'environnement Eclipse.
 
 <div align="center">
   <img src="images/pcm-ecr-about-version.png" alt="Installation" width="500">
@@ -72,9 +73,9 @@ Avant de commencer l’installation ou l’utilisation du plugin, il est indispe
 
 2 - Installation des plugins d'édition
 
-Si leur installation est optionnelle, les plugins d’édition JSON, YAML dans l’IDE Eclipse sont toutefois fortement recommandés pour améliorer la lisibilité, la cohérence et la fiabilité du développement. Ces plugins apportent des fonctionnalités clés telles que la coloration syntaxique, la validation de la structure, l'auto-complétion et la détection précoce des erreurs, facilitant ainsi l’édition des fichiers de configuration, des scripts de base de données et des paramètres de journalisation. 
+Si leur installation est optionnelle, les plugins d'édition JSON, YAML dans l'IDE Eclipse sont toutefois fortement recommandés pour améliorer la lisibilité, la cohérence et la fiabilité du développement. Ces plugins apportent des fonctionnalités clés telles que la coloration syntaxique, la validation de la structure, l'auto-complétion et la détection précoce des erreurs, facilitant ainsi l'édition des fichiers de configuration, des scripts de base de données et des paramètres de journalisation. 
 
-En centralisant ces outils dans l’environnement de développement, le développeur gagne en productivité, réduit les risques d’erreurs de syntaxe ou de configuration, et assure une meilleure conformité aux standards techniques du projet.
+En centralisant ces outils dans l'environnement de développement, le développeur gagne en productivité, réduit les risques d'erreurs de syntaxe ou de configuration, et assure une meilleure conformité aux standards techniques du projet.
 
 <div align="center">
   <img src="images/pcm-ecr-plugin-editor-json.png" alt="Installation" width="500">
@@ -85,7 +86,7 @@ En centralisant ces outils dans l’environnement de développement, le dévelop
 
 3 - Installation plugin M2E
 
-L’installation et la configuration de Maven dans Eclipse sont essentielles pour assurer une gestion fiable et cohérente du cycle de vie des projets. Maven permet d’automatiser la gestion des dépendances, la compilation, les tests et le packaging des applications, tout en garantissant l’uniformité des versions utilisées au sein du projet. Son intégration dans l’IDE facilite l’import, la mise à jour et la maintenance des projets, réduit les erreurs liées aux dépendances manquantes ou incompatibles, et améliore la reproductibilité des builds, aussi bien en environnement de développement que d’intégration continue. 
+L'installation et la configuration de Maven dans Eclipse sont essentielles pour assurer une gestion fiable et cohérente du cycle de vie des projets. Maven permet d'automatiser la gestion des dépendances, la compilation, les tests et le packaging des applications, tout en garantissant l'uniformité des versions utilisées au sein du projet. Son intégration dans l'IDE facilite l'import, la mise à jour et la maintenance des projets, réduit les erreurs liées aux dépendances manquantes ou incompatibles, et améliore la reproductibilité des builds, aussi bien en environnement de développement que d'intégration continue. 
 
 Comme vu précédemment, si Maven est bien un gestionnaire Java, **même dans le cadre d'un projet TypeScript** de type frontend, il est nécessaire d'installer ce plugin, ne serait-ce que pour le bon fonctionnement du processus de création du projet par **Pacman**.
 
@@ -184,10 +185,9 @@ Naviguer dans l'arborescence jusqu'au répertoire "*IS Designer*" et sélectionn
 
 Au niveau de la création du projet frontend, simplement saisir le nom désiré pour le projet, ainsi que l'auteur ou l'organisme. Pour l'instant une seule option est disponible au niveau du choix pour le framework (et donc le langage utilisé), il s'agit du framework React qui est couplé avec les composants DSFR...
 
-❗ Les composants DSFR (Design System de l’État) du ministère constituent un ensemble cohérent de briques d’interface standardisées, conçues pour garantir l’accessibilité, la cohérence graphique et l’uniformité des services numériques publics. Ils couvrent aussi bien les éléments fondamentaux (boutons, champs de formulaire, alertes, modales, tableaux) que des composants plus structurants (en-tête, pied de page, navigation, fil d’Ariane), en s’appuyant sur des règles strictes d’ergonomie, de contrastes et de conformité au RGAA. En adoptant ces composants, les applications ministérielles assurent une expérience utilisateur homogène, inclusive et conforme aux exigences de l’État, tout en facilitant la maintenance, la réutilisabilité et l’industrialisation des interfaces.
+❗ Les composants DSFR (Design System de l'État) du ministère constituent un ensemble cohérent de briques d'interface standardisées, conçues pour garantir l'accessibilité, la cohérence graphique et l'uniformité des services numériques publics. Ils couvrent aussi bien les éléments fondamentaux (boutons, champs de formulaire, alertes, modales, tableaux) que des composants plus structurants (en-tête, pied de page, navigation, fil d'Ariane), en s'appuyant sur des règles strictes d'ergonomie, de contrastes et de conformité au RGAA. En adoptant ces composants, les applications ministérielles assurent une expérience utilisateur homogène, inclusive et conforme aux exigences de l'État, tout en facilitant la maintenance, la réutilisabilité et l'industrialisation des interfaces.
 
-❗ Avec les générateurs **Pacman**, c'est le DSFR React qui est utilisé plutôt que l’implémentation DSFR par défaut, ceci afin de s’intégrer pleinement à l’architecture front-end basée sur React. Cette approche permet de tirer parti de composants encapsulés, typés et réutilisables, tout en respectant strictement les principes graphiques, d’accessibilité et d’ergonomie définis par le Design System de l’État. L’utilisation de DSFR React facilite également la maintenance du code, l’homogénéité des interfaces et l’évolution de l’application, tout en garantissant la conformité aux standards numériques en vigueur (https://components.react-dsfr.codegouv.studio).
-
+❗ Avec les générateurs **Pacman**, c'est le DSFR React qui est utilisé plutôt que l'implémentation DSFR par défaut, ceci afin de s'intégrer pleinement à l'architecture front-end basée sur React. Cette approche permet de tirer parti de composants encapsulés, typés et réutilisables, tout en respectant strictement les principes graphiques, d'accessibilité et d'ergonomie définis par le Design System de l'État. L'utilisation de DSFR React facilite également la maintenance du code, l'homogénéité des interfaces et l'évolution de l'application, tout en garantissant la conformité aux standards numériques en vigueur (https://components.react-dsfr.codegouv.studio).
 
 <div align="center">
   <img src="images/pcm-new-project-2.png" alt="Nouveau projet pacman" width="500">
@@ -208,11 +208,17 @@ Il s'agit des vues suivantes :
 
 ❗ Selon l'état de l'IDE (juste ouvert, développeur ayant déjà travaillé dessus, etc...), il se peut que la création initiale du projet prenne un peu de temps, l'IDE ayant besoin de charger de nombreuses ressources pour travailler. 
 
-❗ Plus particulièrement, un temps d’attente est nécessaire lors du lancement du projet, car l’installation des dépendances node_modules peut prendre plusieurs minutes. Cette étape est indispensable au bon fonctionnement de l’application, puisqu’elle permet de télécharger et configurer l’ensemble des bibliothèques requises. La durée peut varier selon la configuration de l’environnement, la vitesse du réseau ou l’état du cache local, et doit être prise en compte lors de la première exécution ou après une mise à jour des dépendances.
+❗ Plus particulièrement, un temps d'attente est nécessaire lors du lancement du projet, car l'installation des dépendances node_modules peut prendre plusieurs minutes. Cette étape est indispensable au bon fonctionnement de l'application, puisqu'elle permet de télécharger et configurer l'ensemble des bibliothèques requises. La durée peut varier selon la configuration de l'environnement, la vitesse du réseau ou l'état du cache local, et doit être prise en compte lors de la première exécution ou après une mise à jour des dépendances.
 
 <img src="images/pcm-ecr-install-npm-progress.png" alt="Nouveau projet pacman">
 
 Suivre les différentes étapes de la création à l'aide de la vue de progression des tâches qui est automatiquement mise en avant. 
+
+### Évolution de la dépendance DSFR
+
+Une évolution de la dépendance "*@gouvfr/dsfr*" a entraîné une erreur lors de la génération des projets React. Le template utilisé par le générateur déclarait la dépendance avec la contrainte "*@gouvfr/dsfr*": "*^1.14.1*". Cette notation autorise npm à installer toute version ultérieure compatible au sens de SemVer, notamment la nouvelle version "*1.15.2*", publiée récemment (paragraphe en date du 20/08/2026). Or cette nouvelle version a fait évoluer son mécanisme d'installation et vérifie désormais certaines conditions d'initialisation du DSFR. Lors de l'exécution de "*npm install*", le script "*preinstall.js*" de "*@gouvfr/dsfr*" peut alors interrompre l'installation avec l'erreur suivante : "*[NO_YML] Le DSFR n'est pas installé dans ce projet*", ce qui en l'état fait planter la création du projet. 
+
+La version "*1.14.1"*, quant à elle, s'installe correctement avec le template actuel. Le problème ne provient donc ni du générateur Java, ni de npm, qui respecte correctement la contrainte de version définie dans le fichier "*package.json*", mais de l'évolution du comportement de la dépendance DSFR. Pour garantir la reproductibilité de la génération, la version de "*@gouvfr/dsfr*" a donc été figée pour l'instant sur "*1.14.1*", dans l'attente d'une adaptation du processus de génération au nouveau mécanisme d'installation du DSFR.
 
 ### Fichiers et répertoires Générés
 
@@ -260,67 +266,67 @@ project.debug.enabled = false
 
 ➤ Le projet "***demo-dsfr-server***" dans lequel un répertoire (entre autres) est créé, il s'agit du répertoire "**/src**" (équivalent du "**/src/main/java**"). Ce répertoire sert de base (racine) pour l'ensemble de la génération, il va contenir l'ensemble des fichiers de configuration générés à la création du projet ainsi que l'ensemble des sources pour les objets métier et les différents services. 
 
-❗ Une grande partie des fichiers générés est produite uniquement lors de la création initiale du projet et n’est pas mise à jour automatiquement par la suite. Il est donc possible pour le développeur de les modifier à loisir sans craindre un écrasement par une future génération. Pour cette raison, ces fichiers ne disposent pas de balises de type "*user code*".
+❗ Une grande partie des fichiers générés est produite uniquement lors de la création initiale du projet et n'est pas mise à jour automatiquement par la suite. Il est donc possible pour le développeur de les modifier à loisir sans craindre un écrasement par une future génération. Pour cette raison, ces fichiers ne disposent pas de balises de type "*user code*".
 
 Ce répertoire va donc contenir les répertoires suivants : 
 
-• **/api** : ce répertoire contient le fichier "**apiClient.ts**" qui est responsable de la configuration et de l’initialisation du client HTTP utilisé pour communiquer avec l’API. Il s’appuie sur la bibliothèque Axios, largement utilisée pour la gestion des requêtes HTTP en JavaScript et TypeScript. Une configuration de base est importée depuis apiConfig, puis enrichie afin de garantir certains paramètres par défaut, notamment un timeout fixé à 15 secondes si aucune valeur n’est définie. 
+• **/api** : ce répertoire contient le fichier "**apiClient.ts**" qui est responsable de la configuration et de l'initialisation du client HTTP utilisé pour communiquer avec l'API. Il s'appuie sur la bibliothèque Axios, largement utilisée pour la gestion des requêtes HTTP en JavaScript et TypeScript. Une configuration de base est importée depuis apiConfig, puis enrichie afin de garantir certains paramètres par défaut, notamment un timeout fixé à 15 secondes si aucune valeur n'est définie. 
 
-Ce fichier met également en place des intercepteurs Axios, qui permettent d’intervenir automatiquement avant l’envoi des requêtes et après la réception des réponses. L’intercepteur de requête offre un point d’extension pour ajouter ultérieurement des en-têtes (comme un token d’authentification) ou modifier la configuration avant l’envoi. L’intercepteur de réponse, quant à lui, permet de gérer de manière centralisée les erreurs provenant de l’API, en les journalisant dans la console avant de les propager.
+Ce fichier met également en place des intercepteurs Axios, qui permettent d'intervenir automatiquement avant l'envoi des requêtes et après la réception des réponses. L'intercepteur de requête offre un point d'extension pour ajouter ultérieurement des en-têtes (comme un token d'authentification) ou modifier la configuration avant l'envoi. L'intercepteur de réponse, quant à lui, permet de gérer de manière centralisée les erreurs provenant de l'API, en les journalisant dans la console avant de les propager.
 
-À partir de cette configuration, une instance Axios unique (apiClient) est créée, ce qui permet de centraliser et d’uniformiser tous les appels réseau de l’application.
+À partir de cette configuration, une instance Axios unique (apiClient) est créée, ce qui permet de centraliser et d'uniformiser tous les appels réseau de l'application.
 
-Le fichier "**apiConfig.ts**" définit la configuration de base de l’API utilisée par l’application. Il crée une instance Axios dédiée à la définition des paramètres globaux de communication avec le backend. Le point d’entrée principal de l’API (baseURL) est récupéré via la variable d’environnement "**VITE_API_BASE_URL**", ce qui permet d’adapter automatiquement l’URL du backend selon l’environnement (développement, production). En l’absence de variable définie, une URL locale par défaut est utilisée afin de faciliter le développement.
+Le fichier "**apiConfig.ts**" définit la configuration de base de l'API utilisée par l'application. Il crée une instance Axios dédiée à la définition des paramètres globaux de communication avec le backend. Le point d'entrée principal de l'API (baseURL) est récupéré via la variable d'environnement "**VITE_API_BASE_URL**", ce qui permet d'adapter automatiquement l'URL du backend selon l'environnement (développement, production). En l'absence de variable définie, une URL locale par défaut est utilisée afin de faciliter le développement.
 
 Les en-têtes HTTP sont également configurés à ce niveau, avec un Content-Type défini sur *application/json*, garantissant que les échanges entre le frontend et le backend utilisent le format JSON.
 
-Avec le fichier "**overrideApiClient.ts**", le code actuellement commenté, permet (si besoin) de synchroniser la configuration du client API du front-end avec celui fourni par une librairie externe. L’objectif est de remplacer (éventuellement) les propriétés de l’instance Axios exposée par la librairie par celles définies dans l’application front. Cette approche garantit que les deux clients partagent exactement la même configuration (URL de base, intercepteurs, headers, timeout, etc.), évitant ainsi les incohérences lors des appels réseau.
+Avec le fichier "**overrideApiClient.ts**", le code actuellement commenté, permet (si besoin) de synchroniser la configuration du client API du front-end avec celui fourni par une librairie externe. L'objectif est de remplacer (éventuellement) les propriétés de l'instance Axios exposée par la librairie par celles définies dans l'application front. Cette approche garantit que les deux clients partagent exactement la même configuration (URL de base, intercepteurs, headers, timeout, etc.), évitant ainsi les incohérences lors des appels réseau.
 
 • **/assets** : contient des images par défaut. Placer ici les différentes images qui seront utilisées pour la génération des écrans.         
 
-• **/contexts** : ce répertoire contient le fichier "**AuthContext.tsx**" qui met en place le contexte d’authentification global de l’application à l’aide de l’API Context de React. Il définit les types User et AuthContextType, qui structurent respectivement les informations utilisateur (nom et rôles) et les fonctionnalités exposées par le contexte (état de connexion, chargement, connexion, déconnexion et gestion des rôles). Le contexte "**AuthContext**" permet ainsi de partager l’état d’authentification de manière centralisée. 
+• **/contexts** : ce répertoire contient le fichier "**AuthContext.tsx**" qui met en place le contexte d'authentification global de l'application à l'aide de l'API Context de React. Il définit les types User et AuthContextType, qui structurent respectivement les informations utilisateur (nom et rôles) et les fonctionnalités exposées par le contexte (état de connexion, chargement, connexion, déconnexion et gestion des rôles). Le contexte "**AuthContext**" permet ainsi de partager l'état d'authentification de manière centralisée. 
 
-Le composant "**AuthProvider**" encapsule la logique métier liée à l’authentification. Il gère l’état de l’utilisateur connecté ainsi qu’un indicateur de chargement utilisé lors de l’initialisation. Au démarrage de l’application, un mécanisme de rechargement automatique depuis le sessionStorage permet de restaurer la session utilisateur si elle existe, garantissant la persistance de la connexion lors d’un rafraîchissement de page.
+Le composant "**AuthProvider**" encapsule la logique métier liée à l'authentification. Il gère l'état de l'utilisateur connecté ainsi qu'un indicateur de chargement utilisé lors de l'initialisation. Au démarrage de l'application, un mécanisme de rechargement automatique depuis le sessionStorage permet de restaurer la session utilisateur si elle existe, garantissant la persistance de la connexion lors d'un rafraîchissement de page.
 
-La fonction "**login**" implémente par défaut une authentification simulée, destinée à des besoins de développement ou de démonstration. Elle valide des identifiants prédéfinis et associe des rôles spécifiques à l’utilisateur connecté. C'est donc au développeur de modifier manuellement ce fichier afin de le relier aux différents services REST qui gèrent l'authentification et la récupération des jetons.
+La fonction "**login**" implémente par défaut une authentification simulée, destinée à des besoins de développement ou de démonstration. Elle valide des identifiants prédéfinis et associe des rôles spécifiques à l'utilisateur connecté. C'est donc au développeur de modifier manuellement ce fichier afin de le relier aux différents services REST qui gèrent l'authentification et la récupération des jetons.
 
 • **/pages** : C'est au niveau de ce répertoire que seront générées toutes les pages issues de la modélisation.
 
-• **/mocks** :  Ce répertoire va contenir les fichiers d'implémentations simulées pour des services. Ils sont utilisés principalement pendant le développement et les tests afin de découpler l’application de ses dépendances externes, comme par exemple une API backend. Ces mocks automatiquement générés à partir de la modélisation de la cinématique facilitent la mise au point de l’interface utilisateur, la validation du parcours fonctionnel, sans pour autant dépendre de la disponibilité ou de l’état du backend.
+• **/mocks** :  Ce répertoire va contenir les fichiers d'implémentations simulées pour des services. Ils sont utilisés principalement pendant le développement et les tests afin de découpler l'application de ses dépendances externes, comme par exemple une API backend. Ces mocks automatiquement générés à partir de la modélisation de la cinématique facilitent la mise au point de l'interface utilisateur, la validation du parcours fonctionnel, sans pour autant dépendre de la disponibilité ou de l'état du backend.
 
-• **/security** :  Par défaut, ce répertoire contient uniquement le fichier "**ProtectedRoute.tsx**". Ce fichier permet de sécuriser l’accès aux routes de l’application en fonction de l’état d’authentification et, si nécessaire, des rôles de l’utilisateur. Il s’appuie sur react-router-dom et sur le contexte d’authentification fourni par "**AuthContext**" afin de centraliser la logique de protection des routes dans un composant unique et réutilisable. Si aucun utilisateur n’est connecté, l’accès à la route est bloqué et l’utilisateur est automatiquement redirigé vers la page de connexion. Lorsque la route protégée définit une liste de rôles autorisés, le composant vérifie que l’utilisateur dispose d’au moins l’un de ces rôles ; dans le cas contraire, une redirection vers une page d’accès non autorisé est effectuée.
+• **/security** :  Par défaut, ce répertoire contient uniquement le fichier "**ProtectedRoute.tsx**". Ce fichier permet de sécuriser l'accès aux routes de l'application en fonction de l'état d'authentification et, si nécessaire, des rôles de l'utilisateur. Il s'appuie sur react-router-dom et sur le contexte d'authentification fourni par "**AuthContext**" afin de centraliser la logique de protection des routes dans un composant unique et réutilisable. Si aucun utilisateur n'est connecté, l'accès à la route est bloqué et l'utilisateur est automatiquement redirigé vers la page de connexion. Lorsque la route protégée définit une liste de rôles autorisés, le composant vérifie que l'utilisateur dispose d'au moins l'un de ces rôles ; dans le cas contraire, une redirection vers une page d'accès non autorisé est effectuée.
 
-Si toutes les conditions sont remplies, le composant autorise l’accès à la route.
+Si toutes les conditions sont remplies, le composant autorise l'accès à la route.
 
 • **/services** :   Ce répertoire peut contenir les fichiers d'appel pour les différents services REST (ceux non issus des librairies importées au niveau du répertoire **/lib** et écrits directement par le développeur).
 
 Ainsi que les principaux fichiers : 
 
-• **App.css** : contient les styles globaux de l’application. Il permet de définir l’apparence générale des composants, ainsi que les règles CSS communes utilisées à travers l’ensemble du projet.
+• **App.css** : contient les styles globaux de l'application. Il permet de définir l'apparence générale des composants, ainsi que les règles CSS communes utilisées à travers l'ensemble du projet.
 
-• **App.tsx** : constitue le point d’entrée principal de l’application React. Il orchestre la structure globale de l’application en assemblant les différents fournisseurs de contexte, les routes et les composants racine. Ce fichier joue un rôle central dans l’organisation de l’architecture, car il définit comment les différentes briques fonctionnelles interagissent entre elles.
+• **App.tsx** : constitue le point d'entrée principal de l'application React. Il orchestre la structure globale de l'application en assemblant les différents fournisseurs de contexte, les routes et les composants racine. Ce fichier joue un rôle central dans l'organisation de l'architecture, car il définit comment les différentes briques fonctionnelles interagissent entre elles.
 
-• **index.css** : définit les styles CSS globaux appliqués à l’ensemble de l’application dès son initialisation. Il est chargé au point d’entrée du projet et s’applique à tous les composants, indépendamment de leur niveau dans l’arborescence. Bien noter que **index.css** définit les styles de base et universels de l’application (reset, polices, couleurs globales), tandis que **App.css** contient les styles globaux spécifiques à la structure et à la mise en page de l’application.
+• **index.css** : définit les styles CSS globaux appliqués à l'ensemble de l'application dès son initialisation. Il est chargé au point d'entrée du projet et s'applique à tous les composants, indépendamment de leur niveau dans l'arborescence. Bien noter que **index.css** définit les styles de base et universels de l'application (reset, polices, couleurs globales), tandis que **App.css** contient les styles globaux spécifiques à la structure et à la mise en page de l'application.
 
-• **main.tsx** : point d’entrée principal de l’application React. Il est responsable de l’initialisation de l’application côté client et du montage de l’arbre de composants React dans le DOM.
+• **main.tsx** : point d'entrée principal de l'application React. Il est responsable de l'initialisation de l'application côté client et du montage de l'arbre de composants React dans le DOM.
 
 Par ailleurs, le projet contient : 
 
 • le répertoire **/public/dsfr/pictograms** : ce répertoire contient une copie des pictogrammes nécessaires pour l'application (si besoin), il est nécessaire pour le développeur de recopier les différents pictogrammes à partir du répertoire "**/node_modules/dsfr/**".
 
-• le répertoire **/node_modules** : contient l’ensemble des dépendances du projet installées via le gestionnaire de paquets npm. Il regroupe les bibliothèques externes nécessaires au fonctionnement de l’application, qu’il s’agisse de frameworks (comme React), d’outils de build, de librairies utilitaires ou de dépendances transverses. Son contenu est généré automatiquement à partir des fichiers de configuration (*package.json* et *package-lock.json* ou équivalent) et ne doit pas être modifié manuellement.
+• le répertoire **/node_modules** : contient l'ensemble des dépendances du projet installées via le gestionnaire de paquets npm. Il regroupe les bibliothèques externes nécessaires au fonctionnement de l'application, qu'il s'agisse de frameworks (comme React), d'outils de build, de librairies utilitaires ou de dépendances transverses. Son contenu est généré automatiquement à partir des fichiers de configuration (*package.json* et *package-lock.json* ou équivalent) et ne doit pas être modifié manuellement.
 
 
 ## 📝 Fichiers de configuration
 ---
 
-❗  Dans le cadre des projets générés par Pacman, le fichier *package-lock.json* ne joue pas un rôle fonctionnel essentiel, puisque Pacman écrit lui-même les dépendances avec des versions figées dans le *package.json* (devDependencies, peerDependencies, etc.). Le rôle normal d’un *package-lock.json* est d’assurer une installation strictement reproductible des dépendances, en enregistrant les versions exactes réellement installées. Mais ici, comme les dépendances sont déjà imposées et contrôlées par Pacman, ce fichier ne sert pas à figer des choix du développeur — il ne fait que refléter l'état final de l'installation. 
+❗  Dans le cadre des projets générés par Pacman, le fichier *package-lock.json* ne joue pas un rôle fonctionnel essentiel, puisque Pacman écrit lui-même les dépendances avec des versions figées dans le *package.json* (devDependencies, peerDependencies, etc.). Le rôle normal d'un *package-lock.json* est d'assurer une installation strictement reproductible des dépendances, en enregistrant les versions exactes réellement installées. Mais ici, comme les dépendances sont déjà imposées et contrôlées par Pacman, ce fichier ne sert pas à figer des choix du développeur — il ne fait que refléter l'état final de l'installation. 
 
-Il reste néanmoins utile pour garantir que deux installations successives (ou deux postes différents) utiliseront exactement la même arborescence npm, évitant ainsi les légères variations possibles dans la résolution interne de npm, même lorsque les versions sont verrouillées. En bref : ce n’est pas indispensable pour Pacman, mais cela renforce la reproductibilité et évite les comportements imprévisibles de npm. Il reste toujours possible de le désactiver en mettant la propriété à "false" au niveau du fichier "*.npmrc*".
+Il reste néanmoins utile pour garantir que deux installations successives (ou deux postes différents) utiliseront exactement la même arborescence npm, évitant ainsi les légères variations possibles dans la résolution interne de npm, même lorsque les versions sont verrouillées. En bref : ce n'est pas indispensable pour Pacman, mais cela renforce la reproductibilité et évite les comportements imprévisibles de npm. Il reste toujours possible de le désactiver en mettant la propriété à "false" au niveau du fichier "*.npmrc*".
 
 #### dsfr.config.ts 
 
-centralise un paramètre de configuration indiquant le chemin de base des assets statiques (CSS, JavaScript, icônes, polices, etc.) du DSFR (Design System de l’État français).
+centralise un paramètre de configuration indiquant le chemin de base des assets statiques (CSS, JavaScript, icônes, polices, etc.) du DSFR (Design System de l'État français).
 
 ```ts
 export default {
@@ -330,7 +336,7 @@ export default {
 
 #### package.json
 
-fichier de configuration central du projet. Il décrit le projet (nom, version, description) et surtout la liste des dépendances nécessaires à son fonctionnement ainsi que celles utilisées uniquement pour le développement. Il définit également des scripts permettant d’automatiser des tâches courantes comme le démarrage du serveur de développement, le build ou les tests. Les informations qu’il contient permettent aux gestionnaires de paquets (npm, yarn, pnpm) d’installer les bonnes bibliothèques et d’exécuter le projet de manière cohérente sur n’importe quel environnement.
+fichier de configuration central du projet. Il décrit le projet (nom, version, description) et surtout la liste des dépendances nécessaires à son fonctionnement ainsi que celles utilisées uniquement pour le développement. Il définit également des scripts permettant d'automatiser des tâches courantes comme le démarrage du serveur de développement, le build ou les tests. Les informations qu'il contient permettent aux gestionnaires de paquets (npm, yarn, pnpm) d'installer les bonnes bibliothèques et d'exécuter le projet de manière cohérente sur n'importe quel environnement.
 
 ```json
 {
@@ -372,7 +378,7 @@ fichier de configuration central du projet. Il décrit le projet (nom, version, 
 
 #### tsconfig.json
 
-fichier de configuration du compilateur TypeScript. Il définit les règles de compilation du code TypeScript vers JavaScript, notamment la version cible du langage, le système de modules utilisé et le niveau de vérification des types. Il permet également de contrôler l’inclusion ou l’exclusion des fichiers du projet et d’activer des options de typage strict afin de détecter les erreurs le plus tôt possible.
+fichier de configuration du compilateur TypeScript. Il définit les règles de compilation du code TypeScript vers JavaScript, notamment la version cible du langage, le système de modules utilisé et le niveau de vérification des types. Il permet également de contrôler l'inclusion ou l'exclusion des fichiers du projet et d'activer des options de typage strict afin de détecter les erreurs le plus tôt possible.
 
 ```json
 {
@@ -396,7 +402,7 @@ fichier de configuration du compilateur TypeScript. Il définit les règles de c
 
 #### tsconfig.node.json
 
-configuration TypeScript dédiée à l’environnement *Node.js*. Il complète le fichier *tsconfig.json* principal en définissant des options de compilation spécifiques aux fichiers exécutés par Node, tels que les scripts de build, de configuration ou les fichiers comme vite.config.ts. Il permet notamment d’adapter le système de modules, la résolution des imports et la version JavaScript cible aux contraintes de Node.js, sans impacter la configuration utilisée pour le code frontend. Cette séparation garantit une meilleure organisation du projet et évite les conflits entre les besoins du navigateur et ceux de l’environnement serveur.
+configuration TypeScript dédiée à l'environnement *Node.js*. Il complète le fichier *tsconfig.json* principal en définissant des options de compilation spécifiques aux fichiers exécutés par Node, tels que les scripts de build, de configuration ou les fichiers comme vite.config.ts. Il permet notamment d'adapter le système de modules, la résolution des imports et la version JavaScript cible aux contraintes de Node.js, sans impacter la configuration utilisée pour le code frontend. Cette séparation garantit une meilleure organisation du projet et évite les conflits entre les besoins du navigateur et ceux de l'environnement serveur.
 
 ```json
 {
@@ -429,7 +435,7 @@ configuration TypeScript dédiée à l’environnement *Node.js*. Il complète l
 
 #### tsconfig.app.json
 
-configuration TypeScript dédiée au code de l’application frontend. Il définit les options de compilation appliquées aux fichiers exécutés dans le navigateur, en particulier les composants React, les hooks et la logique métier côté client. Ce fichier spécialise la configuration globale en adaptant des paramètres comme le support du JSX, la version JavaScript cible et les règles de typage aux contraintes du runtime navigateur.
+configuration TypeScript dédiée au code de l'application frontend. Il définit les options de compilation appliquées aux fichiers exécutés dans le navigateur, en particulier les composants React, les hooks et la logique métier côté client. Ce fichier spécialise la configuration globale en adaptant des paramètres comme le support du JSX, la version JavaScript cible et les règles de typage aux contraintes du runtime navigateur.
 
 ```json
 {
@@ -463,7 +469,7 @@ configuration TypeScript dédiée au code de l’application frontend. Il défin
 ```
 #### vite.config.ts
 
-fichier de configuration de l’outil de build Vite. Il permet de définir le comportement du serveur de développement et du processus de build de l’application, notamment la gestion des plugins, la résolution des modules, les alias de chemins, les variables d’environnement et les options de compilation.
+fichier de configuration de l'outil de build Vite. Il permet de définir le comportement du serveur de développement et du processus de build de l'application, notamment la gestion des plugins, la résolution des modules, les alias de chemins, les variables d'environnement et les options de compilation.
 
 ```ts
 import { defineConfig } from 'vite'
@@ -482,40 +488,40 @@ export default defineConfig({
 ## 🔀 Génération de la cinématique
 ---
 
-❗ Il est important de souligner que le méta-modèle cinématique est volontairement très ouvert et permissif. Une même fonctionnalité peut donc être modélisée de plusieurs façons. Des choix ont ainsi été nécessaires, notamment en fonction de la cible technique visée. Même si cela peut paraître peu intuitif au premier abord, une génération React n’a pas les mêmes contraintes ni les mêmes besoins qu’une modélisation en JSP ou en JSF. Il ne faut donc pas s’étonner, sur certains écrans de modélisation, d’accéder à certaines propriétés d’une manière spécifique ou de ne pas utiliser l’ensemble des fonctionnalités disponibles.
+❗ Il est important de souligner que le méta-modèle cinématique est volontairement très ouvert et permissif. Une même fonctionnalité peut donc être modélisée de plusieurs façons. Des choix ont ainsi été nécessaires, notamment en fonction de la cible technique visée. Même si cela peut paraître peu intuitif au premier abord, une génération React n'a pas les mêmes contraintes ni les mêmes besoins qu'une modélisation en JSP ou en JSF. Il ne faut donc pas s'étonner, sur certains écrans de modélisation, d'accéder à certaines propriétés d'une manière spécifique ou de ne pas utiliser l'ensemble des fonctionnalités disponibles.
 
 Cette documentation est basée sur un projet destiné à créer un site de gestion concernant la demande et le suivi de démarches administratives. Par exemple un utilisateur peut effectuer une demande d'obtention de carte grise ou de carte d'identité. Il n'est pas dans l'objectif de ce document d'expliciter l'ensemble de la modélisation mais de voir les bases essentielles pour la modélisation et la génération d'une page react, ainsi que l'appel à un service de type REST.
 
 On peut noter dès maintenant que le fichier de modélisation cinématique contient deux diagrammes (représentations) par défaut qui sont respectivement : 
 
--	**Package Diagram** : Il s’agit du diagramme principal pour la modélisation, c’est par le biais de ce diagramme que les grandes lignes de la navigation et des interactions entre les différents écrans seront définies. C’est par ce diagramme que le développeur doit commencer sa modélisation.
+-	**Package Diagram** : Il s'agit du diagramme principal pour la modélisation, c'est par le biais de ce diagramme que les grandes lignes de la navigation et des interactions entre les différents écrans seront définies. C'est par ce diagramme que le développeur doit commencer sa modélisation.
  
--	**UI Structure** : Il s’agit ici d’un arbre représentant les différents composants de la modélisation (ceux décrits au niveau du *Package Diagram*).  
+-	**UI Structure** : Il s'agit ici d'un arbre représentant les différents composants de la modélisation (ceux décrits au niveau du *Package Diagram*).  
 
 ### Toolkit
 
-A l’ouverture du diagramme pour la modélisation de la cinématique, toute tentative pour positionner un premier écran ("*ViewContainer*") va automatiquement se solder par le message suivant : 
+A l'ouverture du diagramme pour la modélisation de la cinématique, toute tentative pour positionner un premier écran ("*ViewContainer*") va automatiquement se solder par le message suivant : 
 
 <div align="center">
 <img src="images/pcm-ecr-no-toolkit.png" alt="Modélisation cinématique" width="500">
 </div>
 
-Le toolkit est un ensemble de composants graphiques (appelés *Widgets*) qui vont être utilisés dans le cadre de la composition des différents écrans de l’application. Ces composants peuvent être un ensemble de boutons, de listes déroulantes, de calendrier, de champs de type texte, etc…
+Le toolkit est un ensemble de composants graphiques (appelés *Widgets*) qui vont être utilisés dans le cadre de la composition des différents écrans de l'application. Ces composants peuvent être un ensemble de boutons, de listes déroulantes, de calendrier, de champs de type texte, etc…
 Un toolkit est développé spécifiquement par le créateur du générateur, et ce,  pour un type de génération bien spécifique. Ainsi il est totalement déconseillé de ne pas utiliser le toolkit spécifiquement développé pour le type de génération à effectuer (dans notre cas une génération React) sous peine : 
 
--	D’avoir une génération incomplète, non fonctionnelle et contenant de nombreux effets de bord non prévus par le développeur du générateur.
+-	D'avoir une génération incomplète, non fonctionnelle et contenant de nombreux effets de bord non prévus par le développeur du générateur.
 
--	De manière plus générale, de ne pas avoir l’ensemble des fonctionnalités et composants initialement prévus.
+-	De manière plus générale, de ne pas avoir l'ensemble des fonctionnalités et composants initialement prévus.
 
-Pour associer un toolkit au diagramme, deux possibilités s’offrent à l’utilisateur : 
+Pour associer un toolkit au diagramme, deux possibilités s'offrent à l'utilisateur : 
 
--	En cliquant n’importe ou au niveau du diagramme qui est vide par défaut, faire apparaitre l’onglet "*Properties*" et se positionner au niveau du sous-onglet "*Toolkits*". A l’aide du bouton "*+*" associer le toolkit.
+-	En cliquant n'importe ou au niveau du diagramme qui est vide par défaut, faire apparaitre l'onglet "*Properties*" et se positionner au niveau du sous-onglet "*Toolkits*". A l'aide du bouton "*+*" associer le toolkit.
 
 <div align="center">
 <img src="images/pcm-ecr-toolkit-1.png" alt="Modélisation cinématique" width="500">
 </div>
 
--	En effectuant un clic droit n’importe ou au niveau du diagramme qui est vide par défaut, choisir l’option "*Associate Tookit*".
+-	En effectuant un clic droit n'importe ou au niveau du diagramme qui est vide par défaut, choisir l'option "*Associate Tookit*".
 
 <div align="center">
 <img src="images/pcm-ecr-toolkit-2.png" alt="Modélisation cinématique" width="500">
@@ -527,19 +533,19 @@ Dans les deux cas, sélectionner uniquement le toolkit : "*REACT/SPA + DSFR1.9*"
 
 ❗ Pour rappel, l'objectif de ce document n'est pas ici, d'expliciter l'utilisation des outils de modélisation qui sont censés être déjà connus par le développeur. Se reporter aux diverses documentations ad hoc pour la modélisation d'un fichier "*.cinematic*".
 
-Cependant, avant de commencer une modélisation de type cinématique, il convient toutefois d’en rappeler rapidement les enjeux et principes fondamentaux. Dans les grandes lignes : 
+Cependant, avant de commencer une modélisation de type cinématique, il convient toutefois d'en rappeler rapidement les enjeux et principes fondamentaux. Dans les grandes lignes : 
 
--	Une cinématique est composée d’un ensemble d’écrans appelés "*ViewContainer*".
+-	Une cinématique est composée d'un ensemble d'écrans appelés "*ViewContainer*".
 
--	Chaque écran est relié à un (et un seul) contrôleur, appelé "*State*" (ou "*ViewState*"). Ce contrôleur permet de piloter les différents états de l’écran. Chaque contrôleur est relié à une et une seule page.
+-	Chaque écran est relié à un (et un seul) contrôleur, appelé "*State*" (ou "*ViewState*"). Ce contrôleur permet de piloter les différents états de l'écran. Chaque contrôleur est relié à une et une seule page.
 
--	Un contrôleur peut (si besoin) appeler la couche de modélisation SOA (base de données ou autre) à l’aide d’actions ("*Action*"). Dans le cas d'une application de type React, il s'agira d'appeler les services REST.
+-	Un contrôleur peut (si besoin) appeler la couche de modélisation SOA (base de données ou autre) à l'aide d'actions ("*Action*"). Dans le cas d'une application de type React, il s'agira d'appeler les services REST.
 
--	Chaque contrôleur peut être relié avec un ou plusieurs autres contrôleurs par l’intermédiaire de transitions ("*Transition*"), elles-mêmes activées (ou executées) par le biais d’un ou plusieurs événements ("*Events*").
+-	Chaque contrôleur peut être relié avec un ou plusieurs autres contrôleurs par l'intermédiaire de transitions ("*Transition*"), elles-mêmes activées (ou executées) par le biais d'un ou plusieurs événements ("*Events*").
 
-- Le "*package*" est simplement un conteneur qui permet d’organiser et de mieux répartir les différents écrans de l’application en unités logiques. Au moment de la génération, toutes les pages qui vont représenter les différents écrans seront alors réparties dans des répertoires dont les noms seront ceux définis par les noms de package. Il est bien évident que si la notion de package n’est pas obligatoire pour le bon fonctionnement de l’application. Pour l'instant cette notion n'a pas été prise en compte dans le cadre de la génération, toutes les pages générées sont donc directement sous le répertoire  : "*/pages*".
+- Le "*package*" est simplement un conteneur qui permet d'organiser et de mieux répartir les différents écrans de l'application en unités logiques. Au moment de la génération, toutes les pages qui vont représenter les différents écrans seront alors réparties dans des répertoires dont les noms seront ceux définis par les noms de package. Il est bien évident que si la notion de package n'est pas obligatoire pour le bon fonctionnement de l'application. Pour l'instant cette notion n'a pas été prise en compte dans le cadre de la génération, toutes les pages générées sont donc directement sous le répertoire  : "*/pages*".
 
-- La notion de "*Flow*" est  à peu près identique à celle de "*Package*"  mais plus orienté (comme son nom l’indique) au niveau de la découpe logique des différents flux de l’application. De manière générale il est important  de comprendre que les notions de "*Package*" et de "*Flow*" se résument simplement en des conteneurs de haut niveau qui permettent de mieux structurer la modélisation de l’application en différentes unités logiques et ainsi de mieux visualiser les interactions entre les différents domaines fonctionnels de cette dernière.
+- La notion de "*Flow*" est  à peu près identique à celle de "*Package*"  mais plus orienté (comme son nom l'indique) au niveau de la découpe logique des différents flux de l'application. De manière générale il est important  de comprendre que les notions de "*Package*" et de "*Flow*" se résument simplement en des conteneurs de haut niveau qui permettent de mieux structurer la modélisation de l'application en différentes unités logiques et ainsi de mieux visualiser les interactions entre les différents domaines fonctionnels de cette dernière.
 
 ❗ Il est important de noter que dans le cadre de la modélisation React, la notion de "*Flow Events*" n'est pas utilisée pour l'instant.
 
@@ -549,7 +555,7 @@ Dans le cadre de cette application exemple, on peut voir ici que, au niveau du "
 <img src="images/pcm-react-package-diagram.png" alt="Modélisation cinématique">
 </div>
 
-Il est fortement recommandé, en particulier pour les sites comportant un grand nombre de pages, de séparer les grandes fonctionnalités en plusieurs diagrammes de type *Flow* afin d’améliorer la lisibilité et d’offrir une meilleure visibilité sur chacune de ces fonctionnalités. Dans le cadre de cet exemple, la fonctionnalité de connexion a été positionnée dans un processus séparé (comme il est possible de le voir dans le diagramme ci-dessus). 
+Il est fortement recommandé, en particulier pour les sites comportant un grand nombre de pages, de séparer les grandes fonctionnalités en plusieurs diagrammes de type *Flow* afin d'améliorer la lisibilité et d'offrir une meilleure visibilité sur chacune de ces fonctionnalités. Dans le cadre de cet exemple, la fonctionnalité de connexion a été positionnée dans un processus séparé (comme il est possible de le voir dans le diagramme ci-dessus). 
 
 Les deux "*Flow*" peuvent alors communiquer ensemble à l'aide des différentes transitions qui ont été modélisées...
 
@@ -573,23 +579,17 @@ La demande de génération pour la cinématique des écrans et accessible en se 
 
 ### Lancement du serveur
 
-La commande "*npm run dev*" permet de démarrer le serveur de développement de l’application. Elle exécute le script défini dans le fichier '*package.json*' (associé à Vite) , qui lance un serveur local avec rechargement automatique. 
+La commande "*npm run dev*" permet de démarrer le serveur de développement de l'application. Elle exécute le script défini dans le fichier '*package.json*' (associé à Vite) , qui lance un serveur local avec rechargement automatique. 
 
-Concrètement, dès qu’un fichier du projet est modifié, l’application est recompilée et le navigateur se met à jour sans redémarrage manuel. Cette commande est utilisée uniquement en phase de développement : elle facilite les tests, le débogage et l’itération rapide, sans produire pour autant de version optimisée pour la mise en production.
+Concrètement, dès qu'un fichier du projet est modifié, l'application est recompilée et le navigateur se met à jour sans redémarrage manuel. Cette commande est utilisée uniquement en phase de développement : elle facilite les tests, le débogage et l'itération rapide, sans produire pour autant de version optimisée pour la mise en production.
 
-Sous ISD, pour lancer le serveur, se positionner au niveau de l'onglet "*Terminal*" qui a été automatiquement monté et affiché lors de la création du projet. Par défaut le chemin du shell est positionné au niveau de la partie serveur pour le projet : **[Nom de l'application]-server**
+Sous ISD, pour lancer le serveur, se positionner au niveau du projet de modélisation et effectuer un click droit sur le fichier de cinématique (comme pour la demande de génération). Deux menus sont présents afin de démarrer ou stopper le serveur pour React. Par défaut le chemin du shell est positionné au niveau de la partie serveur pour le projet : **[Nom de l'application]-server**
 
 <img src="images/pcm-react-server-1.png" alt="Modélisation cinématique">
 
-❗ Il est possible que le chemin du terminal se désynchronise parfois avec la projet qui est ouvert (surtout lors des ouvertures fermetures d'ISD), bien vérifier que le prompt soit situé sur le bon chemin et si besoin, effectuer les commandes nécessaires pour bien se repositionner.
+Vérifier dans la console le bon démarrage du serveur sur le port par défaut 5173 : 
 
-Lancer la commande pour démarrer le serveur : 
-
-<img src="images/pcm-react-server-2.png" alt="Modélisation cinématique">
-
-Vérifier le bon démarrage du serveur sur le port par défaut 5173 : 
-
-<img src="images/pcm-react-server-3.png" alt="Modélisation cinématique">
+<img src="images/pcm-react-server-3.png" alt="Modélisation cinématique">    
 
 Le serveur est alors disponible sur l'adresse : *http://localhost:5173/* 
 
@@ -598,6 +598,10 @@ Le serveur est alors disponible sur l'adresse : *http://localhost:5173/*
 <div align="center">
    <img src="images/pcm-react-demo-1.png" alt="Modélisation cinématique">
 </div>
+
+Bien penser à stopper et à vérrifier l'arrêt propre du serveur au niveau de la console : 
+
+<img src="images/pcm-react-server-4.png" alt="Modélisation cinématique">
 
 ### 📄 En-tête et pied-page
 
@@ -821,23 +825,23 @@ export default function HeaderPanel () {
 
 Ce code appelle quelques explications supplémentaires : 
 
-Ce composant définit donc l’en-tête principal de l’application en s’appuyant sur les composants du DSFR React. Il gère l’affichage du logo, du titre du service, de la navigation et des accès rapides, tout en adaptant dynamiquement le contenu du menu en fonction de l’état d’authentification et des rôles de l’utilisateur grâce au hook "*useAuth*". 
+Ce composant définit donc l'en-tête principal de l'application en s'appuyant sur les composants du DSFR React. Il gère l'affichage du logo, du titre du service, de la navigation et des accès rapides, tout en adaptant dynamiquement le contenu du menu en fonction de l'état d'authentification et des rôles de l'utilisateur grâce au hook "*useAuth*". 
 
-Les liens et sous-menus (démarches, compte, administration) sont affichés ou masqués selon les droits, et l’état actif des éléments est calculé à partir de l’URL courante via useLocation. Le composant centralise également la logique de recherche et de navigation avec useNavigate, ce qui en fait un point clé pour la navigation globale et la sécurité côté interface.
+Les liens et sous-menus (démarches, compte, administration) sont affichés ou masqués selon les droits, et l'état actif des éléments est calculé à partir de l'URL courante via useLocation. Le composant centralise également la logique de recherche et de navigation avec useNavigate, ce qui en fait un point clé pour la navigation globale et la sécurité côté interface.
 
-"*useAuth*" permet de récupérer l’utilisateur courant et ses rôles. Ces informations sont ensuite utilisées pour construire dynamiquement le menu de navigation : certaines entrées sont affichées uniquement pour les utilisateurs authentifiés, d’autres sont réservées aux rôles user ou admin. Cette logique repose sur des conditions combinant la présence de l’utilisateur et la vérification de ses rôles, ce qui garantit que seules les fonctionnalités autorisées sont visibles dans l’interface.
+"*useAuth*" permet de récupérer l'utilisateur courant et ses rôles. Ces informations sont ensuite utilisées pour construire dynamiquement le menu de navigation : certaines entrées sont affichées uniquement pour les utilisateurs authentifiés, d'autres sont réservées aux rôles user ou admin. Cette logique repose sur des conditions combinant la présence de l'utilisateur et la vérification de ses rôles, ce qui garantit que seules les fonctionnalités autorisées sont visibles dans l'interface.
 
 ```ts
 isActive: ["/goToNewRequest", "/gotToListRequest", "/goToFollowRequest"]
   .includes(location.pathname)
 ```
 
-Ce type de code sert à déterminer si un menu parent doit être considéré comme actif en fonction de la route courante. Concrètement, "*location.pathname*" contient le chemin de l’URL actuellement affichée au niveau du navigateur. Le tableau regroupe toutes les routes associées aux sous-fonctionnalités du menu. La méthode includes vérifie si la route courante correspond à l’une de ces valeurs.
-Si c’est le cas, isActive est positionné à la valeur "*true*", ce qui permet de mettre en surbrillance le menu principal, même lorsque l’utilisateur se trouve sur une sous-page. Cette approche garantit une cohérence visuelle de la navigation et indique clairement à l’utilisateur dans quelle section fonctionnelle il se situe.
+Ce type de code sert à déterminer si un menu parent doit être considéré comme actif en fonction de la route courante. Concrètement, "*location.pathname*" contient le chemin de l'URL actuellement affichée au niveau du navigateur. Le tableau regroupe toutes les routes associées aux sous-fonctionnalités du menu. La méthode includes vérifie si la route courante correspond à l'une de ces valeurs.
+Si c'est le cas, isActive est positionné à la valeur "*true*", ce qui permet de mettre en surbrillance le menu principal, même lorsque l'utilisateur se trouve sur une sous-page. Cette approche garantit une cohérence visuelle de la navigation et indique clairement à l'utilisateur dans quelle section fonctionnelle il se situe.
 
 ### 🔒 Sécurisation des accès
 
-La sécurité regroupe l’ensemble des mécanismes visant à protéger les données, les utilisateurs et l’application elle-même contre les accès non autorisés (entre autres). Elle repose notamment sur l’authentification des utilisateurs et la gestion des autorisations (droits et rôles).
+La sécurité regroupe l'ensemble des mécanismes visant à protéger les données, les utilisateurs et l'application elle-même contre les accès non autorisés (entre autres). Elle repose notamment sur l'authentification des utilisateurs et la gestion des autorisations (droits et rôles).
 
 #### Modélisation
 
@@ -866,7 +870,7 @@ Le corolaire à ce système de fonctionnement est qu'il existe une métadonnées
 
 Lors de la génération la table de routes est automatiquement regénérée au niveau du fichier centralisé  "*App.tsx*".
 
-La configuration du routage est effectuée à l’aide de React Router. Le composant "*App*" encapsule ici l’ensemble de l’application dans un "*BrowserRouter*" et déclare les différentes routes accessibles via le composant "*Routes*". Certaines routes sont protégées par le composant "*ProtectedRoutes*", qui restreint l’accès en fonction des rôles de l’utilisateur.
+La configuration du routage est effectuée à l'aide de React Router. Le composant "*App*" encapsule ici l'ensemble de l'application dans un "*BrowserRouter*" et déclare les différentes routes accessibles via le composant "*Routes*". Certaines routes sont protégées par le composant "*ProtectedRoutes*", qui restreint l'accès en fonction des rôles de l'utilisateur.
 
 ```ts
 function App() {
@@ -936,11 +940,11 @@ export default function ProtectedRoutes({ roles }: ProtectedRoutesProps) {
   return <Outlet />;
 }
 ```
-Ce composant met en œuvre un mécanisme de protection des routes basé sur l’état d’authentification et les rôles de l’utilisateur. Il s’appuie sur le contexte d’authentification ("*useAuth*") pour récupérer l’utilisateur courant, l’état de chargement et une fonction de vérification des rôles. 
+Ce composant met en œuvre un mécanisme de protection des routes basé sur l'état d'authentification et les rôles de l'utilisateur. Il s'appuie sur le contexte d'authentification ("*useAuth*") pour récupérer l'utilisateur courant, l'état de chargement et une fonction de vérification des rôles. 
 
-Tant que l’authentification est en cours de chargement, un écran d’attente est affiché. Si aucun utilisateur n’est connecté, la navigation est automatiquement redirigée vers la page de connexion. Lorsque des rôles sont spécifiés, le composant vérifie que l’utilisateur possède au moins l’un des rôles requis ; dans le cas contraire, il redirige vers une page d’accès non autorisé. 
+Tant que l'authentification est en cours de chargement, un écran d'attente est affiché. Si aucun utilisateur n'est connecté, la navigation est automatiquement redirigée vers la page de connexion. Lorsque des rôles sont spécifiés, le composant vérifie que l'utilisateur possède au moins l'un des rôles requis ; dans le cas contraire, il redirige vers une page d'accès non autorisé. 
 
-Si toutes les conditions sont satisfaites, le composant rend simplement un "*Outlet*", permettant ainsi l’affichage des routes enfants protégées. Ce pattern permet de centraliser la logique de sécurité et d’éviter de la dupliquer dans chaque page.
+Si toutes les conditions sont satisfaites, le composant rend simplement un "*Outlet*", permettant ainsi l'affichage des routes enfants protégées. Ce pattern permet de centraliser la logique de sécurité et d'éviter de la dupliquer dans chaque page.
 
 De même, au niveau de chaque page, les différents composants peuvent être affichés ou non en fonction de l'utilisateur connecté, ceci à l'aide de la portion de code suivante (exemple pour l'affichage des menus) : 
 
@@ -948,9 +952,9 @@ De même, au niveau de chaque page, les différents composants peuvent être aff
 user && ["user", "admin"].some(role => user.roles?.includes(role))
 ```
 
-Ici cette condition vérifie qu'un utilisateur est présent (user existe) et qu'il possède au moins l’un des rôles *user* ou *admin*. Si la condition est fausse, rien n’est ajouté au menu.
+Ici cette condition vérifie qu'un utilisateur est présent (user existe) et qu'il possède au moins l'un des rôles *user* ou *admin*. Si la condition est fausse, rien n'est ajouté au menu.
 
-Par ailleurs toute page qui doit gérer de la sécurité à automatiquement ce code au niveau de premières déclarations.  En pratique, cette ligne rend ces trois éléments directement accessibles dans le composant, sans avoir à rappeler useAuth() à chaque fois, ce qui simplifie la gestion de l’authentification et la construction des interfaces conditionnelles selon l’état de connexion.
+Par ailleurs toute page qui doit gérer de la sécurité à automatiquement ce code au niveau de premières déclarations.  En pratique, cette ligne rend ces trois éléments directement accessibles dans le composant, sans avoir à rappeler useAuth() à chaque fois, ce qui simplifie la gestion de l'authentification et la construction des interfaces conditionnelles selon l'état de connexion.
 
 ```ts
 // --------------------------------
@@ -996,7 +1000,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   // ----------------------------------------
-  // Persistance automatique de l’utilisateur
+  // Persistance automatique de l'utilisateur
   // ----------------------------------------
   useEffect(() => {
     if (user) sessionStorage.setItem("user", JSON.stringify(user));
@@ -1004,7 +1008,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [user]);
 
   // ----------------------------------
-  // Connexion (simulée pour l’instant)
+  // Connexion (simulée pour l'instant)
   // ----------------------------------
   async function login(username: string, password: string): Promise<boolean> {
     console.log("Tentative de connexion :", username, password);
@@ -1046,7 +1050,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 // ----------------------------------------
-// Hook pour simplifier l’accès au contexte
+// Hook pour simplifier l'accès au contexte
 // ----------------------------------------
 export function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
@@ -1067,13 +1071,13 @@ type User = {
 
 ❗ ❗  Si le développeur à tout loisir de modifier le fichier "*AuthContext.tsx*", et de positionner les différents rôles définis pour son application, il est cependant totalement interdit de modifier le nom pour le conteneur de la définition de l'utilisateur (code vu ci-dessus). En effet, ce nom est par la suite utilisé dans la génération des différentes pages. 
 
-Ce code met en place un contexte d’authentification global dans une application React afin de centraliser la gestion de la connexion utilisateur. Il permet de stocker l’utilisateur connecté et ses rôles, de gérer la connexion et la déconnexion, et de conserver la session via le sessionStorage même après un rafraîchissement de la page. Grâce au Context API et à un hook personnalisé, les informations d’authentification et les fonctions associées sont accessibles facilement depuis n’importe quel composant de l’application, ce qui simplifie la mise en place de routes protégées et de contrôles d’accès basés sur les rôles.
+Ce code met en place un contexte d'authentification global dans une application React afin de centraliser la gestion de la connexion utilisateur. Il permet de stocker l'utilisateur connecté et ses rôles, de gérer la connexion et la déconnexion, et de conserver la session via le sessionStorage même après un rafraîchissement de la page. Grâce au Context API et à un hook personnalisé, les informations d'authentification et les fonctions associées sont accessibles facilement depuis n'importe quel composant de l'application, ce qui simplifie la mise en place de routes protégées et de contrôles d'accès basés sur les rôles.
 
-La fonction "*login([...])*" simule une authentification, elle vérifie les identifiants, définit l’utilisateur et ses rôles, elle retourne la valeur "*true*" ou "*false*" selon le succès. Cette fonction est asynchrone pour pouvoir être remplacée plus tard par un appel API réel.
+La fonction "*login([...])*" simule une authentification, elle vérifie les identifiants, définit l'utilisateur et ses rôles, elle retourne la valeur "*true*" ou "*false*" selon le succès. Cette fonction est asynchrone pour pouvoir être remplacée plus tard par un appel API réel.
 
-Un hook dans React est une fonction spéciale qui permet d’utiliser les fonctionnalités internes de React, comme l’état, le cycle de vie ou les contextes, sans écrire de composant de classe. Les hooks permettent d’ajouter de la logique réutilisable à des composants fonctionnels, tout en gardant un code plus simple et plus lisible. 
+Un hook dans React est une fonction spéciale qui permet d'utiliser les fonctionnalités internes de React, comme l'état, le cycle de vie ou les contextes, sans écrire de composant de classe. Les hooks permettent d'ajouter de la logique réutilisable à des composants fonctionnels, tout en gardant un code plus simple et plus lisible. 
 
-Le hook personnalisé "*useAuth*" fournit une abstraction simple pour accéder au contexte d’authentification de l’application. Il permet de récupérer directement les informations et fonctions liées à l’authentification sans appeler explicitement useContext, ce qui améliore la lisibilité du code. Il garantit également que le contexte est utilisé à l’intérieur du AuthProvider, en levant une erreur (message délibérément laissé en anglais) si ce n’est pas le cas, et évite ainsi les usages incorrects tout en centralisant l’accès à la logique d’authentification. 
+Le hook personnalisé "*useAuth*" fournit une abstraction simple pour accéder au contexte d'authentification de l'application. Il permet de récupérer directement les informations et fonctions liées à l'authentification sans appeler explicitement useContext, ce qui améliore la lisibilité du code. Il garantit également que le contexte est utilisé à l'intérieur du AuthProvider, en levant une erreur (message délibérément laissé en anglais) si ce n'est pas le cas, et évite ainsi les usages incorrects tout en centralisant l'accès à la logique d'authentification. 
 
 Voici le rendu si aucun utilisateur n'est encore authentifié :
 
@@ -1091,9 +1095,9 @@ Enfin, le rendu si l'utilisateur est un administrateur :
 
 ### 📄 Formulaire
 
-Elément central d’un site web permettant à l’utilisateur de saisir et transmettre des données à l’application. Il constitue le principal moyen d’interaction entre l’interface et la logique métier, que ce soit pour une authentification, une recherche ou une demande spécifique. La conception d’un formulaire repose sur plusieurs aspects essentiels : la clarté des champs, la validation des données (pour éviter les erreurs ou les entrées invalides), la gestion des retours utilisateur et la sécurité des informations transmises.
+Elément central d'un site web permettant à l'utilisateur de saisir et transmettre des données à l'application. Il constitue le principal moyen d'interaction entre l'interface et la logique métier, que ce soit pour une authentification, une recherche ou une demande spécifique. La conception d'un formulaire repose sur plusieurs aspects essentiels : la clarté des champs, la validation des données (pour éviter les erreurs ou les entrées invalides), la gestion des retours utilisateur et la sécurité des informations transmises.
 
-Ici, la gestion des formulaires est en grande partie déléguée aux composants du DSFR. Ces composants fournissent des champs, des labels et des messages d’erreur conformes aux standards d’accessibilité et d’ergonomie, ce qui permet de se concentrer principalement sur la logique métier et la validation des données. En s’appuyant sur le DSFR, la structure, le comportement et l’affichage des formulaires sont harmonisés, tout en garantissant une expérience utilisateur cohérente et conforme aux bonnes pratiques des sites institutionnels.
+Ici, la gestion des formulaires est en grande partie déléguée aux composants du DSFR. Ces composants fournissent des champs, des labels et des messages d'erreur conformes aux standards d'accessibilité et d'ergonomie, ce qui permet de se concentrer principalement sur la logique métier et la validation des données. En s'appuyant sur le DSFR, la structure, le comportement et l'affichage des formulaires sont harmonisés, tout en garantissant une expérience utilisateur cohérente et conforme aux bonnes pratiques des sites institutionnels.
 
 #### Modélisation
 
@@ -1189,7 +1193,7 @@ Ci-contre le codage d'un champ de type "Text" :
   )}
 />
 ```
-Le composant définit un champ texte intitulé "Nom d’usage", dont les propriétés HTML natives (type, longueur maximale, placeholder) sont passées via "*nativeInputProps*". L’appel à "*getRegisterProps*" permet de lier ce champ au système de gestion de formulaire (enregistrement de la valeur, validation, suivi des erreurs), tandis que "*fieldState*" et "*fieldMessage*" contrôlent l’état visuel du champ (valide ou en erreur) ainsi que le message associé.
+Le composant définit un champ texte intitulé "Nom d'usage", dont les propriétés HTML natives (type, longueur maximale, placeholder) sont passées via "*nativeInputProps*". L'appel à "*getRegisterProps*" permet de lier ce champ au système de gestion de formulaire (enregistrement de la valeur, validation, suivi des erreurs), tandis que "*fieldState*" et "*fieldMessage*" contrôlent l'état visuel du champ (valide ou en erreur) ainsi que le message associé.
 
 Le codage d'un champ de type "Liste déroulante"
 
@@ -1216,10 +1220,10 @@ Le codage d'un champ de type "Liste déroulante"
   <option value="VO">Vol</option>
 </Select>
 ```
-Le composant affiche une liste déroulante permettant à l’utilisateur de choisir le motif d’une demande de passeport, avec une valeur par défaut vide afin de forcer une sélection explicite. Le champ est relié au système de gestion de formulaire via la fonction "*register*", ce qui permet de gérer la valeur, la validation (champ requis) et les erreurs associées. Les propriétés "*state*" et "*stateRelatedMessage*" pilotent dynamiquement le retour visuel du champ (information, succès ou erreur) en fonction de son état de validation ("*errors*" et "*dirtyFields*").
+Le composant affiche une liste déroulante permettant à l'utilisateur de choisir le motif d'une demande de passeport, avec une valeur par défaut vide afin de forcer une sélection explicite. Le champ est relié au système de gestion de formulaire via la fonction "*register*", ce qui permet de gérer la valeur, la validation (champ requis) et les erreurs associées. Les propriétés "*state*" et "*stateRelatedMessage*" pilotent dynamiquement le retour visuel du champ (information, succès ou erreur) en fonction de son état de validation ("*errors*" et "*dirtyFields*").
 
 
-Le composant "*\<form\>*" encapsule l’ensemble des champs et associe l’événement de soumission ("*onSubmit*") à la fonction "*handleSubmit*". Cette fonction intercepte l’envoi du formulaire afin d’exécuter la logique définie dans "*onSubmit*", généralement après validation des données. L’utilisation du fragment React *(<>...</>)* permet de regrouper les éléments sans ajouter de nœud supplémentaire à l'arbre du DOM.
+Le composant "*\<form\>*" encapsule l'ensemble des champs et associe l'événement de soumission ("*onSubmit*") à la fonction "*handleSubmit*". Cette fonction intercepte l'envoi du formulaire afin d'exécuter la logique définie dans "*onSubmit*", généralement après validation des données. L'utilisation du fragment React *(<>...</>)* permet de regrouper les éléments sans ajouter de nœud supplémentaire à l'arbre du DOM.
 
 ```ts
 return (
@@ -1229,7 +1233,7 @@ return (
 );
 ```
 
-La définition de FormValues permet de typer tous les champs du formulaire, assurant la validation et l’autocomplétion TypeScript.
+La définition de FormValues permet de typer tous les champs du formulaire, assurant la validation et l'autocomplétion TypeScript.
 
 ```ts
 type FormValues = {
@@ -1257,7 +1261,7 @@ const {
 });
 ```
 
-Les fonctions "*fieldState*" et "*fieldMessage*" centralisent la logique pour déterminer l’état visuel de chaque champ (error, success, info) et le message à afficher, ce qui simplifie l’intégration avec les composants DSFR.
+Les fonctions "*fieldState*" et "*fieldMessage*" centralisent la logique pour déterminer l'état visuel de chaque champ (error, success, info) et le message à afficher, ce qui simplifie l'intégration avec les composants DSFR.
 
 ```ts
 function fieldState(fieldName: keyof FormValues) {
@@ -1283,7 +1287,7 @@ function fieldMessage(
 }
 ```
 
-la function "*getRegisterProps*" sécurise et simplifie l’enregistrement des champs, en garantissant que les règles de validation et les types sont correctement appliqués.
+la function "*getRegisterProps*" sécurise et simplifie l'enregistrement des champs, en garantissant que les règles de validation et les types sont correctement appliqués.
 
 ```ts
 function getRegisterProps(
@@ -1293,13 +1297,13 @@ function getRegisterProps(
 }
 ```
 
-Le hook "*watch*" est utilisé pour surveiller les valeurs de champs spécifiques, comme requestSelect, permettant de rendre dynamiquement certaines parties du formulaire selon la sélection de l’utilisateur.
+Le hook "*watch*" est utilisé pour surveiller les valeurs de champs spécifiques, comme requestSelect, permettant de rendre dynamiquement certaines parties du formulaire selon la sélection de l'utilisateur.
 
 ```ts
 const selectedRequest = watch("requestSelect");
 ```
 
-Enfin, la soumission du formulaire est gérée par "*onSubmit*", qui appelle "*validateAndExecuteForm*" pour exécuter la logique métier, construit le payload via "*buildRequestFormPayload*" et envoie la demande avec "*setRequest*" (à voir au niveau de la modélisation des services). En cas d’erreur ou de succès, un message global est affiché grâce à l’état "*globalMessage*". Dans le cas présent aucune règle métier particulière a été définie pour la validation du formulaire, pour cette raison "*validateAndExecuteForm*" renvoie par défaut la valeur "*true*".
+Enfin, la soumission du formulaire est gérée par "*onSubmit*", qui appelle "*validateAndExecuteForm*" pour exécuter la logique métier, construit le payload via "*buildRequestFormPayload*" et envoie la demande avec "*setRequest*" (à voir au niveau de la modélisation des services). En cas d'erreur ou de succès, un message global est affiché grâce à l'état "*globalMessage*". Dans le cas présent aucune règle métier particulière a été définie pour la validation du formulaire, pour cette raison "*validateAndExecuteForm*" renvoie par défaut la valeur "*true*".
 
 ```ts
 const onSubmit = async (data: FormValues) => {
@@ -1329,7 +1333,7 @@ const onSubmit = async (data: FormValues) => {
    } catch (error) {
       console.error(error);
       setGlobalMessage({
-        text: "Une erreur est survenue lors de l’enregistrement.",
+        text: "Une erreur est survenue lors de l'enregistrement.",
         severity: "error",
       });
    }
@@ -1365,11 +1369,11 @@ function buildRequestFormPayload(data : FormValues)
 }
 ```
 
-Le payload dans ce code correspond à l’objet de données construit à partir du formulaire, prêt à être envoyé au service qui gère les demandes ("*setRequest*"). Son rôle est de traduire les valeurs saisies par l’utilisateur en un format attendu par le backend (voir la modélisation et génération des services). Ici, il transforme les valeurs du formulaire en un objet standardisé contenant :
+Le payload dans ce code correspond à l'objet de données construit à partir du formulaire, prêt à être envoyé au service qui gère les demandes ("*setRequest*"). Son rôle est de traduire les valeurs saisies par l'utilisateur en un format attendu par le backend (voir la modélisation et génération des services). Ici, il transforme les valeurs du formulaire en un objet standardisé contenant :
 
 - le type et le motif de la demande,
 - un identifiant et un statut,
-- l’ID de l’utilisateur.
+- l'ID de l'utilisateur.
 
 Cet objet est ensuite passé à "*setRequest(payload)*" pour être enregistré côté serveur ou service métier.
 
@@ -1405,9 +1409,9 @@ Un exemple de saisie incorrecte :
 
 ### 📄 Table
 
-Avec **Pacman**, les tables sont également gérées avec les composants DSFR, ce qui permet d’afficher des listes de données de manière structurée et accessible. Par contre, si les composants DSFR ne prennent pas en charge nativement les tables éditables où certaines cellules peuvent être modifiées directement par l’utilisateur, cette fonctionnalité est néanmoins implémentée et gérée par les générateur **Pacman**. 
+Avec **Pacman**, les tables sont également gérées avec les composants DSFR, ce qui permet d'afficher des listes de données de manière structurée et accessible. Par contre, si les composants DSFR ne prennent pas en charge nativement les tables éditables où certaines cellules peuvent être modifiées directement par l'utilisateur, cette fonctionnalité est néanmoins implémentée et gérée par les générateur **Pacman**. 
 
-Pour le développement et les tests, on utilise *Faker* afin de générer des données fictives réalistes, ce qui permet de peupler les tables sans dépendre d’un backend réel et de vérifier le comportement de l’interface dans différents scénarios.
+Pour le développement et les tests, on utilise *Faker* afin de générer des données fictives réalistes, ce qui permet de peupler les tables sans dépendre d'un backend réel et de vérifier le comportement de l'interface dans différents scénarios.
 
 ❗ Au niveau de ce chapitre, on fait délibérément abstraction du binding (liaison des données) avec la couche soa pour se concentrer exclusivement sur la visualisation de l'IHM. Pour la liaison des données, se reporter au chapitre concernant la modélisation des services.
 
@@ -1456,9 +1460,9 @@ Voici le code (très simple) pour l'affichage de la table :
 ]}/>
 ```
 
-Ce code illustre l’utilisation d’une table DSFR pour afficher la liste des démarches administratives de l’utilisateur. La table est configurée avec des colonnes fixes et un titre accessible (caption) pour améliorer l’ergonomie et l’accessibilité. Les données affichées proviennent de "*data_ListRequestTable*", qui peut être peuplé avec des données fictives via Faker pour le développement et les tests. Les en-têtes définissent chaque colonne (Type de démarche, Identifiant, Statut, Raison).
+Ce code illustre l'utilisation d'une table DSFR pour afficher la liste des démarches administratives de l'utilisateur. La table est configurée avec des colonnes fixes et un titre accessible (caption) pour améliorer l'ergonomie et l'accessibilité. Les données affichées proviennent de "*data_ListRequestTable*", qui peut être peuplé avec des données fictives via Faker pour le développement et les tests. Les en-têtes définissent chaque colonne (Type de démarche, Identifiant, Statut, Raison).
 
-L’état "*data\_ListRequestTable*" contient les données à afficher dans la table. Au chargement du composant (useEffect), les données sont initialement peuplées avec des données fictives générées par "*getFakeTableData\_ListRequestTable()*". La récupération des données fictives est laissée ici pour démonstration dans le cadre de l'écriture de ce document mais (on peut par ailleurs remarquer que cette partie de code est située entre balises de type "*user code*") il suffit de supprimer cette ligne pour éviter l'appel au mock.
+L'état "*data\_ListRequestTable*" contient les données à afficher dans la table. Au chargement du composant (useEffect), les données sont initialement peuplées avec des données fictives générées par "*getFakeTableData\_ListRequestTable()*". La récupération des données fictives est laissée ici pour démonstration dans le cadre de l'écriture de ce document mais (on peut par ailleurs remarquer que cette partie de code est située entre balises de type "*user code*") il suffit de supprimer cette ligne pour éviter l'appel au mock.
 
 ```ts
 const [data_ListRequestTable, setData_ListRequestTable] = useState<any[]>([]);
@@ -1503,12 +1507,12 @@ Ce code définit donc une fonction utilitaire pour générer des données fictiv
 
 La fonction "*getFakeTableData_ListRequestTable*" prend en paramètre "*nbRows*" (nombre de lignes à générer, par défaut 10) et retourne un tableau de tableaux, où chaque sous-tableau représente une ligne de la table avec quatre champs alphanumériques générés aléatoirement grâce à "*fakerFR.string.alphanumeric(15)*".
 
-L’objectif est de fournir des données mockées rapidement pour tester l’affichage et le fonctionnement de la table sans dépendre d’un backend réel. Le développeur peut ensuite remplacer ou compléter cette génération avec des données plus réalistes, correspondant aux types, statuts et motifs des demandes réelles, afin de mieux simuler le comportement de l’application avant la connexion aux services réels (consulter pour cela les possibilités de Faker).
+L'objectif est de fournir des données mockées rapidement pour tester l'affichage et le fonctionnement de la table sans dépendre d'un backend réel. Le développeur peut ensuite remplacer ou compléter cette génération avec des données plus réalistes, correspondant aux types, statuts et motifs des demandes réelles, afin de mieux simuler le comportement de l'application avant la connexion aux services réels (consulter pour cela les possibilités de Faker).
 
 
-La fonction "*listRequestTableDataMap*" effectue le mapping des données brutes pour la table DSFR : elle transforme chaque objet req en tableau correspondant aux colonnes, et remplace les codes (type, status, reason) par des libellés lisibles à l’aide des constantes REQUEST_TYPE_LABELS, REQUEST_STATUS_LABELS et REQUEST_REASON_LABELS. Cela permet d’afficher directement des intitulés compréhensibles dans la table plutôt que des codes techniques. 
+La fonction "*listRequestTableDataMap*" effectue le mapping des données brutes pour la table DSFR : elle transforme chaque objet req en tableau correspondant aux colonnes, et remplace les codes (type, status, reason) par des libellés lisibles à l'aide des constantes REQUEST_TYPE_LABELS, REQUEST_STATUS_LABELS et REQUEST_REASON_LABELS. Cela permet d'afficher directement des intitulés compréhensibles dans la table plutôt que des codes techniques. 
 
-Il est ici impossible de tout laisser à la génération automatique, le développeur doit donc surcharger le résultat de la génération (dans les zones "*user code*" prévues à cet effet) pour que l’ensemble fonctionne correctement. Il est à noter que ce code supplémentaire est uniquement lié au fait de l'utilisation de la valeure de listes déroulantes au niveau de la table. Si au niveau de cette dernière il n'y avait que des champs finaux à afficher la génération automatique prends le relais.
+Il est ici impossible de tout laisser à la génération automatique, le développeur doit donc surcharger le résultat de la génération (dans les zones "*user code*" prévues à cet effet) pour que l'ensemble fonctionne correctement. Il est à noter que ce code supplémentaire est uniquement lié au fait de l'utilisation de la valeure de listes déroulantes au niveau de la table. Si au niveau de cette dernière il n'y avait que des champs finaux à afficher la génération automatique prends le relais.
 
 ```ts
 function listRequestTableDataMap (result) {
@@ -1577,7 +1581,7 @@ Dans le cas d'un table éditable (comme modélisée précédemment), le code gé
 
 ### 📄 Page standard
 
-Bien que la modélisation d’un formulaire et celle d’une table couvrent l’essentiel des cas d’usage (en termes de données dynamiques), il reste pertinent d’aborder également la modélisation d’une page plus simple, dédiée uniquement à l’affichage de quelques données. Pour cet exemple nous prendrons la page d'affichage des informations pour le profil utilisateur. Comme il est possible de le voir avec l'écran ci-dessous, il s'agit simplement d'afficher quelques informations essentielles pour l'identification de l'utilisateur connecté.
+Bien que la modélisation d'un formulaire et celle d'une table couvrent l'essentiel des cas d'usage (en termes de données dynamiques), il reste pertinent d'aborder également la modélisation d'une page plus simple, dédiée uniquement à l'affichage de quelques données. Pour cet exemple nous prendrons la page d'affichage des informations pour le profil utilisateur. Comme il est possible de le voir avec l'écran ci-dessous, il s'agit simplement d'afficher quelques informations essentielles pour l'identification de l'utilisateur connecté.
 
 <div align="center">
   <img src="images/pcm-react-profil-1.png" alt="Modélisation cinématique">
@@ -1688,11 +1692,11 @@ export default function ProfilPanel () {
   );
 }
 ```
-On commence par récupérer l’utilisateur courant via le hook "*useAuth*", ce qui permet d’accéder aux données de profil tout en restant cohérent avec la gestion centralisée de l’authentification.
+On commence par récupérer l'utilisateur courant via le hook "*useAuth*", ce qui permet d'accéder aux données de profil tout en restant cohérent avec la gestion centralisée de l'authentification.
 
-Le contenu de chaque onglet affiche simplement les données issues de l’objet "*user*", avec l’opérateur "*?.*" pour éviter les erreurs si certaines propriétés sont absentes, et une valeur par défaut ("-") lorsque l’information n’est pas disponible.
+Le contenu de chaque onglet affiche simplement les données issues de l'objet "*user*", avec l'opérateur "*?.*" pour éviter les erreurs si certaines propriétés sont absentes, et une valeur par défaut ("-") lorsque l'information n'est pas disponible.
 
-Ce composant illustre ainsi une page purement déclarative, orientée affichage, où la logique métier est minimale et où l’essentiel du comportement et du rendu est délégué aux composants DSFR.
+Ce composant illustre ainsi une page purement déclarative, orientée affichage, où la logique métier est minimale et où l'essentiel du comportement et du rendu est délégué aux composants DSFR.
 
 ### 🔒 Authentification 
 
@@ -1892,17 +1896,17 @@ const onSubmit = async (data: FormValues) => {
     }
 };
 ```
-Pour rappel, ici le terme "*payload*" désigne ici une structure générique qui regroupe l’ensemble des données issues du formulaire, qu’elles soient utilisées telles quelles ou enrichies et transformées via la fonction "*buildRequestFormPayload*".
+Pour rappel, ici le terme "*payload*" désigne ici une structure générique qui regroupe l'ensemble des données issues du formulaire, qu'elles soient utilisées telles quelles ou enrichies et transformées via la fonction "*buildRequestFormPayload*".
 
-La gestion des erreurs d’appel aux services repose ici principalement sur l’utilisation de blocs "*try / catch*" autour des opérations asynchrones. Lors de la soumission du formulaire, les appels métier (validation, construction du payload, appel du service REST) sont exécutés dans un contexte sécurisé : si une erreur survient (exception levée, promesse rejetée, problème réseau, etc.), elle est interceptée dans le catch. Cela permet d’éviter un crash de l’application et de fournir un retour utilisateur via un message global d’erreur.
+La gestion des erreurs d'appel aux services repose ici principalement sur l'utilisation de blocs "*try / catch*" autour des opérations asynchrones. Lors de la soumission du formulaire, les appels métier (validation, construction du payload, appel du service REST) sont exécutés dans un contexte sécurisé : si une erreur survient (exception levée, promesse rejetée, problème réseau, etc.), elle est interceptée dans le catch. Cela permet d'éviter un crash de l'application et de fournir un retour utilisateur via un message global d'erreur.
 
-❗ La présence de "*await*" dans la fonction "*onSubmit*" et son absence dans le "*useEffect*" s’explique par le contexte d’exécution et les contraintes propres à React. Dans le cas de onSubmit, il s’agit d’une action utilisateur déclenchée explicitement, où le traitement doit être strictement séquentiel : on valide les données, on appelle le service distant, puis on enchaîne sur l’affichage d’un message et la navigation. L’utilisation de "*async / await*" permet ici d’attendre chaque étape, de garantir l’ordre d’exécution et de centraliser la gestion des erreurs via un "*try/catch*". À l’inverse, la fonction passée à "*useEffect*" ne peut pas être déclarée "*async*", car React attend soit une fonction synchrone, soit une fonction de nettoyage. L’appel asynchrone est donc géré via une promesse avec "*.then()*", ce qui respecte l’API de React.
+❗ La présence de "*await*" dans la fonction "*onSubmit*" et son absence dans le "*useEffect*" s'explique par le contexte d'exécution et les contraintes propres à React. Dans le cas de onSubmit, il s'agit d'une action utilisateur déclenchée explicitement, où le traitement doit être strictement séquentiel : on valide les données, on appelle le service distant, puis on enchaîne sur l'affichage d'un message et la navigation. L'utilisation de "*async / await*" permet ici d'attendre chaque étape, de garantir l'ordre d'exécution et de centraliser la gestion des erreurs via un "*try/catch*". À l'inverse, la fonction passée à "*useEffect*" ne peut pas être déclarée "*async*", car React attend soit une fonction synchrone, soit une fonction de nettoyage. L'appel asynchrone est donc géré via une promesse avec "*.then()*", ce qui respecte l'API de React.
 
 ❗ Lors de la génération, toute page a automatiquement une page de service associée qui est générée au niveau du répertoire "*/src/services*" avec pour nom de fichier : "**[Nom de la page]Services.ts**", il est alors possible pour le développeur d'écrire ses propres appels sans passer obligatoirement par une librairie.
 
 #### Sécurisation
 
-La sécurisation des services REST repose principalement sur l’utilisation de mécanismes d’authentification et d’autorisation adaptés aux échanges HTTP. Ave cled générateurs **Pacman** la gestion des appels sécurisés consiste à utiliser des jetons ("*tokens*"), de type JWT (cas le plus courant de manière générale), émis après une authentification réussie et transmis ensuite à chaque appel de service via l’en-tête Authorization.
+La sécurisation des services REST repose principalement sur l'utilisation de mécanismes d'authentification et d'autorisation adaptés aux échanges HTTP. Ave cled générateurs **Pacman** la gestion des appels sécurisés consiste à utiliser des jetons ("*tokens*"), de type JWT (cas le plus courant de manière générale), émis après une authentification réussie et transmis ensuite à chaque appel de service via l'en-tête Authorization.
 
 Ce processus est transparent dans le cadre de la génération de la cinématique, il existe juste un paramètre supplémentaire pour le passage du jeton. Pour la sécurisation des services (et appels) rest, se reporter à la documentation concernant **Pacman**" backend. 
 
@@ -1931,8 +1935,8 @@ Pour plus d'informations sur le fonctionnement et l'utilisation du système de v
 
 | Métadonnée  | Corps       | Description|
 |-------------|-------------|------------|
-| TXT_PLACEHOLDER | OUI | Texte indicatif tant que l’utilisateur n’a rien saisi |
-| TXT_INFO | OUI | Texte affiché tant que l’utilisateur n’a rien saisi|
+| TXT_PLACEHOLDER | OUI | Texte indicatif tant que l'utilisateur n'a rien saisi |
+| TXT_INFO | OUI | Texte affiché tant que l'utilisateur n'a rien saisi|
 | TXT_ERROR | OUI | Texte affiché sur erreur |
 | TXT_VALID | OUI | Texte affiché sur validation |
 | WITH_PATTERN | OUI | Regex pour vérification champ |
@@ -1972,6 +1976,12 @@ Pour plus d'informations sur le fonctionnement et l'utilisation du système de v
 | WITH_DISABLED | OUI | Désactivation du composant DSFR | 
 | WITH_LIBRARY_NAME | OUI | Nom de la librarie SOA pour l'action | 
 | WITH_TOOLTIP | OUI | Ajout tooltip pour le composant DSFR | 
+| WITH_CUSTOM_STYLE | OUI | Ajout style spécifique pour le composant DSFR | 
+| WITH_PRIORITY | OUI | Spécification style pour le composant DSFR (Button) | 
+| WITH_RIGHT_ICON | OUI | Spécification icone pour le composant DSFR (Button, ButtonSubmit) | 
+| WITH_LEFT_ICON | OUI | Spécification icone pour le composant DSFR (Button, ButtonSubmit) | 
+| WITH_VALUE | OUI | Spécification valeur interne pour le composant DSFR (ButtonSubmit)  | 
+| WITH_URL_PARAMS | OUI | Ajout paramètres pour la transition (Route React) | 
 
 • Liste des règles de validation
 
