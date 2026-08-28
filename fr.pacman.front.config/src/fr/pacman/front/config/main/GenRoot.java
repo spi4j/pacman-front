@@ -17,7 +17,6 @@ import org.obeonetwork.dsl.overview.impl.OverviewFactoryImpl;
 
 import fr.pacman.front.core.generator.PacmanGenerator;
 import fr.pacman.front.core.generator.PacmanGeneratorStart;
-import fr.pacman.front.core.property.project.ProjectProperties;
 
 /**
  * Générateur pour la couche de configuration.

@@ -93,8 +93,7 @@
   or ve.isRadio() or ve.isCheckBox() or ve.isCombo() or ve.isSelect() or ve.isUpload()/]
   
 [comment retourne l'uri react attachée au composant pour les imports./]
-[query public reactUriForElement(ve : view::AbstractViewElement) : String = if (ve.isPassword()) then 
-  '@codegouvfr/react-dsfr/blocks' else '@codegouvfr/react-dsfr' endif/]
+[query public reactUriForElement(ve : view::AbstractViewElement) : String = '@codegouvfr/react-dsfr'/]
    
 [comment vérifie si le layout est à l'intérieur d'un layout horizontal ou si le layout courant est lui même horizontal./]
 [query public isHorizontalLayoutForJs(l : view::Layout, insideHL : Boolean) : Boolean = if insideHL 

@@ -711,7 +711,7 @@
   <img
     src={[ve.nameElementId()/]}
     alt="[ve.description/]"
-    [if (ve.has_metaSize())]
+    [if (ve.hasMetaSize())]
       width={[ve.get_metaSize()/]}
     [else]
       className="fr-responsive-img"

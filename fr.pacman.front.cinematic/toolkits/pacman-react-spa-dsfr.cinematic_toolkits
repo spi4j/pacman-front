@@ -437,7 +437,7 @@
     <metadataDefinitions xmi:id="_fsnnMLMdEfCzjaYQVtxLdA" technicalid="_faANMrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
     <metadataDefinitions xmi:id="_JSgp4J02EfGwlKxejkAo9A" technicalid="_I012cp02EfGwlKxejkAo9A" title="WITH_CUSTOM_STYLE"/>
   </widgets>
-  <widgets xmi:id="_XygxUJH1EfCF6-2aQyGFWw" technicalid="_Xke8YJH1EfCF6-2aQyGFWw" name="Password" icon="/fr.pacman.front.cinematic/icons/Password.png" implementation="PasswordInput" documentation="Aider l’usager à créer ou saisir un mot de passe.">
+  <widgets xmi:id="_XygxUJH1EfCF6-2aQyGFWw" technicalid="_Xke8YJH1EfCF6-2aQyGFWw" name="Password" icon="/fr.pacman.front.cinematic/icons/Password.png" implementation="Input" documentation="Aider l’usager à créer ou saisir un mot de passe.">
     <possibleEvents xmi:id="_dU_IcJMTEfCWNsj-B1W6Gw" technicalid="_a_B9sJMTEfCWNsj-B1W6Gw" name="onChange"/>
     <possibleEvents xmi:id="_e86IgJMTEfCWNsj-B1W6Gw" technicalid="_ereaQJMTEfCWNsj-B1W6Gw" name="onInput"/>
     <possibleEvents xmi:id="_gHH44JMTEfCWNsj-B1W6Gw" technicalid="_fzDGUJMTEfCWNsj-B1W6Gw" name="onFocus"/>
