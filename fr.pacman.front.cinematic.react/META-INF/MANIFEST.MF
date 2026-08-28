@@ -9,9 +9,13 @@ Bundle-Vendor: Cali
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.acceleo.aql,
  org.eclipse.acceleo.query,
+ org.eclipse.ui.console,
+ org.eclipse.jface,
+ org.eclipse.ui,
  fr.pacman.front.core,
  fr.pacman.front.cinematic,
  fr.pacman.front.cinematic.react.client.rs
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
-Export-Package: fr.pacman.front.cinematic.react.main
+Export-Package: fr.pacman.front.cinematic.react.main,
+ fr.pacman.front.cinematic.react.util

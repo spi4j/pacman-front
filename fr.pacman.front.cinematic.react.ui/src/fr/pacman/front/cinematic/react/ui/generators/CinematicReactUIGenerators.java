@@ -7,7 +7,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.Logger;
 
 import fr.pacman.front.cinematic.react.main.GenServer;
-import fr.pacman.front.cinematic.react.main.GenValidation;
 import fr.pacman.front.cinematic.react.ui.plugin.Activator;
 import fr.pacman.front.core.generator.PacmanGenerator;
 import fr.pacman.front.core.ui.generator.PacmanUIGenerator;

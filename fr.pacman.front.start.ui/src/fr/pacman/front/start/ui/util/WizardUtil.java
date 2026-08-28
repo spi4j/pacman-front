@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -18,19 +16,13 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.tm.terminal.view.core.interfaces.constants.ITerminalsConnectorConstants;
-import org.eclipse.tm.terminal.view.ui.interfaces.ILauncherDelegate;
-import org.eclipse.tm.terminal.view.ui.launcher.LauncherDelegateManager;
 import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
-import org.eclipse.ui.views.IViewDescriptor;
-import org.eclipse.ui.views.IViewRegistry;
 
 import fr.pacman.front.core.ui.validation.PacmanUIValidationView;
 import fr.pacman.front.start.ui.activator.Activator;
@@ -57,7 +49,6 @@ public class WizardUtil {
 	private static final String c_view_junit = "org.eclipse.jdt.junit.ResultView";
 	private static final String c_view_html = "fr.pacman.front.start.ui.views.HtmlViewerView";
 	private static final String c_view_progress = "org.eclipse.ui.views.ProgressView";
-	private static final String c_view_tm_terminal = "org.eclipse.tm.terminal.view.ui.TerminalsView";
 	private static final String c_view_validation = PacmanUIValidationView.c_id;
 
 	/**
@@ -65,34 +56,6 @@ public class WizardUtil {
 	 */
 	private WizardUtil() {
 		super();
-	}
-
-	/**
-	 * Vérifie si la vue Eclipse <b>TM Terminal</b> est installée et disponible.
-	 * <p>
-	 * La vérification se fait en recherchant la vue via son ID
-	 * <code>"org.eclipse.tm.terminal.view.ui.TerminalsView"</code>. L'appel est
-	 * exécuté dans le thread UI via {@link Display#syncExec(Runnable)}.
-	 * </p>
-	 *
-	 * @throws IllegalStateException si la vue TM Terminal n'est pas installée ou
-	 *                               n'a pas pu être trouvée dans l'environnement
-	 *                               Eclipse.
-	 */
-	public static void checkTerminalInstalled() throws IllegalStateException {
-		final boolean[] installed = { false };
-		Display.getDefault().syncExec(() -> {
-			IWorkbench workbench = PlatformUI.getWorkbench();
-			if (workbench != null) {
-				IViewRegistry viewRegistry = workbench.getViewRegistry();
-				IViewDescriptor viewDescriptor = viewRegistry.find(c_view_tm_terminal);
-				installed[0] = viewDescriptor != null;
-			}
-		});
-		if (!installed[0]) {
-			throw new IllegalStateException("La vue TM Terminal n'est pas installée. "
-					+ "\nVeuillez installer la vue TM Terminal avant de continuer.");
-		}
 	}
 
 	/**
@@ -127,9 +90,6 @@ public class WizardUtil {
 				if (page != null) {
 					IViewPart view = null;
 					try {
-						view = page.showView(c_view_tm_terminal);
-						tryToOpenLocalTerminal(view, p_project);
-
 						view = page.showView(c_view_console);
 						view = page.showView(c_view_validation);
 						view = page.showView(c_view_log);
@@ -150,57 +110,6 @@ public class WizardUtil {
 					}
 				}
 			}
-		});
-	}
-
-	/**
-	 * Ouvre un terminal local dans Eclipse dans le contexte d'un projet donné.
-	 * <p>
-	 * Cette méthode utilise l'API TM Terminal pour lancer automatiquement une
-	 * session de terminal (cmd.exe sur Windows, /bin/bash sur Linux/macOS) dans la
-	 * racine du projet passé en paramètre. L'exécution est asynchrone sur le thread
-	 * UI d'Eclipse.
-	 * </p>
-	 *
-	 * <p>
-	 * Note : cette méthode doit être appelée sur le thread UI via
-	 * {@link Display#asyncExec(Runnable)}.
-	 * </p>
-	 *
-	 * @param p_view    La vue Eclipse à partir de laquelle ouvrir le terminal. Si
-	 *                  nul, la méthode retourne sans action.
-	 * @param p_project Le projet Eclipse dont la racine sera utilisée comme
-	 *                  répertoire de travail du terminal.
-	 */
-	public static void tryToOpenLocalTerminal(final IViewPart p_view, IProject p_project) {
-		Display.getDefault().asyncExec(() -> {
-			if (p_view == null)
-				return;
-
-			ILauncherDelegate delegate = LauncherDelegateManager.getInstance()
-					.getLauncherDelegate("org.eclipse.tm.terminal.connector.local.launcher.local", true);
-
-			if (delegate == null) {
-				System.err.println("Launcher local introuvable !");
-				return;
-			}
-
-			Map<String, Object> props = new HashMap<>();
-			props.put(ITerminalsConnectorConstants.PROP_DELEGATE_ID,
-					"org.eclipse.tm.terminal.connector.local.launcher.local");
-			props.put(ITerminalsConnectorConstants.PROP_TITLE, "Terminal Local");
-			props.put(ITerminalsConnectorConstants.PROP_FORCE_NEW, Boolean.TRUE);
-
-			if (System.getProperty("os.name").toLowerCase().contains("win")) {
-				props.put(ITerminalsConnectorConstants.PROP_PROCESS_PATH, "cmd.exe");
-				props.put(ITerminalsConnectorConstants.PROP_PROCESS_ARGS, "/k");
-			} else {
-				props.put(ITerminalsConnectorConstants.PROP_PROCESS_PATH, "/bin/bash");
-				props.put(ITerminalsConnectorConstants.PROP_PROCESS_ARGS, "-l");
-			}
-			String workingDir = p_project.getLocation().toOSString();
-			props.put(ITerminalsConnectorConstants.PROP_PROCESS_WORKING_DIR, workingDir);
-			delegate.execute(props, null);
 		});
 	}
 

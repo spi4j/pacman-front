@@ -123,9 +123,6 @@ public class GenerateStartWizard extends Wizard implements INewWizard {
 				IProject project = null;
 
 				try {
-					subMonitor.setTaskName("Vérification de l'existance de la vue tm terminale");
-					WizardUtil.checkTerminalInstalled();
-
 					subMonitor.setTaskName("Réinitialisation des vues");
 					WizardUtil.initViews(subMonitor);
 

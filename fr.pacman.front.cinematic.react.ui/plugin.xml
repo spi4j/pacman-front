@@ -11,6 +11,14 @@
             class="fr.pacman.front.cinematic.react.ui.handlers.CinematicReactValidationGeneratorsHandler"
             commandId="fr.pacman.front.react.validation.ui.commands.ValidationGeneratorCommand">
       </handler>
+      <handler
+            class="fr.pacman.front.cinematic.react.ui.handlers.CinematicReactStartServerGeneratorsHandler"
+            commandId="fr.pacman.front.react.server.start.ui.commands.StartServerGeneratorCommand">
+      </handler>
+      <handler
+            class="fr.pacman.front.cinematic.react.ui.handlers.CinematicReactStopServerGeneratorsHandler"
+            commandId="fr.pacman.front.react.server.stop.ui.commands.StopServerGeneratorCommand">
+      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -71,6 +79,56 @@
                   </with>
                </visibleWhen>
             </command>
+            <command
+                  icon="icons/start.png"
+                  commandId="fr.pacman.front.react.server.start.ui.commands.StartServerGeneratorCommand"
+                  id="fr.pacman.front.react.server.start.ui.commands.StartServerGeneratorCommand" 
+                  label="Démarrage du serveur de développement">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <and>
+                           <instanceof
+                                 value="org.eclipse.core.resources.IFile">
+                           </instanceof>
+                           <test
+                                 property="org.eclipse.core.resources.extension"
+                                 value="cinematic">
+                           </test>
+                        </and>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+            </command>
+            <command
+                  icon="icons/stop.png"
+                  commandId="fr.pacman.front.react.server.stop.ui.commands.StopServerGeneratorCommand"
+                  id="fr.pacman.front.react.server.stop.ui.commands.StopServerGeneratorCommand" 
+                  label="Arrêt du serveur de développement">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <and>
+                           <instanceof
+                                 value="org.eclipse.core.resources.IFile">
+                           </instanceof>
+                           <test
+                                 property="org.eclipse.core.resources.extension"
+                                 value="cinematic">
+                           </test>
+                        </and>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+            </command>
          </menu>
       </menuContribution>
    </extension>
@@ -89,6 +147,16 @@
             categoryId="fr.pacman.front.react.ui.commands.generatorsCategory"
             id="fr.pacman.front.react.validation.ui.commands.ValidationGeneratorCommand"
             name="Validation du fichier de cinématique">
+      </command>
+      <command
+            categoryId="fr.pacman.front.react.ui.commands.generatorsCategory"
+            id="fr.pacman.front.react.server.start.ui.commands.StartServerGeneratorCommand"
+            name="Démarrage du serveur de développement">
+      </command>
+      <command
+            categoryId="fr.pacman.front.react.ui.commands.generatorsCategory"
+            id="fr.pacman.front.react.server.stop.ui.commands.StopServerGeneratorCommand"
+            name="Arrêt du serveur de développement">
       </command>
    </extension>
 </plugin>

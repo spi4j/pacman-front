@@ -31,7 +31,6 @@ import org.obeonetwork.dsl.environment.Namespace;
 
 import fr.pacman.front.core.generator.PacmanGenerator;
 import fr.pacman.front.core.property.PropertiesHandler;
-import fr.pacman.front.core.property.project.ProjectProperties;
 import fr.pacman.front.core.ui.plugin.Activator;
 import fr.pacman.front.core.ui.service.PlugInUtils;
 import fr.pacman.front.core.ui.validation.PacmanUIValidationView;
@@ -58,11 +57,6 @@ public abstract class PacmanUIGenerator extends PacmanUIProjectAction {
 	 */
 	private static final String c_errOptions = "Les options prises lors de la création "
 			+ "de ce projet ne permettent pas l'utilisation de ce générateur. \n\r La génération va être stoppée.";
-
-	/**
-	 * Le profiler pour le réglage des performances lors des générations.
-	 */
-	private PacmanUIAcceleoProfiler _profiler;
 
 	/**
 	 * Le chemin racine pour le projet, il est déduit de la ressource qui a été
@@ -240,16 +234,12 @@ public abstract class PacmanUIGenerator extends PacmanUIProjectAction {
 			@Override
 			public void run(final IProgressMonitor p_monitor) {
 				Monitor monitor = new BasicMonitor();
-				PacmanUIAcceleoProfiler.set_project(null);
 				PropertiesHandler.init(_rootPath.getPath());
 				PacmanValidatorsReport.reset();
 				eraseReportView();
 
 				if (hasSelectionIncompatibilities())
 					return;
-
-				if (ProjectProperties.isProfilerEnabled())
-					_profiler = new PacmanUIAcceleoProfiler();
 
 				for (PacmanGenerator generator : getGenerators()) {
 					generator.setRootPath(_rootPath.getParent());
@@ -316,10 +306,6 @@ public abstract class PacmanUIGenerator extends PacmanUIProjectAction {
 	 * @throws CoreException une exception levée lors de l'exécution du traitement.
 	 */
 	protected void postTreatment() {
-
-		if (ProjectProperties.isProfilerEnabled())
-			_profiler.write();
-
 		for (PacmanGenerator generator : getGenerators()) {
 			final File targetFolder = new File(_rootPath.getParent() + File.separator + generator.getSubProjectName());
 			final IContainer targetWorkspaceContainer = ResourcesPlugin.getWorkspace().getRoot()
