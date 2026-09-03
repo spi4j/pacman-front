@@ -99,6 +99,9 @@
     [if (vc.useEvents())]
       [vc.writeEventsHandler(vs)/]
     [/if]
+    [if (vc.useOnLoadEvents())]
+      [vc.writeOnLoadEventHandler(vs)/]
+    [/if]
     [if (vc.useForm())]
       [vc.writeFormHandler(vs)/]
     [/if]
@@ -353,12 +356,18 @@
               [o.name().apply_methodDefault()/]([o.writeRsInputs()/])
                 .then(rows => {
                   setData_[tb.nameElementId()/](
-                  [(tb.nameElementId() + ' data map').apply_methodDefault()/](rows));}); 
-            [/let]
+                  [(tb.nameElementId() + ' data map').apply_methodDefault()/](rows));})
+                     .catch(error => {
+                        console.error(error);
+                        setGlobalMessage({
+                          text: "Une erreur est survenue lors de l'accès au service.",
+                          severity: "error"
+                        });
+                     });
+             [/let]
           [/if]
         [/let]
       [/for]
-   
     }, ['['/][']'/]);
     
     [for (tb | tbs)]
@@ -414,6 +423,37 @@
   [/for]
 [/template]
 
+[comment écriture de la gestion des événements onLoad pour les vues, les formulaires..etc.. autre que tables./]
+[template private writeOnLoadEventHandler(vc : view::ViewContainer, vs : flow::ViewState)]
+  [let evts = vc.events->select(o | o.isOnLoad())]
+  [if (not evts->isEmpty())]
+    // ----------------------------------------------
+    // Chargement des données (appels des services).
+    // ----------------------------------------------
+    [for (evt | evts)]
+      [let o = evt.rsOperationFromEvent(vs)]
+        const ['['/]data_[o.nameOperation()/], setData_[o.nameOperation()/][']'/] = useState<any['['/][']'/]>(['['/][']'/]);
+      [/let]
+    [/for]
+    
+    useEffect(() => {
+    [for (evt | evts)] 
+    [let o = evt.rsOperationFromEvent(vs)]
+      [o.nameOperation()/]().then(result => {
+         setData_[o.nameOperation()/](result);
+      })
+      .catch(error => {
+         console.error("Erreur lors du chargement des données :", error);
+      });
+      [protected (('use effect form' + o.name).protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+      [/protected]
+    [/let] 
+    [/for]
+    }, ['['/][']'/]);
+  [/if]
+  [/let]
+[/template]
+
 [comment écriture de toute la gestion de formulaire./]
 [template private writeFormHandler(vc : view::ViewContainer, vs : flow::ViewState)]
   [let form = vc.form()]
@@ -422,7 +462,7 @@
     // --------------------------------------------------
     type FormValues = {
       [for (e | vc.eAllContents(view::AbstractViewElement))]
-       [if (e.isEligibleForFormValues())][e.name/] : [e.typeForElement()/];[/if]
+        [if (e.isEligibleForFormValues())][e.name/] : [e.typeForElement()/];[/if]
       [/for]
     };
     
@@ -550,6 +590,9 @@
           });
        }
     };
+    
+    [comment délégation de la gestion des événements onload./]
+    [vc.form().writeOnLoadEventHandler(vs)/]
     
     // ----------------------------------------------
     // Permet de sécuriser la génération automatique.

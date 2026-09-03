@@ -10,6 +10,9 @@
 [import fr::pacman::front::core::convention::rule::VariableNamingRule/]
 [import fr::pacman::front::core::service::AnnotationUtils/]
 
+[comment retourne le nom dpour le fichier de configuration./]
+[query public nameFileConfigJson(any: ecore::EObject) : String = 'config'/] 
+
 [comment retourne le nom de la classe pour un objet sérialisé./]
 [query public nameRsXtoTs(d : environment::DTO) : String = (d.name() + d.suffixXto()).applyNorme_pageDefault()/] 
   

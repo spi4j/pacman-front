@@ -746,6 +746,13 @@
          <option value="[option.tokenize(':')->at(1)/]">[option.tokenize(':')->at(2)/]</option>
        [/if]
      [/for]
+     {/*
+     [protected (('options ' + ve.nameElementId()).protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+       */}
+       
+       {/*
+     [/protected]
+     */}
     </Select>
   [/let]
 [/template]

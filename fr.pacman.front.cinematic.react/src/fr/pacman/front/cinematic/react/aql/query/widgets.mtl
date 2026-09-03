@@ -22,9 +22,13 @@
 [query public useForm(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.isFormPanel())->isEmpty()/]
 
-[comment vérifie si la page encore utilise des éléments avec déclanchement d'événements./]
+[comment vérifie si la page utilise des éléments avec déclanchement d'événements./]
 [query public useEvents(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.events->size() > 0)->isEmpty()/]
+  
+[comment vérifie si la page a besoin d'appel(s) de services lors de son chargement./]
+[query public useOnLoadEvents(vc : view::ViewContainer) : Boolean =  not vc.eAllContents(view::AbstractViewElement)
+  ->select(o | o.events->exists(e | e.type = 'onLoad'))->isEmpty()/]
 
 [comment vérifie si la page en cours nécessite l'utilisation de la sécurité./]
 [query public useSecurity(vc : view::ViewContainer) : Boolean = true/]
@@ -63,7 +67,7 @@
   ->select(o | o.isImage())->isEmpty()/]
   
 [comment retourne le formulaire pour la page (si existe)./]
-[query public form(vc : view::ViewContainer) : view::AbstractViewElement = vc.eAllContents(view::ViewContainer)
+[query public form(vc : view::ViewContainer) : view::ViewContainer = vc.eAllContents(view::ViewContainer)
   ->select(e | e.isFormPanel())->first()/]
   
 [comment vérifie si l'application utilise un en-tete et/ou un pied de page./]

@@ -23,6 +23,9 @@
   
 [comment écriture d'un fichier de type 'js'./]
 [query public toFileTypeJs(fName : String, dName : String) : String = fName.toFile(dName, fName.extensionJavaScript())/]
+  
+[comment écriture d'un fichier de type 'json'./]
+[query public toFileTypeJson(fName : String, dName : String) : String = fName.toFile(dName, fName.extensionJSon())/]
 	
 [comment fName le nom du fichier, path le chemin complet (à formatter correctement), fExt l'extension du fichier./]   
 [query public toFile(fName : String, path : String, fExt : String) : String = path.toPath().toLower() + fName + fExt/]
