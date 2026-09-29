@@ -90,7 +90,7 @@ public class CinematicReactStartServerGeneratorsHandler extends AbstractHandler 
 					modelDirectory.getName().replace("-model", "-server"));
 			ReactServerManager.getInstance().start(serverDirectory);
 		} catch (IOException e) {
-			throw new ExecutionException("Impossible de démarrer le serveur React.", e);
+			throw new ExecutionException("Impossible de démarrer le serveur Vite.", e);
 		}
 	}
 }

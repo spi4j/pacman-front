@@ -9,7 +9,7 @@
     <metadataDefinitions xmi:id="_JuUHEJ6IEfCOGq9oMtmlDw" technicalid="_JaGxop6IEfCOGq9oMtmlDw" title="TXT_INFO" body="Veuillez saisir le champ"/>
     <metadataDefinitions xmi:id="_KChcgJ6IEfCOGq9oMtmlDw" technicalid="_J3BXIp6IEfCOGq9oMtmlDw" title="TXT_VALID" body="Le champ est valide"/>
     <metadataDefinitions xmi:id="_KWzqcJ6IEfCOGq9oMtmlDw" technicalid="_KJ3aop6IEfCOGq9oMtmlDw" title="TXT_ERROR" body="Le champ est en erreur"/>
-    <metadataDefinitions xmi:id="_uAMR0J6VEfCN4vE0a76iPA" technicalid="_tW42Ip6VEfCN4vE0a76iPA" title="WITH_REQUIRED" body="0"/>
+    <metadataDefinitions xmi:id="_uAMR0J6VEfCN4vE0a76iPA" technicalid="_tW42Ip6VEfCN4vE0a76iPA" title="WITH_REQUIRED" body="true"/>
     <metadataDefinitions xmi:id="_xgcqoLMcEfCzjaYQVtxLdA" technicalid="_xEHT8rMcEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
     <metadataDefinitions xmi:id="_qJaD4J01EfGwlKxejkAo9A" technicalid="_psjv0p01EfGwlKxejkAo9A" title="WITH_CUSTOM_STYLE"/>
   </widgets>
@@ -161,6 +161,7 @@
     <metadataDefinitions xmi:id="__j6oMJ02EfGwlKxejkAo9A" technicalid="__Nco8p02EfGwlKxejkAo9A" title="WITH_RIGHT_ICON"/>
     <metadataDefinitions xmi:id="_GN8QMJ03EfGwlKxejkAo9A" technicalid="_F3e4Ap03EfGwlKxejkAo9A" title="WITH_LEFT_ICON"/>
     <metadataDefinitions xmi:id="_wSNc0KBkEfGZZvU-ZP-pkQ" technicalid="_vjZ2EaBkEfGZZvU-ZP-pkQ" title="WITH_VALUE"/>
+    <metadataDefinitions xmi:id="_2ntQYLaLEfGygcMSfDvzvw" technicalid="_2Gc9cLaLEfGygcMSfDvzvw" title="WITH_CONFIRM_POPUP" body="false"/>
   </widgets>
   <widgets xmi:id="_PCz5EJkCEfCCxMPawgpazA" technicalid="_OuLF0JkCEfCCxMPawgpazA" name="ButtonSubmit" icon="/fr.pacman.front.cinematic/icons/Button.png" implementation="Button" documentation="Documentation&#x9;Effectuer une action dans un formulaire.">
     <possibleEvents xmi:id="_clL48JkCEfCCxMPawgpazA" technicalid="_bqxfIJkCEfCCxMPawgpazA" name="onSubmit"/>
@@ -174,6 +175,7 @@
     <metadataDefinitions xmi:id="_CYRmMJ03EfGwlKxejkAo9A" technicalid="_B-Qjsp03EfGwlKxejkAo9A" title="WITH_RIGHT_ICON"/>
     <metadataDefinitions xmi:id="_Ikq3AJ03EfGwlKxejkAo9A" technicalid="_ICTJwp03EfGwlKxejkAo9A" title="WITH_LEFT_ICON"/>
     <metadataDefinitions xmi:id="_zPr6kKBkEfGZZvU-ZP-pkQ" technicalid="_yeBNEqBkEfGZZvU-ZP-pkQ" title="WITH_VALUE"/>
+    <metadataDefinitions xmi:id="_9e8N8LaLEfGygcMSfDvzvw" technicalid="_88iEcraLEfGygcMSfDvzvw" title="WITH_CONFIRM_POPUP" body="false"/>
   </widgets>
   <widgets xmi:id="_rAPcYJHzEfCF6-2aQyGFWw" technicalid="_q08LUJHzEfCF6-2aQyGFWw" name="BreadCrumb" icon="/fr.pacman.front.cinematic/icons/Breadcrumb.png" documentation="Fil d’Ariane qui permet à l’usager de se situer sur le site qu’il consulte.">
     <possibleEvents xmi:id="_rc1IgJL1EfCa3-VOW44b4A" technicalid="_rIi6kJL1EfCa3-VOW44b4A" name="onClick"/>
@@ -599,6 +601,7 @@
     <metadataDefinitions xmi:id="_rXFDMLMdEfCzjaYQVtxLdA" technicalid="_rAqHQrMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>
     <metadataDefinitions xmi:id="_bb204J02EfGwlKxejkAo9A" technicalid="_bHFewp02EfGwlKxejkAo9A" title="WITH_CUSTOM_STYLE"/>
     <metadataDefinitions xmi:id="_t4GXoJ-wEfGqKrcNm18_sA" technicalid="_tABgIZ-wEfGqKrcNm18_sA" title="WITH_LINE_SELECT" body="false"/>
+    <metadataDefinitions xmi:id="_MCwEQLgOEfGzU42GYoC4Vg" technicalid="_LokCobgOEfGzU42GYoC4Vg" title="WITH_EMPTY_MSG" body="Aucune donnée trouvée"/>
   </widgets>
   <widgets xmi:id="_FFo9UKgAEfCTqq3EQF3Ssg" technicalid="_EanqYKgAEfCTqq3EQF3Ssg" name="TableColumn" icon="/fr.pacman.front.cinematic/icons/Table.png">
     <metadataDefinitions xmi:id="_sZErsLMdEfCzjaYQVtxLdA" technicalid="_ryB50rMdEfCzjaYQVtxLdA" title="WITH_CUSTOM_CODE"/>

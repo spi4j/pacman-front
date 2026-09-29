@@ -43,3 +43,7 @@
 [query public hasMetaButtonValue(e : view::AbstractViewElement) : Boolean = e.has_metaButtonValue() and e.get_metaButtonValue().trim().size() > 0/]
 [query public hasMetaUrlParams(t : flow::Transition) : Boolean = t.has_metaUrlParams() and t.get_metaUrlParams().trim().size() > 0/]
 [query public hasMetaLineSelectable(e : view::AbstractViewElement) : Boolean = e.has_metaLineSelectable() and e.get_metaLineSelectable().toBoolean()/]
+[query public hasMetaConfirmPopup(e : view::AbstractViewElement) : Boolean = e.has_metaConfirmPopup() and e.get_metaConfirmPopup().toBoolean()/]
+[query public hasMetaEmptyMessage(e : view::AbstractViewElement) : Boolean = e.has_metaEmptyMessage() and e.get_metaEmptyMessage().trim().size() > 0/]
+[query public hasMetaDefaultValue(e : view::AbstractViewElement) : Boolean = e.has_metaDefaultValue() and e.get_metaDefaultValue().trim().size() > 0/]
+[query public hasMetaRequired(e : view::AbstractViewElement) : Boolean = e.has_metaRequired() and e.get_metaRequired().trim().size() > 0/]

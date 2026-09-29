@@ -83,7 +83,7 @@
                   icon="icons/start.png"
                   commandId="fr.pacman.front.react.server.start.ui.commands.StartServerGeneratorCommand"
                   id="fr.pacman.front.react.server.start.ui.commands.StartServerGeneratorCommand" 
-                  label="Démarrage du serveur de développement">
+                  label="Démarrage du serveur Vite">
                <visibleWhen
                      checkEnabled="false">
                   <with
@@ -108,7 +108,7 @@
                   icon="icons/stop.png"
                   commandId="fr.pacman.front.react.server.stop.ui.commands.StopServerGeneratorCommand"
                   id="fr.pacman.front.react.server.stop.ui.commands.StopServerGeneratorCommand" 
-                  label="Arrêt du serveur de développement">
+                  label="Arrêt du serveur Vite">
                <visibleWhen
                      checkEnabled="false">
                   <with

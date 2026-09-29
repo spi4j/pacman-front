@@ -242,7 +242,7 @@ public class CinematicUtils {
 	 *               transitions ; ne doit pas être {@code null}
 	 * @return une {@link List} contenant toutes les instances de {@link Transition}
 	 *         présentes dans le modèle de {@code p_root}. Si aucune transition
-	 *         n’est trouvée, la liste renvoyée sera vide.
+	 *         n'est trouvée, la liste renvoyée sera vide.
 	 */
 	private static List<Transition> getAllTransitions(CinematicRoot p_root) {
 		Iterable<EObject> allContents = () -> EcoreUtil.getAllContents(p_root, true);
@@ -265,7 +265,7 @@ public class CinematicUtils {
 	 * <ul>
 	 * <li>Si {@code p_layout} est {@code null}, la méthode retourne
 	 * {@code false}.</li>
-	 * <li>Si le conteneur de l’élément de vue de {@code p_layout} n’est pas un
+	 * <li>Si le conteneur de l'élément de vue de {@code p_layout} n'est pas un
 	 * {@link Layout}, la méthode retourne {@code false}.</li>
 	 * <li>Si le layout parent ne contient pas un élément de vue de type
 	 * {@link Layout}, la méthode retourne {@code false}.</li>
@@ -273,7 +273,7 @@ public class CinematicUtils {
 	 * "Table".</li>
 	 * </ul>
 	 *
-	 * @param p_layout le layout dont on veut vérifier s’il est inclus dans un
+	 * @param p_layout le layout dont on veut vérifier s'il est inclus dans un
 	 *                 layout de type "Table"
 	 * @return {@code true} si le layout est contenu dans un layout "Table",
 	 *         {@code false} sinon
@@ -442,34 +442,34 @@ public class CinematicUtils {
 	}
 
 	/**
-	 * Recherche le {@link BoundableElement} lié à l’élément fourni en paramètre.
+	 * Recherche le {@link BoundableElement} lié à l'élément fourni en paramètre.
 	 * <p>
 	 * Cette méthode utilise un {@link ECrossReferenceAdapter} pour analyser le
 	 * modèle et retrouver le premier {@link BindingElement} pour lequel
 	 * {@code p_object} est utilisé comme élément lié à gauche. Elle récupère
-	 * ensuite le {@link BindingReference} correspondant et retourne l’élément lié à
+	 * ensuite le {@link BindingReference} correspondant et retourne l'élément lié à
 	 * droite.
 	 * </p>
 	 *
 	 * <p>
-	 * <strong>Important :</strong> cette implémentation n’est pas encore sécurisée.
+	 * <strong>Important :</strong> cette implémentation n'est pas encore sécurisée.
 	 * Plusieurs cas peuvent entraîner une {@link NullPointerException} ou une
 	 * {@link IndexOutOfBoundsException}, notamment :
 	 * </p>
 	 * <ul>
-	 * <li>aucun {@link BindingElement} ne référence l’élément fourni ;</li>
+	 * <li>aucun {@link BindingElement} ne référence l'élément fourni ;</li>
 	 * <li>la liste retournée par {@code getReferencedByAsLeft()} est vide ;</li>
-	 * <li>l’élément de droite du {@link BindingReference} est manquant.</li>
+	 * <li>l'élément de droite du {@link BindingReference} est manquant.</li>
 	 * </ul>
 	 * <p>
 	 * Des vérifications supplémentaires devront être ajoutées pour sécuriser
 	 * totalement cette méthode.
 	 * </p>
 	 *
-	 * @param p_object l’élément {@link BoundableElement} pour lequel la recherche
+	 * @param p_object l'élément {@link BoundableElement} pour lequel la recherche
 	 *                 de liaison est effectuée ; ne doit pas être {@code null}
-	 * @return l’élément {@link BoundableElement} lié à droite, ou {@code null}
-	 *         lorsque la méthode sera sécurisée et qu’aucune liaison n’est trouvée
+	 * @return l'élément {@link BoundableElement} lié à droite, ou {@code null}
+	 *         lorsque la méthode sera sécurisée et qu'aucune liaison n'est trouvée
 	 */
 	public static BoundableElement rightBoundElement(final BoundableElement p_object) {
 		ECrossReferenceAdapter crossReferencer = getCrossReferencer(p_object);

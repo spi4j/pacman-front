@@ -21,5 +21,6 @@
 [query public isBinded(be : environment::BoundableElement) : Boolean = be <> null and let bindables = be.eAllContents()
   ->select(e | e.oclIsKindOf(environment::BoundableElement)) in if bindables->notEmpty() then bindables
   ->forAll(x | x.rightBoundElement() <> null) else be.rightBoundElement() <> null endif/]
+[comment query public isBinded(be : environment::BoundableElement) : Boolean = be <> null and be.rightBoundElement() <> null /]
 
 

@@ -128,11 +128,11 @@ public class ReactServerManager {
 		}
 
 		showConsole(console);
-		print(console, "Démarrage du serveur React...");
+		print(console, "Démarrage du serveur Vite...");
 		print(console, "Répertoire : " + p_projectDirectory.getAbsolutePath());
 		print(console, "Commande : npm run dev");
 
-		final ProcessBuilder processBuilder = new ProcessBuilder("npm.cmd", "run", "dev");
+		final ProcessBuilder processBuilder = new ProcessBuilder("npm.cmd", "run", "dev", "--", "--force");
 		processBuilder.directory(p_projectDirectory);
 		processBuilder.redirectErrorStream(true);
 		process = processBuilder.start();
@@ -211,7 +211,7 @@ public class ReactServerManager {
 		 */
 		_stopping = true;
 		final long pid = process.pid();
-		print(console, "Arrêt du serveur React...");
+		print(console, "Arrêt du serveur Vite...");
 		print(console, "PID : " + pid);
 
 		/**
@@ -225,10 +225,10 @@ public class ReactServerManager {
 			if (exitCode == 0) {
 				print(console, "Serveur React arrêté.");
 			} else {
-				print(console, "Impossible d'arrêter complètement le serveur React. " + "Code retour : " + exitCode);
+				print(console, "Impossible d'arrêter complètement le serveur Vite. " + "Code retour : " + exitCode);
 			}
 		} catch (IOException e) {
-			print(console, "Erreur lors de l'arrêt du serveur React : " + e.getMessage());
+			print(console, "Erreur lors de l'arrêt du serveur Vite : " + e.getMessage());
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 			print(console, "Arrêt du serveur React interrompu.");

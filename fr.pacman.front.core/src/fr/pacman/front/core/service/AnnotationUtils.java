@@ -323,6 +323,14 @@ public final class AnnotationUtils {
 		return is_annotationExists(p_object, AnnotationEnum.WITH_LEFT_ICON);
 	}
 
+	public static boolean has_metaEmptyMessage(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_EMPTY_MESSAGE);
+	}
+
+	public static String get_metaEmptyMessage(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_EMPTY_MESSAGE);
+	}
+
 	public static String get_metaCustomStyle(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.WITH_CUSTOM_STYLE);
 	}
@@ -351,6 +359,14 @@ public final class AnnotationUtils {
 		return is_annotationExists(p_object, AnnotationEnum.INPUT_WITH_REQUIRED);
 	}
 
+	public static boolean has_metaConfirmPopup(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_CONFIRM_POPUP);
+	}
+
+	public static String get_metaConfirmPopup(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_CONFIRM_POPUP);
+	}
+
 	public static String get_metaRequired(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_REQUIRED);
 	}
@@ -377,6 +393,14 @@ public final class AnnotationUtils {
 
 	public static String get_metaMax(final AbstractViewElement p_object) {
 		return get_annotationBody(p_object, AnnotationEnum.INPUT_WITH_VALUE_MAX);
+	}
+
+	public static boolean has_metaDefaultValue(final AbstractViewElement p_object) {
+		return is_annotationExists(p_object, AnnotationEnum.WITH_DEFAULT_VALUE);
+	}
+
+	public static String get_metaDefaultValue(final AbstractViewElement p_object) {
+		return get_annotationBody(p_object, AnnotationEnum.WITH_DEFAULT_VALUE);
 	}
 
 	public static boolean has_metaMin(final AbstractViewElement p_object) {

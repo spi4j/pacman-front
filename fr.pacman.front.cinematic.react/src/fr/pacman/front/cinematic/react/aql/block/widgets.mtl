@@ -221,10 +221,17 @@
      [if (ve.hasMetaIcon())]illustration: <img alt="illustration" src={[ve.nameElementId()/]Ico}/>,[/if]
      hintText: "[ve.description/]",
      label: "[ve.label/]",
-     nativeInputProps: {
-       ...register("[ve.eContainer().nameElementId()/]", { required: "[ve.eContainer().get_metaTextError()/]" }),
-       value: "[ve.get_metaValue()/]",
-     },
+     [if (ve.eContainer().hasMetaRequired() and ve.eContainer().get_metaRequired() = 'true')]
+       nativeInputProps: {
+           ...register("[ve.eContainer().nameElementId()/]", { required: "[ve.eContainer().get_metaTextError()/]" }),
+           value: "[ve.get_metaValue()/]",
+         },
+     [else]
+       nativeInputProps: {
+           ...register("[ve.eContainer().nameElementId()/]"),
+           value: "[ve.get_metaValue()/]",
+         },
+     [/if]
     },
 [/template]
  
@@ -246,13 +253,14 @@
   />
 [/template]
 
+
 [template private writeCheckBox (ve : view::AbstractViewElement)]
   [let v = ve.oclAsType(view::ViewElement)]
     {
        [if (ve.hasMetaDisabled() and 'true'.equalsIgnoreCase(ve.get_metaDisabled()))]disabled[/if]
        hintText: "[ve.description/]",
        label: "[ve.label/]",
-       [if (v.required and ve.eContainer().hasMetaNbRequired())]
+       [if (v.required)]
          nativeInputProps: {
            ...register("[ve.eContainer().nameElementId()/]", {
            validate: (value, allValues) =>
@@ -333,6 +341,9 @@
         iconPosition="left"[/if]
       [if (ve.hasMetaButtonValue())]
         value="[ve.get_metaButtonValue()/]"
+      [/if]
+      [if (ve.hasMetaConfirmPopup())]
+        [ve.writeModalDialogCall()/]
       [/if]>[ve.label/]</Button>
 [/template]
 
@@ -809,8 +820,19 @@
     [if (ve.hasMetaLineSelectable())]className="line-selectable-table"[/if]
     caption="[ve.label/]"
     data={
+      data_[ve.nameElementId()/].length === 0
+         ? ['[['/]
+         <span style={{ display: "block", width: "max-content", minWidth: "100%" }}>
+         [if (ve.hasMetaEmptyMessage())][ve.get_metaEmptyMessage()/][else]Aucune donnée à afficher[/if]</span>,
+         [comment ve.eAllContents()->select(o | o.isTableColumn())->collect(o2 | '""')->sep(',')/]
+         [if (ve.useButtonEdition())]"",[/if][if (ve.hasMetaLineSelectable())]"",[/if]
+         [ve.eAllContents()->select(o | o.isTableColumn())
+          ->subSequence(2, ve.eAllContents()
+          ->select(o | o.isTableColumn())->size())
+          ->collect(o2 | '""')->sep(',')/]
+         [']]'/]	
       [if (ve.useButtonEdition())]
-        data_requestsInProgressTable.map((row) => {
+        :data_requestsInProgressTable.map((row) => {
           // On clone la ligne pour ne pas modifier les données originales
           const displayRow = ['['/]...row[']'/];
           Object.entries(selectColumns).forEach((['['/]colIndex, labelMap[']'/]) => {
@@ -820,7 +842,7 @@
             displayRow['['/]index[']'/] = labelMap['['/]code[']'/];
           }
         });
-        // On ajoute le bouton d’édition à la fin
+        // On ajoute le bouton d'édition à la fin
         return ['['/]
           ...displayRow,
           <Button
@@ -836,7 +858,7 @@
         })}
       [else]
         [if (ve.hasMetaLineSelectable())]
-          data_[ve.nameElementId()/].map((row, index) => ['['/]
+          :data_[ve.nameElementId()/].map((row, index) => ['['/]
             <input
               type="radio"
               name="selected[ve.nameElementId()/]"
@@ -847,7 +869,7 @@
             ...row
           [']'/])
         [else]
-          data_[ve.nameElementId()/]
+          :data_[ve.nameElementId()/]
         [/if]
         }
       [/if]
@@ -1006,7 +1028,7 @@
     brandTop={<>[if (ve.hasMetaBrandTop())][ve.get_metaBrandTop()/][else]INTITULE<br />OFFICIEL[/if]</>}
     homeLinkProps={{
     href: "/",
-    title: "[if (ve.hasMetaToolTip())][ve.get_metaTooltip()/][else]Accueil - Nom de l’entité[/if]"
+    title: "[if (ve.hasMetaToolTip())][ve.get_metaTooltip()/][else]Accueil - Nom de l'entité[/if]"
   }}
   id="[ve.nameElementId()/]"
   serviceTagline="[ve.description/]"
@@ -1046,6 +1068,49 @@
 [template private writeBloc(ve : view::AbstractViewElement)]
    <div><p/>
      <h4 style={{ marginLeft: "-1rem" }}>[ve.label/]</h4>
+[/template]
+
+[template private writeModalDialogCall(ve : view::AbstractViewElement)]
+  onClick={async (event) => {
+    const button = event.currentTarget;
+    const form = button.form;
+    event.preventDefault();
+    const result = await openModal ({
+      [protected ((ve.nameElementId() + 'dialog modal').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+        title: "Confirmation",
+        body: "Voulez-vous supprimer cette donnée ?"
+      [/protected]
+    });
+    if (result?.doProceed) {
+      form?.requestSubmit(button);
+    }
+  }}
+[/template]
+
+[template public writeModalDialog(ve : view::AbstractViewElement)]
+  <modal.Component
+    title={openState?.dialogParams.title}
+    buttons={['['/]
+    {       children: 'Annuler',
+       onClick: () => {
+         openState?.resolve({ doProceed: false })
+         setOpenState(undefined)
+       },
+     },
+     {
+        children: 'Ok',
+        onClick: () => {
+        openState?.resolve({
+          doProceed: true
+        })
+        setOpenState(undefined)
+     },
+    },
+    [']'/]}
+    concealingBackdrop={true}
+    >
+    {openState?.dialogParams.body}
+  </modal.Component>
 [/template]
 
 [template private writeFooter(ve : view::AbstractViewElement)]   

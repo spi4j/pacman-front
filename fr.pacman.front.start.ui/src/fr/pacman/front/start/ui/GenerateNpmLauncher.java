@@ -76,12 +76,13 @@ public class GenerateNpmLauncher {
 					executeCommand(p_projectDir, out, p_npmExec, "install");
 
 					// Installer react-dsfr avec l'option --save
-					//out.println("Installation de @codegouvfr/react-dsfr");
-					//executeCommand(p_projectDir, out, p_npmExec, "install", "--save", "@codegouvfr/react-dsfr");
+					// out.println("Installation de @codegouvfr/react-dsfr");
+					// executeCommand(p_projectDir, out, p_npmExec, "install", "--save",
+					// "@codegouvfr/react-dsfr");
 
 					if (p_runDev) {
 						out.println("Lancement de npm run dev");
-						executeCommand(p_projectDir, out, p_npmExec, "run", "dev");
+						executeCommand(p_projectDir, out, p_npmExec, "run", "dev", "--", "--force");
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -93,7 +94,7 @@ public class GenerateNpmLauncher {
 		npmJob.setUser(true);
 		npmJob.schedule();
 	}
-	
+
 //	public static void launchNpm(File p_projectDir, boolean p_runDev, String p_npmExec) {
 //	    Job npmJob = new Job("NPM install / run") {
 //	        @Override
@@ -124,7 +125,6 @@ public class GenerateNpmLauncher {
 //	    npmJob.setUser(true);
 //	    npmJob.schedule();
 //	}
-
 
 	/**
 	 * Exécute une commande système dans le répertoire spécifié et redirige la

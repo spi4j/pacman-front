@@ -4,7 +4,8 @@
 				'http://www.obeonetwork.org/dsl/cinematic/toolkits/1.0.0',
 				'http://www.obeonetwork.org/dsl/environment/3.0.0',
 				'http://www.obeonetwork.org/dsl/soa/4.0.0')/]
-				
+
+[import fr::pacman::front::core::aql::base /]				
 [import fr::pacman::front::core::aql::name::name /]
 [import fr::pacman::front::core::aql::name::eobjects /]
 [import fr::pacman::front::core::aql::name::directories /]
@@ -61,7 +62,7 @@
 [comment aiguillage pour l'écriture d'une page typescript + code jsx (panel)./]				
 [template public pageJsxImpl (vc : view::ViewContainer, vs : flow::ViewState )]
   import React from "react";
-  import { useEffect, useState } from "react";
+  import { useEffect, useState, useId } from "react";
   import { useNavigate, useLocation, useParams } from "react-router-dom";
   import { useAuth } from "../contexts/AuthContext";
   [if (vc.isHeaderPanel() or vc.isFooterPanel())][vc.pageJsxHFImpl(vs)/][else][vc.pageJsxSDImpl(vs)/][/if]
@@ -92,7 +93,13 @@
   [vc.writeAdditionalWidgetImports(vs, true)/]
   
   export default function [vc.namePageJsx()/] () {
+  
+    [protected ((vc.nameElementId() + '-custom-code-begin').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+    [/protected]
     
+    [if (vc.useModalDialogs())]
+      [vc.writeModalDialogsHandler(vs)/]
+    [/if]
     [if (vc.useSecurity())]
       [vc.writeSecurityHandler(vs)/]
     [/if]
@@ -115,12 +122,15 @@
       [vc.writeRestCallsHandler(vs)/]
     [/if]
     
-    [protected ((vc.nameElementId() + '-custom-code').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+    [protected ((vc.nameElementId() + '-custom-code-end').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
     [/protected]
     
     return (
       <>
         [body/]
+        [if (vc.useModalDialogs())]
+          [vc.writeModalDialog()/]
+        [/if]
       </>
     );
   }
@@ -155,7 +165,12 @@
 
 [comment écriture du code de fermeture pour un layout./]
 [template private closeLayout(l : view::Layout, insideHl :: Boolean, allowCssPos :: Boolean, allowFdsPos :: Boolean)]
-  [if (l.isContainer())][l.viewElement.writeCloseViewElement(l.isHorizontalLayoutForJs(insideHl))/][/if]
+  [if (l.isContainer())]
+    [let ve = l.viewElement]
+      [ve.writeCloseViewElement(l.isHorizontalLayoutForJs(insideHl))/]
+      [if (ve.hasMetaCustomCode())][ve.writeCustomCodeEndBlock()/][/if]
+    [/let]
+  [/if]
   [if (allowFdsPos)][l.writeCloseFormFieldSet()/][/if]
   [if (insideHl and allowCssPos)][l.writeCloseHorizontalBloc()/][/if]
 [/template]
@@ -163,18 +178,12 @@
 [comment écriture d'un élement, qu'il s'agisse d'un conteneur ou d'un élément standard./]
 [template private writeElement(ve : view::AbstractViewElement, insideHl :: Boolean)]
   [if (ve <> null)]
-    [if (ve.hasMetaCustomCode())][ve.writeCustomCode()/][/if]
+    [if (ve.hasMetaCustomCode())][ve.writeCustomCodeBeginBlock()/][/if]
     [ve.writeOpenViewElement(insideHl)/]
+    [if (ve.hasMetaCustomCode() and not ve.isContainer())][ve.writeCustomCodeEndBlock()/][/if]
   [/if]
 [/template]
 
-[comment écriture d'une zone libre de code pour positionner du code javascript./]
-[template private writeCustomCode(ve : view::AbstractViewElement)]
-  {/* [protected ((ve.nameElementId() + '-custom-code').protectedId()) startTagPrefix('// ') endTagPrefix('// ')] */}
-  [ve.get_metaCustomCode()/]
-  {/* [/protected] */}
-[/template]
-  
 [comment écriture pour l'ouverture d'un bloc horizontal./]
 [template private writeOpenHorizontalBloc (l : view::Layout)]
   [if (l.isFirstLayoutOfHorizontalContainer())]
@@ -276,6 +285,51 @@
   }
 [/template]
 
+[comment écriture des fonctions pour la gestion des fenêtres modales de confirmation./]
+[template private writeModalDialogsHandler(vc :: view::ViewContainer, vs : flow::ViewState)]
+  // -------------------------------------------------
+  // Pilotage pour une fenêtre modale de confirmation.
+  // -------------------------------------------------
+  const id = useId();
+  const ['['/]modal[']'/] = useState(() =>
+     createModal({
+       id: `myDialog-${id}`,
+       isOpenedByDefault: false,
+     })
+  );
+  type DialogParams = {
+    title: string;
+    body: string;
+  };
+  type DialogResponse = {
+    doProceed: boolean;
+  };
+  const ['['/]openState, setOpenState[']'/] = useState<
+    | {
+        dialogParams: DialogParams;
+        resolve: (params: DialogResponse) => void
+      }
+    | undefined
+  >(undefined);
+  
+  const openModal = (dialogParams: DialogParams) =>
+    new Promise<DialogResponse>((resolve) => {
+       setOpenState({
+          dialogParams,
+          resolve,
+       });
+    modal.open();
+   });
+   
+   useIsModalOpen(modal, {
+     onConceal: async () => {
+       openState?.resolve({ doProceed: false });
+       setOpenState(undefined);
+     }
+   });
+   
+[/template]
+
 [comment écriture des fonctions pour les appels de service rest./]
 [template private writeRestCallsHandler(vc :: view::ViewContainer, vs : flow::ViewState)]
   [vc.lineSeparator()/]
@@ -334,41 +388,44 @@
       };
     [/if]
     
-    // ----------------------------------------------
-    // Chargement des données (appels des services).
-    // ----------------------------------------------
-    useEffect(() => {
-      [protected ('use effect'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+    // -----------------------------------------------------------
+    // Chargement des données pour les tables (appels des services).
+    // ----------------------------------------------------------
+    [comment on verrouille car il est possible que des tables ne soient pas chargées au démarrage./]
+    [comment if (tbs->useOnLoadEvents())/]
+      useEffect(() => {
+        [protected ('use effect tables'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+          [for (tb | tbs)]
+            setData_[tb.nameElementId()/](getFakeTableData_[tb.nameElementId()/]());
+          [/for]
+        [/protected]
+        
         [for (tb | tbs)]
-          setData_[tb.nameElementId()/](getFakeTableData_[tb.nameElementId()/]());
+          [comment pour l'instant un seul événement authorisé./]
+          [let evt = tb.events->select(o | o.isOnLoad())]
+            [if (not evt->isEmpty() and tb.isBinded())]
+              [let o = evt->first().rsOperationFromEvent(vs)]
+                [protected ((o.name() + tb.nameElementId()).protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+                  // Placer ici le code pour l'initialisation des paramètres en entrée.
+                [/protected]
+                
+                [o.name().apply_methodDefault()/]([o.writeRsInputs()/])
+                  .then(rows => {
+                    setData_[tb.nameElementId()/](
+                    [(tb.nameElementId() + ' data map').apply_methodDefault()/](rows));})
+                       .catch(error => {
+                          console.error(error);
+                          setGlobalMessage({
+                            text: "Une erreur est survenue lors de l'accès au service.",
+                            severity: "error"
+                          });
+                       });
+               [/let]
+            [/if]
+          [/let]
         [/for]
-      [/protected]
-      
-      [for (tb | tbs)]
-        [comment pour l'instant un seul événement authorisé./]
-        [let evt = tb.events->select(o | o.isOnLoad())]
-          [if (not evt->isEmpty() and tb.isBinded())]
-            [let o = evt->first().rsOperationFromEvent(vs)]
-              [protected ((o.name() + tb.nameElementId()).protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
-                // Placer ici le code pour l'initialisation des paramètres en entrée.
-              [/protected]
-              
-              [o.name().apply_methodDefault()/]([o.writeRsInputs()/])
-                .then(rows => {
-                  setData_[tb.nameElementId()/](
-                  [(tb.nameElementId() + ' data map').apply_methodDefault()/](rows));})
-                     .catch(error => {
-                        console.error(error);
-                        setGlobalMessage({
-                          text: "Une erreur est survenue lors de l'accès au service.",
-                          severity: "error"
-                        });
-                     });
-             [/let]
-          [/if]
-        [/let]
-      [/for]
-    }, ['['/][']'/]);
+      }, ['['/][']'/]);
+    [comment /if/]
     
     [for (tb | tbs)]
       [if (tb.isBinded())]
@@ -381,14 +438,26 @@
              [/protected]
              .map(req => { 
              const row = ['['/]
-             [for (e | tb.ownedElements)]
-               req.[e.rightBoundElement().oclAsType(environment::Attribute).nameAttribute()/] ?? "",
-             [/for]
+               [for (tc | tb.ownedElements)]
+                 [tc.writeTableColumnBinding()/]
+               [/for]
              [']'/];
+             
              [protected ((tb.nameElementId() + 'map-2').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
              [/protected]
              return row;
            });
+         }
+         
+         // -----------------------------------
+         // Gestion des valeurs pour l'affichage
+         // ------------------------------------
+         function defaultIfEmpty(value: any, defaultValue: any) {
+           return value === null
+             || value === undefined
+             || value === ""
+             || (Array.isArray(value) && value.length === 0)
+             ? defaultValue : value;
          }
        [/if]
    [/for]
@@ -427,9 +496,9 @@
 [template private writeOnLoadEventHandler(vc : view::ViewContainer, vs : flow::ViewState)]
   [let evts = vc.events->select(o | o.isOnLoad())]
   [if (not evts->isEmpty())]
-    // ----------------------------------------------
-    // Chargement des données (appels des services).
-    // ----------------------------------------------
+    // -------------------------------------------------------
+    // Chargement des données sur onload (appels des services).
+    // -------------------------------------------------------
     [for (evt | evts)]
       [let o = evt.rsOperationFromEvent(vs)]
         const ['['/]data_[o.nameOperation()/], setData_[o.nameOperation()/][']'/] = useState<any['['/][']'/]>(['['/][']'/]);
@@ -481,6 +550,7 @@
       watch,
       register, 
       setValue,
+      getValues,
       handleSubmit, 
       formState: { errors, dirtyFields }, 
     } = useForm<FormValues>({
@@ -515,6 +585,7 @@
       try {
         console.log("Formulaire soumis :", data);
         const isValid = await validateAndExecuteForm(data);
+        let doDefaultAction = true;
         
         const action = event?.nativeEvent 
            ? (event.nativeEvent as SubmitEvent).submitter as HTMLButtonElement 
@@ -553,6 +624,7 @@
            modal.close();
          [/if]
          [for (f | vc.eAllContents(view::ViewContainer)->select(o | o.isFormPanel()))]
+           [comment]            
            [let buttons = f.ownedElements->select(o | o.isButtonSubmit())]
              [if (not buttons->isEmpty())]
                [let button = buttons->first()]
@@ -565,6 +637,25 @@
                    [/if]
                  [/let]
                [/let]
+             [/if]
+           [/let]
+           [/comment]
+           [let buttons = f.ownedElements->select(o | o.isButtonSubmit())]
+             [if (not buttons->isEmpty())]
+               // Mettre doDefaultAction) false si le traitement doit être reporté 
+               // plus haut ou plus bas au niveau des balises de code personnalisé.
+               if (doDefaultAction) {
+                 const payload = [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data);
+                 [for (button | buttons)]
+                   [let evts = button.events->select(o1 | o1.isOnSubmit())]
+                     [if (not evts->isEmpty() and evts->first().rsOperationFromEvent(vs) <> null)]
+                       [let op = evts->first().rsOperationFromEvent(vs)]
+                         const result[buttonIndex/] = await [op.nameOperation()/]([op.writePayloadParams()/]);
+                       [/let]
+                     [/if]
+                   [/let]
+                 [/for]
+               }
              [/if]
            [/let]
          [/for]
@@ -585,7 +676,7 @@
       } catch (error) {
           console.error(error);
           setGlobalMessage({
-            text: "Une erreur est survenue lors de l’accès au service.",
+            text : error.response?.data?.message ?? "Une erreur est survenue lors de l'accès au service.",
             severity: "error",
           });
        }
@@ -629,21 +720,24 @@
     }
     
     [for (f | vc.eAllContents(view::ViewContainer)->select(o | o.isFormPanel()))]
-      [let oe = f.ownedElements->select(o | o.isBinded())]
+      [let oe = f.eAllContents(view::AbstractViewElement)->select(o | o.isBinded())]
         [if (not oe->isEmpty())]
           // ---------------------------------------------
           // Peuplement des données pour le(s) service(s).
           // ---------------------------------------------
-          [protected ((f.nameElementId() + ' payload').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
-            function [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data : FormValues) 
-            {
+          function [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data : FormValues) 
+          {
+            [protected ((f.nameElementId() + ' payload').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+              
+              // Retournez dans tous les cas un objet de transfert avec les noms des attributs
+              // attendus pas les service (voir les lignes await ['['/]nom du service[']'/](payload.xxx, payload.yyy))
               return {
                 [for (e | oe)]
                   [e.rightBoundElement().oclAsType(environment::Attribute).nameAttribute()/]: data.[e.nameElementId()/],
                 [/for]
               };
-            }
-          [/protected]
+            [/protected]
+          }
         [/if] 
       [/let]
     [/for]
@@ -709,6 +803,10 @@
     [if (vc.useTables())]
       import { fakerFR } from '@faker-js/faker';
     [/if]
+  [/if]
+  [if (vc.useModalDialogs())]
+    import { createModal } from "@codegouvfr/react-dsfr/Modal"
+    import { useIsModalOpen } from "@codegouvfr/react-dsfr/Modal/useIsModalOpen"
   [/if]
   
   [vc.writeProtectedZoneBeforeFunction()/]
@@ -792,3 +890,22 @@
 [comment écriture des paramètres pour l'url (si besoin)./]
 [query private writeUrlParams(rt :: flow::Transition) : String = '' + if (rt.hasMetaUrlParams()) then '/' + rt.get_metaUrlParams()
   .tokenize(',')->collect(option | ':' + option.trim())->sep('/') else '' endif/]
+
+[comment écriture d'une zone libre de code pour positionner du code javascript./]
+[query private writeCustomCodeBeginBlock(ve : view::AbstractViewElement) : String = let cc = ve.get_metaCustomCode() in
+   if (cc.index(cc.cWidget()) <> -1) then cc.substring(1, cc.index(cc.cWidget())-1) else cc endif/]
+
+[comment écriture d'une zone libre de code pour positionner du code javascript./]
+[query private writeCustomCodeEndBlock(ve : view::AbstractViewElement) : String = let cc = ve.get_metaCustomCode() in 
+  if (cc.index(cc.cWidget()) <> -1) then cc.substring(cc.index(cc.cWidget()) + cc.cWidget().size(), cc.size()) 
+  else '' endif/]
+
+[comment écriture de la liste des paramètres en entrée pour le service. Comme c'est un formulaire à 
+         priori toujours au moins un paramètre./]
+[query private writePayloadParams(o : soa::Operation) : String = '' + if (o.input->size() == 1) then 'payload' 
+  else o.input->collect(p | 'payload.' + p.name())->sep(', ') endif/]
+
+[comment écriture du biding pour les données au niveau des tables./]
+[query private writeTableColumnBinding(tc : view::AbstractViewElement) : String = 'defaultIfEmpty(req.' 
+  + tc.rightBoundElement().oclAsType(environment::Attribute).nameAttribute() + ', ' + if (tc.hasMetaDefaultValue()) then '"' 
+  + tc.get_metaDefaultValue() +'"' else '""' endif + '),'/]

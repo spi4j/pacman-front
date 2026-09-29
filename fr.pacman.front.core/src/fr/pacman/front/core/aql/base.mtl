@@ -45,7 +45,10 @@
 
 [comment retourne le message à afficher si une description est manquante./]
 [query public cNoDescription(e : ecore::EObject) : String = 'DESCRIPTION A IMPLEMENTER'/]
-  
+
 [comment retourne le message à afficher si la modélisation est manquante par rapport à ce qui est demandé./]
 [query public cNoModelisation(e : ecore::EObject) : String = 'ERREUR DE MODELISATION'/]
+
+[comment retourne la chaine à trouver si le widget est entouré de code custom./]
+[query public cWidget(e : ecore::EObject) : String = '<!WIDGET>'/]
 

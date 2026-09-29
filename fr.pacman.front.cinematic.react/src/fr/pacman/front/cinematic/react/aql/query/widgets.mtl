@@ -26,9 +26,13 @@
 [query public useEvents(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.events->size() > 0)->isEmpty()/]
   
-[comment vérifie si la page a besoin d'appel(s) de services lors de son chargement./]
-[query public useOnLoadEvents(vc : view::ViewContainer) : Boolean =  not vc.eAllContents(view::AbstractViewElement)
-  ->select(o | o.events->exists(e | e.type = 'onLoad'))->isEmpty()/]
+[comment vérifie si la page a besoin d'appel(s) de services lors de son chargement (hormis les tables)./]
+[query public useOnLoadEvents(vc : view::ViewContainer) : Boolean =
+  not vc.eAllContents(view::AbstractViewElement)->select(o | not o.isTable() 
+  and o.events->exists(e | e.type = 'onLoad'))->isEmpty()/]
+
+[comment vérifie si les tables utilisent des services lors de leur chargement./]
+[query public useOnLoadEvents(tbs : Sequence(view::ViewContainer)) : Boolean = not tbs->select(o | not o.events->exists(e | e.type = 'onLoad') ->isEmpty())->isEmpty()/]
 
 [comment vérifie si la page en cours nécessite l'utilisation de la sécurité./]
 [query public useSecurity(vc : view::ViewContainer) : Boolean = true/]
@@ -41,6 +45,10 @@
 [query public useTables(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.isTable())->isEmpty()/]
   
+[comment vérifie si la page en cours ustile une ou plusieurs fenêtre de confirmation./]
+[query public useModalDialogs(vc : view::ViewContainer) : Boolean =  not vc.eAllContents(view::AbstractViewElement)
+  ->select(o | (o.isButtonSubmit() or o.isButton()) and o.hasMetaConfirmPopup())->isEmpty()/]
+
 [comment vérifie si la page en cours utilise une (ou plusieurs) table(s) en édition./]
 [query public useTablesEdition(vc : view::ViewContainer) : Boolean = not vc.eAllContents(view::AbstractViewElement)
   ->select(o | o.isTable() and o.useButtonEdition())->isEmpty()/]
