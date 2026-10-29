@@ -88,6 +88,24 @@
   [vc.layout.writeLayouts().writePageJsx(vc, vs)/]
 [/template]
 
+[comment écriture de la fonction pour la récupération des messages./]
+[template private writeMessageHandler(vc : view::ViewContainer, vs : flow::ViewState )]
+  // --------------------------------
+  // Récupération des messages.
+  // --------------------------------
+  function getErrorMessage(error: any): string {
+    [protected ('global error api messages'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+    
+      return (
+        error.response?.data?.message ??
+        "Une erreur est survenue lors de l'accès au service."
+        );
+      }
+      
+    [/protected]
+  
+[/template]
+
 [comment écriture du corps de la page typescript + code jsx (simple factorisation)./]
 [template private writePageJsx(body : String, vc : view::ViewContainer, vs : flow::ViewState)]
   [vc.writeAdditionalWidgetImports(vs, true)/]
@@ -97,6 +115,9 @@
     [protected ((vc.nameElementId() + '-custom-code-begin').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
     [/protected]
     
+    [if (vc.useForm())]
+      [vc.writeMessageHandler(vs)/]
+    [/if]
     [if (vc.useModalDialogs())]
       [vc.writeModalDialogsHandler(vs)/]
     [/if]
@@ -547,9 +568,12 @@
     // -----------------------------------------------------------------------------------
     const { 
       reset,
+      resetField,
       watch,
       register, 
       setValue,
+      setError,
+      clearErrors,
       getValues,
       handleSubmit, 
       formState: { errors, dirtyFields }, 
@@ -567,7 +591,7 @@
     // ----------------------------------------------
     // Traitement métier pour la page.
     // -----------------------------------------------
-    async function validateAndExecuteForm(data: FormValues): Promise<boolean> {
+    async function validateAndExecuteForm(data: FormValues, actionValue?: string): Promise<boolean> {
       console.log("Validation exécutée :", data);
       [protected ('validate form [vc.nameElementId()/]'.protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
         return true;
@@ -583,15 +607,16 @@
       ) => {
       
       try {
+         let doDefaultAction = true;
         console.log("Formulaire soumis :", data);
-        const isValid = await validateAndExecuteForm(data);
-        let doDefaultAction = true;
         
         const action = event?.nativeEvent 
            ? (event.nativeEvent as SubmitEvent).submitter as HTMLButtonElement 
            : null;
         const actionValue = action?.value;
         console.log("Action :", actionValue);
+        
+        const isValid = await validateAndExecuteForm(data, actionValue);
         
         if (!isValid) {
           setGlobalMessage({ 
@@ -631,7 +656,7 @@
                  [let evts = button.events->select(o1 | o1.isOnSubmit())]
                    [if (not evts->isEmpty())]
                      [let evt = evts->first()]
-                       const payload = [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data);
+                       const payload = [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data, actionValue);
                        const result = await [evt.rsOperationFromEvent(vs).nameOperation()/](payload);
                      [/let]
                    [/if]
@@ -645,9 +670,9 @@
                // Mettre doDefaultAction) false si le traitement doit être reporté 
                // plus haut ou plus bas au niveau des balises de code personnalisé.
                if (doDefaultAction) {
-                 const payload = [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data);
+                 const payload = [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data, actionValue);
                  [for (button | buttons)]
-                   [let evts = button.events->select(o1 | o1.isOnSubmit())]
+                   [let evts = button.events->select(o1 | o1.isOnSubmit() or o1.isOnClick())]
                      [if (not evts->isEmpty() and evts->first().rsOperationFromEvent(vs) <> null)]
                        [let op = evts->first().rsOperationFromEvent(vs)]
                          const result[buttonIndex/] = await [op.nameOperation()/]([op.writePayloadParams()/]);
@@ -667,8 +692,9 @@
             text: "[form.get_metaTextSuccess()/]", 
             severity: "success",
          });
+         [comment uniquement si un seul événement sinon à gérer en user code./]
          [let onSubmit = vc.eAllContents(view::ViewEvent)->select(e | e.isOnSubmit())]
-           [if (not onSubmit->isEmpty() and onSubmit->first().get_urlForPageJsx().exists())]
+           [if (onSubmit->size() == 1 and onSubmit->first().get_urlForPageJsx().exists())]
              navigate("/[onSubmit->first().get_urlForPageJsx()/]");
            [/if]
          [/let]
@@ -676,7 +702,7 @@
       } catch (error) {
           console.error(error);
           setGlobalMessage({
-            text : error.response?.data?.message ?? "Une erreur est survenue lors de l'accès au service.",
+            text : getErrorMessage(error),
             severity: "error",
           });
        }
@@ -725,7 +751,7 @@
           // ---------------------------------------------
           // Peuplement des données pour le(s) service(s).
           // ---------------------------------------------
-          function [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data : FormValues) 
+          function [('build ' + f.nameElementId() + ' payload').apply_methodDefault()/](data : FormValues, actionValue?: string) 
           {
             [protected ((f.nameElementId() + ' payload').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
               

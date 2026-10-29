@@ -859,13 +859,18 @@
       [else]
         [if (ve.hasMetaLineSelectable())]
           :data_[ve.nameElementId()/].map((row, index) => ['['/]
-            <input
-              type="radio"
-              name="selected[ve.nameElementId()/]"
-              checked={selectedRow_[ve.nameElementId()/] === index}
-              onChange={() => setSelectedRow_[ve.nameElementId()/](index)}
-              aria-label={`Sélectionner la ligne ${index + 1}`}
-            />,
+            [protected ((ve.nameElementId() + 'select line').protectedId()) startTagPrefix('// ') endTagPrefix('// ')]
+              true
+            [/protected]
+            && (
+              <input
+                type="radio"
+                name="selected[ve.nameElementId()/]"
+                checked={selectedRow_[ve.nameElementId()/] === index}
+                onChange={() => setSelectedRow_[ve.nameElementId()/](index)}
+                aria-label={`Sélectionner la ligne ${index + 1}`}
+              />
+             ),
             ...row
           [']'/])
         [else]
@@ -1004,15 +1009,30 @@
       multiple
       label="[ve.label/]" 
       hint="[ve.description/]"
-      state="default"
-      stateRelatedMessage="Text de validation / d'explication de l'erreur"
+      state={
+        errors.[ve.name/]
+          ? "error"
+          : dirtyFields.[ve.name/]
+            ? "success"
+            : "default"
+      }
+      stateRelatedMessage={
+        errors.[ve.name/]?.message ||
+        (dirtyFields.[ve.name/]
+          ? "Le fichier est prêt pour l'import."
+          : undefined)
+      }
       nativeInputProps={{
         onChange: (e) => {
-          setValue("[ve.name/]", e.target.files, {
-          shouldValidate: true,
-          shouldDirty: true,
-          });
-        }
+          const files = e.target.files;
+      	    if (files && files.length > 0) {
+            setValue("[ve.name/]", files, {
+              shouldValidate: true,
+              shouldDirty: true,
+            });
+           clearErrors("repoUploadFile");
+          }
+        },
       }}
     />
   [/let]
