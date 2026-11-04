@@ -65,7 +65,7 @@ C:\Users>npm -v
 
 1 - Vérification de la version pour l'IDE
 
-Avant de commencer l'installation ou l'utilisation du plugin, il est indispensable de vérifier que l'IDE Eclipse utilisé correspond bien à la version 5.1.1 requise. Pour cela, ouvrez Eclipse puis accédez au menu "*Help/About Eclipse IDE*". Dans la fenêtre d'information, contrôlez attentivement le numéro de version affiché ainsi que les détails de la plateforme. Assurez-vous que la version indiquée est au moins la 5.1.1, afin de garantir la compatibilité complète du plugin et d'éviter tout comportement inattendu ou erreur d'exécution liée à une version non conforme de l'environnement Eclipse.
+Avant de commencer l'installation ou l'utilisation du plugin, il est indispensable de vérifier que l'IDE Eclipse utilisé correspond bien à la version 6.0.0 requise. Pour cela, ouvrez Eclipse puis accédez au menu "*Help/About Eclipse IDE*". Dans la fenêtre d'information, contrôlez attentivement le numéro de version affiché ainsi que les détails de la plateforme. Assurez-vous que la version indiquée est au moins la 6.0.0, afin de garantir la compatibilité complète du plugin et d'éviter tout comportement inattendu ou erreur d'exécution liée à une version non conforme de l'environnement Eclipse.
 
 <div align="center">
   <img src="images/pcm-ecr-about-version.png" alt="Installation" width="500">
@@ -103,7 +103,9 @@ Comme vu précédemment, si Maven est bien un gestionnaire Java, **même dans le
 
 1b - Compilation des sources (développement)
 
-Il est aussi possible de récupérer l'ensemble des sources et de les compiler (JDK 17 au minimum et Maven 3.9.9) afin d'obtenir l'update site. Les étapes sont les suivantes : 
+Il est aussi possible de récupérer l'ensemble des sources et de les compiler (JDK 21 au minimum et Maven 3.9.16) afin d'obtenir l'update site (❗ Ne pas monter en 3.10.0 cela pose des problématiques avec tycho 5.0.2 !). 
+
+Les étapes sont les suivantes : 
 
 - Créer un répertoire sur le disque local
 - Lancer la commande : ```git clone https://github.com/spi4j/pacman-front.git```
@@ -583,7 +585,7 @@ La commande "*npm run dev*" permet de démarrer le serveur de développement de 
 
 Concrètement, dès qu'un fichier du projet est modifié, l'application est recompilée et le navigateur se met à jour sans redémarrage manuel. Cette commande est utilisée uniquement en phase de développement : elle facilite les tests, le débogage et l'itération rapide, sans produire pour autant de version optimisée pour la mise en production.
 
-Sous ISD, pour lancer le serveur, se positionner au niveau du projet de modélisation et effectuer un click droit sur le fichier de cinématique (comme pour la demande de génération). Deux menus sont présents afin de démarrer ou stopper le serveur pour React. Par défaut le chemin du shell est positionné au niveau de la partie serveur pour le projet : **[Nom de l'application]-server**
+Sous ISD, pour lancer le serveur, se positionner au niveau du projet de modélisation et effectuer un click droit sur le fichier de cinématique (comme pour la demande de génération). Deux menus sont présents afin de démarrer ou stopper le serveur pour React. Par défaut le chemin du shell est positionné au niveau de la partie serveur pour le projet : **[Nom de l'application]-server**. Il est à noter par ailleurs que le paramètre "*--force*" est toujours injecté afin de forcer le nettoyage du cache avant lancement du serveur.
 
 <img src="images/pcm-react-server-1.png" alt="Modélisation cinématique">
 
@@ -1098,6 +1100,10 @@ Enfin, le rendu si l'utilisateur est un administrateur :
 Elément central d'un site web permettant à l'utilisateur de saisir et transmettre des données à l'application. Il constitue le principal moyen d'interaction entre l'interface et la logique métier, que ce soit pour une authentification, une recherche ou une demande spécifique. La conception d'un formulaire repose sur plusieurs aspects essentiels : la clarté des champs, la validation des données (pour éviter les erreurs ou les entrées invalides), la gestion des retours utilisateur et la sécurité des informations transmises.
 
 Ici, la gestion des formulaires est en grande partie déléguée aux composants du DSFR. Ces composants fournissent des champs, des labels et des messages d'erreur conformes aux standards d'accessibilité et d'ergonomie, ce qui permet de se concentrer principalement sur la logique métier et la validation des données. En s'appuyant sur le DSFR, la structure, le comportement et l'affichage des formulaires sont harmonisés, tout en garantissant une expérience utilisateur cohérente et conforme aux bonnes pratiques des sites institutionnels.
+
+❗ Attention, il est nécessaire de comprendre que la génération va aussi créer des balises de type "*user code*" dans lesquelles l'utilisateur peut positionner du code personnel. Cependant les générateurs peuvent aussi positionner par défaut un squelette de code généré en fonction de ce qui a été modélisé. Si une première demande de génération a été effectuée et que la modélisation nécessaire pour créer ce code n'était pas encore présente, cela va empécher la génération de code à l'intérieur de ces balises par la suite. 
+
+Donc si il manque certaines fonctions, bien vérifier si les zones de type "*user code*" sont encore vides et dans ce cas supprimer les balises avant de relancer la génération... 
 
 #### Modélisation
 
@@ -1925,6 +1931,48 @@ On peut remarquer la présence d'une "***Validation du diagramme de modélisatio
 
 Pour plus d'informations sur le fonctionnement et l'utilisation du système de validation, se reporter à la documentation de **Pacman** backend.
 
+## 🌐 Problématique de cross-origin
+
+L'application React générée est exécutée par le serveur de développement Vite, généralement sur une adresse telle que "*http://localhost:5173*", tandis que le fournisseur de services (backend) est exécuté sur une autre origine, par exemple "*http://localhost:8080*". Même si les deux applications sont exécutées sur la même machine, elles sont considérées par le navigateur comme appartenant à des origines différentes, car le port fait partie de l'origine. 
+
+Cette différence d'origine devient problématique lorsqu'une application web effectue directement une requête HTTP vers une autre origine. Le navigateur applique alors la politique de sécurité Same-Origin Policy, qui interdit par défaut à une page web d'accéder librement aux ressources provenant d'une autre origine. Le mécanisme CORS (Cross-Origin Resource Sharing) permet au serveur distant d'autoriser explicitement certaines origines à effectuer ces requêtes. Cette autorisation repose notamment sur des en-têtes HTTP tels que Access-Control-Allow-Origin, et peut également nécessiter la gestion des requêtes de pré-vérification OPTIONS lorsqu'il s'agit d'une requête dite "complexe".
+
+Il se peux dans certains cas, que dans le cadre de l'appel à un fournisseur externe la configuration dans la librairie ne puisse être modifiée dans le cadre du projet. Il n'est donc pas possible par exemple, de simplement ajouter une configuration CORS côté backend afin d'autoriser "*http://localhost:5173*" pendant le développement.
+
+La solution retenue consiste à utiliser le proxy intégré à Vite. Le principe est de ne plus appeler directement le backend depuis le navigateur. Le frontend React effectue alors une requête vers une URL appartenant à sa propre origine, par exemple : "*http://localhost:5173/api/v1.0/xxxxx*".
+
+Le navigateur considère alors que la requête est destinée au même serveur que celui qui héberge le frontend et n'applique donc pas le problème CORS entre le frontend et le Team Server. Vite reçoit ensuite cette requête et joue le rôle d'intermédiaire. Dans cet exemple, sa configuration indique que les requêtes commençant par "*/api*" doivent être transférées vers : "*http://localhost:8080*". Cette architecture permet donc de conserver le backend tel qu'il est pendant la phase de développement, tout en fournissant au frontend une URL locale et relative permettant de communiquer avec son API.
+
+Positionner simplement un fichier "*vite.config.ts*" à la racine du projet "**[Nom de l'application]-server**" : 
+
+```ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  plugins: [react()],
+
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on("proxyRes", (proxyRes) => {
+            if (proxyRes.statusCode === 401) {
+              delete proxyRes.headers["www-authenticate"];
+            }
+          });
+        },
+      },
+    },
+  },
+});
+```
+❗ Une fois le proxy mis en place, une condition devient essentielle : les URLs utilisées par le frontend doivent correspondre au chemin sur lequel le proxy est configuré. Ici par exemple, le proxy Vite est configuré pour intercepter les requêtes commençant par "*/api*". 
+
+D'autant qu'une URL incorrecte ne provoque pas nécessairement une erreur explicite au niveau du code React, Axios peut correctement préparer la requête et exécuter ses intercepteurs sans que celle-ci atteigne le backend. La requête n'est pas envoyé sans pour autant que cela provoque un http 404 ou un timeout... il ne se passe tout simplement rien.
+
 ## Déploiement
 
 [A traiter]
@@ -1955,7 +2003,7 @@ Pour plus d'informations sur le fonctionnement et l'utilisation du système de v
 | WITH_PREFIX | OUI | Préfixe pour valeur du composant DSFR (Range)|
 | WITH_SUFFIX | OUI | Suffixe pour valeur du composant DSFR (Range)| 
 | WITH_IMG | OUI | Ajout d'une image au composant DSFR| 
-| WITH_REQUIRED | OUI | Champ obligatoire pour les cases à cocher | 
+| WITH_REQUIRED | OUI | Champ obligatoire (GroupRadio, GroupCheckBox)| 
 | WITH_LINK | OUI | Ajout d'un lien au composant DSFR|
 | WITH_ORIENTATION | OUI | Ajout d'une orientation pour composant DSFR (Logo) | 
 | WITH_MSG_GROUP | OUI | Ajout de texte pour un composant DSFR (Password)  | 
@@ -1982,6 +2030,7 @@ Pour plus d'informations sur le fonctionnement et l'utilisation du système de v
 | WITH_LEFT_ICON | OUI | Spécification icone pour le composant DSFR (Button, ButtonSubmit) | 
 | WITH_VALUE | OUI | Spécification valeur interne pour le composant DSFR (ButtonSubmit)  | 
 | WITH_URL_PARAMS | OUI | Ajout paramètres pour la transition (Route React) | 
+| WITH_CONFIRM_POPUP| OUI | Ajout popup de confirmation sur le composant (Button, ButtonSubmit) |
 
 • Liste des règles de validation
 
